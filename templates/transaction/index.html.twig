@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transaction index{% endblock %}
+
+{% block body %}
+    <h1>Transaction index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Amount</th>
+                <th>Created_at</th>
+                <th>Account</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.label }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ transaction.account }}</td>
+                <td>
+                    <a href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>
+                    <a href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('transaction_new') }}">Create new</a>
+{% endblock %}

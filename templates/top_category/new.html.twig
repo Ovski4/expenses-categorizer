@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TopCategory{% endblock %}
+
+{% block body %}
+    <h1>Create new TopCategory</h1>
+
+    {{ include('top_category/_form.html.twig') }}
+
+    <a href="{{ path('top_category_index') }}">back to list</a>
+{% endblock %}

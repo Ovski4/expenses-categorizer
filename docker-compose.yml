@@ -1,0 +1,42 @@
+version: '2'
+
+volumes:
+  mysql:
+  composer:
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_USER=expenses_categorizer
+      - MYSQL_DATABASE=expenses_categorizer
+      - MYSQL_PASSWORD=expenses_categorizer
+    volumes:
+      - mysql:/var/lib/mysql
+
+  adminer:
+    image: clue/adminer
+    depends_on:
+      - mysql
+
+  php:
+    build:
+      context: docker/build/
+      dockerfile: Dockerfile-php
+    volumes:
+      - ./:/var/www/html
+      - composer:/root/.composer
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:1.16.1
+    volumes:
+      - ./:/var/www/html
+      - ./docker/conf/vhost.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    ports:
+      - 80:80

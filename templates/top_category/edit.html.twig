@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TopCategory{% endblock %}
+
+{% block body %}
+    <h1>Edit TopCategory</h1>
+
+    {{ include('top_category/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('top_category_index') }}">back to list</a>
+
+    {{ include('top_category/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transaction{% endblock %}
+
+{% block body %}
+    <h1>Transaction</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ transaction.id }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ transaction.label }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ transaction.amount }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Account</th>
+                <td>{{ transaction.account }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('transaction_index') }}">back to list</a>
+
+    <a href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>
+
+    {{ include('transaction/_delete_form.html.twig') }}
+{% endblock %}
