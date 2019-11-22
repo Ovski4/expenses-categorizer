@@ -47,7 +47,7 @@ class SubCategory
         return $this->name;
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

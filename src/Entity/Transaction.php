@@ -42,7 +42,7 @@ class Transaction
      */
     private $sub_category;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
