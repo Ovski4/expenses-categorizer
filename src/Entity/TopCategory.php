@@ -9,7 +9,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TopCategoryRepository")
- * @UniqueEntity("name")
+ * @ORM\Table(
+ *    uniqueConstraints={
+ *        @ORM\UniqueConstraint(name="top_category_unique", columns={"name", "transaction_type"})
+ *    }
+ * )
  */
 class TopCategory
 {
@@ -22,7 +26,7 @@ class TopCategory
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
@@ -30,6 +34,11 @@ class TopCategory
      * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="top_category")
      */
     private $subCategories;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $transaction_type;
 
     public function __construct()
     {
@@ -85,6 +94,22 @@ class TopCategory
                 $subCategory->setTopCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTransactionType(): ?string
+    {
+        return $this->transaction_type;
+    }
+
+    public function setTransactionType(string $transaction_type)
+    {
+        if (!in_array($transaction_type, TransactionType::getAll())) {
+            throw new Exception(sprintf('Invalid transaction type %s', $transaction_type));
+        }
+
+        $this->transaction_type = $transaction_type;
 
         return $this;
     }

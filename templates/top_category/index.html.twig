@@ -8,16 +8,16 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
+                <th>Transaction type</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for top_category in top_categories %}
             <tr>
-                <td>{{ top_category.id }}</td>
                 <td>{{ top_category.name }}</td>
+                <td>{{ top_category.transactionType }}</td>
                 <td>
                     <a href="{{ path('top_category_show', {'id': top_category.id}) }}">show</a>
                     <a href="{{ path('top_category_edit', {'id': top_category.id}) }}">edit</a>

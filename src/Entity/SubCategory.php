@@ -6,10 +6,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryRepository")
- * @UniqueEntity("name")
+ * @ORM\Table(
+ *    uniqueConstraints={
+ *        @ORM\UniqueConstraint(name="sub_category_unique", columns={"name", "transaction_type"})
+ *    }
+ * )
  */
 class SubCategory
 {
@@ -22,7 +27,7 @@ class SubCategory
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
@@ -36,6 +41,16 @@ class SubCategory
      * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="sub_category")
      */
     private $transactions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SubCategoryTransactionRule", mappedBy="sub_category")
+     */
+    private $subCategoryTransactionRules;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $transaction_type;
 
     public function __construct()
     {
@@ -103,6 +118,53 @@ class SubCategory
                 $transaction->setSubCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SubCategoryTransactionRule[]
+     */
+    public function getSubCategoryTransactionRules(): Collection
+    {
+        return $this->subCategoryTransactionRules;
+    }
+
+    public function addSubCategoryTransactionRule(SubCategoryTransactionRule $subCategoryTransactionRule): self
+    {
+        if (!$this->subCategoryTransactionRules->contains($subCategoryTransactionRule)) {
+            $this->subCategoryTransactionRules[] = $subCategoryTransactionRule;
+            $subCategoryTransactionRule->setSubCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubCategoryTransactionRule(SubCategoryTransactionRule $subCategoryTransactionRule): self
+    {
+        if ($this->subCategoryTransactionRules->contains($subCategoryTransactionRule)) {
+            $this->subCategoryTransactionRules->removeElement($subCategoryTransactionRule);
+            // set the owning side to null (unless already changed)
+            if ($subCategoryTransactionRule->getSubCategory() === $this) {
+                $subCategoryTransactionRule->setSubCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTransactionType(): ?string
+    {
+        return $this->transaction_type;
+    }
+
+    public function setTransactionType(string $transaction_type)
+    {
+        if (!in_array($transaction_type, TransactionType::getAll())) {
+            throw new Exception(sprintf('Invalid transaction type %s', $transaction_type));
+        }
+
+        $this->transaction_type = $transaction_type;
 
         return $this;
     }

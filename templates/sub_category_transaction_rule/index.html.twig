@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SubCategoryTransactionRule index{% endblock %}
+
+{% block body %}
+    <h1>SubCategoryTransactionRule index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Contains</th>
+                <th>Transaction_type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sub_category_transaction_rule in sub_category_transaction_rules %}
+            <tr>
+                <td>{{ sub_category_transaction_rule.contains }}</td>
+                <td>{{ sub_category_transaction_rule.transactionType }}</td>
+                <td>
+                    <a href="{{ path('sub_category_transaction_rule_show', {'id': sub_category_transaction_rule.id}) }}">show</a>
+                    <a href="{{ path('sub_category_transaction_rule_edit', {'id': sub_category_transaction_rule.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('sub_category_transaction_rule_new') }}">Create new</a>
+{% endblock %}

@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Label</th>
                 <th>Amount</th>
                 <th>Created_at</th>
@@ -19,7 +18,6 @@
         <tbody>
         {% for transaction in transactions %}
             <tr>
-                <td>{{ transaction.id }}</td>
                 <td>{{ transaction.label }}</td>
                 <td>{{ transaction.amount }}</td>
                 <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
