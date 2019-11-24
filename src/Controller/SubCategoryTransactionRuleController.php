@@ -31,6 +31,9 @@ class SubCategoryTransactionRuleController extends AbstractController
     public function new(Request $request): Response
     {
         $subCategoryTransactionRule = new SubCategoryTransactionRule();
+        if ($request->query->has('contains')) {
+            $subCategoryTransactionRule->setContains($request->get('contains'));
+        }
         $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
         $form->handleRequest($request);
 

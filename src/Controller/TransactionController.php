@@ -5,23 +5,39 @@ namespace App\Controller;
 use App\Entity\Transaction;
 use App\Form\TransactionType;
 use App\Repository\TransactionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
  * @Route("/transaction")
  */
 class TransactionController extends AbstractController
 {
+
     /**
      * @Route("/", name="transaction_index", methods={"GET"})
      */
-    public function index(TransactionRepository $transactionRepository): Response
+    public function index(Request $request, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager): Response
     {
+        $queryBuilder = $entityManager->createQueryBuilder()
+            ->select('transaction')
+            ->from(Transaction::class, 'transaction');
+        $adapter = new DoctrineORMAdapter($queryBuilder);
+
+        $pagerfanta = new Pagerfanta($adapter);
+        $pagerfanta->setMaxPerPage(20);
+
+        if ($request->query->has('page')) {
+            $pagerfanta->setCurrentPage($request->get('page'));
+        }
+
         return $this->render('transaction/index.html.twig', [
-            'transactions' => $transactionRepository->findAll(),
+            'pager' => $pagerfanta,
         ]);
     }
 

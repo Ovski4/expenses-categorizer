@@ -3,18 +3,19 @@
 namespace App\Form;
 
 use App\Entity\SubCategoryTransactionRule;
-use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SubCategoryTransactionRuleType extends AbstractType
+class SubCategoryTransactionRuleType extends AbstractSubCategoryRelatedType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('contains')
-            ->add('transaction_type')
-            ->add('sub_category')
+            ->add('sub_category', ChoiceType::class, [
+                'choices' => $this->getChoices()
+            ])
         ;
     }
 

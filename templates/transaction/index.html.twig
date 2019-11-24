@@ -5,6 +5,10 @@
 {% block body %}
     <h1>Transaction index</h1>
 
+    <div class="pagerfanta">
+        {{ pagerfanta(pager, 'twitter_bootstrap4') }}
+    </div>
+
     <table class="table">
         <thead>
             <tr>
@@ -16,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for transaction in transactions %}
+        {% for transaction in pager.currentPageResults %}
             <tr>
                 <td>{{ transaction.label }}</td>
                 <td>{{ transaction.amount }}</td>
@@ -25,6 +29,7 @@
                 <td>
                     <a href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>
                     <a href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>
+                    <a href="{{ path('sub_category_transaction_rule_new', {'contains': transaction.label}) }}">Create a rule</a>
                 </td>
             </tr>
         {% else %}
