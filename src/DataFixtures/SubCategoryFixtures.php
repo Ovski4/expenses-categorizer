@@ -95,7 +95,9 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Flight', 'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Gasoline', 'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Uber', 'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'External transfer', 'topCategoryName' => 'External transfer'],
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Carpooling', 'topCategoryName' => 'Transport'],
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Transfer', 'topCategoryName' => 'Transfer'],
+            ['transactionType' => TransactionType::REVENUES, 'name' => 'Transfer', 'topCategoryName' => 'Transfer'],
             ['transactionType' => TransactionType::REVENUES, 'name' => 'Interest', 'topCategoryName' => 'Interest'],
             ['transactionType' => TransactionType::REVENUES, 'name' => 'Payback', 'topCategoryName' => 'Payback'],
             ['transactionType' => TransactionType::REVENUES, 'name' => 'Salary', 'topCategoryName' => 'Salary'],
@@ -108,12 +110,11 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
                 ->getRepository(TopCategory::class)
                 ->findOneBy([
                     'name' => $subCategoryItem['topCategoryName'],
-                    'transaction_type' => $subCategoryItem['transactionType']
+                    'transactionType' => $subCategoryItem['transactionType']
                 ])
             ;
             $subCategory
                 ->setName($subCategoryItem['name'])
-                ->setTransactionType($subCategoryItem['transactionType'])
                 ->setTopCategory($topCategory)
             ;
             $manager->persist($subCategory);

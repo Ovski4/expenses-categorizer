@@ -20,7 +20,7 @@ class TopCategoryType extends AbstractType
 
         $builder
             ->add('name')
-            ->add('transaction_type', ChoiceType::class, [
+            ->add('transactionType', ChoiceType::class, [
                 'choices'  => $choices,
             ])
         ;

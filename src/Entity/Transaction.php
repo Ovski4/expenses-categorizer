@@ -40,7 +40,7 @@ class Transaction
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="transactions")
      */
-    private $sub_category;
+    private $subCategory;
 
     public function getId(): ?string
     {
@@ -97,12 +97,12 @@ class Transaction
 
     public function getSubCategory(): ?SubCategory
     {
-        return $this->sub_category;
+        return $this->subCategory;
     }
 
-    public function setSubCategory(?SubCategory $sub_category): self
+    public function setSubCategory(?SubCategory $subCategory): self
     {
-        $this->sub_category = $sub_category;
+        $this->subCategory = $subCategory;
 
         return $this;
     }

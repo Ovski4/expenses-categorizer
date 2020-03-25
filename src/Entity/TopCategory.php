@@ -38,7 +38,7 @@ class TopCategory
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $transaction_type;
+    private $transactionType;
 
     public function __construct()
     {
@@ -100,16 +100,16 @@ class TopCategory
 
     public function getTransactionType(): ?string
     {
-        return $this->transaction_type;
+        return $this->transactionType;
     }
 
-    public function setTransactionType(string $transaction_type)
+    public function setTransactionType(string $transactionType)
     {
-        if (!in_array($transaction_type, TransactionType::getAll())) {
-            throw new Exception(sprintf('Invalid transaction type %s', $transaction_type));
+        if (!in_array($transactionType, TransactionType::getAll())) {
+            throw new Exception(sprintf('Invalid transaction type %s', $transactionType));
         }
 
-        $this->transaction_type = $transaction_type;
+        $this->transactionType = $transactionType;
 
         return $this;
     }

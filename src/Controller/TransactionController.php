@@ -26,9 +26,18 @@ class TransactionController extends AbstractController
     {
         $queryBuilder = $entityManager->createQueryBuilder()
             ->select('transaction')
-            ->from(Transaction::class, 'transaction');
-        $adapter = new DoctrineORMAdapter($queryBuilder);
+            ->from(Transaction::class, 'transaction')
+            ->orderBy('transaction.created_at', 'desc')
+        ;
 
+        if ($request->query->has('only_show_uncategorized')) {
+            $showOnlyUncategorized = ($request->get('only_show_uncategorized') === 'true');
+            if ($showOnlyUncategorized) {
+                $queryBuilder->where('transaction.subCategory is NULL');
+            }
+        }
+
+        $adapter = new DoctrineORMAdapter($queryBuilder);
         $pagerfanta = new Pagerfanta($adapter);
         $pagerfanta->setMaxPerPage(20);
 

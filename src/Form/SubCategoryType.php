@@ -3,13 +3,14 @@
 namespace App\Form;
 
 use App\Entity\SubCategory;
+use App\Entity\TopCategory;
 use App\Entity\TransactionType;
-use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class SubCategoryType extends AbstractType
+class SubCategoryType extends AbstractCategoryRelatedType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -20,9 +21,9 @@ class SubCategoryType extends AbstractType
 
         $builder
             ->add('name')
-            ->add('top_category')
-            ->add('transaction_type', ChoiceType::class, [
-                'choices'  => $choices,
+            ->add('topCategory', EntityType::class, [
+                'class' => TopCategory::class,
+                'choices' => $this->getChoices(null, TopCategory::class),
             ])
         ;
     }

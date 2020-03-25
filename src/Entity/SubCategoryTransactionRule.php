@@ -25,7 +25,9 @@ class SubCategoryTransactionRule
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="subCategoryTransactionRules")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $sub_category;
+    private $subCategory;
+
+    private $transactionType;
 
     public function getId(): ?int
     {
@@ -46,12 +48,28 @@ class SubCategoryTransactionRule
 
     public function getSubCategory(): ?SubCategory
     {
-        return $this->sub_category;
+        return $this->subCategory;
     }
 
-    public function setSubCategory(?SubCategory $sub_category): self
+    public function setSubCategory(?SubCategory $subCategory): self
     {
-        $this->sub_category = $sub_category;
+        $this->subCategory = $subCategory;
+
+        return $this;
+    }
+
+    public function getTransactionType(): ?string
+    {
+        return $this->transactionType;
+    }
+
+    public function setTransactionType(string $transactionType)
+    {
+        if (!in_array($transactionType, TransactionType::getAll())) {
+            throw new \Exception(sprintf('Invalid transaction type %s', $transactionType));
+        }
+
+        $this->transactionType = $transactionType;
 
         return $this;
     }

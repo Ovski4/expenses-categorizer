@@ -9,3 +9,7 @@
 .navbar-dark .navbar-nav .nav-link:hover {
     text-decoration: underline;
 }
+
+table {
+    margin: 20px auto;
+}

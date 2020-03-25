@@ -10,6 +10,7 @@
             <tr>
                 <th>Name</th>
                 <th>Transaction type</th>
+                <th>Top category</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -17,7 +18,8 @@
         {% for sub_category in sub_categories %}
             <tr>
                 <td>{{ sub_category.name }}</td>
-                <td>{{ sub_category.transactionType }}</td>
+                <td>{{ sub_category.topCategory.transactionType }}</td>
+                <td>{{ sub_category.topCategory }}</td>
                 <td>
                     <a href="{{ path('sub_category_show', {'id': sub_category.id}) }}">show</a>
                     <a href="{{ path('sub_category_edit', {'id': sub_category.id}) }}">edit</a>

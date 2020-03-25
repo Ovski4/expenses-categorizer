@@ -12,7 +12,7 @@ use Exception;
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryRepository")
  * @ORM\Table(
  *    uniqueConstraints={
- *        @ORM\UniqueConstraint(name="sub_category_unique", columns={"name", "transaction_type"})
+ *        @ORM\UniqueConstraint(name="sub_category_unique", columns={"name", "top_category_id"})
  *    }
  * )
  */
@@ -35,22 +35,17 @@ class SubCategory
      * @ORM\ManyToOne(targetEntity="App\Entity\TopCategory", inversedBy="subCategories")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $top_category;
+    private $topCategory;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="sub_category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="subCategory")
      */
     private $transactions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SubCategoryTransactionRule", mappedBy="sub_category")
+     * @ORM\OneToMany(targetEntity="App\Entity\SubCategoryTransactionRule", mappedBy="subCategory")
      */
     private $subCategoryTransactionRules;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $transaction_type;
 
     public function __construct()
     {
@@ -67,6 +62,11 @@ class SubCategory
         return $this->id;
     }
 
+    public function getTransactionType()
+    {
+        return $this->getTopCategory()->getTransactionType();
+    }
+
     public function getName(): ?string
     {
         return $this->name;
@@ -81,12 +81,12 @@ class SubCategory
 
     public function getTopCategory(): ?TopCategory
     {
-        return $this->top_category;
+        return $this->topCategory;
     }
 
-    public function setTopCategory(?TopCategory $top_category): self
+    public function setTopCategory(?TopCategory $topCategory): self
     {
-        $this->top_category = $top_category;
+        $this->topCategory = $topCategory;
 
         return $this;
     }
@@ -149,22 +149,6 @@ class SubCategory
                 $subCategoryTransactionRule->setSubCategory(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getTransactionType(): ?string
-    {
-        return $this->transaction_type;
-    }
-
-    public function setTransactionType(string $transaction_type)
-    {
-        if (!in_array($transaction_type, TransactionType::getAll())) {
-            throw new Exception(sprintf('Invalid transaction type %s', $transaction_type));
-        }
-
-        $this->transaction_type = $transaction_type;
 
         return $this;
     }

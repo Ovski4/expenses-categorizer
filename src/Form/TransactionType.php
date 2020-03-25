@@ -4,14 +4,11 @@ namespace App\Form;
 
 use App\Entity\SubCategory;
 use App\Entity\Transaction;
-use App\Entity\TransactionType as EntityTransactionType;
-use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class TransactionType extends AbstractSubCategoryRelatedType
+class TransactionType extends AbstractCategoryRelatedType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -20,8 +17,9 @@ class TransactionType extends AbstractSubCategoryRelatedType
             ->add('amount')
             ->add('created_at')
             ->add('account')
-            ->add('sub_category', ChoiceType::class, [
-                'choices' => $this->getChoices()
+            ->add('subCategory', EntityType::class, [
+                'class' => SubCategory::class,
+                'choices' => $this->getChoices(),
             ])
         ;
     }

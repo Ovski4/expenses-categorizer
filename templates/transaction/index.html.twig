@@ -9,6 +9,22 @@
         {{ pagerfanta(pager, 'twitter_bootstrap4') }}
     </div>
 
+    <a
+        type="button"
+        class="btn btn-outline-primary"
+        href="{{ path('transaction_index', {'page': pager.currentPage, 'only_show_uncategorized': 'true'}) }}"
+    >
+        Show only transactions to categorize
+    </a>
+
+    <a
+        type="button"
+        class="btn btn-outline-primary"
+        href="{{ path('transaction_index', {'page': pager.currentPage}) }}"
+    >
+        Show all transactions
+    </a>
+
     <table class="table">
         <thead>
             <tr>
@@ -27,9 +43,15 @@
                 <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ transaction.account }}</td>
                 <td>
-                    <a href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>
-                    <a href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>
-                    <a href="{{ path('sub_category_transaction_rule_new', {'contains': transaction.label}) }}">Create a rule</a>
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>
+                    <a
+                        type="button"
+                        class="btn btn-outline-primary"
+                        href="{{ path('sub_category_transaction_rule_new', {'contains': transaction.label, 'amount': transaction.amount }) }}"
+                    >
+                            Create a rule
+                    </a>
                 </td>
             </tr>
         {% else %}
@@ -40,5 +62,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('transaction_new') }}">Create new</a>
+    <a type="button" class="btn btn-primary" href="{{ path('transaction_new') }}">Create new</a>
 {% endblock %}
