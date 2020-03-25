@@ -32,4 +32,20 @@ class SubCategoryRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * @return SubCategory[] Returns an array of SubCategory objects
+     */
+    public function findByNameAndTransactionType($name, $type)
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.topCategory', 't', 'WITH', 't.transactionType = ?1')
+            ->andWhere('s.name = ?2')
+            ->orderBy('s.name', 'ASC')
+            ->setParameter(1, $type)
+            ->setParameter(2, $name)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
 }

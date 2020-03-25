@@ -16,8 +16,12 @@
                 <td>{{ sub_category_transaction_rule.contains }}</td>
             </tr>
             <tr>
+                <th>Sub category</th>
+                <td>{{ sub_category_transaction_rule.subCategory }}</td>
+            </tr>
+            <tr>
                 <th>Transaction type</th>
-                <td>{{ sub_category_transaction_rule.transactionType }}</td>
+                <td>{{ sub_category_transaction_rule.subCategory.topCategory.transactionType }}</td>
             </tr>
         </tbody>
     </table>

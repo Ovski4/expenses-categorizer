@@ -32,7 +32,8 @@
                 <th>Amount</th>
                 <th>Created_at</th>
                 <th>Account</th>
-                <th>actions</th>
+                <th>Sub category</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +43,10 @@
                 <td>{{ transaction.amount }}</td>
                 <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ transaction.account }}</td>
+                <td>
+                  {{ transaction.subCategory }}
+                  <em>{% if transaction.subCategory is null %}un categorized{% endif %}</em>
+                </td>
                 <td>
                     <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>
                     <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Transaction;
 use App\Form\TransactionType;
-use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +21,7 @@ class TransactionController extends AbstractController
     /**
      * @Route("/", name="transaction_index", methods={"GET"})
      */
-    public function index(Request $request, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         $queryBuilder = $entityManager->createQueryBuilder()
             ->select('transaction')

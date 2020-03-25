@@ -10,14 +10,16 @@
             <tr>
                 <th>Contains</th>
                 <th>Transaction type</th>
-                <th>actions</th>
+                <th>Sub category</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for sub_category_transaction_rule in sub_category_transaction_rules %}
             <tr>
                 <td>{{ sub_category_transaction_rule.contains }}</td>
-                <td>{{ sub_category_transaction_rule.transactionType }}</td>
+                <td>{{ sub_category_transaction_rule.subCategory.topCategory.transactionType }}</td>
+                <td>{{ sub_category_transaction_rule.subCategory }}</td>
                 <td>
                     <a href="{{ path('sub_category_transaction_rule_show', {'id': sub_category_transaction_rule.id}) }}">show</a>
                     <a href="{{ path('sub_category_transaction_rule_edit', {'id': sub_category_transaction_rule.id}) }}">edit</a>
