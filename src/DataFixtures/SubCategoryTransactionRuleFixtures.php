@@ -24,7 +24,13 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
             [
                 'transactionType' => TransactionType::EXPENSES,
                 'subCategoryName' => 'Rent',
-                'contains' => 'VIR SEPA PIERRE MEUNIER'],
+                'contains' => 'VIR SEPA PIERRE MEUNIER'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Supermarket and groceries',
+                'contains' => 'RUNGIS MAGASIN U'
+            ]
         ];
 
         foreach ($subCategoryTransactionRuleArray as $item) {

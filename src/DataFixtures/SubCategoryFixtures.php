@@ -96,6 +96,7 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Gasoline', 'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Uber', 'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Carpooling', 'topCategoryName' => 'Transport'],
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Highway toll', 'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Transfer', 'topCategoryName' => 'Transfer'],
             ['transactionType' => TransactionType::REVENUES, 'name' => 'Transfer', 'topCategoryName' => 'Transfer'],
             ['transactionType' => TransactionType::REVENUES, 'name' => 'Interest', 'topCategoryName' => 'Interest'],
