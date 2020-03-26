@@ -45,7 +45,7 @@
                 <td>{{ transaction.account }}</td>
                 <td>
                   {{ transaction.subCategory }}
-                  <em>{% if transaction.subCategory is null %}un categorized{% endif %}</em>
+                  <em>{% if transaction.subCategory is null %}uncategorized{% endif %}</em>
                 </td>
                 <td>
                     <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>

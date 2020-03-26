@@ -43,14 +43,16 @@ class CategorizeTransactionsCommand extends Command
             if ($subCategory) {
                 $transaction->setSubCategory($subCategory);
                 $output->writeln(sprintf(
-                    'Found sub category %s for transaction %s (le %s - %s euros)',
+                    'Found sub category <info>%s</info> for transaction <info>%s</info> (le <comment>%s</comment> -> <comment>%s</comment> euros)',
                     $subCategory->getName(),
                     $transaction->getLabel(),
                     $transaction->getCreatedAt()->format('Y-m-d H:i:s'),
                     $transaction->getAmount()
-
                 ));
+                $this->entityManager->persist($transaction);
             }
         }
+
+        $this->entityManager->flush();
     }
 }

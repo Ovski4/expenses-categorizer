@@ -18,12 +18,20 @@ class RuleChecker
     public function getMatchingSubCategory(Transaction $transaction) : ?SubCategory
     {
         $rules = $this->subCategoryTransactionRuleRepository->findAll();
+        $foundSubCategory = null;
         foreach ($rules as $rule) {
             if (strpos($transaction->getLabel(), $rule->getContains()) !== false) {
-                return $rule->getSubCategory();
+                if ($foundSubCategory != null) {
+                    throw new \Exception(sprintf(
+                        'Multiple sub categories found for transaction %s',
+                        $transaction
+                    ));
+                }
+
+                $foundSubCategory = $rule->getSubCategory();
             }
         }
 
-        return null;
+        return $foundSubCategory;
     }
 }

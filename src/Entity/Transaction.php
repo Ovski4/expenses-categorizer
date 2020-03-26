@@ -42,6 +42,16 @@ class Transaction
      */
     private $subCategory;
 
+    public function __toString()
+    {
+        return sprintf(
+            '%s - %s (%s)',
+            $this->label,
+            $this->created_at->format('Y-m-d H:i:s'),
+            $this->amount
+        );
+    }
+
     public function getId(): ?string
     {
         return $this->id;
