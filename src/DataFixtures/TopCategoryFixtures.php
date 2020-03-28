@@ -27,6 +27,7 @@ class TopCategoryFixtures extends Fixture
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Gifts'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Health'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'House'],
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Payback'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Personal care'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Transfer'],

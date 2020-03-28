@@ -30,6 +30,41 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
                 'transactionType' => TransactionType::EXPENSES,
                 'subCategoryName' => 'Supermarket and groceries',
                 'contains' => 'RUNGIS MAGASIN U'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Highway toll',
+                'contains' => 'AUTOROUTE DU SUD'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Highway toll',
+                'contains' => 'PESSAC ATLANDES AUTOROU'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Highway toll',
+                'contains' => 'COFIROUTE'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Cash Withdrawal',
+                'contains' => 'RETRAIT DAB'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Internet subscription',
+                'contains' => 'PRLV SEPA SFR'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Tax',
+                'contains' => 'PRLV SEPA DIR. GENE. DES FINANCES PUBLIQUES ICS'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Payback',
+                'contains' => 'LYDIA APP'
             ]
         ];
 
