@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Entity\Transaction;
 use App\Services\RuleChecker;
-use Doctrine\Common\Persistence\ObjectManager as EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +15,7 @@ class CategorizeTransactionsCommand extends Command
 
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager, RuleChecker $ruleChecker)
+    public function __construct(EntityManagerInterface $entityManager, RuleChecker $ruleChecker)
     {
         $this->entityManager = $entityManager;
         $this->ruleChecker = $ruleChecker;
