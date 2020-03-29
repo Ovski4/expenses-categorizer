@@ -52,6 +52,23 @@ class Transaction
         );
     }
 
+    public function toArray()
+    {
+        $array = [
+            'label'        => $this->label,
+            'created_at'   => $this->created_at->format('c'),
+            'amount'       => $this->amount,
+            'type'         => $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES
+        ];
+
+        if ($this->getSubCategory() != null) {
+            $array['sub_category'] = $this->getSubCategory()->getName();
+            $array['top_category'] = $this->getSubCategory()->getTopCategory()->getName();
+        }
+
+        return $array;
+    }
+
     public function getId(): ?string
     {
         return $this->id;

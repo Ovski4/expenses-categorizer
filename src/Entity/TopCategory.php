@@ -31,7 +31,7 @@ class TopCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="top_category")
+     * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="topCategory")
      */
     private $subCategories;
 
@@ -106,7 +106,7 @@ class TopCategory
     public function setTransactionType(string $transactionType)
     {
         if (!in_array($transactionType, TransactionType::getAll())) {
-            throw new Exception(sprintf('Invalid transaction type %s', $transactionType));
+            throw new \Exception(sprintf('Invalid transaction type %s', $transactionType));
         }
 
         $this->transactionType = $transactionType;
