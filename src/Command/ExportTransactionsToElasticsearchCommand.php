@@ -78,6 +78,9 @@ class ExportTransactionsToElasticsearchCommand extends Command
                         'created_at' => [
                             'type' => 'date'
                         ],
+                        'account' => [
+                            'type' => 'keyword'
+                        ],
                         'sub_category' => [
                             'type' => 'keyword'
                         ],

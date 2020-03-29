@@ -56,6 +56,7 @@ class Transaction
     {
         $array = [
             'label'        => $this->label,
+            'account'      => $this->account,
             'created_at'   => $this->created_at->format('c'),
             'amount'       => $this->amount,
             'type'         => $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES
