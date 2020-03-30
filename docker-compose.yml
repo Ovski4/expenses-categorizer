@@ -17,7 +17,9 @@ services:
       - mysql:/var/lib/mysql
 
   adminer:
-    image: clue/adminer
+    image: adminer:4.7.6-standalone
+    ports:
+      - 8080:8080
     depends_on:
       - mysql
 
