@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\SubCategory;
 use App\Entity\Transaction;
+use App\Entity\TransactionType;
 use App\Repository\SubCategoryTransactionRuleRepository;
 
 class RuleChecker
@@ -20,7 +21,12 @@ class RuleChecker
         $rules = $this->subCategoryTransactionRuleRepository->findAll();
         $foundSubCategory = null;
         foreach ($rules as $rule) {
-            if (strpos($transaction->getLabel(), $rule->getContains()) !== false) {
+            $ruleType = $rule->getSubCategory()->getTransactionType();
+
+            if (
+                $transaction->getType() == $ruleType &&
+                strpos($transaction->getLabel(), $rule->getContains()) !== false
+            ) {
                 if ($foundSubCategory != null) {
                     throw new \Exception(sprintf(
                         'Multiple sub categories found for transaction %s',

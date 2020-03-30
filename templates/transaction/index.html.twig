@@ -53,7 +53,7 @@
                     <a
                         type="button"
                         class="btn btn-outline-primary"
-                        href="{{ path('sub_category_transaction_rule_new', {'contains': transaction.label, 'amount': transaction.amount }) }}"
+                        href="{{ path('sub_category_transaction_rule_new', {'transaction': transaction.id }) }}"
                     >
                             Create a rule
                     </a>

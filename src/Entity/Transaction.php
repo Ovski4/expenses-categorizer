@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Transaction
 {
@@ -42,6 +43,26 @@ class Transaction
      */
     private $subCategory;
 
+    /**
+     * Prevent a wrong subCategory to be set
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function checkSubCategory()
+    {
+        if ($this->subCategory !== null) {
+            if ($this->subCategory->getTransactionType() !== $this->getType()) {
+                throw new \Exception(sprintf(
+                    'Invalid sub category transaction type (%s) for transaction %s with amount %s',
+                    $this->getType(),
+                    $this->id,
+                    $this->amount
+                ));
+            }
+        }
+    }
+
     public function __toString()
     {
         return sprintf(
@@ -59,7 +80,7 @@ class Transaction
             'account'      => $this->account,
             'created_at'   => $this->created_at->format('c'),
             'amount'       => $this->amount,
-            'type'         => $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES
+            'type'         => $this->getType()
         ];
 
         if ($this->getSubCategory() != null) {
@@ -85,6 +106,11 @@ class Transaction
         $this->label = $label;
 
         return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
     }
 
     public function getAmount(): ?float

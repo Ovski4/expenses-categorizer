@@ -65,6 +65,41 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
                 'transactionType' => TransactionType::EXPENSES,
                 'subCategoryName' => 'Payback',
                 'contains' => 'LYDIA APP'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Hosting',
+                'contains' => 'ROUBAIX KIMSUFI'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Loan',
+                'contains' => 'ECH PRET CAP+IN 07228 203242 05'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Power (Electricity, gas...)',
+                'contains' => 'PRLV SEPA TOTAL DIRECT ENERGIE'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Insurance',
+                'contains' => 'PRLV SEPA SECURIMUT'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Condominium fees',
+                'contains' => 'PRLV SEPA 115 RUE PROFESSEUR BE'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Carpooling',
+                'contains' => 'BLABLACAR'
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'subCategoryName' => 'Payback',
+                'contains' => 'BLABLACAR'
             ]
         ];
 

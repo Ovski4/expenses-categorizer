@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\SubCategoryTransactionRule;
+use App\Entity\Transaction;
 use App\Entity\TransactionType;
 use App\Form\SubCategoryTransactionRuleType;
 use App\Repository\SubCategoryTransactionRuleRepository;
@@ -32,10 +33,17 @@ class SubCategoryTransactionRuleController extends AbstractController
     public function new(Request $request): Response
     {
         $subCategoryTransactionRule = new SubCategoryTransactionRule();
-        if ($request->query->has('contains') && $request->query->has('amount')) {
-            $subCategoryTransactionRule->setContains($request->get('contains'));
-            $transactionType = $request->get('amount') < 0 ? TransactionType::EXPENSES : TransactionType::REVENUES;
-            $subCategoryTransactionRule->setTransactionType($transactionType);
+        if ($request->query->has('transaction')) {
+            $transaction = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository(Transaction::class)
+                ->findOneById($request->query->get('transaction'))
+            ;
+            $subCategoryTransactionRule
+                ->setContains($transaction->getLabel())
+                ->setTransactionType($transaction->getType())
+            ;
         }
         $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
         $form->handleRequest($request);
