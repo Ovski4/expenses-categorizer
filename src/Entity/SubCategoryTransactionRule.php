@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryTransactionRuleRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class SubCategoryTransactionRule
 {
@@ -22,12 +23,38 @@ class SubCategoryTransactionRule
     private $contains;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $operator;
+
+    /**
+     * @ORM\Column(type="float", length=255, nullable=true)
+     */
+    private $amount;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="subCategoryTransactionRules")
      * @ORM\JoinColumn(nullable=false)
      */
     private $subCategory;
 
     private $transactionType;
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function checkEntity()
+    {
+        if (
+            ($this->amount !== null && $this->operator == null) ||
+            ($this->amount == null && $this->operator != null)
+        ) {
+            throw new \Exception(
+                'Entity SubCategoryTransactionRule must have both operator and amount set or none'
+            );
+        }
+    }
 
     public function getId(): ?int
     {
@@ -42,6 +69,18 @@ class SubCategoryTransactionRule
     public function setContains(string $contains): self
     {
         $this->contains = $contains;
+
+        return $this;
+    }
+
+    public function getAmount(): ?float
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(float $amount): self
+    {
+        $this->amount = $amount;
 
         return $this;
     }
@@ -70,6 +109,22 @@ class SubCategoryTransactionRule
         }
 
         $this->transactionType = $transactionType;
+
+        return $this;
+    }
+
+    public function getOperator(): ?string
+    {
+        return $this->operator;
+    }
+
+    public function setOperator(string $operator)
+    {
+        if (!in_array($operator, Operator::getAll())) {
+            throw new \Exception(sprintf('Invalid operator %s', $operator));
+        }
+
+        $this->operator = $operator;
 
         return $this;
     }

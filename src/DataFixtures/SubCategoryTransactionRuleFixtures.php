@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Operator;
 use App\Entity\SubCategory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -282,20 +283,24 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
                 'subCategoryName' => 'Train',
                 'contains' => 'THETRAINLINE.COM'
             ],
-            // [
-            //     'transactionType' => TransactionType::EXPENSES,
-            //     'subCategoryName' => 'XXXXXX',
-            //     'contains' => 'LONDON GOOGLE GOOGLE'
-            //     'amount' => [
-            //       'operator' => 'equal',
-            //       'value'    => -9.99
-            //     ]
-            // ]
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Music',
+                'contains' => 'LONDON GOOGLE GOOGLE',
+                'amount' => -9.99,
+                'operator' => Operator::EQUALS,
+            ]
         ];
 
         foreach ($subCategoryTransactionRuleArray as $item) {
             $subCategoryTransactionRule = new SubCategoryTransactionRule();
             $subCategoryTransactionRule->setContains($item['contains']);
+            if (isset($item['amount'])) {
+                $subCategoryTransactionRule
+                    ->setAmount($item['amount'])
+                    ->setOperator($item['operator'])
+                ;
+            }
 
             try {
                 $subCategory = $manager

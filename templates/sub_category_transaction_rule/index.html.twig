@@ -9,6 +9,8 @@
         <thead>
             <tr>
                 <th>Contains</th>
+                <th>Amount</th>
+                <th>Operator</th>
                 <th>Transaction type</th>
                 <th>Sub category</th>
                 <th>Actions</th>
@@ -18,6 +20,14 @@
         {% for sub_category_transaction_rule in sub_category_transaction_rules %}
             <tr>
                 <td>{{ sub_category_transaction_rule.contains }}</td>
+                <td>
+                    {{ sub_category_transaction_rule.amount }}
+                    <em>{% if sub_category_transaction_rule.amount is null %}undefined{% endif %}</em>
+                </td>
+                <td>
+                    {{ sub_category_transaction_rule.operator }}
+                    <em>{% if sub_category_transaction_rule.operator is null %}undefined{% endif %}</em>
+                </td>
                 <td>{{ sub_category_transaction_rule.subCategory.topCategory.transactionType }}</td>
                 <td>{{ sub_category_transaction_rule.subCategory }}</td>
                 <td>

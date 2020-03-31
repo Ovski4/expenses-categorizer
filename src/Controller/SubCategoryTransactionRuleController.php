@@ -33,6 +33,7 @@ class SubCategoryTransactionRuleController extends AbstractController
     public function new(Request $request): Response
     {
         $subCategoryTransactionRule = new SubCategoryTransactionRule();
+
         if ($request->query->has('transaction')) {
             $transaction = $this
                 ->getDoctrine()
@@ -45,6 +46,7 @@ class SubCategoryTransactionRuleController extends AbstractController
                 ->setTransactionType($transaction->getType())
             ;
         }
+
         $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
         $form->handleRequest($request);
 

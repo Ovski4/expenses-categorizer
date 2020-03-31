@@ -16,6 +16,20 @@
                 <td>{{ sub_category_transaction_rule.contains }}</td>
             </tr>
             <tr>
+                <th>Amount</th>
+                <td>
+                    {{ sub_category_transaction_rule.amount }}
+                    <em>{% if sub_category_transaction_rule.amount is null %}undefined{% endif %}</em>
+                </td>
+            </tr>
+            <tr>
+                <th>Operator</th>
+                <td>
+                    {{ sub_category_transaction_rule.operator }}
+                    <em>{% if sub_category_transaction_rule.operator is null %}undefined{% endif %}</em>
+                </td>
+            </tr>
+            <tr>
                 <th>Sub category</th>
                 <td>{{ sub_category_transaction_rule.subCategory }}</td>
             </tr>
