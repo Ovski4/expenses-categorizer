@@ -12,6 +12,7 @@ class TopCategoryFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $topCategoryArray = [
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Advance'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Cash Withdrawal'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Accommodation'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Activities'],

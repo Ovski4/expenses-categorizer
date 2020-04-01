@@ -151,6 +151,11 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
             [
                 'transactionType' => TransactionType::EXPENSES,
                 'subCategoryName' => 'Restaurant',
+                'contains' => 'ANGERS TEMPLE DU CIEL'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Restaurant',
                 'contains' => 'ST JEAN DE LU LE MAJESTIC'
             ],
             [
@@ -187,6 +192,11 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
                 'transactionType' => TransactionType::EXPENSES,
                 'subCategoryName' => 'Video games',
                 'contains' => 'WWW.STEAMPOWERED'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Video games',
+                'contains' => 'STEAMGAMES.COM'
             ],
             [
                 'transactionType' => TransactionType::EXPENSES,
@@ -264,6 +274,11 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
                 'contains' => 'PARIS TRAINLINE'
             ],
             [
+                'transactionType' => TransactionType::REVENUES,
+                'subCategoryName' => 'Payback',
+                'contains' => 'PARIS TRAINLINE'
+            ],
+            [
                 'transactionType' => TransactionType::EXPENSES,
                 'subCategoryName' => 'Tramway or subway',
                 'contains' => 'PARIS IRIGO'
@@ -289,6 +304,70 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
                 'contains' => 'LONDON GOOGLE GOOGLE',
                 'amount' => -9.99,
                 'operator' => Operator::EQUALS,
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Hotel, Airbnb...',
+                'contains' => 'AIRBNB'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Advance',
+                'contains' => 'PAIEMENT CB 1801 PAYLI2441535/ AMAZON PAYMENTS CARTE 60839786',
+                'amount' => -27.34,
+                'operator' => Operator::EQUALS,
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Night club',
+                'contains' => 'PAIEMENT CB 1901 LYON YURPLAN CARTE 60839786',
+                'amount' => -22.99,
+                'operator' => Operator::EQUALS,
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Insurance',
+                'contains' => 'PARIS ACS'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Hotel, Airbnb...',
+                'contains' => 'ST JEAN DE MO LE SLOI'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Sport field',
+                'contains' => 'ST HERBLAIN LE SPORTING CLU'
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'subCategoryName' => 'Payback',
+                'contains' => 'STE FINANCIERE DU PORTE'
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'subCategoryName' => 'Interest',
+                'contains' => 'INTERETS'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Supermarket and groceries',
+                'contains' => 'REZE CENTRE LECLERC'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Car park',
+                'contains' => 'ANGERS SORTIE MITTERRAN'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Flight',
+                'contains' => 'EASYJET'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Pharmacy',
+                'contains' => 'FONTENAY LE C PHCIE PRINCIPAL'
             ]
         ];
 

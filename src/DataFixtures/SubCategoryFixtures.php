@@ -21,6 +21,7 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $subCategories = [
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Advance',                     'topCategoryName' => 'Advance'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Cash Withdrawal',             'topCategoryName' => 'Cash Withdrawal'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Bond',                        'topCategoryName' => 'Accommodation'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Camping booking',             'topCategoryName' => 'Accommodation'],
@@ -88,6 +89,7 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Gasoline',                    'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Uber',                        'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Carpooling',                  'topCategoryName' => 'Transport'],
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Car park'  ,                  'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Highway toll',                'topCategoryName' => 'Transport'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Transfer',                    'topCategoryName' => 'Transfer'],
             ['transactionType' => TransactionType::REVENUES, 'name' => 'Transfer',                    'topCategoryName' => 'Transfer'],
