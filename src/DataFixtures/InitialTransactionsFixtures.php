@@ -68,6 +68,22 @@ class InitialTransactionsFixtures extends Fixture implements DependentFixtureInt
                 'amount' => 2766.89,
                 'transactionType' => TransactionType::REVENUES,
                 'subCategoryName' => 'Transfer'
+            ],
+            [
+                'label' => 'CLOTURE DE COMPTE AU 02/03/2020',
+                'created_at' => new \DateTime('2020-03-02'),
+                'account' => 'Compte Courant JEUNE ACTIF N° 00020324201',
+                'amount' => -1860.24,
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Transfer'
+            ],
+            [
+                'label' => 'SOLDE CREDITEUR AU 02/03/2020',
+                'created_at' => new \DateTime('2020-03-02'),
+                'account' => 'C/C EUROCOMPTE CONFORT N° 00020324201',
+                'amount' => 1860.24,
+                'transactionType' => TransactionType::REVENUES,
+                'subCategoryName' => 'Transfer'
             ]
         ];
 

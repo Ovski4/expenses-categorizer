@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\SubCategoryTransactionRule;
 use App\Entity\Transaction;
-use App\Entity\TransactionType;
 use App\Form\SubCategoryTransactionRuleType;
 use App\Repository\SubCategoryTransactionRuleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

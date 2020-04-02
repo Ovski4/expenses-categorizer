@@ -220,6 +220,11 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
             ],
             [
                 'transactionType' => TransactionType::REVENUES,
+                'subCategoryName' => 'Payback',
+                'contains' => 'SNCF OUIGO'
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
                 'subCategoryName' => 'Rent',
                 'contains' => 'VIR MR OU MME LE TRAOU DOMIN'
             ],
@@ -368,6 +373,63 @@ class SubCategoryTransactionRuleFixtures extends Fixture implements DependentFix
                 'transactionType' => TransactionType::EXPENSES,
                 'subCategoryName' => 'Pharmacy',
                 'contains' => 'FONTENAY LE C PHCIE PRINCIPAL'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Insurance',
+                'contains' => 'ANDREZIEUX BO MACIF RHONES ALP'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Donation',
+                'contains' => 'KISSKISSBANK'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Tramway or subway',
+                'contains' => 'PARIS 14 SNCF',
+                'amount' => -16.9,
+                'operator' => Operator::EQUALS,
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Stamps',
+                'contains' => 'PARIS 14 LA POSTE BOUTIQU'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Bakery',
+                'contains' => 'ANGERS GRENIER A PAIN'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Sport field',
+                'contains' => 'REZE BADMIN SQUASH'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Car park',
+                'contains' => 'NANTES STATION VOIRIE'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Supermarket and groceries',
+                'contains' => 'ST JULIEN DE CARREFOUR MARKET'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Supermarket and groceries',
+                'contains' => 'NANTES SPAR'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Drinks',
+                'contains' => 'BAZOGES EN PA STABU'
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'subCategoryName' => 'Drinks',
+                'contains' => 'ANTIGNY LE BAR MITON'
             ]
         ];
 
