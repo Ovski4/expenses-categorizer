@@ -1,0 +1,1250 @@
+[
+    {
+        "date": "2018-02-05",
+        "capital_total": "109922.22",
+        "capital_month": "446.64",
+        "interests_month": "174.04"
+    },
+    {
+        "date": "2018-03-05",
+        "capital_total": "109475.58",
+        "capital_month": "447.34",
+        "interests_month": "173.34"
+    },
+    {
+        "date": "2018-04-05",
+        "capital_total": "109028.24",
+        "capital_month": "448.05",
+        "interests_month": "172.63"
+    },
+    {
+        "date": "2018-05-05",
+        "capital_total": "108580.19",
+        "capital_month": "448.76",
+        "interests_month": "171.92"
+    },
+    {
+        "date": "2018-06-05",
+        "capital_total": "108131.43",
+        "capital_month": "449.47",
+        "interests_month": "171.21"
+    },
+    {
+        "date": "2018-07-05",
+        "capital_total": "107681.96",
+        "capital_month": "450.18",
+        "interests_month": "170.50"
+    },
+    {
+        "date": "2018-08-05",
+        "capital_total": "107231.78",
+        "capital_month": "450.90",
+        "interests_month": "169.78"
+    },
+    {
+        "date": "2018-09-05",
+        "capital_total": "106780.88",
+        "capital_month": "451.61",
+        "interests_month": "169.07"
+    },
+    {
+        "date": "2018-10-05",
+        "capital_total": "106329.27",
+        "capital_month": "452.32",
+        "interests_month": "168.36"
+    },
+    {
+        "date": "2018-11-05",
+        "capital_total": "105876.95",
+        "capital_month": "453.04",
+        "interests_month": "167.64"
+    },
+    {
+        "date": "2018-12-05",
+        "capital_total": "105423.91",
+        "capital_month": "453.76",
+        "interests_month": "166.92"
+    },
+    {
+        "date": "2019-01-05",
+        "capital_total": "104970.15",
+        "capital_month": "454.48",
+        "interests_month": "166.20"
+    },
+    {
+        "date": "2019-02-05",
+        "capital_total": "104515.67",
+        "capital_month": "455.20",
+        "interests_month": "165.48"
+    },
+    {
+        "date": "2019-03-05",
+        "capital_total": "104060.47",
+        "capital_month": "455.92",
+        "interests_month": "164.76"
+    },
+    {
+        "date": "2019-04-05",
+        "capital_total": "103604.55",
+        "capital_month": "456.64",
+        "interests_month": "164.04"
+    },
+    {
+        "date": "2019-05-05",
+        "capital_total": "103147.91",
+        "capital_month": "457.36",
+        "interests_month": "163.32"
+    },
+    {
+        "date": "2019-06-05",
+        "capital_total": "102690.55",
+        "capital_month": "458.09",
+        "interests_month": "162.59"
+    },
+    {
+        "date": "2019-07-05",
+        "capital_total": "102232.46",
+        "capital_month": "458.81",
+        "interests_month": "161.87"
+    },
+    {
+        "date": "2019-08-05",
+        "capital_total": "101773.65",
+        "capital_month": "459.54",
+        "interests_month": "161.14"
+    },
+    {
+        "date": "2019-09-05",
+        "capital_total": "101314.11",
+        "capital_month": "460.27",
+        "interests_month": "160.41"
+    },
+    {
+        "date": "2019-10-05",
+        "capital_total": "100853.84",
+        "capital_month": "460.99",
+        "interests_month": "159.69"
+    },
+    {
+        "date": "2019-11-05",
+        "capital_total": "100392.85",
+        "capital_month": "461.72",
+        "interests_month": "158.96"
+    },
+    {
+        "date": "2019-12-05",
+        "capital_total": "99931.13",
+        "capital_month": "462.45",
+        "interests_month": "158.23"
+    },
+    {
+        "date": "2020-01-05",
+        "capital_total": "99468.68",
+        "capital_month": "463.19",
+        "interests_month": "157.49"
+    },
+    {
+        "date": "2020-02-05",
+        "capital_total": "99005.49",
+        "capital_month": "463.92",
+        "interests_month": "156.76"
+    },
+    {
+        "date": "2020-03-05",
+        "capital_total": "98541.57",
+        "capital_month": "464.65",
+        "interests_month": "156.03"
+    },
+    {
+        "date": "2020-04-05",
+        "capital_total": "98076.92",
+        "capital_month": "465.39",
+        "interests_month": "155.29"
+    },
+    {
+        "date": "2020-05-05",
+        "capital_total": "97611.53",
+        "capital_month": "466.13",
+        "interests_month": "154.55"
+    },
+    {
+        "date": "2020-06-05",
+        "capital_total": "97145.40",
+        "capital_month": "466.87",
+        "interests_month": "153.81"
+    },
+    {
+        "date": "2020-07-05",
+        "capital_total": "96678.53",
+        "capital_month": "467.60",
+        "interests_month": "153.08"
+    },
+    {
+        "date": "2020-08-05",
+        "capital_total": "96210.93",
+        "capital_month": "468.35",
+        "interests_month": "152.33"
+    },
+    {
+        "date": "2020-09-05",
+        "capital_total": "95742.58",
+        "capital_month": "469.09",
+        "interests_month": "151.59"
+    },
+    {
+        "date": "2020-10-05",
+        "capital_total": "95273.49",
+        "capital_month": "469.83",
+        "interests_month": "150.85"
+    },
+    {
+        "date": "2020-11-05",
+        "capital_total": "94803.66",
+        "capital_month": "470.57",
+        "interests_month": "150.11"
+    },
+    {
+        "date": "2020-12-05",
+        "capital_total": "94333.09",
+        "capital_month": "471.32",
+        "interests_month": "149.36"
+    },
+    {
+        "date": "2021-01-05",
+        "capital_total": "93861.77",
+        "capital_month": "472.06",
+        "interests_month": "148.62"
+    },
+    {
+        "date": "2021-02-05",
+        "capital_total": "93389.71",
+        "capital_month": "472.81",
+        "interests_month": "147.87"
+    },
+    {
+        "date": "2021-03-05",
+        "capital_total": "92916.90",
+        "capital_month": "473.56",
+        "interests_month": "147.12"
+    },
+    {
+        "date": "2021-04-05",
+        "capital_total": "92443.34",
+        "capital_month": "474.31",
+        "interests_month": "146.37"
+    },
+    {
+        "date": "2021-05-05",
+        "capital_total": "91969.03",
+        "capital_month": "475.06",
+        "interests_month": "145.62"
+    },
+    {
+        "date": "2021-06-05",
+        "capital_total": "91493.97",
+        "capital_month": "475.81",
+        "interests_month": "144.87"
+    },
+    {
+        "date": "2021-07-05",
+        "capital_total": "91018.16",
+        "capital_month": "476.57",
+        "interests_month": "144.11"
+    },
+    {
+        "date": "2021-08-05",
+        "capital_total": "90541.59",
+        "capital_month": "477.32",
+        "interests_month": "143.36"
+    },
+    {
+        "date": "2021-09-05",
+        "capital_total": "90064.27",
+        "capital_month": "478.08",
+        "interests_month": "142.60"
+    },
+    {
+        "date": "2021-10-05",
+        "capital_total": "89586.19",
+        "capital_month": "478.83",
+        "interests_month": "141.85"
+    },
+    {
+        "date": "2021-11-05",
+        "capital_total": "89107.36",
+        "capital_month": "479.59",
+        "interests_month": "141.09"
+    },
+    {
+        "date": "2021-12-05",
+        "capital_total": "88627.77",
+        "capital_month": "480.35",
+        "interests_month": "140.33"
+    },
+    {
+        "date": "2022-01-05",
+        "capital_total": "88147.42",
+        "capital_month": "481.11",
+        "interests_month": "139.57"
+    },
+    {
+        "date": "2022-02-05",
+        "capital_total": "87666.31",
+        "capital_month": "481.87",
+        "interests_month": "138.81"
+    },
+    {
+        "date": "2022-03-05",
+        "capital_total": "87184.44",
+        "capital_month": "482.64",
+        "interests_month": "138.04"
+    },
+    {
+        "date": "2022-04-05",
+        "capital_total": "86701.80",
+        "capital_month": "483.40",
+        "interests_month": "137.28"
+    },
+    {
+        "date": "2022-05-05",
+        "capital_total": "86218.40",
+        "capital_month": "484.17",
+        "interests_month": "136.51"
+    },
+    {
+        "date": "2022-06-05",
+        "capital_total": "85734.23",
+        "capital_month": "484.93",
+        "interests_month": "135.75"
+    },
+    {
+        "date": "2022-07-05",
+        "capital_total": "85249.30",
+        "capital_month": "485.70",
+        "interests_month": "134.98"
+    },
+    {
+        "date": "2022-08-05",
+        "capital_total": "84763.60",
+        "capital_month": "486.47",
+        "interests_month": "134.21"
+    },
+    {
+        "date": "2022-09-05",
+        "capital_total": "84277.13",
+        "capital_month": "487.24",
+        "interests_month": "133.44"
+    },
+    {
+        "date": "2022-10-05",
+        "capital_total": "83789.89",
+        "capital_month": "488.01",
+        "interests_month": "132.67"
+    },
+    {
+        "date": "2022-11-05",
+        "capital_total": "83301.88",
+        "capital_month": "488.78",
+        "interests_month": "131.90"
+    },
+    {
+        "date": "2022-12-05",
+        "capital_total": "82813.10",
+        "capital_month": "489.56",
+        "interests_month": "131.12"
+    },
+    {
+        "date": "2023-01-05",
+        "capital_total": "82323.54",
+        "capital_month": "490.33",
+        "interests_month": "130.35"
+    },
+    {
+        "date": "2023-02-05",
+        "capital_total": "81833.21",
+        "capital_month": "491.11",
+        "interests_month": "129.57"
+    },
+    {
+        "date": "2023-03-05",
+        "capital_total": "81342.10",
+        "capital_month": "491.89",
+        "interests_month": "128.79"
+    },
+    {
+        "date": "2023-04-05",
+        "capital_total": "80850.21",
+        "capital_month": "492.67",
+        "interests_month": "128.01"
+    },
+    {
+        "date": "2023-05-05",
+        "capital_total": "80357.54",
+        "capital_month": "493.45",
+        "interests_month": "127.23"
+    },
+    {
+        "date": "2023-06-05",
+        "capital_total": "79864.09",
+        "capital_month": "494.23",
+        "interests_month": "126.45"
+    },
+    {
+        "date": "2023-07-05",
+        "capital_total": "79369.86",
+        "capital_month": "495.01",
+        "interests_month": "125.67"
+    },
+    {
+        "date": "2023-08-05",
+        "capital_total": "78874.85",
+        "capital_month": "495.79",
+        "interests_month": "124.89"
+    },
+    {
+        "date": "2023-09-05",
+        "capital_total": "78379.06",
+        "capital_month": "496.58",
+        "interests_month": "124.10"
+    },
+    {
+        "date": "2023-10-05",
+        "capital_total": "77882.48",
+        "capital_month": "497.37",
+        "interests_month": "123.31"
+    },
+    {
+        "date": "2023-11-05",
+        "capital_total": "77385.11",
+        "capital_month": "498.15",
+        "interests_month": "122.53"
+    },
+    {
+        "date": "2023-12-05",
+        "capital_total": "76886.96",
+        "capital_month": "498.94",
+        "interests_month": "121.74"
+    },
+    {
+        "date": "2024-01-05",
+        "capital_total": "76388.02",
+        "capital_month": "499.73",
+        "interests_month": "120.95"
+    },
+    {
+        "date": "2024-02-05",
+        "capital_total": "75888.29",
+        "capital_month": "500.52",
+        "interests_month": "120.16"
+    },
+    {
+        "date": "2024-03-05",
+        "capital_total": "75387.77",
+        "capital_month": "501.32",
+        "interests_month": "119.36"
+    },
+    {
+        "date": "2024-04-05",
+        "capital_total": "74886.45",
+        "capital_month": "502.11",
+        "interests_month": "118.57"
+    },
+    {
+        "date": "2024-05-05",
+        "capital_total": "74384.34",
+        "capital_month": "502.90",
+        "interests_month": "117.78"
+    },
+    {
+        "date": "2024-06-05",
+        "capital_total": "73881.44",
+        "capital_month": "503.70",
+        "interests_month": "116.98"
+    },
+    {
+        "date": "2024-07-05",
+        "capital_total": "73377.74",
+        "capital_month": "504.50",
+        "interests_month": "116.18"
+    },
+    {
+        "date": "2024-08-05",
+        "capital_total": "72873.24",
+        "capital_month": "505.30",
+        "interests_month": "115.38"
+    },
+    {
+        "date": "2024-09-05",
+        "capital_total": "72367.94",
+        "capital_month": "506.10",
+        "interests_month": "114.58"
+    },
+    {
+        "date": "2024-10-05",
+        "capital_total": "71861.84",
+        "capital_month": "506.90",
+        "interests_month": "113.78"
+    },
+    {
+        "date": "2024-11-05",
+        "capital_total": "71354.94",
+        "capital_month": "507.70",
+        "interests_month": "112.98"
+    },
+    {
+        "date": "2024-12-05",
+        "capital_total": "70847.24",
+        "capital_month": "508.50",
+        "interests_month": "112.18"
+    },
+    {
+        "date": "2025-01-05",
+        "capital_total": "70338.74",
+        "capital_month": "509.31",
+        "interests_month": "111.37"
+    },
+    {
+        "date": "2025-02-05",
+        "capital_total": "69829.43",
+        "capital_month": "510.12",
+        "interests_month": "110.56"
+    },
+    {
+        "date": "2025-03-05",
+        "capital_total": "69319.31",
+        "capital_month": "510.92",
+        "interests_month": "109.76"
+    },
+    {
+        "date": "2025-04-05",
+        "capital_total": "68808.39",
+        "capital_month": "511.73",
+        "interests_month": "108.95"
+    },
+    {
+        "date": "2025-05-05",
+        "capital_total": "68296.66",
+        "capital_month": "512.54",
+        "interests_month": "108.14"
+    },
+    {
+        "date": "2025-06-05",
+        "capital_total": "67784.12",
+        "capital_month": "513.35",
+        "interests_month": "107.33"
+    },
+    {
+        "date": "2025-07-05",
+        "capital_total": "67270.77",
+        "capital_month": "514.17",
+        "interests_month": "106.51"
+    },
+    {
+        "date": "2025-08-05",
+        "capital_total": "66756.60",
+        "capital_month": "514.98",
+        "interests_month": "105.70"
+    },
+    {
+        "date": "2025-09-05",
+        "capital_total": "66241.62",
+        "capital_month": "515.80",
+        "interests_month": "104.88"
+    },
+    {
+        "date": "2025-10-05",
+        "capital_total": "65725.82",
+        "capital_month": "516.61",
+        "interests_month": "104.07"
+    },
+    {
+        "date": "2025-11-05",
+        "capital_total": "65209.21",
+        "capital_month": "517.43",
+        "interests_month": "103.25"
+    },
+    {
+        "date": "2025-12-05",
+        "capital_total": "64691.78",
+        "capital_month": "518.25",
+        "interests_month": "102.43"
+    },
+    {
+        "date": "2026-01-05",
+        "capital_total": "64173.53",
+        "capital_month": "519.07",
+        "interests_month": "101.61"
+    },
+    {
+        "date": "2026-02-05",
+        "capital_total": "63654.46",
+        "capital_month": "519.89",
+        "interests_month": "100.79"
+    },
+    {
+        "date": "2026-03-05",
+        "capital_total": "63134.57",
+        "capital_month": "520.72",
+        "interests_month": "99.96"
+    },
+    {
+        "date": "2026-04-05",
+        "capital_total": "62613.85",
+        "capital_month": "521.54",
+        "interests_month": "99.14"
+    },
+    {
+        "date": "2026-05-05",
+        "capital_total": "62092.31",
+        "capital_month": "522.37",
+        "interests_month": "98.31"
+    },
+    {
+        "date": "2026-06-05",
+        "capital_total": "61569.94",
+        "capital_month": "523.19",
+        "interests_month": "97.49"
+    },
+    {
+        "date": "2026-07-05",
+        "capital_total": "61046.75",
+        "capital_month": "524.02",
+        "interests_month": "96.66"
+    },
+    {
+        "date": "2026-08-05",
+        "capital_total": "60522.73",
+        "capital_month": "524.85",
+        "interests_month": "95.83"
+    },
+    {
+        "date": "2026-09-05",
+        "capital_total": "59997.88",
+        "capital_month": "525.68",
+        "interests_month": "95.00"
+    },
+    {
+        "date": "2026-10-05",
+        "capital_total": "59472.20",
+        "capital_month": "526.51",
+        "interests_month": "94.17"
+    },
+    {
+        "date": "2026-11-05",
+        "capital_total": "58945.69",
+        "capital_month": "527.35",
+        "interests_month": "93.33"
+    },
+    {
+        "date": "2026-12-05",
+        "capital_total": "58418.34",
+        "capital_month": "528.18",
+        "interests_month": "92.50"
+    },
+    {
+        "date": "2027-01-05",
+        "capital_total": "57890.16",
+        "capital_month": "529.02",
+        "interests_month": "91.66"
+    },
+    {
+        "date": "2027-02-05",
+        "capital_total": "57361.14",
+        "capital_month": "529.86",
+        "interests_month": "90.82"
+    },
+    {
+        "date": "2027-03-05",
+        "capital_total": "56831.28",
+        "capital_month": "530.70",
+        "interests_month": "89.98"
+    },
+    {
+        "date": "2027-04-05",
+        "capital_total": "56300.58",
+        "capital_month": "531.54",
+        "interests_month": "89.14"
+    },
+    {
+        "date": "2027-05-05",
+        "capital_total": "55769.04",
+        "capital_month": "532.38",
+        "interests_month": "88.30"
+    },
+    {
+        "date": "2027-06-05",
+        "capital_total": "55236.66",
+        "capital_month": "533.22",
+        "interests_month": "87.46"
+    },
+    {
+        "date": "2027-07-05",
+        "capital_total": "54703.44",
+        "capital_month": "534.07",
+        "interests_month": "86.61"
+    },
+    {
+        "date": "2027-08-05",
+        "capital_total": "54169.37",
+        "capital_month": "534.91",
+        "interests_month": "85.77"
+    },
+    {
+        "date": "2027-09-05",
+        "capital_total": "53634.46",
+        "capital_month": "535.76",
+        "interests_month": "84.92"
+    },
+    {
+        "date": "2027-10-05",
+        "capital_total": "53098.70",
+        "capital_month": "536.61",
+        "interests_month": "84.07"
+    },
+    {
+        "date": "2027-11-05",
+        "capital_total": "52562.09",
+        "capital_month": "537.46",
+        "interests_month": "83.22"
+    },
+    {
+        "date": "2027-12-05",
+        "capital_total": "52024.63",
+        "capital_month": "538.31",
+        "interests_month": "82.37"
+    },
+    {
+        "date": "2028-01-05",
+        "capital_total": "51486.32",
+        "capital_month": "539.16",
+        "interests_month": "81.52"
+    },
+    {
+        "date": "2028-02-05",
+        "capital_total": "50947.16",
+        "capital_month": "540.01",
+        "interests_month": "80.67"
+    },
+    {
+        "date": "2028-03-05",
+        "capital_total": "50407.15",
+        "capital_month": "540.87",
+        "interests_month": "79.81"
+    },
+    {
+        "date": "2028-04-05",
+        "capital_total": "49866.28",
+        "capital_month": "541.72",
+        "interests_month": "78.96"
+    },
+    {
+        "date": "2028-05-05",
+        "capital_total": "49324.56",
+        "capital_month": "542.58",
+        "interests_month": "78.10"
+    },
+    {
+        "date": "2028-06-05",
+        "capital_total": "48781.98",
+        "capital_month": "543.44",
+        "interests_month": "77.24"
+    },
+    {
+        "date": "2028-07-05",
+        "capital_total": "48238.54",
+        "capital_month": "544.30",
+        "interests_month": "76.38"
+    },
+    {
+        "date": "2028-08-05",
+        "capital_total": "47694.24",
+        "capital_month": "545.16",
+        "interests_month": "75.52"
+    },
+    {
+        "date": "2028-09-05",
+        "capital_total": "47149.08",
+        "capital_month": "546.03",
+        "interests_month": "74.65"
+    },
+    {
+        "date": "2028-10-05",
+        "capital_total": "46603.05",
+        "capital_month": "546.89",
+        "interests_month": "73.79"
+    },
+    {
+        "date": "2028-11-05",
+        "capital_total": "46056.16",
+        "capital_month": "547.76",
+        "interests_month": "72.92"
+    },
+    {
+        "date": "2028-12-05",
+        "capital_total": "45508.40",
+        "capital_month": "548.62",
+        "interests_month": "72.06"
+    },
+    {
+        "date": "2029-01-05",
+        "capital_total": "44959.78",
+        "capital_month": "549.49",
+        "interests_month": "71.19"
+    },
+    {
+        "date": "2029-02-05",
+        "capital_total": "44410.29",
+        "capital_month": "550.36",
+        "interests_month": "70.32"
+    },
+    {
+        "date": "2029-03-05",
+        "capital_total": "43859.93",
+        "capital_month": "551.23",
+        "interests_month": "69.45"
+    },
+    {
+        "date": "2029-04-05",
+        "capital_total": "43308.70",
+        "capital_month": "552.11",
+        "interests_month": "68.57"
+    },
+    {
+        "date": "2029-05-05",
+        "capital_total": "42756.59",
+        "capital_month": "552.98",
+        "interests_month": "67.70"
+    },
+    {
+        "date": "2029-06-05",
+        "capital_total": "42203.61",
+        "capital_month": "553.86",
+        "interests_month": "66.82"
+    },
+    {
+        "date": "2029-07-05",
+        "capital_total": "41649.75",
+        "capital_month": "554.73",
+        "interests_month": "65.95"
+    },
+    {
+        "date": "2029-08-05",
+        "capital_total": "41095.02",
+        "capital_month": "555.61",
+        "interests_month": "65.07"
+    },
+    {
+        "date": "2029-09-05",
+        "capital_total": "40539.41",
+        "capital_month": "556.49",
+        "interests_month": "64.19"
+    },
+    {
+        "date": "2029-10-05",
+        "capital_total": "39982.92",
+        "capital_month": "557.37",
+        "interests_month": "63.31"
+    },
+    {
+        "date": "2029-11-05",
+        "capital_total": "39425.55",
+        "capital_month": "558.26",
+        "interests_month": "62.42"
+    },
+    {
+        "date": "2029-12-05",
+        "capital_total": "38867.29",
+        "capital_month": "559.14",
+        "interests_month": "61.54"
+    },
+    {
+        "date": "2030-01-05",
+        "capital_total": "38308.15",
+        "capital_month": "560.02",
+        "interests_month": "60.66"
+    },
+    {
+        "date": "2030-02-05",
+        "capital_total": "37748.13",
+        "capital_month": "560.91",
+        "interests_month": "59.77"
+    },
+    {
+        "date": "2030-03-05",
+        "capital_total": "37187.22",
+        "capital_month": "561.80",
+        "interests_month": "58.88"
+    },
+    {
+        "date": "2030-04-05",
+        "capital_total": "36625.42",
+        "capital_month": "562.69",
+        "interests_month": "57.99"
+    },
+    {
+        "date": "2030-05-05",
+        "capital_total": "36062.73",
+        "capital_month": "563.58",
+        "interests_month": "57.10"
+    },
+    {
+        "date": "2030-06-05",
+        "capital_total": "35499.15",
+        "capital_month": "564.47",
+        "interests_month": "56.21"
+    },
+    {
+        "date": "2030-07-05",
+        "capital_total": "34934.68",
+        "capital_month": "565.37",
+        "interests_month": "55.31"
+    },
+    {
+        "date": "2030-08-05",
+        "capital_total": "34369.31",
+        "capital_month": "566.26",
+        "interests_month": "54.42"
+    },
+    {
+        "date": "2030-09-05",
+        "capital_total": "33803.05",
+        "capital_month": "567.16",
+        "interests_month": "53.52"
+    },
+    {
+        "date": "2030-10-05",
+        "capital_total": "33235.89",
+        "capital_month": "568.06",
+        "interests_month": "52.62"
+    },
+    {
+        "date": "2030-11-05",
+        "capital_total": "32667.83",
+        "capital_month": "568.96",
+        "interests_month": "51.72"
+    },
+    {
+        "date": "2030-12-05",
+        "capital_total": "32098.87",
+        "capital_month": "569.86",
+        "interests_month": "50.82"
+    },
+    {
+        "date": "2031-01-05",
+        "capital_total": "31529.01",
+        "capital_month": "570.76",
+        "interests_month": "49.92"
+    },
+    {
+        "date": "2031-02-05",
+        "capital_total": "30958.25",
+        "capital_month": "571.66",
+        "interests_month": "49.02"
+    },
+    {
+        "date": "2031-03-05",
+        "capital_total": "30386.59",
+        "capital_month": "572.57",
+        "interests_month": "48.11"
+    },
+    {
+        "date": "2031-04-05",
+        "capital_total": "29814.02",
+        "capital_month": "573.47",
+        "interests_month": "47.21"
+    },
+    {
+        "date": "2031-05-05",
+        "capital_total": "29240.55",
+        "capital_month": "574.38",
+        "interests_month": "46.30"
+    },
+    {
+        "date": "2031-06-05",
+        "capital_total": "28666.17",
+        "capital_month": "575.29",
+        "interests_month": "45.39"
+    },
+    {
+        "date": "2031-07-05",
+        "capital_total": "28090.88",
+        "capital_month": "576.20",
+        "interests_month": "44.48"
+    },
+    {
+        "date": "2031-08-05",
+        "capital_total": "27514.68",
+        "capital_month": "577.11",
+        "interests_month": "43.57"
+    },
+    {
+        "date": "2031-09-05",
+        "capital_total": "26937.57",
+        "capital_month": "578.03",
+        "interests_month": "42.65"
+    },
+    {
+        "date": "2031-10-05",
+        "capital_total": "26359.54",
+        "capital_month": "578.94",
+        "interests_month": "41.74"
+    },
+    {
+        "date": "2031-11-05",
+        "capital_total": "25780.60",
+        "capital_month": "579.86",
+        "interests_month": "40.82"
+    },
+    {
+        "date": "2031-12-05",
+        "capital_total": "25200.74",
+        "capital_month": "580.78",
+        "interests_month": "39.90"
+    },
+    {
+        "date": "2032-01-05",
+        "capital_total": "24619.96",
+        "capital_month": "581.70",
+        "interests_month": "38.98"
+    },
+    {
+        "date": "2032-02-05",
+        "capital_total": "24038.26",
+        "capital_month": "582.62",
+        "interests_month": "38.06"
+    },
+    {
+        "date": "2032-03-05",
+        "capital_total": "23455.64",
+        "capital_month": "583.54",
+        "interests_month": "37.14"
+    },
+    {
+        "date": "2032-04-05",
+        "capital_total": "22872.10",
+        "capital_month": "584.46",
+        "interests_month": "36.22"
+    },
+    {
+        "date": "2032-05-05",
+        "capital_total": "22287.64",
+        "capital_month": "585.39",
+        "interests_month": "35.29"
+    },
+    {
+        "date": "2032-06-05",
+        "capital_total": "21702.25",
+        "capital_month": "586.32",
+        "interests_month": "34.36"
+    },
+    {
+        "date": "2032-07-05",
+        "capital_total": "21115.93",
+        "capital_month": "587.25",
+        "interests_month": "33.43"
+    },
+    {
+        "date": "2032-08-05",
+        "capital_total": "20528.68",
+        "capital_month": "588.18",
+        "interests_month": "32.50"
+    },
+    {
+        "date": "2032-09-05",
+        "capital_total": "19940.50",
+        "capital_month": "589.11",
+        "interests_month": "31.57"
+    },
+    {
+        "date": "2032-10-05",
+        "capital_total": "19351.39",
+        "capital_month": "590.04",
+        "interests_month": "30.64"
+    },
+    {
+        "date": "2032-11-05",
+        "capital_total": "18761.35",
+        "capital_month": "590.97",
+        "interests_month": "29.71"
+    },
+    {
+        "date": "2032-12-05",
+        "capital_total": "18170.38",
+        "capital_month": "591.91",
+        "interests_month": "28.77"
+    },
+    {
+        "date": "2033-01-05",
+        "capital_total": "17578.47",
+        "capital_month": "592.85",
+        "interests_month": "27.83"
+    },
+    {
+        "date": "2033-02-05",
+        "capital_total": "16985.62",
+        "capital_month": "593.79",
+        "interests_month": "26.89"
+    },
+    {
+        "date": "2033-03-05",
+        "capital_total": "16391.83",
+        "capital_month": "594.73",
+        "interests_month": "25.95"
+    },
+    {
+        "date": "2033-04-05",
+        "capital_total": "15797.10",
+        "capital_month": "595.67",
+        "interests_month": "25.01"
+    },
+    {
+        "date": "2033-05-05",
+        "capital_total": "15201.43",
+        "capital_month": "596.61",
+        "interests_month": "24.07"
+    },
+    {
+        "date": "2033-06-05",
+        "capital_total": "14604.82",
+        "capital_month": "597.55",
+        "interests_month": "23.13"
+    },
+    {
+        "date": "2033-07-05",
+        "capital_total": "14007.27",
+        "capital_month": "598.50",
+        "interests_month": "22.18"
+    },
+    {
+        "date": "2033-08-05",
+        "capital_total": "13408.77",
+        "capital_month": "599.45",
+        "interests_month": "21.23"
+    },
+    {
+        "date": "2033-09-05",
+        "capital_total": "12809.32",
+        "capital_month": "600.40",
+        "interests_month": "20.28"
+    },
+    {
+        "date": "2033-10-05",
+        "capital_total": "12208.92",
+        "capital_month": "601.35",
+        "interests_month": "19.33"
+    },
+    {
+        "date": "2033-11-05",
+        "capital_total": "11607.57",
+        "capital_month": "602.30",
+        "interests_month": "18.38"
+    },
+    {
+        "date": "2033-12-05",
+        "capital_total": "11005.27",
+        "capital_month": "603.25",
+        "interests_month": "17.43"
+    },
+    {
+        "date": "2034-01-05",
+        "capital_total": "10402.02",
+        "capital_month": "604.21",
+        "interests_month": "16.47"
+    },
+    {
+        "date": "2034-02-05",
+        "capital_total": "9797.81",
+        "capital_month": "605.17",
+        "interests_month": "15.51"
+    },
+    {
+        "date": "2034-03-05",
+        "capital_total": "9192.64",
+        "capital_month": "606.12",
+        "interests_month": "14.56"
+    },
+    {
+        "date": "2034-04-05",
+        "capital_total": "8586.52",
+        "capital_month": "607.08",
+        "interests_month": "13.60"
+    },
+    {
+        "date": "2034-05-05",
+        "capital_total": "7979.44",
+        "capital_month": "608.04",
+        "interests_month": "12.64"
+    },
+    {
+        "date": "2034-06-05",
+        "capital_total": "7371.40",
+        "capital_month": "609.01",
+        "interests_month": "11.67"
+    },
+    {
+        "date": "2034-07-05",
+        "capital_total": "6762.39",
+        "capital_month": "609.97",
+        "interests_month": "10.71"
+    },
+    {
+        "date": "2034-08-05",
+        "capital_total": "6152.42",
+        "capital_month": "610.94",
+        "interests_month": "9.74"
+    },
+    {
+        "date": "2034-09-05",
+        "capital_total": "5541.48",
+        "capital_month": "611.91",
+        "interests_month": "8.77"
+    },
+    {
+        "date": "2034-10-05",
+        "capital_total": "4929.57",
+        "capital_month": "612.87",
+        "interests_month": "7.81"
+    },
+    {
+        "date": "2034-11-05",
+        "capital_total": "4316.70",
+        "capital_month": "613.84",
+        "interests_month": "6.84"
+    },
+    {
+        "date": "2034-12-05",
+        "capital_total": "3702.86",
+        "capital_month": "614.82",
+        "interests_month": "5.86"
+    },
+    {
+        "date": "2035-01-05",
+        "capital_total": "3088.04",
+        "capital_month": "615.79",
+        "interests_month": "4.89"
+    },
+    {
+        "date": "2035-02-05",
+        "capital_total": "2472.25",
+        "capital_month": "616.76",
+        "interests_month": "3.92"
+    },
+    {
+        "date": "2035-03-05",
+        "capital_total": "1855.49",
+        "capital_month": "617.74",
+        "interests_month": "2.94"
+    },
+    {
+        "date": "2035-04-05",
+        "capital_total": "1237.75",
+        "capital_month": "618.72",
+        "interests_month": "1.96"
+    },
+    {
+        "date": "2035-05-05",
+        "capital_total": "619.03",
+        "capital_month": "619.70",
+        "interests_month": "0.98"
+    }
+]

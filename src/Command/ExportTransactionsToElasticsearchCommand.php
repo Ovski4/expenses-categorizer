@@ -16,9 +16,12 @@ class ExportTransactionsToElasticsearchCommand extends Command
 
     private $entityManager;
 
+    private $client;
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
+        $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();;
 
         parent::__construct();
     }
@@ -27,15 +30,13 @@ class ExportTransactionsToElasticsearchCommand extends Command
     {
         $this
             ->setDescription('Export transactions to elasticsearch')
-            ->setHelp('This command send transactions in elasticsearch')
+            ->setHelp('This command sends transactions in elasticsearch')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
-
-        $this->createIndexIfNotExists($client);
+        $this->createIndexIfNotExists();
         $output->writeln('The <info>transactions</info> index has been created');
 
         $transactions = $this->entityManager
@@ -50,7 +51,7 @@ class ExportTransactionsToElasticsearchCommand extends Command
                 'body'  => $transaction->toArray()
             ];
 
-            $response = $client->index($params);
+            $response = $this->client->index($params);
 
             if (!in_array($response['result'], ['created', 'updated'])) {
                 throw new \Exception('Error creating or updating transaction');
@@ -60,10 +61,10 @@ class ExportTransactionsToElasticsearchCommand extends Command
         $output->writeln(sprintf('<info>%s</info> transactions indexed', count($transactions)));
     }
 
-    private function createIndexIfNotExists(Client $client)
+    private function createIndexIfNotExists()
     {
         $indexParams['index']  = 'transactions';   
-        if ($client->indices()->exists($indexParams)) {
+        if ($this->client->indices()->exists($indexParams)) {
             return;
         }
 
@@ -98,6 +99,6 @@ class ExportTransactionsToElasticsearchCommand extends Command
             ]
         ];
 
-        $client->indices()->create($params);
+        $this->client->indices()->create($params);
     }
 }

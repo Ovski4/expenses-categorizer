@@ -27,7 +27,7 @@ class CategorizeTransactionsCommand extends Command
     {
         $this
             ->setDescription('Categorize transactions from rules')
-            ->setHelp('This command set sub categories on transactions when rule matches')
+            ->setHelp('This command sets sub categories on transactions when rule matches')
         ;
     }
 
