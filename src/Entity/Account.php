@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints\AccountAliasesAreUniqueConstraint;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
+ * @AccountAliasesAreUniqueConstraint
  */
 class Account
 {
@@ -24,6 +27,7 @@ class Account
 
     /**
      * @ORM\Column(type="simple_array", nullable=true)
+     * @Assert\Unique(message="There are duplicated aliases")
      */
     private $aliases = [];
 

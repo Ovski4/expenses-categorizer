@@ -19,32 +19,18 @@ class AccountRepository extends ServiceEntityRepository
         parent::__construct($registry, Account::class);
     }
 
-    // /**
-    //  * @return Account[] Returns an array of Account objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Account[] Returns an array of Account objects
+     */
+    public function findWithAliasExceptAccount($alias, $skipAccountId)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Account
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('a.aliases LIKE :alias')
+            ->andWhere('a.id != :skipAccountId')
+            ->setParameter('alias', '%'.$alias.'%')
+            ->setParameter('skipAccountId', $skipAccountId)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }
