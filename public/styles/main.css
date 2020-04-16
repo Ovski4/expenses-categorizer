@@ -1,5 +1,27 @@
 #main {
-    margin: 5rem 1rem;
+    margin: 5rem 10%;
+}
+
+#main input, #main select {
+    max-width: 40rem;
+}
+
+
+#main form .collection  > .form-group > input {
+    max-width: 30rem;
+}
+
+#main form .collection  > .form-group > button {
+    margin-left: 1rem;
+}
+
+#main form .collection  > .form-group > label {
+    display: none;
+}
+
+#main form .collection  > .form-group > input,
+#main form .collection  > .form-group > button {
+    display: inline-block;
 }
 
 .navbar-dark.navbar {

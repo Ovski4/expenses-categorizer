@@ -16,7 +16,11 @@ class AccountType extends AbstractType
         $builder
             ->add('name')
             ->add('aliases', CollectionType::class, [
-                'entry_type' => TextType::class
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'attr' => ['class' => 'collection'],
             ])
             ->add('currency')
         ;

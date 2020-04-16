@@ -1,18 +1,18 @@
 <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-primary">
     <ul class="navbar-nav">
-        <li class="nav-item{% if current == 'transaction' %} active{% endif %}">
+        <li class="nav-item{% if current is defined and current == 'transaction' %} active{% endif %}">
             <a class="nav-link" href="{{ path('transaction_index') }}"><i class="fas fa-receipt"></i> Manage transactions</a>
         </li>
-        <li class="nav-item{% if current == 'sub_category' %} active{% endif %}">
+        <li class="nav-item{% if current is defined and current == 'sub_category' %} active{% endif %}">
             <a class="nav-link" href="{{ path('sub_category_index') }}"><i class="fas fa-folder"></i> Manage sub categories</a>
         </li>
-        <li class="nav-item{% if current == 'sub_category_transaction_rule' %} active{% endif %}">
+        <li class="nav-item{% if current is defined and current == 'sub_category_transaction_rule' %} active{% endif %}">
             <a class="nav-link" href="{{ path('sub_category_transaction_rule_index') }}"><i class="fas fa-sliders-h"></i> Manage sub categories rules</a>
         </li>
-        <li class="nav-item{% if current == 'top_category' %} active{% endif %}">
+        <li class="nav-item{% if current is defined and current == 'top_category' %} active{% endif %}">
             <a class="nav-link" href="{{ path('top_category_index') }}"><i class="fas fa-folder"></i> Manage top categories</a>
         </li>
-        <li class="nav-item{% if current == 'account' %} active{% endif %}">
+        <li class="nav-item{% if current is defined and current == 'account' %} active{% endif %}">
             <a class="nav-link" href="{{ path('account_index') }}"><i class="fas fa-file-invoice-dollar"></i> Manage accounts</a>
         </li>
     </ul>

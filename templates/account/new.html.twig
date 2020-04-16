@@ -13,3 +13,11 @@
 
     <a href="{{ path('account_index') }}">back to list</a>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module">
+        import lib from '/js/sf_collection.js';
+        lib.sfCollection.init();
+    </script>
+{% endblock %}
