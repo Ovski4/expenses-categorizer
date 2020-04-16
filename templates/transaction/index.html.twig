@@ -40,24 +40,18 @@
         <tbody>
         {% for transaction in pager.currentPageResults %}
             <tr>
-                <td>{{ transaction.label }}</td>
+                <td>{{ transaction.label | capitalize }}</td>
                 <td>{{ transaction.amount }}</td>
-                <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d') : '' }}</td>
                 <td>{{ transaction.account }}</td>
                 <td>
                   {{ transaction.subCategory }}
                   <em>{% if transaction.subCategory is null %}uncategorized{% endif %}</em>
                 </td>
                 <td>
-                    <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>
-                    <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>
-                    <a
-                        type="button"
-                        class="btn btn-outline-primary"
-                        href="{{ path('sub_category_transaction_rule_new', {'transaction': transaction.id }) }}"
-                    >
-                            Create a rule
-                    </a>
+                    <a href="{{ path('transaction_show', {'id': transaction.id}) }}"><i class="fas fa-eye"></i></a>
+                    <a href="{{ path('transaction_edit', {'id': transaction.id}) }}"><i class="fas fa-edit"></i></a>
+                    <a href="{{ path('sub_category_transaction_rule_new', {'transaction': transaction.id }) }}"><i class="fas fa-sliders-h"></i></a>
                 </td>
             </tr>
         {% else %}
