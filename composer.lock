@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac26512fa19365c2ffad3f5ae5b1fcdd",
+    "content-hash": "a2984bbefa57df8d15ee4aa80073b06b",
     "packages": [
         {
             "name": "brick/math",
@@ -7144,6 +7144,50 @@
     ],
     "packages-dev": [
         {
+            "name": "cap-collectif/id-to-uuid",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cap-collectif/id-to-uuid.git",
+                "reference": "c07a77e35ae48c705e86474e0f008fa0cca43116"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cap-collectif/id-to-uuid/zipball/c07a77e35ae48c705e86474e0f008fa0cca43116",
+                "reference": "c07a77e35ae48c705e86474e0f008fa0cca43116",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^2.5",
+                "doctrine/doctrine-migrations-bundle": "~1.1 | ~2",
+                "doctrine/orm": "^2.5"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.3"
+            },
+            "suggest": {
+                "ramsey/uuid": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CapCollectif\\IdToUuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aurélien David",
+                    "email": "aurelien@cap-collectif.com"
+                }
+            ],
+            "description": "Easily migrate from auto incremented id to uuid",
+            "time": "2019-12-26T13:38:05+00:00"
+        },
+        {
             "name": "doctrine/data-fixtures",
             "version": "1.4.2",
             "source": {
@@ -8117,7 +8161,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "cap-collectif/id-to-uuid": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
