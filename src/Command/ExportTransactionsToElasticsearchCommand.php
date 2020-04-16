@@ -88,6 +88,9 @@ class ExportTransactionsToElasticsearchCommand extends Command
                         'top_category' => [
                             'type' => 'keyword'
                         ],
+                        'currency' => [
+                            'type' => 'keyword'
+                        ],
                         'type' => [
                             'type' => 'keyword'
                         ],

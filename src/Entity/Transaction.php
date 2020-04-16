@@ -34,7 +34,7 @@ class Transaction
     private $created_at;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      */
     private $account;
 
@@ -77,7 +77,8 @@ class Transaction
     {
         $array = [
             'label'        => $this->label,
-            'account'      => $this->account,
+            'currency'     => $this->account->getCurrency(),
+            'account'      => $this->account->getName(),
             'created_at'   => $this->created_at->format('c'),
             'amount'       => $this->amount,
             'type'         => $this->getType()
@@ -137,12 +138,12 @@ class Transaction
         return $this;
     }
 
-    public function getAccount(): ?string
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    public function setAccount(string $account): self
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
