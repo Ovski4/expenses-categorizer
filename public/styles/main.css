@@ -26,6 +26,7 @@
 
 .navbar-dark.navbar {
     padding: 0 1rem;
+    background-color: #212529 !important;
 }
 
 .navbar-dark .navbar-nav .nav-item.active .nav-link {
@@ -39,7 +40,7 @@
 
 .navbar-dark .navbar-nav .nav-link {
     color: white;
-    padding: 0.8rem 1rem;
+    padding: 1.2rem 1rem;
 }
 
 .navbar-dark .navbar-nav .nav-item:hover .nav-link {
