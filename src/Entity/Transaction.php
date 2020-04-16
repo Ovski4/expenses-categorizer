@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator\Constraints\TransactionSubCategoryIsLogicalConstraint;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
  * @ORM\HasLifecycleCallbacks
+ * @TransactionSubCategoryIsLogicalConstraint
  */
 class Transaction
 {
