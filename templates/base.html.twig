@@ -10,15 +10,7 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-primary">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="{{ path('transaction_index') }}">Manage transactions</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ path('sub_category_index') }}">Manage sub categories</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ path('sub_category_transaction_rule_index') }}">Manage sub categories rules</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ path('top_category_index') }}">Manage top categories</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ path('account_index') }}">Manage accounts</a></li>
-            </ul>
-        </nav>
+        {% block navbar %}{% endblock %}
         <div id="main">
             {% block body %}{% endblock %}
         <div/>

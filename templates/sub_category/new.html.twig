@@ -2,6 +2,10 @@
 
 {% block title %}New SubCategory{% endblock %}
 
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'sub_category'} %}
+{% endblock %}
+
 {% block body %}
     <h1>Create new SubCategory</h1>
 

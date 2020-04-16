@@ -2,6 +2,10 @@
 
 {% block title %}Edit TopCategory{% endblock %}
 
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'top_category'} %}
+{% endblock %}
+
 {% block body %}
     <h1>Edit TopCategory</h1>
 

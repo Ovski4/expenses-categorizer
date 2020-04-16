@@ -2,6 +2,10 @@
 
 {% block title %}SubCategory index{% endblock %}
 
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'sub_category'} %}
+{% endblock %}
+
 {% block body %}
     <h1>SubCategory index</h1>
 

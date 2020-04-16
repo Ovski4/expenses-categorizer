@@ -1,17 +1,28 @@
 #main {
-    margin: 100px 30px;
+    margin: 5rem 1rem;
 }
 
 .navbar-dark.navbar {
-    padding: 0.2rem 1rem;
+    padding: 0 1rem;
+}
+
+.navbar-dark .navbar-nav .nav-item.active .nav-link {
+    background-color: white;
+    color: #007bff;
+}
+
+.navbar-dark .navbar-nav .nav-item.active:hover .nav-link {
+    color: #007bff;
 }
 
 .navbar-dark .navbar-nav .nav-link {
     color: white;
+    padding: 0.8rem 1rem;
 }
 
-.navbar-dark .navbar-nav .nav-link:hover {
-    text-decoration: underline;
+.navbar-dark .navbar-nav .nav-item:hover .nav-link {
+    background-color: white;
+    color: #007bff;
 }
 
 table {
