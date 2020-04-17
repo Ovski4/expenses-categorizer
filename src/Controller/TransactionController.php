@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Transaction;
 use App\Form\TransactionType;
+use App\Services\RuleChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,6 @@ use Pagerfanta\Pagerfanta;
  */
 class TransactionController extends AbstractController
 {
-
     /**
      * @Route("/", name="transaction_index", methods={"GET"})
      */
@@ -47,6 +47,37 @@ class TransactionController extends AbstractController
         return $this->render('transaction/index.html.twig', [
             'pager' => $pagerfanta,
         ]);
+    }
+
+    /**
+     * @Route("/categorize", name="transaction_categorize", methods={"PATCH", "GET"})
+     */
+    public function categorize(Request $request, EntityManagerInterface $entityManager, RuleChecker $ruleChecker): Response
+    {
+        if ($request->isMethod('PATCH')) {
+            $uncategorizedTransactions = $entityManager
+                ->getRepository(Transaction::class)
+                ->findUncategorizedTransactions()
+            ;
+
+            $transactions = [];
+            foreach ($uncategorizedTransactions as $transaction) {
+                $subCategory = $ruleChecker->getMatchingSubCategory($transaction);
+                if ($subCategory) {
+                    $transaction->setSubCategory($subCategory);
+                    $entityManager->persist($transaction);
+                    $transactions[] = $transaction;
+                }
+            }
+
+            $entityManager->flush();
+
+            return $this->render('transaction/categorize.html.twig', [
+                'transactions' => $transactions,
+            ]);
+        }
+
+        return $this->render('transaction/categorize.html.twig');
     }
 
     /**

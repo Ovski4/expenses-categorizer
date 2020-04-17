@@ -1,7 +1,18 @@
-<nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-primary">
-    <ul class="navbar-nav">
-        <li class="nav-item{% if current is defined and current == 'transaction' %} active{% endif %}">
+<nav class="navbar navbar-dark bg-primary">
+    <ul class="navbar-nav flex-column">
+        <li class="nav-item{% if current is defined and current in ['transaction', 'categorize_transaction'] %} active{% endif %}">
             <a class="nav-link" href="{{ path('transaction_index') }}"><i class="fas fa-receipt"></i> Manage transactions</a>
+            <ul class="navbar-nav flex-column">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Import from file</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Export to elasticsearch</a>
+                </li>
+                <li class="nav-item{% if current is defined and current == 'categorize_transaction' %} active{% endif %}">
+                    <a href="{{ path('transaction_categorize') }}" class="nav-link">Categorize from rules</a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item{% if current is defined and current == 'sub_category' %} active{% endif %}">
             <a class="nav-link" href="{{ path('sub_category_index') }}"><i class="fas fa-folder"></i> Manage sub categories</a>

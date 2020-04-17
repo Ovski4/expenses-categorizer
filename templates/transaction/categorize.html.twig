@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categorize transactions{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'categorize_transaction'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>Categorize transactions</h1>
+
+    <form method="post" action="{{ path('transaction_categorize') }}">
+        <input type="hidden" name="_method" value="PATCH">
+        <button class="btn btn-primary">Categorize transactions from rules</button>
+    </form>
+
+    {% if transactions is defined %}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Label</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th class="bg-info">Sub category</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.label | capitalize }}</td>
+                    <td>{{ transaction.createdAt|date('Y-m-d') }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.type }}</td>
+                    <td class="table-info">{{ transaction.subCategory }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No transaction categorized</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+{% endblock %}

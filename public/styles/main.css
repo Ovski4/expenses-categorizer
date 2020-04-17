@@ -1,5 +1,18 @@
+html {
+    height:100%
+}
+
+body {
+    min-height: 100%;
+}
+
+body {
+    display: flex;
+}
+
 #main {
-    margin: 5rem 10%;
+    margin: 2rem;
+    flex-grow: 1;
 }
 
 #main input, #main select {
@@ -25,27 +38,37 @@
 }
 
 .navbar-dark.navbar {
-    padding: 0 1rem;
+    padding: 2rem 0;
     background-color: #212529 !important;
+    align-items: baseline;
 }
 
-.navbar-dark .navbar-nav .nav-item.active .nav-link {
+.navbar-dark > .navbar-nav > .nav-item.active > .nav-link {
     background-color: white;
     color: #007bff;
 }
 
-.navbar-dark .navbar-nav .nav-item.active:hover .nav-link {
+.navbar-dark > .navbar-nav > .nav-item.active:hover > .nav-link {
     color: #007bff;
 }
 
-.navbar-dark .navbar-nav .nav-link {
+.navbar-dark > .navbar-nav > .nav-item > .nav-link {
     color: white;
     padding: 1.2rem 1rem;
+    min-width: 16.5rem;
 }
 
-.navbar-dark .navbar-nav .nav-item:hover .nav-link {
+.navbar-dark > .navbar-nav > .nav-item:hover > .nav-link {
     background-color: white;
     color: #007bff;
+}
+
+.navbar-dark > .navbar-nav > .nav-item > ul.navbar-nav > li a {
+    padding: 1.2rem 1rem 0 2rem;
+}
+
+.navbar-dark > .navbar-nav > .nav-item > ul.navbar-nav {
+    padding-bottom: 1rem;
 }
 
 table {
