@@ -33,6 +33,17 @@ services:
     depends_on:
       - mysql
 
+  web_socket:
+    build:
+      context: docker/build/
+      dockerfile: Dockerfile-php
+    volumes:
+      - ./:/var/www/html
+      - composer:/root/.composer
+    depends_on:
+      - mysql
+    command: php bin/console app:start-web-socket-server
+
   nginx:
     image: nginx:1.16.1
     volumes:
