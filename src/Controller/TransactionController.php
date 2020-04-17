@@ -30,10 +30,7 @@ class TransactionController extends AbstractController
         ;
 
         if ($request->query->has('only_show_uncategorized')) {
-            $showOnlyUncategorized = ($request->get('only_show_uncategorized') === 'true');
-            if ($showOnlyUncategorized) {
-                $queryBuilder->where('transaction.subCategory is NULL');
-            }
+            $queryBuilder->where('transaction.subCategory is NULL');
         }
 
         $adapter = new DoctrineORMAdapter($queryBuilder);
@@ -46,6 +43,7 @@ class TransactionController extends AbstractController
 
         return $this->render('transaction/index.html.twig', [
             'pager' => $pagerfanta,
+            'only_show_uncategorized' => $request->query->has('only_show_uncategorized')
         ]);
     }
 

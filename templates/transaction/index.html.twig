@@ -17,15 +17,15 @@
     <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_new') }}">Create a new transaction</a>
     <a
         type="button"
-        class="btn btn-outline-primary"
-        href="{{ path('transaction_index', {'page': pager.currentPage, 'only_show_uncategorized': 'true'}) }}"
+        class="{{ only_show_uncategorized ? 'active' : '' }} btn btn-outline-primary"
+        href="{{ path('transaction_index', {'page': pager.currentPage, 'only_show_uncategorized': ''}) }}"
     >
         Show only transactions to categorize
     </a>
 
     <a
         type="button"
-        class="btn btn-outline-primary"
+        class="{{ only_show_uncategorized ? '' : 'active' }} btn btn-outline-primary"
         href="{{ path('transaction_index', {'page': pager.currentPage}) }}"
     >
         Show all transactions
