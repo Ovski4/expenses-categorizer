@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Entity\Transaction;
 use Doctrine\ORM\EntityManagerInterface;
-use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
