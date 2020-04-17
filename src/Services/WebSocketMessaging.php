@@ -12,9 +12,7 @@ class WebSocketMessaging implements MessageComponentInterface
         $conn->send(sprintf('New connection: #%d', $conn->resourceId));
     }
 
-    public function onClose(ConnectionInterface $closedConnection)
-    {
-    }
+    public function onClose(ConnectionInterface $closedConnection) {}
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
@@ -24,6 +22,8 @@ class WebSocketMessaging implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $conn, $message)
     {
-        $conn->send($message);
+        // start categorizing here or start exporting
+        $conn->send('copy that');
+        // $conn->send($message);
     }
 }

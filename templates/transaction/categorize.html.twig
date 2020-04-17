@@ -45,3 +45,33 @@
     {% endif %}
 
 {% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+    // to do on click
+        window.addEventListener('load', function(event) {
+            var ws = new WebSocket('ws://localhost/web-socket/');
+
+            ws.onopen = function () {
+                //ws.send('Hello');
+                //_receiver.innerHTML = 'Connected !';
+            };
+
+            ws.onmessage = function (event) {
+                console.log(event.data);
+            };
+
+            ws.onclose = function () {
+                console.log('Connection closed');
+            };
+
+            ws.onerror = function () {
+                console.log('An error occured!');
+            };
+        });
+    </script>
+
+{% endblock %}
