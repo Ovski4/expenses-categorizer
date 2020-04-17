@@ -9,18 +9,17 @@ use App\Repository\SubCategoryTransactionRuleRepository;
 
 class RuleChecker
 {
-    private $subCategoryTransactionRuleRepository;
+    private $rules;
 
     public function __construct(SubCategoryTransactionRuleRepository $subCategoryTransactionRuleRepository)
     {
-        $this->subCategoryTransactionRuleRepository = $subCategoryTransactionRuleRepository;
+        $this->rules = $subCategoryTransactionRuleRepository->findAll();
     }
 
     public function getMatchingSubCategory(Transaction $transaction) : ?SubCategory
     {
-        $rules = $this->subCategoryTransactionRuleRepository->findAll();
         $foundSubCategory = null;
-        foreach ($rules as $rule) {
+        foreach ($this->rules as $rule) {
             $ruleType = $rule->getSubCategory()->getTransactionType();
 
             $amountMatches = true;
