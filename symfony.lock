@@ -5,6 +5,9 @@
     "cap-collectif/id-to-uuid": {
         "version": "dev-master"
     },
+    "cboden/ratchet": {
+        "version": "v0.4.2"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -114,6 +117,9 @@
     "elasticsearch/elasticsearch": {
         "version": "v7.6.1"
     },
+    "evenement/evenement": {
+        "version": "v3.0.1"
+    },
     "ezimuel/guzzlestreams": {
         "version": "3.0.1"
     },
@@ -122,6 +128,9 @@
     },
     "fig/link-util": {
         "version": "1.0.0"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.6.1"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
@@ -159,11 +168,17 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "1.0.0"
     },
     "psr/log": {
         "version": "1.1.2"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "ramsey/collection": {
         "version": "1.0.1"
@@ -183,8 +198,29 @@
             "config/packages/ramsey_uuid_doctrine.yaml"
         ]
     },
+    "ratchet/rfc6455": {
+        "version": "v0.2.6"
+    },
+    "react/cache": {
+        "version": "v1.0.0"
+    },
+    "react/dns": {
+        "version": "v1.2.0"
+    },
+    "react/event-loop": {
+        "version": "v1.1.1"
+    },
     "react/promise": {
         "version": "v2.7.1"
+    },
+    "react/promise-timer": {
+        "version": "v1.5.1"
+    },
+    "react/socket": {
+        "version": "v1.4.0"
+    },
+    "react/stream": {
+        "version": "v1.1.0"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
