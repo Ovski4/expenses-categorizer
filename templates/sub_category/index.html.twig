@@ -9,6 +9,8 @@
 {% block body %}
     <h1>SubCategory index</h1>
 
+    <a type="button" class="btn btn-outline-primary" href="{{ path('sub_category_new') }}">Create a new sub category</a>
+
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -37,5 +39,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('sub_category_new') }}">Create new</a>
 {% endblock %}

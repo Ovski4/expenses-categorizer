@@ -14,6 +14,7 @@
         <p>{{ pager.getNbResults }} transactions</p>
     </div>
 
+    <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_new') }}">Create a new transaction</a>
     <a
         type="button"
         class="btn btn-outline-primary"
@@ -46,7 +47,7 @@
             <tr>
                 <td>{{ transaction.label | capitalize }}</td>
                 <td>{{ transaction.amount }}</td>
-                <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d') : '' }}</td>
+                <td>{{ transaction.createdAt|date('Y-m-d') }}</td>
                 <td>{{ transaction.account }}</td>
                 <td>
                   {{ transaction.subCategory }}
@@ -66,5 +67,4 @@
         </tbody>
     </table>
 
-    <a type="button" class="btn btn-primary" href="{{ path('transaction_new') }}">Create new</a>
 {% endblock %}

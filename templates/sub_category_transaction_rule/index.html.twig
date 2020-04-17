@@ -9,6 +9,8 @@
 {% block body %}
     <h1>SubCategoryTransactionRule index</h1>
 
+    <a type="button" class="btn btn-outline-primary" href="{{ path('sub_category_transaction_rule_new') }}">Create a new rule</a>
+
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -47,5 +49,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('sub_category_transaction_rule_new') }}">Create new</a>
 {% endblock %}
