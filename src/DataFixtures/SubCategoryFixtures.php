@@ -57,6 +57,7 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Comfort',                     'topCategoryName' => 'Extras'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Leather goods',               'topCategoryName' => 'Extras'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Art decoration',              'topCategoryName' => 'Extras'],
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Fine',                        'topCategoryName' => 'Fees'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Bank fee',                    'topCategoryName' => 'Fees'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Condominium fees',            'topCategoryName' => 'Fees'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Post office fees',            'topCategoryName' => 'Fees'],
