@@ -47,6 +47,7 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Clothes',                     'topCategoryName' => 'Clothes'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Internet subscription',       'topCategoryName' => 'Communication'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Mobile subscription',         'topCategoryName' => 'Communication'],
+            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Games',                       'topCategoryName' => 'Culture'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Android app',                 'topCategoryName' => 'Culture'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Book',                        'topCategoryName' => 'Culture'],
             ['transactionType' => TransactionType::EXPENSES, 'name' => 'Music',                       'topCategoryName' => 'Culture'],
