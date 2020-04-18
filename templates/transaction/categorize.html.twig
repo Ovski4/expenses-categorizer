@@ -14,18 +14,18 @@
         <button class="btn btn-primary">Categorize transactions from rules</button>
     </form>
 
-    {% if transactions is defined %}
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Label</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th class="bg-info">Sub category</th>
-                </tr>
-            </thead>
-            <tbody>
+    <table class="table" {{ transactions is defined ? 'table' : 'style="display: none"' }}>
+        <thead class="thead-dark">
+            <tr>
+                <th>Label</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th class="bg-info">Sub category</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if transactions is defined %}
             {% for transaction in transactions %}
                 <tr>
                     <td>{{ transaction.label | capitalize }}</td>
@@ -39,9 +39,8 @@
                     <td colspan="6">No transaction categorized</td>
                 </tr>
             {% endfor %}
-            </tbody>
-        </table>
-
-    {% endif %}
+        {% endif %}
+        </tbody>
+    </table>
 
 {% endblock %}

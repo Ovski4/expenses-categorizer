@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Transaction;
 use App\Form\TransactionType;
-use App\Services\RuleChecker;
+use App\Services\TransactionCategorizer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,25 +50,10 @@ class TransactionController extends AbstractController
     /**
      * @Route("/categorize", name="transaction_categorize", methods={"PATCH", "GET"})
      */
-    public function categorize(Request $request, EntityManagerInterface $entityManager, RuleChecker $ruleChecker): Response
+    public function categorize(Request $request, TransactionCategorizer $transactionCategorizer): Response
     {
         if ($request->isMethod('PATCH')) {
-            $uncategorizedTransactions = $entityManager
-                ->getRepository(Transaction::class)
-                ->findUncategorizedTransactions()
-            ;
-
-            $transactions = [];
-            foreach ($uncategorizedTransactions as $transaction) {
-                $subCategory = $ruleChecker->getMatchingSubCategory($transaction);
-                if ($subCategory) {
-                    $transaction->setSubCategory($subCategory);
-                    $entityManager->persist($transaction);
-                    $transactions[] = $transaction;
-                }
-            }
-
-            $entityManager->flush();
+            $transactions = $transactionCategorizer->categorizeAll();
 
             return $this->render('transaction/categorize.html.twig', [
                 'transactions' => $transactions,
