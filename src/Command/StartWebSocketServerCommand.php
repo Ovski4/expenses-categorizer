@@ -14,6 +14,15 @@ class StartWebSocketServerCommand extends Command
 {
     protected static $defaultName = 'app:start-web-socket-server';
 
+    private $webSocketMessaging;
+
+    public function __construct(WebSocketMessaging $webSocketMessaging)
+    {
+        $this->webSocketMessaging = $webSocketMessaging;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -26,9 +35,7 @@ class StartWebSocketServerCommand extends Command
     {
         $server = IoServer::factory(
             new HttpServer(
-                new WsServer(
-                    new WebSocketMessaging()
-                )
+                new WsServer($this->webSocketMessaging)
             ),
             8081
         );

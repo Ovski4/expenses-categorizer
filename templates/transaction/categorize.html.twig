@@ -49,27 +49,74 @@
 
     {{ parent() }}
 
-    <script>
-    // to do on click
-        window.addEventListener('load', function(event) {
-            var ws = new WebSocket('ws://localhost/web-socket/');
+    <script type="text/javascript">
 
-            ws.onopen = function () {
-                //ws.send('Hello');
-                //_receiver.innerHTML = 'Connected !';
+        const fadeIn = (el, time) => {
+            el.style.opacity = 0;
+            let last = +new Date();
+            const tick = () => {
+                el.style.opacity = +el.style.opacity + (new Date() - last) / time;
+                last = +new Date();
+
+                if (+el.style.opacity < 1) {
+                    (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+                }
             };
 
-            ws.onmessage = function (event) {
-                console.log(event.data);
-            };
+            tick();
+        }
 
-            ws.onclose = function () {
-                console.log('Connection closed');
-            };
+        const createTableRow = (message) => {
+            const tr = document.createElement('tr');
+            tr.style.opacity = 0;
+            tr.innerHTML = `
+                <td>${message.data.label}</td>
+                <td>${message.data.created_at.substring(0, 10)}</td>
+                <td>${message.data.amount}</td>
+                <td>${message.data.type}</td>
+                <td class="table-info">${message.data.sub_category}</td>`
+            ;
+            document.querySelector('table tbody').appendChild(tr);
 
-            ws.onerror = function () {
-                console.log('An error occured!');
-            };
+            return tr;
+        }
+
+        const form = document.querySelector('form[action="/transaction/categorize"]');
+
+        window.addEventListener('load', () => {
+            form.querySelector('button').addEventListener('click', (event) => {
+                event.preventDefault();
+                const hiddenTable = document.querySelector('table[style="display: none"]');
+                if (hiddenTable) {
+                    hiddenTable.style.display = 'table';
+                }
+
+                document.querySelector('table tbody').innerHTML = '<tr><td colspan="6">Categorizing...</td></tr>';
+
+                var ws = new WebSocket('ws://localhost/web-socket/');
+
+                ws.onopen = () => {
+                    ws.send('categorize_transactions');
+                };
+
+                ws.onmessage = (event) => {
+                    try {
+                        const message = JSON.parse(event.data);
+                        if (message.topic === 'single_transaction.categorized') {
+                            const tr = createTableRow(message);
+                            fadeIn(tr, 1000);
+                        } else if (message.topic === 'transactions.categorized') {
+                            ws.close();
+                        }
+                    } catch (e) {
+                        console.log(event.data);
+                    }
+                };
+
+                ws.onerror = () => {
+                    form.submit();
+                };
+            });
         });
     </script>
 
