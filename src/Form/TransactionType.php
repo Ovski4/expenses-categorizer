@@ -20,6 +20,7 @@ class TransactionType extends AbstractCategoryRelatedType
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
                 'choices' => $this->getChoices(),
+                'required' => false
             ])
         ;
     }
