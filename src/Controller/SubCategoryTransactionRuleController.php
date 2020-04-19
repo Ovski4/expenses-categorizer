@@ -7,6 +7,7 @@ use App\Entity\Transaction;
 use App\Form\SubCategoryTransactionRuleType;
 use App\Repository\SubCategoryTransactionRuleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +55,7 @@ class SubCategoryTransactionRuleController extends AbstractController
             $entityManager->persist($subCategoryTransactionRule);
             $entityManager->flush();
 
-            return $this->redirectToRoute('sub_category_transaction_rule_index');
+            return new RedirectResponse($request->get('referer'));
         }
 
         return $this->render('sub_category_transaction_rule/new.html.twig', [
