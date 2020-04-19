@@ -5,15 +5,27 @@ namespace App\Services;
 use App\Entity\Operator;
 use App\Entity\SubCategory;
 use App\Entity\Transaction;
-use App\Repository\SubCategoryTransactionRuleRepository;
+use App\Entity\SubCategoryTransactionRule;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RuleChecker
 {
+    private $entityManager;
+
     private $rules;
 
-    public function __construct(SubCategoryTransactionRuleRepository $subCategoryTransactionRuleRepository)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->rules = $subCategoryTransactionRuleRepository->findAll();
+        $this->entityManager = $entityManager;
+        $this->setRules();
+    }
+
+    public function setRules()
+    {
+        $this->rules = $this->entityManager
+            ->getRepository(SubCategoryTransactionRule::class)
+            ->findAll()
+        ;
     }
 
     public function getMatchingSubCategory(Transaction $transaction) : ?SubCategory
