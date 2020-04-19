@@ -53,7 +53,7 @@ class TransactionController extends AbstractController
     public function categorize(Request $request, TransactionCategorizer $transactionCategorizer): Response
     {
         if ($request->isMethod('PATCH')) {
-            $transactions = $transactionCategorizer->categorizeAll();
+            $transactions = $transactionCategorizer->categorizeAllSync();
 
             return $this->render('transaction/categorize.html.twig', [
                 'transactions' => $transactions,

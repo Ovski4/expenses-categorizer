@@ -3,18 +3,26 @@
 namespace App\Services;
 
 use App\Event\TransactionCategorizedEvent;
+use App\Event\TransactionsCategorizedEvent;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
+use React\EventLoop\LoopInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class WebSocketMessaging implements MessageComponentInterface, EventSubscriberInterface
 {
     private $categorizingTransactionsClients;
+    private $loop;
 
     public function __construct(TransactionCategorizer $transactionCategorizer)
     {
         $this->categorizingTransactionsClients = new \SplObjectStorage();
         $this->transactionCategorizer = $transactionCategorizer;
+    }
+
+    public function setLoop(LoopInterface $loop)
+    {
+        $this->loop = $loop;
     }
 
     public function onOpen(ConnectionInterface $conn) {}
@@ -39,17 +47,15 @@ class WebSocketMessaging implements MessageComponentInterface, EventSubscriberIn
             $conn->send(json_encode([
                 'topic' => 'transactions.categorizing'
             ]));
-            $this->transactionCategorizer->categorizeAll();
-            $conn->send(json_encode([
-                'topic' => 'transactions.categorized'
-            ]));
+            $this->transactionCategorizer->categorizeAllAsync($this->loop);
         }
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            TransactionCategorizedEvent::NAME => 'onTransactionCategorized'
+            TransactionCategorizedEvent::NAME => 'onTransactionCategorized',
+            TransactionsCategorizedEvent::NAME => 'onTransactionsCategorized'
         ];
     }
 
@@ -59,6 +65,16 @@ class WebSocketMessaging implements MessageComponentInterface, EventSubscriberIn
             $conn->send(json_encode([
                 'topic' => 'single_transaction.categorized',
                 'data' => $event->getTransaction()->toArray()
+            ]));
+        }
+    }
+
+    public function onTransactionsCategorized()
+    {
+        foreach ($this->categorizingTransactionsClients as $conn) {
+            echo "all categorized\n";
+            $conn->send(json_encode([
+                'topic' => 'transactions.categorized'
             ]));
         }
     }

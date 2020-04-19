@@ -34,7 +34,7 @@ class CategorizeTransactionsCommand extends Command implements EventSubscriberIn
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $this->transactionCategorizer->categorizeAll();
+        $this->transactionCategorizer->categorizeAllSync();
     }
 
     public static function getSubscribedEvents()

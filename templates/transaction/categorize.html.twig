@@ -66,6 +66,15 @@
             tick();
         }
 
+        const createLastTableRow = (message) => {
+            const tr = document.createElement('tr');
+            tr.style.opacity = 0;
+            tr.innerHTML = `<tr><td colspan="6">No more transactions to categorize</td></tr>`;
+            document.querySelector('table tbody').appendChild(tr);
+
+            return tr;
+        }
+
         const createTableRow = (message) => {
             const tr = document.createElement('tr');
             tr.style.opacity = 0;
@@ -106,6 +115,8 @@
                             const tr = createTableRow(message);
                             fadeIn(tr, 1000);
                         } else if (message.topic === 'transactions.categorized') {
+                            const tr = createLastTableRow(message);
+                            fadeIn(tr, 1000);
                             ws.close();
                         }
                     } catch (e) {
