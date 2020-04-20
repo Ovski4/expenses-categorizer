@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Transaction;
 use App\Form\TransactionType;
 use App\Services\TransactionCategorizer;
+use App\Services\TransactionExporter;
 use Doctrine\ORM\EntityManagerInterface;
+use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,6 +63,26 @@ class TransactionController extends AbstractController
         }
 
         return $this->render('transaction/categorize.html.twig');
+    }
+
+    /**
+     * @Route("/export", name="transaction_export", methods={"PATCH", "GET"})
+     */
+    public function export(Request $request, TransactionExporter $transactionExporter): Response
+    {
+        if ($request->isMethod('PATCH')) {
+            try {
+                $exportData = $transactionExporter->exportAll();
+            } catch(NoNodesAvailableException $e) {
+                return $this->render('transaction/export.html.twig', [
+                    'error' => 'Elasticsearch seems to be down'
+                ]);
+            }
+
+            return $this->render('transaction/export.html.twig', $exportData);
+        }
+
+        return $this->render('transaction/export.html.twig');
     }
 
     /**

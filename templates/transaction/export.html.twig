@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Export transactions{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'export_transaction'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>Export transactions</h1>
+
+    <form method="post" action="{{ path('transaction_export') }}">
+        <input type="hidden" name="_method" value="PATCH">
+        <button class="btn btn-primary">Export transactions to elasticsearch</button>
+    </form>
+    <br>
+
+    {% if error is defined %}
+        <p class="alert alert-danger" role="alert">{{ error }}</p>
+    {% endif %}
+
+    <table class="table" {{ total_transactions_count is defined ? 'table' : 'style="display: none"' }}>
+        <thead class="thead-dark">
+            <tr>
+                <th>Total synced</th>
+                <th>Created</th>
+                <th>Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if total_transactions_count is defined %}
+                <tr>
+                    <td>{{ total_transactions_count }}</td>
+                    <td>{{ created_transactions_count }}</td>
+                    <td>{{ updated_transactions_count }}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+{% endblock %}
