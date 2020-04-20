@@ -72,7 +72,7 @@ class TransactionController extends AbstractController
     {
         if ($request->isMethod('PATCH')) {
             try {
-                $exportData = $transactionExporter->exportAll();
+                $exportData = $transactionExporter->exportAllSync();
             } catch(NoNodesAvailableException $e) {
                 return $this->render('transaction/export.html.twig', [
                     'error' => 'Elasticsearch seems to be down'

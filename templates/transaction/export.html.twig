@@ -22,7 +22,8 @@
     <table class="table" {{ total_transactions_count is defined ? 'table' : 'style="display: none"' }}>
         <thead class="thead-dark">
             <tr>
-                <th>Total synced</th>
+                <th>Total</th>
+                <th>Synced</th>
                 <th>Created</th>
                 <th>Updated</th>
             </tr>
@@ -30,6 +31,7 @@
         <tbody>
             {% if total_transactions_count is defined %}
                 <tr>
+                    <td>{{ total_transactions_count }}</td>
                     <td>{{ total_transactions_count }}</td>
                     <td>{{ created_transactions_count }}</td>
                     <td>{{ updated_transactions_count }}</td>
@@ -40,8 +42,137 @@
 
 {% endblock %}
 
+
 {% block javascripts %}
 
     {{ parent() }}
+
+    <script type="text/javascript">
+
+        const fadeIn = (el, time) => {
+            el.style.opacity = 0;
+            let last = +new Date();
+            const tick = () => {
+                el.style.opacity = +el.style.opacity + (new Date() - last) / time;
+                last = +new Date();
+
+                if (+el.style.opacity < 1) {
+                    (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+                }
+            };
+
+            tick();
+        }
+
+        const updateFirstRow = (message) => {
+            const tr = document.querySelector('table tbody tr:first-child');
+            tr.style.opacity = 0;
+            tr.innerHTML = '<td colspan="6">No more transactions to export</td>';
+
+            return tr;
+        }
+
+        const createErrorDiv = (message) => {
+            const p = document.createElement('p');
+            p.style.opacity = 0;
+            p.innerText = message;
+            p.className = 'alert alert-danger';
+            p.role = '';
+            p.setAttribute('role', 'alert');
+            document.getElementById('main').appendChild(p);
+
+            return p;
+        }
+
+        const createTableRow = (count) => {
+            const table = document.querySelector('table tbody');
+            tr = document.createElement('tr');
+            tr.className = 'transactions-counts';
+            tr.innerHTML = `
+                <td>${count.data}</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>`
+            ;
+            document.querySelector('table tbody').appendChild(tr);
+
+            return tr;
+        }
+
+        const updateTableRow = (message) => {
+            const tr = document.querySelector('table tbody tr.transactions-counts');
+            let total = Number(tr.querySelector('td:nth-child(1)').textContent);
+            let synced = Number(tr.querySelector('td:nth-child(2)').textContent);
+            let created = Number(tr.querySelector('td:nth-child(3)').textContent);
+            let updated = Number(tr.querySelector('td:nth-child(4)').textContent);
+
+            if (message.data.result === 'updated') {
+                updated += 1;
+            }
+            if (message.data.result === 'created') {
+                created += 1;
+            }
+            synced += 1;
+
+            tr.innerHTML = `
+                <td>${total}</td>
+                <td>${synced}</td>
+                <td>${created}</td>
+                <td>${updated}</td>`
+            ;
+        }
+
+        const form = document.querySelector('form[action="/transaction/export"]');
+
+        window.addEventListener('load', () => {
+            form.querySelector('button').addEventListener('click', (event) => {
+                event.preventDefault();
+                const hiddenTable = document.querySelector('table[style="display: none"]');
+                if (hiddenTable) {
+                    hiddenTable.style.display = 'table';
+                }
+
+                document.querySelector('table tbody').innerHTML = '<tr><td colspan="6">Exporting...</td></tr>';
+
+                var ws = new WebSocket('ws://localhost/web-socket/');
+
+                ws.onopen = () => {
+                    ws.send('export_transactions');
+                };
+
+                ws.onmessage = (event) => {
+                    try {
+                        const message = JSON.parse(event.data);
+                        if (message.topic === 'error') {
+                            const p = createErrorDiv(message.data);
+                            fadeIn(p, 1000);
+                            ws.close();
+                        }
+
+                        if (message.topic === 'single_transaction.exported') {
+                            updateTableRow(message);
+                        }
+
+                        if (message.topic === 'transactions.exported') {
+                            const tr = updateFirstRow(message);
+                            fadeIn(tr, 1000);
+                            ws.close();
+                        }
+
+                        if (message.topic === 'transactions.exporting') {
+                            const tr = createTableRow(message);
+                            fadeIn(tr, 1000);
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    }
+                };
+
+                ws.onerror = () => {
+                    form.submit();
+                };
+            });
+        });
+    </script>
 
 {% endblock %}

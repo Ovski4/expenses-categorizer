@@ -3,22 +3,39 @@
 namespace App\Services;
 
 use App\Entity\Transaction;
+use App\Event\TransactionExportedEvent;
+use App\Event\TransactionsExportedEvent;
+use App\Event\TransactionsExportingEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\ClientBuilder;
+use React\EventLoop\LoopInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TransactionExporter
 {
     private $entityManager;
-
     private $client;
+    private $dispatcher;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EventDispatcherInterface $dispatcher, EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
+        $this->dispatcher = $dispatcher;
         $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();;
     }
 
-    public function exportAll()
+    function exportOne($transaction)
+    {
+        $params = [
+            'index' => 'transactions',
+            'id'    => $transaction->getId(),
+            'body'  => $transaction->toArray()
+        ];
+
+        return $this->client->index($params);
+    }
+
+    public function exportAllSync()
     {
         $this->createIndexIfNotExists();
 
@@ -27,18 +44,16 @@ class TransactionExporter
             ->findBy([], ['created_at'=>'asc'])
         ;
 
+        $this->dispatcher->dispatch(
+            new TransactionsExportingEvent(count($transactions)),
+            TransactionsExportingEvent::NAME
+        );
+
         $createdTransactions = [];
         $updatedTransactions = [];
 
         foreach ($transactions as $transaction) {
-            $params = [
-                'index' => 'transactions',
-                'id'    => $transaction->getId(),
-                'body'  => $transaction->toArray()
-            ];
-
-            $response = $this->client->index($params);
-
+            $response = $this->exportOne($transaction);
             if ($response['result'] === 'created') {
                 $createdTransactions[] = $transaction;
             } else if ($response['result'] === 'updated') {
@@ -53,6 +68,46 @@ class TransactionExporter
             'created_transactions_count' => count($createdTransactions),
             'updated_transactions_count' => count($updatedTransactions)
         ];
+    }
+
+    public function exportInNextTick($loop, $transactions)
+    {
+        $loop->futureTick(function() use ($loop, $transactions) {
+            if (count($transactions) > 0) {
+                $transaction = array_pop($transactions);
+                $response = $this->exportOne($transaction);
+                if (!in_array($response['result'], ['created', 'updated'])) {
+                    throw new \Exception('Error creating or updating transaction');
+                }
+                $this->dispatcher->dispatch(
+                    new TransactionExportedEvent($response),
+                    TransactionExportedEvent::NAME
+                );
+                $this->exportInNextTick($loop, $transactions);
+            } else {
+                $this->dispatcher->dispatch(
+                    new TransactionsExportedEvent(),
+                    TransactionsExportedEvent::NAME
+                );
+            }
+        });
+    }
+
+    public function exportAllAsync(LoopInterface $loop)
+    {
+        $this->createIndexIfNotExists();
+
+        $transactions = $this->entityManager
+            ->getRepository(Transaction::class)
+            ->findBy([], ['created_at'=>'asc'])
+        ;
+
+        $this->dispatcher->dispatch(
+            new TransactionsExportingEvent(count($transactions)),
+            TransactionsExportingEvent::NAME
+        );
+
+        $this->exportInNextTick($loop, $transactions);
     }
 
     private function createIndexIfNotExists()
