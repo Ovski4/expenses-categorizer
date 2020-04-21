@@ -3,6 +3,7 @@ version: '3.7'
 volumes:
   mysql:
   composer:
+  statements:
 
 services:
 
@@ -29,9 +30,16 @@ services:
       dockerfile: Dockerfile-php
     volumes:
       - ./:/var/www/html
+      - statements:/var/statements
       - composer:/root/.composer
     depends_on:
       - mysql
+
+  ccm_parser:
+    image: ovski/ccm-statement-parser
+    volumes:
+      - statements:/var/statements
+    command: python ./main.py
 
   web_socket:
     build:

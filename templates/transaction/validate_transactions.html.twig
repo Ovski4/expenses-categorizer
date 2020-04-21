@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Validate transactions{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'import_transaction'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>Validate transactions</h1>
+
+    <form method="post" action="{{ path('validate_transactions') }}">
+        <input type="hidden" name="_method" value="POST">
+        <input type="hidden" name="statement" value="{{ statement }}">
+        <button class="btn btn-primary">Save these transactions</button>
+    </form>
+
+    <p>
+        {{ transactions| length }} transactions to import
+        (for a total of {{ transactions|reduce((sum, transaction) => sum + transaction.amount, 0) }})
+    </p>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Label</th>
+                <th>Amount</th>
+                <th>Created_at</th>
+                <th>Account</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.label | capitalize }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.createdAt|date('Y-m-d') }}</td>
+                <td>{{ transaction.account }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No records found. Are you sure your pdf is a valid statement file?</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -3,8 +3,8 @@
         <li class="nav-item{% if current is defined and current in ['transaction', 'categorize_transaction'] %} active{% endif %}">
             <a class="nav-link" href="{{ path('transaction_index') }}"><i class="fas fa-receipt"></i> Manage transactions</a>
             <ul class="navbar-nav flex-column">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Import from file</a>
+                <li class="nav-item{% if current is defined and current == 'import_transaction' %} active{% endif %}">
+                    <a href="{{ path('transaction_upload_statement') }}" class="nav-link">Import from a file</a>
                 </li>
                 <li class="nav-item{% if current is defined and current == 'export_transaction' %} active{% endif %}">
                     <a href="{{ path('transaction_export') }}" class="nav-link">Export to elasticsearch</a>

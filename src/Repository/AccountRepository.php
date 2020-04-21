@@ -20,7 +20,21 @@ class AccountRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Account[] Returns an array of Account objects
+     * @return Account Returns an Account object
+     */
+    public function findByAliasOrName($search)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.aliases LIKE :alias or a.name = :name')
+            ->setParameter('alias', '%'.$search.'%')
+            ->setParameter('name', $search)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
+
+    /**
+     * @return Account Returns an Account object or null
      */
     public function findWithAliasExceptAccount($alias, $skipAccountId)
     {

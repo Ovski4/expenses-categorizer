@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Import transactions{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'import_transaction'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>Import transactions</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Import') }}</button>
+    {{ form_end(form) }}
+
+    <script type="text/javascript">
+        document.querySelector('.custom-file-input').addEventListener('change',function(e){
+            var fileName = document.getElementById('statement_statement').files[0].name;
+            var nextSibling = e.target.nextElementSibling
+            nextSibling.innerText = fileName
+        });
+    </script>
+{% endblock %}

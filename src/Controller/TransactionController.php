@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Transaction;
+use App\Form\StatementType;
 use App\Form\TransactionType;
+use App\Services\CcmParserClient;
+use App\Services\StatementUploader;
 use App\Services\TransactionCategorizer;
 use App\Services\TransactionExporter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -83,6 +86,56 @@ class TransactionController extends AbstractController
         }
 
         return $this->render('transaction/export.html.twig');
+    }
+
+    /**
+     * @Route("/import/upload-statement", name="transaction_upload_statement", methods={"GET", "POST"})
+     */
+    public function uploadStatement(
+        Request $request,
+        StatementUploader $statementUploader
+    ): Response
+    {
+        $form = $this->createForm(StatementType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $statementFile = $form['statement']->getData();
+            $statementFile = $statementUploader->upload($statementFile);
+
+            return $this->redirectToRoute('validate_transactions', ['statement' => $statementFile]);
+        }
+
+        return $this->render('transaction/upload_statement.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/import/validate-transactions", name="validate_transactions", methods={"GET", "POST"})
+     */
+    public function validateTransactions(
+        Request $request,
+        CcmParserClient $ccmParserClient,
+        EntityManagerInterface $manager
+    ): Response
+    {
+        $statementFile = $request->get('statement');
+        $transactions = $ccmParserClient->parse($statementFile);
+
+        if ($request->isMethod('POST')) {
+            foreach($transactions as $transaction) {
+                $manager->persist($transaction);
+            }
+            // to do -> check if transactions are already imported
+            // $manager->flush();
+            return $this->redirectToRoute('transaction_index');
+        }
+
+        return $this->render('transaction/validate_transactions.html.twig', [
+            'transactions' => $transactions,
+            'statement' => $statementFile
+        ]);
     }
 
     /**
