@@ -27,4 +27,22 @@ class TransactionRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function exists(Transaction $transaction)
+    {
+        $result = $this->createQueryBuilder('t')
+            ->andWhere('t.account = :account')
+            ->andWhere('t.label = :label')
+            ->andWhere('t.created_at = :created_at')
+            ->andWhere('t.amount = :amount')
+            ->setParameter('account', $transaction->getAccount())
+            ->setParameter('label', $transaction->getLabel())
+            ->setParameter('amount', $transaction->getAmount())
+            ->setParameter('created_at', $transaction->getCreatedAt())
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $result === null ? false : true;
+    }
 }

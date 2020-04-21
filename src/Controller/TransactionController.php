@@ -103,7 +103,9 @@ class TransactionController extends AbstractController
             $statementFile = $form['statement']->getData();
             $statementFile = $statementUploader->upload($statementFile);
 
-            return $this->redirectToRoute('validate_transactions', ['statement' => $statementFile]);
+            return $this->redirect(
+                $this->generateUrl('validate_transactions', ['statement' => $statementFile])
+            );
         }
 
         return $this->render('transaction/upload_statement.html.twig', [
@@ -112,29 +114,42 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/import/validate-transactions", name="validate_transactions", methods={"GET", "POST"})
+     * @Route("/import/validate-transactions/{statement}", name="validate_transactions", methods={"GET", "POST"})
      */
     public function validateTransactions(
+        string $statement,
         Request $request,
         CcmParserClient $ccmParserClient,
         EntityManagerInterface $manager
     ): Response
     {
-        $statementFile = $request->get('statement');
-        $transactions = $ccmParserClient->parse($statementFile);
+        $transactions = $ccmParserClient->parse('/var/statements/' . $statement);
 
         if ($request->isMethod('POST')) {
             foreach($transactions as $transaction) {
                 $manager->persist($transaction);
             }
-            // to do -> check if transactions are already imported
-            // $manager->flush();
+            $manager->flush();
+
             return $this->redirectToRoute('transaction_index');
+        }
+
+        $existingTransactionCount = 0;
+        foreach($transactions as $transaction) {
+            $transactionExist = $manager
+                ->getRepository(Transaction::class)
+                ->exists($transaction)
+            ;
+            $existingTransactionCount = $transactionExist ?
+                $existingTransactionCount + 1 :
+                $existingTransactionCount
+            ;
         }
 
         return $this->render('transaction/validate_transactions.html.twig', [
             'transactions' => $transactions,
-            'statement' => $statementFile
+            'existingTransactionCount' => $existingTransactionCount,
+            'statement' => $statement
         ]);
     }
 
