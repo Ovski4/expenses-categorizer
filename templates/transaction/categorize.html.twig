@@ -105,7 +105,7 @@
 
                 document.querySelector('table tbody').innerHTML = '<tr><td colspan="6">Categorizing...</td></tr>';
 
-                var ws = new WebSocket('ws://localhost/web-socket/');
+                var ws = new WebSocket('ws://{{ app_url }}/web-socket/');
 
                 ws.onopen = () => {
                     ws.send('categorize_transactions');
