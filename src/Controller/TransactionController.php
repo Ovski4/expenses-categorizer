@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * @Route("/transaction")
@@ -120,10 +121,11 @@ class TransactionController extends AbstractController
         string $statement,
         Request $request,
         CcmParserClient $ccmParserClient,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        ParameterBagInterface $params
     ): Response
     {
-        $transactions = $ccmParserClient->parse('/var/statements/' . $statement);
+        $transactions = $ccmParserClient->parse($params->get('app.statements_dir') . $statement);
 
         if ($request->isMethod('POST')) {
             foreach($transactions as $transaction) {
