@@ -23,7 +23,10 @@ class SubCategoryTransactionRuleController extends AbstractController
     public function index(SubCategoryTransactionRuleRepository $subCategoryTransactionRuleRepository): Response
     {
         return $this->render('sub_category_transaction_rule/index.html.twig', [
-            'sub_category_transaction_rules' => $subCategoryTransactionRuleRepository->findAll(),
+            'sub_category_transaction_rules' => $subCategoryTransactionRuleRepository->findBy(
+                [],
+                ['contains' => 'asc']
+            ),
         ]);
     }
 

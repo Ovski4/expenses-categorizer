@@ -21,7 +21,7 @@ class TopCategoryController extends AbstractController
     public function index(TopCategoryRepository $topCategoryRepository): Response
     {
         return $this->render('top_category/index.html.twig', [
-            'top_categories' => $topCategoryRepository->findAll(),
+            'top_categories' => $topCategoryRepository->findBy([], ['name' => 'asc']),
         ]);
     }
 
