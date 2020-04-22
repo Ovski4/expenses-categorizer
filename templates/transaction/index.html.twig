@@ -47,7 +47,7 @@
             <tr>
                 <td>{{ transaction.label | capitalize }}</td>
                 <td>{{ transaction.amount }}</td>
-                <td>{{ transaction.createdAt|date('Y-m-d') }}</td>
+                <td>{{ transaction.createdAt|date('d/m/Y') }}</td>
                 <td>{{ transaction.account }}</td>
                 <td>
                   {{ transaction.subCategory }}
