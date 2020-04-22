@@ -127,6 +127,9 @@
         window.addEventListener('load', () => {
             form.querySelector('button').addEventListener('click', (event) => {
                 event.preventDefault();
+                const button = event.target;
+                button.disabled = true;
+
                 const hiddenTable = document.querySelector('table[style="display: none"]');
                 if (hiddenTable) {
                     hiddenTable.style.display = 'table';
@@ -156,6 +159,7 @@
                         if (message.topic === 'transactions.exported') {
                             const tr = updateFirstRow(message);
                             fadeIn(tr, 1000);
+                            button.disabled = false;
                             ws.close();
                         }
 

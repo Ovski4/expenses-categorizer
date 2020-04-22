@@ -95,6 +95,9 @@
         window.addEventListener('load', () => {
             form.querySelector('button').addEventListener('click', (event) => {
                 event.preventDefault();
+                const button = event.target;
+                button.disabled = true;
+
                 const hiddenTable = document.querySelector('table[style="display: none"]');
                 if (hiddenTable) {
                     hiddenTable.style.display = 'table';
@@ -117,6 +120,7 @@
                         } else if (message.topic === 'transactions.categorized') {
                             const tr = createLastTableRow(message);
                             fadeIn(tr, 1000);
+                            button.disabled = false;
                             ws.close();
                         }
                     } catch (e) {
