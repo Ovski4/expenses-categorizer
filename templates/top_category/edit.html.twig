@@ -9,9 +9,9 @@
 {% block body %}
     <h1>Edit TopCategory</h1>
 
-    {{ include('top_category/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('top_category/_form.html.twig', {'button_label': 'Save'}) }}
 
-    <a href="{{ path('top_category_index') }}">back to list</a>
+    <a class="btn btn-outline-primary" href="{{ path('top_category_index') }}">Go back to the top category list</a>
 
     {{ include('top_category/_delete_form.html.twig') }}
 {% endblock %}

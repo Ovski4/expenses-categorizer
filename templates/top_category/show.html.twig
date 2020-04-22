@@ -12,10 +12,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ top_category.id }}</td>
-            </tr>
-            <tr>
                 <th>Name</th>
                 <td>{{ top_category.name }}</td>
             </tr>
@@ -26,9 +22,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('top_category_index') }}">back to list</a>
+    <a class="btn btn-outline-primary" href="{{ path('top_category_index') }}">Go back to the top category list</a>
 
-    <a href="{{ path('top_category_edit', {'id': top_category.id}) }}">edit</a>
+    <a class="btn btn-outline-primary" href="{{ path('top_category_edit', {'id': top_category.id}) }}">Edit</a>
 
     {{ include('top_category/_delete_form.html.twig') }}
 {% endblock %}

@@ -9,9 +9,9 @@
 {% block body %}
     <h1>Edit Account</h1>
 
-    {{ include('account/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('account/_form.html.twig', {'button_label': 'Save'}) }}
 
-    <a href="{{ path('account_index') }}">back to list</a>
+    <a class="btn btn-outline-primary" href="{{ path('account_index') }}">Go back to the account list</a>
 
     {{ include('account/_delete_form.html.twig') }}
 {% endblock %}

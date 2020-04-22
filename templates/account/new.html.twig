@@ -7,11 +7,11 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Create new Account</h1>
+    <h1>Create a new Account</h1>
 
     {{ include('account/_form.html.twig') }}
 
-    <a href="{{ path('account_index') }}">back to list</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('account_index') }}">Go back to the account list</a>
 {% endblock %}
 
 {% block javascripts %}

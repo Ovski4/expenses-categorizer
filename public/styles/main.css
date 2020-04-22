@@ -19,6 +19,13 @@ body {
     max-width: 40rem;
 }
 
+#main > form {
+    margin-bottom: 1rem;
+}
+
+#main form.delete-button {
+    display: inline-block;
+}
 
 #main form .collection  > .form-group > input {
     max-width: 30rem;

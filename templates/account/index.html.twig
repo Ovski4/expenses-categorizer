@@ -9,6 +9,8 @@
 {% block body %}
     <h1>Account index</h1>
 
+    <a type="button" class="btn btn-outline-primary" href="{{ path('account_new') }}">Create a new account</a>
+
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -37,5 +39,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('account_new') }}">Create new</a>
 {% endblock %}

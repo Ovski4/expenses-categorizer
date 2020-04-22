@@ -12,10 +12,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ sub_category_transaction_rule.id }}</td>
-            </tr>
-            <tr>
                 <th>Contains</th>
                 <td>{{ sub_category_transaction_rule.contains }}</td>
             </tr>
@@ -44,9 +40,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('sub_category_transaction_rule_index') }}">back to list</a>
+    <a class="btn btn-outline-primary" href="{{ path('sub_category_transaction_rule_index') }}">Go back to the rule list</a>
 
-    <a href="{{ path('sub_category_transaction_rule_edit', {'id': sub_category_transaction_rule.id}) }}">edit</a>
+    <a class="btn btn-outline-primary" href="{{ path('sub_category_transaction_rule_edit', {'id': sub_category_transaction_rule.id}) }}">Edit</a>
 
     {{ include('sub_category_transaction_rule/_delete_form.html.twig') }}
 {% endblock %}
