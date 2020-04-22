@@ -5,11 +5,22 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.statements_dir: '/var/statements/'
+
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    _instanceof:
+
+        App\Services\WebSocketMessageHandler\CategorizeTransactionsHandler:
+            tags:
+                - { name: 'app.message_handler', trigger: 'categorize_transactions' }
+
+        App\Services\WebSocketMessageHandler\ExportTransactionsHandler:
+            tags:
+                - { name: 'app.message_handler', trigger: 'export_transactions' }
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

@@ -2,33 +2,19 @@
 
 namespace App\Services;
 
-use App\Event\TransactionCategorizedEvent;
-use App\Event\TransactionExportedEvent;
-use App\Event\TransactionsCategorizedEvent;
-use App\Event\TransactionsExportedEvent;
-use App\Event\TransactionsExportingEvent;
-use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
+use App\Services\WebSocketMessageHandler\WebSocketMessageHandlerRegistry;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use React\EventLoop\LoopInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class WebSocketMessaging implements MessageComponentInterface, EventSubscriberInterface
+class WebSocketMessaging implements MessageComponentInterface
 {
-    private $categorizingTransactionsClients;
-    private $exportingTransactionsClients;
-    private $transactionCategorizer;
-    private $transactionExporter;
     private $loop;
+    private $handlerRegistry;
 
-    public function __construct(
-        TransactionCategorizer $transactionCategorizer,
-        TransactionExporter $transactionExporter
-    ) {
-        $this->categorizingTransactionsClients = new \SplObjectStorage();
-        $this->exportingTransactionsClients = new \SplObjectStorage();
-        $this->transactionCategorizer = $transactionCategorizer;
-        $this->transactionExporter = $transactionExporter;
+    public function __construct(WebSocketMessageHandlerRegistry $handlerRegistry)
+    {
+        $this->handlerRegistry = $handlerRegistry;
     }
 
     public function setLoop(LoopInterface $loop)
@@ -40,10 +26,8 @@ class WebSocketMessaging implements MessageComponentInterface, EventSubscriberIn
 
     public function onClose(ConnectionInterface $closedConnection)
     {
-        if ($this->categorizingTransactionsClients->contains($closedConnection)) {
-            $this->categorizingTransactionsClients->detach($closedConnection);
-        } else if ($this->exportingTransactionsClients->contains($closedConnection)) {
-            $this->exportingTransactionsClients->detach($closedConnection);
+        foreach($this->handlerRegistry->getHandlers() as $handler) {
+            $handler->detachClients($closedConnection);
         }
     }
 
@@ -55,80 +39,6 @@ class WebSocketMessaging implements MessageComponentInterface, EventSubscriberIn
 
     public function onMessage(ConnectionInterface $conn, $message)
     {
-        if ($message === 'categorize_transactions') {
-            $this->categorizingTransactionsClients->attach($conn);
-            $this->transactionCategorizer->categorizeAllAsync($this->loop);
-        }
-
-        if ($message === 'export_transactions') {
-            $this->exportingTransactionsClients->attach($conn);
-            try {
-                $this->transactionExporter->exportAllAsync($this->loop);
-            } catch(NoNodesAvailableException $e) {
-                $conn->send(json_encode([
-                    'topic' => 'error',
-                    'data' => 'Elasticsearch seems to be down'
-                ]));
-            }
-        }
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            TransactionCategorizedEvent::NAME => 'onTransactionCategorized',
-            TransactionsCategorizedEvent::NAME => 'onTransactionsCategorized',
-            TransactionExportedEvent::NAME => 'onTransactionExported',
-            TransactionsExportedEvent::NAME => 'onTransactionsExported',
-            TransactionsExportingEvent::NAME => 'onTransactionsExporting'
-        ];
-    }
-
-    public function onTransactionCategorized(TransactionCategorizedEvent $event)
-    {
-        foreach ($this->categorizingTransactionsClients as $conn) {
-            $conn->send(json_encode([
-                'topic' => 'single_transaction.categorized',
-                'data' => $event->getTransaction()->toArray()
-            ]));
-        }
-    }
-
-    public function onTransactionExported(TransactionExportedEvent $event)
-    {
-        foreach ($this->exportingTransactionsClients as $conn) {
-            $conn->send(json_encode([
-                'topic' => 'single_transaction.exported',
-                'data' => $event->getResponse()
-            ]));
-        }
-    }
-
-    public function onTransactionsCategorized()
-    {
-        foreach ($this->categorizingTransactionsClients as $conn) {
-            $conn->send(json_encode([
-                'topic' => 'transactions.categorized'
-            ]));
-        }
-    }
-
-    public function onTransactionsExported()
-    {
-        foreach ($this->exportingTransactionsClients as $conn) {
-            $conn->send(json_encode([
-                'topic' => 'transactions.exported'
-            ]));
-        }
-    }
-
-    public function onTransactionsExporting(TransactionsExportingEvent $event)
-    {
-        foreach ($this->exportingTransactionsClients as $conn) {
-            $conn->send(json_encode([
-                'topic' => 'transactions.exporting',
-                'data' => $event->getTransactionCount()
-            ]));
-        }
+        $this->handlerRegistry->getHandler($message)->handle($conn, $this->loop);
     }
 }
