@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Account;
 use App\Entity\SubCategory;
 use App\Entity\Transaction;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,7 +20,10 @@ class TransactionType extends AbstractCategoryRelatedType
             ->add('created_at', DateType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('account')
+            ->add('account', EntityType::class, [
+                'class' => Account::class,
+                'required' => true
+            ])
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
                 'choices' => $this->getChoices(),
