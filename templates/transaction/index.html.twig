@@ -54,7 +54,6 @@
                   <em>{% if transaction.subCategory is null %}uncategorized{% endif %}</em>
                 </td>
                 <td>
-                    <a href="{{ path('transaction_show', {'id': transaction.id}) }}"><i class="fas fa-eye"></i></a>
                     <a href="{{ path('transaction_edit', {'id': transaction.id}) }}"><i class="fas fa-edit"></i></a>
                     <a href="{{ path('sub_category_transaction_rule_new', {'transaction': transaction.id }) }}"><i class="fas fa-sliders-h"></i></a>
                 </td>

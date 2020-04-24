@@ -68,16 +68,6 @@ class SubCategoryTransactionRuleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="sub_category_transaction_rule_show", methods={"GET"})
-     */
-    public function show(SubCategoryTransactionRule $subCategoryTransactionRule): Response
-    {
-        return $this->render('sub_category_transaction_rule/show.html.twig', [
-            'sub_category_transaction_rule' => $subCategoryTransactionRule,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="sub_category_transaction_rule_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, SubCategoryTransactionRule $subCategoryTransactionRule): Response

@@ -1,0 +1,27 @@
+<h2>{{ transactionType }}</h2>
+<ul>
+    {% for top_category in top_categories %}
+        {% if top_category.transactionType == transactionType %}
+            <li>
+                <div class="category top-category">
+                    <span>{{ top_category.name }}</span>
+                    <span>
+                        <a href="{{ path('top_category_edit', {'id': top_category.id}) }}"><i class="fas fa-edit"></i></a>
+                    </span>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for sub_category in top_category.subCategories %}
+                        <li class="list-group-item">
+                            <div class="category sub-category">
+                                <span>{{ sub_category.name }}</span>
+                                <span>
+                                    <a href="{{ path('sub_category_edit', {'id': sub_category.id}) }}"><i class="fas fa-edit"></i></a>
+                                </span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

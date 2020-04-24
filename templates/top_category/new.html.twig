@@ -3,7 +3,7 @@
 {% block title %}New TopCategory{% endblock %}
 
 {% block navbar %}
-    {% include 'navbar.html.twig' with {'current': 'top_category'} %}
+    {% include 'navbar.html.twig' with {'current': 'category'} %}
 {% endblock %}
 
 {% block body %}
@@ -11,5 +11,5 @@
 
     {{ include('top_category/_form.html.twig') }}
 
-    <a class="btn btn-outline-primary" href="{{ path('top_category_index') }}">Go back to the top category list</a>
+    <a class="btn btn-outline-primary" href="{{ path('category_index') }}">Go back to the category list</a>
 {% endblock %}

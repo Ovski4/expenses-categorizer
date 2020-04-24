@@ -215,16 +215,6 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="transaction_show", methods={"GET"})
-     */
-    public function show(Transaction $transaction): Response
-    {
-        return $this->render('transaction/show.html.twig', [
-            'transaction' => $transaction,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="transaction_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Transaction $transaction): Response

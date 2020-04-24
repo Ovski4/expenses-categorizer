@@ -16,16 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class SubCategoryController extends AbstractController
 {
     /**
-     * @Route("/", name="sub_category_index", methods={"GET"})
-     */
-    public function index(SubCategoryRepository $subCategoryRepository): Response
-    {
-        return $this->render('sub_category/index.html.twig', [
-            'sub_categories' => $subCategoryRepository->findBy([], ['name' => 'asc']),
-        ]);
-    }
-
-    /**
      * @Route("/new", name="sub_category_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -39,22 +29,12 @@ class SubCategoryController extends AbstractController
             $entityManager->persist($subCategory);
             $entityManager->flush();
 
-            return $this->redirectToRoute('sub_category_index');
+            return $this->redirectToRoute('category_index');
         }
 
         return $this->render('sub_category/new.html.twig', [
             'sub_category' => $subCategory,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="sub_category_show", methods={"GET"})
-     */
-    public function show(SubCategory $subCategory): Response
-    {
-        return $this->render('sub_category/show.html.twig', [
-            'sub_category' => $subCategory,
         ]);
     }
 
@@ -69,7 +49,7 @@ class SubCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('sub_category_index');
+            return $this->redirectToRoute('category_index');
         }
 
         return $this->render('sub_category/edit.html.twig', [
@@ -89,6 +69,6 @@ class SubCategoryController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('sub_category_index');
+        return $this->redirectToRoute('category_index');
     }
 }

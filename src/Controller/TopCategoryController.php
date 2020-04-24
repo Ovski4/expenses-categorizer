@@ -16,16 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class TopCategoryController extends AbstractController
 {
     /**
-     * @Route("/", name="top_category_index", methods={"GET"})
-     */
-    public function index(TopCategoryRepository $topCategoryRepository): Response
-    {
-        return $this->render('top_category/index.html.twig', [
-            'top_categories' => $topCategoryRepository->findBy([], ['name' => 'asc']),
-        ]);
-    }
-
-    /**
      * @Route("/new", name="top_category_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -39,22 +29,12 @@ class TopCategoryController extends AbstractController
             $entityManager->persist($topCategory);
             $entityManager->flush();
 
-            return $this->redirectToRoute('top_category_index');
+            return $this->redirectToRoute('category_index');
         }
 
         return $this->render('top_category/new.html.twig', [
             'top_category' => $topCategory,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="top_category_show", methods={"GET"})
-     */
-    public function show(TopCategory $topCategory): Response
-    {
-        return $this->render('top_category/show.html.twig', [
-            'top_category' => $topCategory,
         ]);
     }
 
@@ -69,7 +49,7 @@ class TopCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('top_category_index');
+            return $this->redirectToRoute('category_index');
         }
 
         return $this->render('top_category/edit.html.twig', [
@@ -89,6 +69,6 @@ class TopCategoryController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('top_category_index');
+        return $this->redirectToRoute('category_index');
     }
 }

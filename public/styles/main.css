@@ -79,10 +79,51 @@ body {
 }
 
 table {
-    margin: 20px auto;
+    margin: 1rem auto;
 }
 
 label.required:before {
     content: "* ";
     color: red;
+}
+
+#categories {
+    display: flex;
+    margin: 1rem auto;
+}
+
+#categories > .column {
+    width: 50%;
+}
+
+#categories > .column > ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#categories > .column div.top-category {
+    padding: .75rem 1.25rem;
+    font-weight: bold;
+    margin-top: 0.75rem;
+}
+
+#categories > .column div.top-category span {
+    margin-right: 0.5rem;
+}
+
+#categories > .column div.sub-category {
+    display: flex;
+    justify-content: space-between;
+}
+
+#categories .list-group {
+    padding-left: 1rem;
+}
+
+#categories .list-group-item {
+    padding: 0.4rem 1.25rem;
+}
+
+#categories .list-group-item:last-child {
+    border-bottom: 1px solid rgba(0,0,0,.125);
 }

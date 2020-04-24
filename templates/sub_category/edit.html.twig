@@ -3,7 +3,7 @@
 {% block title %}Edit SubCategory{% endblock %}
 
 {% block navbar %}
-    {% include 'navbar.html.twig' with {'current': 'sub_category'} %}
+    {% include 'navbar.html.twig' with {'current': 'category'} %}
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@
 
     {{ include('sub_category/_form.html.twig', {'button_label': 'Save'}) }}
 
-    <a class="btn btn-outline-primary" href="{{ path('sub_category_index') }}">Back to the sub category list</a>
+    <a class="btn btn-outline-primary" href="{{ path('category_index') }}">Back to the category list</a>
 
     {{ include('sub_category/_delete_form.html.twig') }}
 {% endblock %}

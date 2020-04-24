@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category index{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'category'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>Category index</h1>
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('sub_category_new') }}">Create a new sub category</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('top_category_new') }}">Create a new top category</a>
+
+    <div id="categories">
+        <div class="column">
+            {% include 'category/category-column.html.twig' with {'transactionType': 'Expenses'} %}
+        </div>
+        <div class="column">
+            {% include 'category/category-column.html.twig' with {'transactionType': 'Revenues'} %}
+        </div>
+    </div>
+
+{% endblock %}

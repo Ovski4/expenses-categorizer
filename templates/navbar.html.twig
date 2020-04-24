@@ -14,14 +14,11 @@
                 </li>
             </ul>
         </li>
-        <li class="nav-item{% if current is defined and current == 'sub_category' %} active{% endif %}">
-            <a class="nav-link" href="{{ path('sub_category_index') }}"><i class="fas fa-folder"></i> Manage sub categories</a>
-        </li>
         <li class="nav-item{% if current is defined and current == 'sub_category_transaction_rule' %} active{% endif %}">
             <a class="nav-link" href="{{ path('sub_category_transaction_rule_index') }}"><i class="fas fa-sliders-h"></i> Manage sub categories rules</a>
         </li>
-        <li class="nav-item{% if current is defined and current == 'top_category' %} active{% endif %}">
-            <a class="nav-link" href="{{ path('top_category_index') }}"><i class="fas fa-folder"></i> Manage top categories</a>
+        <li class="nav-item{% if current is defined and current == 'category' %} active{% endif %}">
+            <a class="nav-link" href="{{ path('category_index') }}"><i class="fas fa-folder"></i> Manage categories</a>
         </li>
         <li class="nav-item{% if current is defined and current == 'account' %} active{% endif %}">
             <a class="nav-link" href="{{ path('account_index') }}"><i class="fas fa-file-invoice-dollar"></i> Manage accounts</a>
