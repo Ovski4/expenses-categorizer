@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Bank;
 use App\Entity\Transaction;
+use App\Exception\AccountNotFoundException;
 use App\Form\StatementType;
 use App\Form\TransactionType;
-use App\Services\CcmParserClient;
+use App\Services\AccountStatementParserClient;
 use App\Services\StatementUploader;
 use App\Services\TransactionCategorizer;
 use App\Services\TransactionExporter;
@@ -102,10 +104,14 @@ class TransactionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $statementFile = $form['statement']->getData();
+            $parserName = $form['parserName']->getData();
             $statementFile = $statementUploader->upload($statementFile);
 
             return $this->redirect(
-                $this->generateUrl('validate_transactions', ['statement' => $statementFile])
+                $this->generateUrl('validate_transactions', [
+                    'statement' => $statementFile,
+                    'parserName' => $parserName
+                ])
             );
         }
 
@@ -115,17 +121,35 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/import/validate-transactions/{statement}", name="validate_transactions", methods={"GET", "POST"})
+     * @Route("/import/validate-transactions/{parserName}/{statement}", name="validate_transactions", methods={"GET", "POST"})
      */
     public function validateTransactions(
+        string $parserName,
         string $statement,
         Request $request,
-        CcmParserClient $ccmParserClient,
+        AccountStatementParserClient $parserClient,
         EntityManagerInterface $manager,
         ParameterBagInterface $params
     ): Response
     {
-        $transactions = $ccmParserClient->parse($params->get('app.statements_dir') . $statement);
+        try {
+            $transactions = $parserClient->parse(
+                $params->get('app.statements_dir') . $statement,
+                $parserName
+            );
+        } catch (AccountNotFoundException $e) {
+            return $this->render('transaction/validate_transactions.html.twig', [
+                'error' => sprintf(
+                    '%s. You need to create an account with this name or alias before importing transactions',
+                    $e->getMessage()
+                ),
+                'suggestionLabel' => 'Create an account now',
+                'suggestionPath' => 'account_new',
+                'suggestionPathParams' => [
+                    'search' => $e->getAccountSearch()
+                ]
+            ]);
+        }
 
         if ($request->isMethod('POST')) {
             foreach($transactions as $transaction) {
@@ -148,11 +172,23 @@ class TransactionController extends AbstractController
             ;
         }
 
-        return $this->render('transaction/validate_transactions.html.twig', [
-            'transactions' => $transactions,
-            'existingTransactionCount' => $existingTransactionCount,
-            'statement' => $statement
-        ]);
+        if (empty($transactions)) {
+            return $this->render('transaction/validate_transactions.html.twig', [
+                'error' => sprintf(
+                    'No transactions were found. Are you sure your pdf is a valid "%s" statement file?',
+                    Bank::getByParserName($parserName)['name']
+                ),
+                'suggestionLabel' => 'Go back to file upload',
+                'suggestionPath' => 'transaction_upload_statement'
+            ]);
+        } else {
+            return $this->render('transaction/validate_transactions.html.twig', [
+                'transactions' => $transactions,
+                'existingTransactionCount' => $existingTransactionCount,
+                'statement' => $statement,
+                'parserName' => $parserName
+            ]);
+        }
     }
 
     /**

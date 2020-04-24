@@ -6,6 +6,7 @@
 parameters:
     app.statements_dir: '/var/statements/'
     app.url: localhost
+    app.account_statement_parser_api_url: account_statement_parser
 
 services:
     # default configuration for services in *this* file

@@ -31,6 +31,11 @@ class AccountController extends AbstractController
     public function new(Request $request): Response
     {
         $account = new Account();
+
+        if ($request->query->has('search')) {
+            $account->setAliases([$request->query->get('search')]);
+        }
+
         $form = $this->createForm(AccountType::class, $account);
         $form->handleRequest($request);
 

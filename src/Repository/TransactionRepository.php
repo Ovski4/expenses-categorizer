@@ -43,6 +43,6 @@ class TransactionRepository extends ServiceEntityRepository
             ->getResult()
         ;
 
-        return $result === null ? false : true;
+        return empty($result) ? false : true;
     }
 }

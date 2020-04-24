@@ -35,11 +35,10 @@ services:
     depends_on:
       - mysql
 
-  ccm_parser:
-    image: ovski/ccm-statement-parser
+  account_statement_parser:
+    image: ovski/account-statement-parser
     volumes:
       - statements:/var/statements
-    command: python ./main.py
 
   web_socket:
     build:

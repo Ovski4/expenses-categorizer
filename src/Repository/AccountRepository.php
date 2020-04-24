@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Account;
+use App\Exception\AccountNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NoResultException;
 
 /**
  * @method Account|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,13 +26,17 @@ class AccountRepository extends ServiceEntityRepository
      */
     public function findByAliasOrName($search)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.aliases LIKE :alias or a.name = :name')
-            ->setParameter('alias', '%'.$search.'%')
-            ->setParameter('name', $search)
-            ->getQuery()
-            ->getSingleResult()
-        ;
+        try {
+            return $this->createQueryBuilder('a')
+                ->andWhere('a.aliases LIKE :alias or a.name = :name')
+                ->setParameter('alias', '%'.$search.'%')
+                ->setParameter('name', $search)
+                ->getQuery()
+                ->getSingleResult()
+            ;
+        } catch (NoResultException $e) {
+            throw new AccountNotFoundException($search);
+        }
     }
 
     /**
