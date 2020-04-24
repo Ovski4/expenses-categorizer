@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Form\AccountType;
 use App\Repository\AccountRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -66,10 +69,15 @@ class AccountController extends AbstractController
     /**
      * @Route("/{id}/edit", name="account_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Account $account): Response
+    public function edit(Request $request, Account $account, Session $session): Response
     {
         $form = $this->createForm(AccountType::class, $account);
         $form->handleRequest($request);
+
+        if ($session->has('error')) {
+            $form->addError(new FormError($session->get('error')));
+            $session->remove('error');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -86,12 +94,22 @@ class AccountController extends AbstractController
     /**
      * @Route("/{id}", name="account_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Account $account): Response
+    public function delete(Request $request, Account $account, Session $session): Response
     {
         if ($this->isCsrfTokenValid('delete'.$account->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($account);
-            $entityManager->flush();
+
+            try {
+                $entityManager->flush();
+            } catch(ForeignKeyConstraintViolationException $e) {
+                $session->set(
+                    'error',
+                    'This account cannot be deleted while transactions belong to it.'
+                );
+
+                return $this->redirect($request->headers->get('referer'));
+            }
         }
 
         return $this->redirectToRoute('account_index');
