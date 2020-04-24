@@ -42,6 +42,7 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="transactions")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $subCategory;
 
