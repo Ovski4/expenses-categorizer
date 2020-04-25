@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Transaction{% endblock %}
+{% block title %}{% trans %}New Transaction{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'transaction'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Create new Transaction</h1>
+    <h1>{% trans %}Create new Transaction{% endtrans %}</h1>
 
     {{ include('transaction/_form.html.twig') }}
 
-    <a class="btn btn-outline-primary" href="{{ path('transaction_index') }}">Go back to the transaction list</a>
+    <a class="btn btn-outline-primary" href="{{ path('transaction_index') }}">
+        {% trans %}Go back to the transaction list{% endtrans %}
+    </a>
 {% endblock %}

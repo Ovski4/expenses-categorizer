@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Account index{% endblock %}
+{% block title %}{% trans %}Account index{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'account'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Account index</h1>
+    <h1>{% trans %}Account index{% endtrans %}</h1>
 
     <a type="button" class="btn btn-outline-primary" href="{{ path('account_new') }}">Create a new account</a>
 
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th>Name</th>
-                <th>Aliases</th>
-                <th>Currency</th>
-                <th>actions</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Aliases{% endtrans %}</th>
+                <th>{% trans %}Currency{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -27,13 +27,12 @@
                 <td>{{ account.aliases | join(', ') }}</td>
                 <td>{{ account.currency }}</td>
                 <td>
-                    <a href="{{ path('account_show', {'id': account.id}) }}"><i class="fas fa-eye"></i></a>
                     <a href="{{ path('account_edit', {'id': account.id}) }}"><i class="fas fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">{% trans %}No records found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>

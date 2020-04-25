@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Account{% endblock %}
+{% block title %}{% trans %}New Account{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'account'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Create a new Account</h1>
+    <h1>{% trans %}Create a new Account{% endtrans %}</h1>
 
     {{ include('account/_form.html.twig') }}
 
-    <a type="button" class="btn btn-outline-primary" href="{{ path('account_index') }}">Go back to the account list</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('account_index') }}">
+        {% trans %}Go back to the account list{% endtrans %}
+    </a>
 {% endblock %}
 
 {% block javascripts %}

@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit SubCategoryTransactionRule{% endblock %}
+{% block title %}{% trans %}Edit SubCategoryTransactionRule{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'sub_category_transaction_rule'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Edit SubCategoryTransactionRule</h1>
+    <h1>{% trans %}Edit SubCategoryTransactionRule{% endtrans %}</h1>
 
-    {{ include('sub_category_transaction_rule/_form.html.twig', {'button_label': 'Save'}) }}
+    {{ include('sub_category_transaction_rule/_form.html.twig') }}
 
-    <a class="btn btn-outline-primary" href="{{ path('sub_category_transaction_rule_index') }}">Go back to the rule list</a>
+    <a class="btn btn-outline-primary" href="{{ path('sub_category_transaction_rule_index') }}">
+        {% trans %}Go back to the rule list{% endtrans %}
+    </a>
 
     {{ include('sub_category_transaction_rule/_delete_form.html.twig') }}
 {% endblock %}

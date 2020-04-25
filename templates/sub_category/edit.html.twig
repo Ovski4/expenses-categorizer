@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit SubCategory{% endblock %}
+{% block title %}{% trans %}Edit SubCategory{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'category'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Edit SubCategory</h1>
+    <h1>{% trans %}Edit SubCategory{% endtrans %}</h1>
 
-    {{ include('sub_category/_form.html.twig', {'button_label': 'Save'}) }}
+    {{ include('sub_category/_form.html.twig') }}
 
-    <a class="btn btn-outline-primary" href="{{ path('category_index') }}">Back to the category list</a>
+    <a class="btn btn-outline-primary" href="{{ path('category_index') }}">
+        {% trans %}Back to the category list{% endtrans %}
+    </a>
 
     {{ include('sub_category/_delete_form.html.twig') }}
 {% endblock %}

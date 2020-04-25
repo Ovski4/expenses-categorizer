@@ -1,16 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}{% trans %}Category index{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'category'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Category index</h1>
+    <h1>{% trans %}Category index{% endtrans %}</h1>
 
-    <a type="button" class="btn btn-outline-primary" href="{{ path('sub_category_new') }}">Create a new sub category</a>
-    <a type="button" class="btn btn-outline-primary" href="{{ path('top_category_new') }}">Create a new top category</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('sub_category_new') }}">
+        {% trans %}Create a new sub category{% endtrans %}
+    </a>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('top_category_new') }}">
+        {% trans %}Create a new top category{% endtrans %}
+    </a>
 
     <div id="categories">
         <div class="column">

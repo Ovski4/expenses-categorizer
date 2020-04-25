@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New SubCategory{% endblock %}
+{% block title %}{% trans %}New SubCategory{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'category'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Create new SubCategory</h1>
+    <h1>{% trans %}Create new SubCategory{% endtrans %}</h1>
 
     {{ include('sub_category/_form.html.twig') }}
 
-    <a type="button" class="btn btn-outline-primary" href="{{ path('category_index') }}">Go back to the category list</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('category_index') }}">
+        {% trans %}Go back to the category list{% endtrans %}
+    </a>
 {% endblock %}

@@ -1,26 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Transaction index{% endblock %}
+{% block title %}{% trans %}Transaction index{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'transaction'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Transaction index</h1>
+    <h1>{% trans %}Transaction index{% endtrans %}</h1>
 
     <div class="pagerfanta">
         {{ pagerfanta(pager, 'twitter_bootstrap4') }}
         <p>{{ pager.getNbResults }} transactions</p>
     </div>
 
-    <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_new') }}">Create a new transaction</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_new') }}">
+        {% trans %}Create a new transaction{% endtrans %}
+    </a>
     <a
         type="button"
         class="{{ only_show_uncategorized ? 'active' : '' }} btn btn-outline-primary"
         href="{{ path('transaction_index', {'page': pager.currentPage, 'only_show_uncategorized': ''}) }}"
     >
-        Show only transactions to categorize
+        {% trans %}Show only transactions to categorize{% endtrans %}
     </a>
 
     <a
@@ -28,18 +30,18 @@
         class="{{ only_show_uncategorized ? '' : 'active' }} btn btn-outline-primary"
         href="{{ path('transaction_index', {'page': pager.currentPage}) }}"
     >
-        Show all transactions
+        {% trans %}Show all transactions{% endtrans %}
     </a>
 
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th>Label</th>
-                <th>Amount</th>
-                <th>Created_at</th>
-                <th>Account</th>
-                <th>Sub category</th>
-                <th>Actions</th>
+                <th>{% trans %}Label{% endtrans %}</th>
+                <th>{% trans %}Amount{% endtrans %}</th>
+                <th>{% trans %}Created_at{% endtrans %}</th>
+                <th>{% trans %}Account{% endtrans %}</th>
+                <th>{% trans %}Sub category{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -60,7 +62,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">{% trans %}No records found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>

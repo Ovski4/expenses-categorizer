@@ -1,4 +1,4 @@
-<h2>{{ transactionType }}</h2>
+<h2>{{ transactionType|trans }}</h2>
 <ul>
     {% for top_category in top_categories %}
         {% if top_category.transactionType == transactionType %}

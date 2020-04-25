@@ -1,27 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Categorize transactions{% endblock %}
+{% block title %}{% trans %}Categorize transactions{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'categorize_transaction'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Categorize transactions</h1>
+    <h1>{% trans %}Categorize transactions{% endtrans %}</h1>
 
     <form method="post" action="{{ path('transaction_categorize') }}">
         <input type="hidden" name="_method" value="PATCH">
-        <button class="btn btn-primary">Categorize transactions from rules</button>
+        <button class="btn btn-primary">{% trans %}Categorize transactions from rules{% endtrans %}</button>
     </form>
 
     <table class="table" {{ transactions is defined ? 'table' : 'style="display: none"' }}>
         <thead class="thead-dark">
             <tr>
-                <th>Label</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th class="bg-info">Sub category</th>
+                <th>{% trans %}Label{% endtrans %}</th>
+                <th>{% trans %}Date{% endtrans %}</th>
+                <th>{% trans %}Amount{% endtrans %}</th>
+                <th>{% trans %}Type{% endtrans %}</th>
+                <th class="bg-info">{% trans %}Sub category{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +36,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">No transaction categorized</td>
+                    <td colspan="6">{% trans %}No transaction categorized{% endtrans %}</td>
                 </tr>
             {% endfor %}
         {% endif %}
@@ -69,7 +69,7 @@
         const createLastTableRow = (message) => {
             const tr = document.createElement('tr');
             tr.style.opacity = 0;
-            tr.innerHTML = `<tr><td colspan="6">No more transactions to categorize</td></tr>`;
+            tr.innerHTML = `<tr><td colspan="6">{% trans %}No more transactions to categorize{% endtrans %}</td></tr>`;
             document.querySelector('table tbody').appendChild(tr);
 
             return tr;
@@ -103,7 +103,7 @@
                     hiddenTable.style.display = 'table';
                 }
 
-                document.querySelector('table tbody').innerHTML = '<tr><td colspan="6">Categorizing...</td></tr>';
+                document.querySelector('table tbody').innerHTML = '<tr><td colspan="6">{% trans %}Categorizing{% endtrans %}...</td></tr>';
 
                 var ws = new WebSocket('ws://{{ app_url }}/web-socket/');
 

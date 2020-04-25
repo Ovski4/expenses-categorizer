@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Validate transactions{% endblock %}
+{% block title %}{% trans %}Validate transactions{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'import_transaction'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Validate transactions</h1>
+    <h1>{% trans %}Validate transactions{% endtrans %}</h1>
 
     {% if transactions is defined %}
 
@@ -18,23 +18,23 @@
 
         {% if existingTransactionCount > 0 %}
             <div class="alert alert-{{ existingTransactionCount == transactions|length ? 'danger' : 'warning' }}" role="alert">
-                {{ existingTransactionCount }} of these transactions already exists!
-                Are you sure you never imported this statement?
+                {{ existingTransactionCount }} {% trans %}of these transactions already exists!{% endtrans %}
+                {% trans %}Are you sure you never imported this statement?{% endtrans %}
             </div>
         {% endif %}
 
         <form method="post" action="{{ path('validate_transactions', {'statement': statement, 'parserName': parserName }) }}">
             <input type="hidden" name="_method" value="POST">
-            <button class="btn btn-primary">Save these transactions</button>
+            <button class="btn btn-primary">{% trans %}Save these transactions{% endtrans %}</button>
         </form>
 
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th>Label</th>
-                    <th>Amount</th>
-                    <th>Created_at</th>
-                    <th>Account</th>
+                    <th>{% trans %}Label{% endtrans %}</th>
+                    <th>{% trans %}Amount{% endtrans %}</th>
+                    <th>{% trans %}Created_at{% endtrans %}</th>
+                    <th>{% trans %}Account{% endtrans %}</th>
                 </tr>
             </thead>
             <tbody>

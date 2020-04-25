@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Transaction{% endblock %}
+{% block title %}{% trans %}Edit Transaction{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'transaction'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Edit Transaction</h1>
+    <h1>{% trans %}Edit Transaction{% endtrans %}</h1>
 
     {{ include('transaction/_form.html.twig', {'button_label': 'Save'}) }}
 
-    <a class="btn btn-outline-primary" href="{{ path('transaction_index') }}">Go back to the transaction list</a>
+    <a class="btn btn-outline-primary" href="{{ path('transaction_index') }}">
+        {% trans %}Go back to the transaction list{% endtrans %}
+    </a>
 
     {{ include('transaction/_delete_form.html.twig') }}
 {% endblock %}

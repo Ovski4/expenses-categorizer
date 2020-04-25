@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Import transactions{% endblock %}
+{% block title %}{% trans %}Import transactions{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'import_transaction'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Import transactions</h1>
+    <h1>{% trans %}Import transactions{% endtrans %}</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <button class="btn btn-primary">{{ button_label|default('Import transactions from this file') }}</button>
+        <button class="btn btn-primary">{% trans %}Import transactions from this file{% endtrans %}</button>
     {{ form_end(form) }}
 
     <script type="text/javascript">

@@ -57,16 +57,6 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="account_show", methods={"GET"})
-     */
-    public function show(Account $account): Response
-    {
-        return $this->render('account/show.html.twig', [
-            'account' => $account,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="account_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Account $account, Session $session): Response

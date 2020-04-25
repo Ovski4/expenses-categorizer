@@ -1,27 +1,41 @@
 <nav class="navbar navbar-dark bg-primary">
     <ul class="navbar-nav flex-column">
         <li class="nav-item{% if current is defined and current in ['transaction', 'categorize_transaction'] %} active{% endif %}">
-            <a class="nav-link" href="{{ path('transaction_index') }}"><i class="fas fa-receipt"></i> Manage transactions</a>
+            <a class="nav-link" href="{{ path('transaction_index') }}">
+                <i class="fas fa-receipt"></i> {% trans %}Manage transactions{% endtrans %}
+            </a>
             <ul class="navbar-nav flex-column">
                 <li class="nav-item{% if current is defined and current == 'import_transaction' %} active{% endif %}">
-                    <a href="{{ path('transaction_upload_statement') }}" class="nav-link">Import from a file</a>
+                    <a href="{{ path('transaction_upload_statement') }}" class="nav-link">
+                        {% trans %}Import from a file{% endtrans %}
+                    </a>
                 </li>
                 <li class="nav-item{% if current is defined and current == 'export_transaction' %} active{% endif %}">
-                    <a href="{{ path('transaction_export') }}" class="nav-link">Export to elasticsearch</a>
+                    <a href="{{ path('transaction_export') }}" class="nav-link">
+                        {% trans %}Export to elasticsearch{% endtrans %}
+                    </a>
                 </li>
                 <li class="nav-item{% if current is defined and current == 'categorize_transaction' %} active{% endif %}">
-                    <a href="{{ path('transaction_categorize') }}" class="nav-link">Categorize from rules</a>
+                    <a href="{{ path('transaction_categorize') }}" class="nav-link">
+                        {% trans %}Categorize from rules{% endtrans %}
+                    </a>
                 </li>
             </ul>
         </li>
         <li class="nav-item{% if current is defined and current == 'sub_category_transaction_rule' %} active{% endif %}">
-            <a class="nav-link" href="{{ path('sub_category_transaction_rule_index') }}"><i class="fas fa-sliders-h"></i> Manage sub categories rules</a>
+            <a class="nav-link" href="{{ path('sub_category_transaction_rule_index') }}">
+                <i class="fas fa-sliders-h"></i> {% trans %}Manage sub categories rules{% endtrans %}
+            </a>
         </li>
         <li class="nav-item{% if current is defined and current == 'category' %} active{% endif %}">
-            <a class="nav-link" href="{{ path('category_index') }}"><i class="fas fa-folder"></i> Manage categories</a>
+            <a class="nav-link" href="{{ path('category_index') }}">
+                <i class="fas fa-folder"></i> {% trans %}Manage categories{% endtrans %}
+            </a>
         </li>
         <li class="nav-item{% if current is defined and current == 'account' %} active{% endif %}">
-            <a class="nav-link" href="{{ path('account_index') }}"><i class="fas fa-file-invoice-dollar"></i> Manage accounts</a>
+            <a class="nav-link" href="{{ path('account_index') }}">
+                <i class="fas fa-file-invoice-dollar"></i> {% trans %}Manage accounts{% endtrans %}
+            </a>
         </li>
     </ul>
 </nav>

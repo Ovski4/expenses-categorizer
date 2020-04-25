@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New TopCategory{% endblock %}
+{% block title %}{% trans %}New TopCategory{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'category'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>Create new TopCategory</h1>
+    <h1>{% trans %}Create new TopCategory{% endtrans %}</h1>
 
     {{ include('top_category/_form.html.twig') }}
 
-    <a class="btn btn-outline-primary" href="{{ path('category_index') }}">Go back to the category list</a>
+    <a class="btn btn-outline-primary" href="{{ path('category_index') }}">
+        {% trans %}Go back to the category list{% endtrans %}
+    </a>
 {% endblock %}
