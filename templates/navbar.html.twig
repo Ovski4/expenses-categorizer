@@ -2,7 +2,7 @@
     <ul class="navbar-nav flex-column">
         <li class="nav-item{% if current is defined and current in ['transaction', 'categorize_transaction'] %} active{% endif %}">
             <a class="nav-link" href="{{ path('transaction_index') }}">
-                <i class="fas fa-receipt"></i> {% trans %}Manage transactions{% endtrans %}
+                <i class="fas fa-receipt"></i> {% trans %}Transactions{% endtrans %}
             </a>
             <ul class="navbar-nav flex-column">
                 <li class="nav-item{% if current is defined and current == 'import_transaction' %} active{% endif %}">
@@ -24,17 +24,17 @@
         </li>
         <li class="nav-item{% if current is defined and current == 'sub_category_transaction_rule' %} active{% endif %}">
             <a class="nav-link" href="{{ path('sub_category_transaction_rule_index') }}">
-                <i class="fas fa-sliders-h"></i> {% trans %}Manage sub categories rules{% endtrans %}
+                <i class="fas fa-sliders-h"></i> {% trans %}Sub categories rules{% endtrans %}
             </a>
         </li>
         <li class="nav-item{% if current is defined and current == 'category' %} active{% endif %}">
             <a class="nav-link" href="{{ path('category_index') }}">
-                <i class="fas fa-folder"></i> {% trans %}Manage categories{% endtrans %}
+                <i class="fas fa-folder"></i> {% trans %}Categories{% endtrans %}
             </a>
         </li>
         <li class="nav-item{% if current is defined and current == 'account' %} active{% endif %}">
             <a class="nav-link" href="{{ path('account_index') }}">
-                <i class="fas fa-file-invoice-dollar"></i> {% trans %}Manage accounts{% endtrans %}
+                <i class="fas fa-file-invoice-dollar"></i> {% trans %}Accounts{% endtrans %}
             </a>
         </li>
     </ul>

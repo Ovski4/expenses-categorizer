@@ -24,7 +24,7 @@ class AccountType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach (Currency::getAll() as $currency) {
-            $choices[$this->translator->trans($currency)] = $currency;
+            $choices[$currency] = $currency;
         }
 
         $builder

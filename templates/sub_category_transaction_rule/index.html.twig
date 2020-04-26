@@ -30,11 +30,11 @@
                 <td>{{ sub_category_transaction_rule.contains | capitalize }}</td>
                 <td>
                     {{ sub_category_transaction_rule.amount }}
-                    <em>{% if sub_category_transaction_rule.amount is null %}undefined{% endif %}</em>
+                    <em>{% if sub_category_transaction_rule.amount is null %}{% trans %}undefined{% endtrans %}{% endif %}</em>
                 </td>
                 <td>
-                    {{ sub_category_transaction_rule.operator }}
-                    <em>{% if sub_category_transaction_rule.operator is null %}undefined{% endif %}</em>
+                    {{ sub_category_transaction_rule.operator|trans }}
+                    <em>{% if sub_category_transaction_rule.operator is null %}{% trans %}undefined{% endtrans %}{% endif %}</em>
                 </td>
                 <td>{{ sub_category_transaction_rule.subCategory.topCategory.transactionType }}</td>
                 <td>{{ sub_category_transaction_rule.subCategory }}</td>

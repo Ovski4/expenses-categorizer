@@ -1,18 +1,85 @@
+Account: Compte
+Accounts: Comptes
+Account list: Liste des comptes
 Account with alias or name "%search%" was not found: Le compte avec l'alias ou le nom "%search%" n'existe pas
+Actions: Actions
+Aliases: Alias
+Amount: Montant
 Are you sure you want to delete this item?: Êtes-vous certain de vouloir supprimer cet élément ?
+Bank: Banque
+Back to the category list: Revenir à la liste des catégories
+Category list: Liste des Catégories
+Categorizing: Catégorisation en cours
+Create a new sub category: Créer une nouvelle sous-catégorie
+Create a new top category: Créer une nouvelle catégorie parente
+Created: Créé
+Categories: Catégories
+Categorize from rules: Catégoriser à partir des règles
+Categorize transactions: Catégoriser les transactions
+Categorize transactions from rules: Catégoriser les transactions à partir des règles
+Contains: Contient
+Create a new account: Créer un nouveau compte
 Create an account now: Créer un compte dès maintenant
+Create a new rule: Créer une nouvelle règle
+Create a new transaction: Créer une nouvelle transaction
+Created at: Créer le
+Currency: Monnaie
+Date: Date
 Delete this account: Supprimer ce compte
+Delete this rule: Supprimer cette règle
+Delete this transaction: Supprimer cette transaction
+Delete this top category: Supprimer cette catégorie
+Delete this sub category: Supprimer cette sous-catégorie
+Edit this transaction: Éditer cette transaction
+Edit this sub category transaction rule: Éditer cette règle
+Edit this top category: Éditer cette catégorie parente
+Edit this sub category: Éditer cette sous-catégorie
+Edit this account: Éditer ce compte
 Elasticsearch seems to be down: Il semblerait qu'Elasticsearch ne fonctionne pas
 equals: est égal
 Expenses: Dépenses
+Export to elasticsearch: Exporter sur elasticsearch
+Exporting: Export en cours
+Export transactions: Exporter des transactions
+Export transactions to elasticsearch: Exporter des transactions sur elasticsearch
 Go back to file upload: Revenir à l'import des fichiers
+Go back to the transaction list: Revenir à la liste des transactions
+Go back to the rule list: Revenir à la liste des règles
+Go back to the category list: Revenir à la liste des catégories
+Go back to the account list: Revenir à la liste des comptes
+Import from a file: Importer à partir d'un fichier
+Import transactions: Importer des transactions
+Import transactions from this file: Importer des transactions à partir de ce fichier
+Label: Label
+Name: Nom
+New transaction: Nouvelle transaction
+New account: Nouveau compte
+New sub category transaction rule: Nouvelle règle de catégorisation
 negative: négative
+No more transactions to export: Plus de transactions à exporter
+No more transactions to categorize: Plus de transactions à catégoriser
 No sub category selected: Aucune sous-catégorie sélectionné
 No transactions were found. Are you sure your pdf is a valid statement file from: Aucune transaction trouvée. Êtes-vous certain que votre pdf est un fichier valide
+Operator: Opérande
 Please upload a valid PDF document: Veuillez importer un document PDF valide
 positive: positive
 Revenues: Revenues
 Save: Sauvegarder
+Show all transactions: Montrer toutes les transactions
+Statement (PDF file): Relevé de compte (fichier PDF)
+Show only transactions to categorize: Montrer uniquement les transactions à catégoriser
+Sub categories rules: Règles de catégorisation
+Sub category transaction rule list: Liste des règles de catégorisation
+Sub category: Sous-catégorie
+Synced: Synchronisé
+Total: Total
+Top category: Catégorie parente
+Type: Type
+Updated: Mis à jour
 This account cannot be deleted while transactions belong to it.: Ce compte ne peut pas être supprimé tant que des transactions y sont liées.
 This top category cannot be deleted while sub categories belong to it.: Cette catégorie parente ne peut pas être supprimée tant que des sous-catégories y sont liées.
+Transaction list: Liste des transactions
+Transaction type: Type de transaction
+Transactions: Transactions
+undefined: non défini
 You need to create an account with this name or alias before importing transactions: Vous devez créer un compte avec ce nom ou alias pour pouvoir importer ces transactions
