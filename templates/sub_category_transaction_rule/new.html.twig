@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}New SubCategoryTransactionRule{% endtrans %}{% endblock %}
+{% block title %}{% trans %}New sub category transaction rule{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'sub_category_transaction_rule'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}Create new SubCategoryTransactionRule{% endtrans %}</h1>
+    <h1>{% trans %}Create a new rule{% endtrans %}</h1>
 
     {{ include('sub_category_transaction_rule/_form.html.twig') }}
 

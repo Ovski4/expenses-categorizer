@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}New TopCategory{% endtrans %}{% endblock %}
+{% block title %}{% trans %}New top category{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'category'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}Create new TopCategory{% endtrans %}</h1>
+    <h1>{% trans %}Create a new top category{% endtrans %}</h1>
 
     {{ include('top_category/_form.html.twig') }}
 

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}New Account{% endtrans %}{% endblock %}
+{% block title %}{% trans %}New account{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'account'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}Create a new Account{% endtrans %}</h1>
+    <h1>{% trans %}Create a new account{% endtrans %}</h1>
 
     {{ include('account/_form.html.twig') }}
 

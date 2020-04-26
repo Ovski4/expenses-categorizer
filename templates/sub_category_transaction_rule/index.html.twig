@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}SubCategoryTransactionRule index{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Sub category transaction rule list{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'sub_category_transaction_rule'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}SubCategoryTransactionRule index{% endtrans %}</h1>
+    <h1>{% trans %}Sub category transaction rule list{% endtrans %}</h1>
 
     <a type="button" class="btn btn-outline-primary" href="{{ path('sub_category_transaction_rule_new') }}">
         {% trans %}Create a new rule{% endtrans %}
@@ -44,7 +44,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">{% trans %}No records found{% endtrans %}</td>
+                <td colspan="4">{% trans %}No rules found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>

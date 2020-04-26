@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}New SubCategory{% endtrans %}{% endblock %}
+{% block title %}{% trans %}New sub category{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'category'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}Create new SubCategory{% endtrans %}</h1>
+    <h1>{% trans %}Create a new sub category{% endtrans %}</h1>
 
     {{ include('sub_category/_form.html.twig') }}
 

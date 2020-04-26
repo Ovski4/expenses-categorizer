@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Account index{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Account list{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'account'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}Account index{% endtrans %}</h1>
+    <h1>{% trans %}Account list{% endtrans %}</h1>
 
     <a type="button" class="btn btn-outline-primary" href="{{ path('account_new') }}">Create a new account</a>
 
@@ -32,7 +32,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">{% trans %}No records found{% endtrans %}</td>
+                <td colspan="5">{% trans %}No account found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>

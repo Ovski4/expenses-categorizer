@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Transaction index{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Transaction list{% endtrans %}{% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html.twig' with {'current': 'transaction'} %}
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}Transaction index{% endtrans %}</h1>
+    <h1>{% trans %}Transaction list{% endtrans %}</h1>
 
     <div class="pagerfanta">
         {{ pagerfanta(pager, 'twitter_bootstrap4') }}
@@ -62,7 +62,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">{% trans %}No records found{% endtrans %}</td>
+                <td colspan="6">{% trans %}No transactions found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>
