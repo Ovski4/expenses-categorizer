@@ -6,6 +6,7 @@ use App\Entity\Operator;
 use App\Entity\SubCategory;
 use App\Entity\Transaction;
 use App\Entity\SubCategoryTransactionRule;
+use App\Exception\TransactionMatchesMultipleRulesException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class RuleChecker
@@ -50,10 +51,7 @@ class RuleChecker
                 strpos($transaction->getLabel(), $rule->getContains()) !== false
             ) {
                 if ($foundSubCategory != null) {
-                    throw new \Exception(sprintf(
-                        'Multiple sub categories found for transaction %s',
-                        $transaction
-                    ));
+                    throw new TransactionMatchesMultipleRulesException($transaction);
                 }
 
                 $foundSubCategory = $rule->getSubCategory();

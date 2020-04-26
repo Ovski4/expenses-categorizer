@@ -69,10 +69,10 @@ class Transaction
     public function __toString()
     {
         return sprintf(
-            '%s - %s (%s)',
+            '%s ; %s ; %s',
             $this->label,
-            $this->created_at->format('Y-m-d H:i:s'),
-            $this->amount
+            $this->amount,
+            $this->created_at->format('Y-m-d')
         );
     }
 

@@ -2,8 +2,6 @@
 
 namespace App\Exception;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
-
 class AccountNotFoundException extends \Exception
 {
     private $search;

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
 use App\Event\TransactionsCategorizedEvent;
+use App\Exception\TransactionMatchesMultipleRulesException;
 use Doctrine\ORM\EntityManagerInterface;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -27,7 +28,13 @@ class TransactionCategorizer
 
     function categorizeOne($transaction)
     {
-        $subCategory = $this->ruleChecker->getMatchingSubCategory($transaction);
+        try {
+            $subCategory = $this->ruleChecker->getMatchingSubCategory($transaction);
+        } catch(TransactionMatchesMultipleRulesException $e ) {
+            // Todo : Handle properly
+            $subCategory = null;
+        }
+
         if ($subCategory) {
             $transaction->setSubCategory($subCategory);
             $this->entityManager->persist($transaction);
