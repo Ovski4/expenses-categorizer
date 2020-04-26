@@ -1,0 +1,2 @@
+account.alias_already_present: L'alias "%alias%" existe déjà pour le compte "%account%".
+transaction_sub_category.is_logical: La valeur de la transaction (%sign%) et la sous-catégorie sélectionnée (de type %transaction_type%) n'est pas logique.

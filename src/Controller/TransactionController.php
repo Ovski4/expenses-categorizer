@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/transaction")
@@ -74,14 +75,14 @@ class TransactionController extends AbstractController
     /**
      * @Route("/export", name="transaction_export", methods={"PATCH", "GET"})
      */
-    public function export(Request $request, TransactionExporter $transactionExporter): Response
+    public function export(Request $request, TransactionExporter $transactionExporter, TranslatorInterface $translator): Response
     {
         if ($request->isMethod('PATCH')) {
             try {
                 $exportData = $transactionExporter->exportAllSync();
             } catch(NoNodesAvailableException $e) {
                 return $this->render('transaction/export.html.twig', [
-                    'error' => 'Elasticsearch seems to be down'
+                    'error' => $translator->trans('Elasticsearch seems to be down')
                 ]);
             }
 
@@ -129,7 +130,8 @@ class TransactionController extends AbstractController
         Request $request,
         AccountStatementParserClient $parserClient,
         EntityManagerInterface $manager,
-        ParameterBagInterface $params
+        ParameterBagInterface $params,
+        TranslatorInterface $translator
     ): Response
     {
         try {
@@ -140,10 +142,11 @@ class TransactionController extends AbstractController
         } catch (AccountNotFoundException $e) {
             return $this->render('transaction/validate_transactions.html.twig', [
                 'error' => sprintf(
-                    '%s. You need to create an account with this name or alias before importing transactions',
-                    $e->getMessage()
+                    '%s. %s',
+                    $translator->trans($e->getMessage(), ['%search%' => $e->getAccountSearch()]),
+                    $translator->trans('You need to create an account with this name or alias before importing transactions')
                 ),
-                'suggestionLabel' => 'Create an account now',
+                'suggestionLabel' => $translator->trans('Create an account now'),
                 'suggestionPath' => 'account_new',
                 'suggestionPathParams' => [
                     'search' => $e->getAccountSearch()
@@ -175,10 +178,11 @@ class TransactionController extends AbstractController
         if (empty($transactions)) {
             return $this->render('transaction/validate_transactions.html.twig', [
                 'error' => sprintf(
-                    'No transactions were found. Are you sure your pdf is a valid "%s" statement file?',
+                    '%s "%s"?',
+                    $translator->trans('No transactions were found. Are you sure your pdf is a valid statement file from'),
                     Bank::getByParserName($parserName)['name']
                 ),
-                'suggestionLabel' => 'Go back to file upload',
+                'suggestionLabel' => $translator->trans('Go back to file upload'),
                 'suggestionPath' => 'transaction_upload_statement'
             ]);
         } else {

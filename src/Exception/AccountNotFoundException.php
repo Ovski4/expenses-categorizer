@@ -2,18 +2,17 @@
 
 namespace App\Exception;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 class AccountNotFoundException extends \Exception
 {
     private $search;
 
-    public function __construct($search)
+    public function __construct(string $search)
     {
         $this->search = $search;
 
-        parent::__construct(sprintf(
-            'Account with alias or name "%s" was not found',
-            $search
-        ));
+        parent::__construct('Account with alias or name "%search%" was not found');
     }
 
     public function getAccountSearch()

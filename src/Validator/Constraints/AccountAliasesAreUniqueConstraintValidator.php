@@ -28,8 +28,8 @@ class AccountAliasesAreUniqueConstraintValidator extends ConstraintValidator
                 if (in_array($alias, $otherAccount->getAliases())) {
                     $this->context
                         ->buildViolation($constraint->message)
-                        ->setParameter('{{ alias }}', $alias)
-                        ->setParameter('{{ account }}', $otherAccount)
+                        ->setParameter('%alias%', $alias)
+                        ->setParameter('%account%', $otherAccount)
                         ->addViolation()
                     ;
                 }

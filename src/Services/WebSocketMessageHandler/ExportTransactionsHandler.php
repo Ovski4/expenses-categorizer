@@ -10,14 +10,18 @@ use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Ratchet\ConnectionInterface;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExportTransactionsHandler extends AbstractWebSocketMessageHandler implements EventSubscriberInterface
 {
     private $transactionExporter;
 
-    public function __construct(TransactionExporter $transactionExporter)
+    private $translator;
+
+    public function __construct(TransactionExporter $transactionExporter, TranslatorInterface $translator)
     {
         $this->transactionExporter = $transactionExporter;
+        $this->translator = $translator;
 
         parent::__construct();
     }
@@ -27,7 +31,7 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler implemen
         try {
             $this->transactionExporter->exportAllAsync($loop);
         } catch(NoNodesAvailableException $e) {
-            $this->sendMessage($connection, 'error', 'Elasticsearch seems to be down');
+            $this->sendMessage($connection, 'error', $this->translator->trans('Elasticsearch seems to be down'));
         }
     }
 

@@ -44,11 +44,21 @@ class AccountRepository extends ServiceEntityRepository
      */
     public function findWithAliasExceptAccount($alias, $skipAccountId)
     {
-        return $this->createQueryBuilder('a')
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        $queryBuilder
             ->andWhere('a.aliases LIKE :alias')
-            ->andWhere('a.id != :skipAccountId')
             ->setParameter('alias', '%'.$alias.'%')
-            ->setParameter('skipAccountId', $skipAccountId)
+        ;
+
+        if ($skipAccountId !== null) {
+            $queryBuilder
+                ->andWhere('a.id != :skipAccountId')
+                ->setParameter('skipAccountId', $skipAccountId)
+            ;
+        }
+
+        return $queryBuilder
             ->getQuery()
             ->getOneOrNullResult()
         ;

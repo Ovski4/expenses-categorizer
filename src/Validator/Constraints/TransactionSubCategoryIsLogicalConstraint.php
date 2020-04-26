@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class TransactionSubCategoryIsLogicalConstraint extends Constraint
 {
-    public $message = 'The sign of the transaction amount ({{ sign }}) and the selected sub category (in {{ transaction_type }}) does not make sense';
+    public $message = 'transaction_sub_category.is_logical';
 
     public function getTargets()
     {

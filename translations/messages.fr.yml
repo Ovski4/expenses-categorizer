@@ -1,3 +1,18 @@
+Account with alias or name "%search%" was not found: Le compte avec l'alias ou le nom "%search%" n'existe pas
+Are you sure you want to delete this item?: Êtes-vous certain de vouloir supprimer cet élément ?
+Create an account now: Créer un compte dès maintenant
 Delete this account: Supprimer ce compte
-Are you sure you want to delete this item?: Êtes vous certain de vouloir supprimer cet élément ?
+Elasticsearch seems to be down: Il semblerait qu'Elasticsearch ne fonctionne pas
+equals: est égal
+Expenses: Dépenses
+Go back to file upload: Revenir à l'import des fichiers
+negative: négative
+No sub category selected: Aucune sous-catégorie sélectionné
+No transactions were found. Are you sure your pdf is a valid statement file from: Aucune transaction trouvée. Êtes-vous certain que votre pdf est un fichier valide
+Please upload a valid PDF document: Veuillez importer un document PDF valide
+positive: positive
+Revenues: Revenues
 Save: Sauvegarder
+This account cannot be deleted while transactions belong to it.: Ce compte ne peut pas être supprimé tant que des transactions y sont liées.
+This top category cannot be deleted while sub categories belong to it.: Cette catégorie parente ne peut pas être supprimée tant que des sous-catégories y sont liées.
+You need to create an account with this name or alias before importing transactions: Vous devez créer un compte avec ce nom ou alias pour pouvoir importer ces transactions

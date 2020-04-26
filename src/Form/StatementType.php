@@ -8,9 +8,17 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StatementType extends AbstractType
 {
+    protected $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,7 +32,7 @@ class StatementType extends AbstractType
                             'application/pdf',
                             'application/x-pdf',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        'mimeTypesMessage' => $this->translator->trans('Please upload a valid PDF document'),
                     ])
                 ],
             ])

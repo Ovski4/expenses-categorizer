@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/account")
@@ -84,7 +85,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/{id}", name="account_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Account $account, Session $session): Response
+    public function delete(Request $request, Account $account, Session $session, TranslatorInterface $translator): Response
     {
         if ($this->isCsrfTokenValid('delete'.$account->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -95,7 +96,7 @@ class AccountController extends AbstractController
             } catch(ForeignKeyConstraintViolationException $e) {
                 $session->set(
                     'error',
-                    'This account cannot be deleted while transactions belong to it.'
+                    $translator->trans('This account cannot be deleted while transactions belong to it.')
                 );
 
                 return $this->redirect($request->headers->get('referer'));

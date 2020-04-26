@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\TopCategory;
 use App\Form\TopCategoryType;
-use App\Repository\TopCategoryRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -12,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/top/category")
@@ -69,7 +69,7 @@ class TopCategoryController extends AbstractController
     /**
      * @Route("/{id}", name="top_category_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, TopCategory $topCategory, Session $session): Response
+    public function delete(Request $request, TopCategory $topCategory, Session $session, TranslatorInterface $translator): Response
     {
         if ($this->isCsrfTokenValid('delete'.$topCategory->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -79,7 +79,7 @@ class TopCategoryController extends AbstractController
             } catch(ForeignKeyConstraintViolationException $e) {
                 $session->set(
                     'error',
-                    'This top category cannot be deleted while sub categories belong to it.'
+                    $translator->trans('This top category cannot be deleted while sub categories belong to it.')
                 );
 
                 return $this->redirect($request->headers->get('referer'));
