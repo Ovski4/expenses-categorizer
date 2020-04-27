@@ -27,12 +27,11 @@ tests:
 build:
   stage: build
   script:
-    - docker build --pull -t ovski/transactions-manager:latest .
-
+    - docker build --pull -f docker/build/Dockerfile-php -t ovski/transactions-manager:latest .
 push:
   stage: push
   script:
-    - docker build --pull -t ovski/transactions-manager:latest .
+    - docker build --pull -f docker/build/Dockerfile-php -t ovski/transactions-manager:latest .
     - docker push ovski/transactions-manager:latest
   only:
     - master
