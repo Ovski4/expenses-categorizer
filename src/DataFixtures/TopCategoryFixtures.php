@@ -6,37 +6,120 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\TopCategory;
 use App\Entity\TransactionType;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TopCategoryFixtures extends Fixture
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function load(ObjectManager $manager)
     {
         $topCategoryArray = [
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Advance'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Cash Withdrawal'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Accommodation'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Clothes'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Communication'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Culture'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Drinks'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Tech'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Extras'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Food'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'For nothing'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Gifts'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Health'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'House'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Payback'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Personal care'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Transfer'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Transfer'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Interest'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Payback'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Salary'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Rent']
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Advance')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Cash Withdrawal')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Accommodation')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Clothes')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Communication')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Culture')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Drinks')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Tech')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Extras')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Food')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('For nothing')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Gifts')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Health')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('House')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Payback')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Personal care')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Transfer')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Transfer')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Interest')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Payback')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Salary')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Rent')
+            ]
         ];
 
         foreach ($topCategoryArray as $topCategoryItem) {

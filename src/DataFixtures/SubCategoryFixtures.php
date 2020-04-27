@@ -8,9 +8,17 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\SubCategory;
 use App\Entity\TopCategory;
 use App\Entity\TransactionType;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function getDependencies()
     {
         return array(
@@ -21,86 +29,404 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $subCategories = [
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Advance',                     'topCategoryName' => 'Advance'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Cash Withdrawal',             'topCategoryName' => 'Cash Withdrawal'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Bond',                        'topCategoryName' => 'Accommodation'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Camping booking',             'topCategoryName' => 'Accommodation'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Furnitures',                  'topCategoryName' => 'Accommodation'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Hotel, Airbnb...',            'topCategoryName' => 'Accommodation'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Loan',                        'topCategoryName' => 'Accommodation'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Power (Electricity, gas...)', 'topCategoryName' => 'Accommodation'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Rent',                        'topCategoryName' => 'Accommodation'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Bicycle equipment',           'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Bicycle repair',              'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Camping equipment',           'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Cryptocurrency',              'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Kayaking',                    'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Museum',                      'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Night club',                  'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Other activities',            'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Pool',                        'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Sport extreme',               'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Sport event',                 'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Sport field',                 'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Sport gear',                  'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Tour',                        'topCategoryName' => 'Activities'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Clothes',                     'topCategoryName' => 'Clothes'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Internet subscription',       'topCategoryName' => 'Communication'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Mobile subscription',         'topCategoryName' => 'Communication'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Games',                       'topCategoryName' => 'Culture'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Android app',                 'topCategoryName' => 'Culture'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Book',                        'topCategoryName' => 'Culture'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Music',                       'topCategoryName' => 'Culture'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Video games',                 'topCategoryName' => 'Culture'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Drinks',                      'topCategoryName' => 'Drinks'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Tech accessory',              'topCategoryName' => 'Tech'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Hosting',                     'topCategoryName' => 'Tech'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Comfort',                     'topCategoryName' => 'Extras'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Leather goods',               'topCategoryName' => 'Extras'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Art decoration',              'topCategoryName' => 'Extras'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Fine',                        'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Bank fee',                    'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Condominium fees',            'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Post office fees',            'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Property tax',                'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Tax',                         'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Fees',                        'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Insurance',                   'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Stamps',                      'topCategoryName' => 'Fees'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Bakery',                      'topCategoryName' => 'Food'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Fast food',                   'topCategoryName' => 'Food'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Ice creams',                  'topCategoryName' => 'Food'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Restaurant',                  'topCategoryName' => 'Food'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Supermarket and groceries',   'topCategoryName' => 'Food'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Outdoor Market',              'topCategoryName' => 'Food'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'For nothing',                 'topCategoryName' => 'For nothing'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Gifts',                       'topCategoryName' => 'Gifts'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Donation',                    'topCategoryName' => 'Gifts'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Doctor, medical centre',      'topCategoryName' => 'Health'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Pharmacy',                    'topCategoryName' => 'Health'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'House equipment',             'topCategoryName' => 'House'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Plumbing',                    'topCategoryName' => 'House'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Payback',                     'topCategoryName' => 'Payback'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Hairdresser',                 'topCategoryName' => 'Personal care'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Laundry',                     'topCategoryName' => 'Personal care'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Shampoo',                     'topCategoryName' => 'Personal care'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Tissues',                     'topCategoryName' => 'Personal care'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Train',                       'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Tramway or subway',           'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Bus',                         'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Ferry',                       'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Flight',                      'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Gasoline',                    'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Uber',                        'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Carpooling',                  'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Car park'  ,                  'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Highway toll',                'topCategoryName' => 'Transport'],
-            ['transactionType' => TransactionType::EXPENSES, 'name' => 'Transfer',                    'topCategoryName' => 'Transfer'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Transfer',                    'topCategoryName' => 'Transfer'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Interest',                    'topCategoryName' => 'Interest'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Payback',                     'topCategoryName' => 'Payback'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Salary',                      'topCategoryName' => 'Salary'],
-            ['transactionType' => TransactionType::REVENUES, 'name' => 'Rent',                        'topCategoryName' => 'Rent']
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Advance'),
+                'topCategoryName' => $this->translator->trans('Advance')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Cash Withdrawal'),
+                'topCategoryName' => $this->translator->trans('Cash Withdrawal')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Bond'),
+                'topCategoryName' => $this->translator->trans('Accommodation')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Camping booking'),
+                'topCategoryName' => $this->translator->trans('Accommodation')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Furnitures'),
+                'topCategoryName' => $this->translator->trans('Accommodation')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Hotel, Airbnb...'),
+                'topCategoryName' => $this->translator->trans('Accommodation')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Loan'),
+                'topCategoryName' => $this->translator->trans('Accommodation')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Power (Electricity, gas...)'),
+                'topCategoryName' => $this->translator->trans('Accommodation')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Rent'),
+                'topCategoryName' => $this->translator->trans('Accommodation')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Bicycle equipment'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Bicycle repair'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Camping equipment'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Cryptocurrency'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Kayaking'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Museum'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Night club'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Other activities'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Pool'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Sport extreme'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Sport event'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Sport field'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Sport gear'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Tour'),
+                'topCategoryName' => $this->translator->trans('Activities')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Clothes'),
+                'topCategoryName' => $this->translator->trans('Clothes')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Internet subscription'),
+                'topCategoryName' => $this->translator->trans('Communication')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Mobile subscription'),
+                'topCategoryName' => $this->translator->trans('Communication')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Games'),
+                'topCategoryName' => $this->translator->trans('Culture')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Android app'),
+                'topCategoryName' => $this->translator->trans('Culture')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Book'),
+                'topCategoryName' => $this->translator->trans('Culture')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Music'),
+                'topCategoryName' => $this->translator->trans('Culture')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Video games'),
+                'topCategoryName' => $this->translator->trans('Culture')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Drinks'),
+                'topCategoryName' => $this->translator->trans('Drinks')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Tech accessory'),
+                'topCategoryName' => $this->translator->trans('Tech')],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Hosting'),
+                'topCategoryName' => $this->translator->trans('Tech')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Comfort'),
+                'topCategoryName' => $this->translator->trans('Extras')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Leather goods'),
+                'topCategoryName' => $this->translator->trans('Extras')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Art decoration'),
+                'topCategoryName' => $this->translator->trans('Extras')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Fine'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Bank fee'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Condominium fees'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Post office fees'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Property tax'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Tax'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Fees'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Insurance'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Stamps'),
+                'topCategoryName' => $this->translator->trans('Fees')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Bakery'),
+                'topCategoryName' => $this->translator->trans('Food')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Fast food'),
+                'topCategoryName' => $this->translator->trans('Food')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Ice creams'),
+                'topCategoryName' => $this->translator->trans('Food')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Restaurant'),
+                'topCategoryName' => $this->translator->trans('Food')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Supermarket and groceries'),
+                'topCategoryName' => $this->translator->trans('Food')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Outdoor Market'),
+                'topCategoryName' => $this->translator->trans('Food')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('For nothing'),
+                'topCategoryName' => $this->translator->trans('For nothing')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Gifts'),
+                'topCategoryName' => $this->translator->trans('Gifts')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Donation'),
+                'topCategoryName' => $this->translator->trans('Gifts')],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Doctor, medical centre'),
+                'topCategoryName' => $this->translator->trans('Health')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Pharmacy'),
+                'topCategoryName' => $this->translator->trans('Health')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('House equipment'),
+                'topCategoryName' => $this->translator->trans('House')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Plumbing'),
+                'topCategoryName' => $this->translator->trans('House')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Payback'),
+                'topCategoryName' => $this->translator->trans('Payback')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Hairdresser'),
+                'topCategoryName' => $this->translator->trans('Personal care')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Laundry'),
+                'topCategoryName' => $this->translator->trans('Personal care')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Shampoo'),
+                'topCategoryName' => $this->translator->trans('Personal care')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Tissues'),
+                'topCategoryName' => $this->translator->trans('Personal care')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Train'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Tramway or subway'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Bus'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Ferry'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Flight'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Gasoline'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Uber'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Carpooling'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Car park'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Highway toll'),
+                'topCategoryName' => $this->translator->trans('Transport')
+            ],
+            [
+                'transactionType' => TransactionType::EXPENSES,
+                'name' => $this->translator->trans('Transfer'),
+                'topCategoryName' => $this->translator->trans('Transfer')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Transfer'),
+                'topCategoryName' => $this->translator->trans('Transfer')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Interest'),
+                'topCategoryName' => $this->translator->trans('Interest')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Payback'),
+                'topCategoryName' => $this->translator->trans('Payback')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Salary'),
+                'topCategoryName' => $this->translator->trans('Salary')
+            ],
+            [
+                'transactionType' => TransactionType::REVENUES,
+                'name' => $this->translator->trans('Rent'),
+                'topCategoryName' => $this->translator->trans('Rent')
+            ]
         ];
 
         foreach ($subCategories as $subCategoryItem) {

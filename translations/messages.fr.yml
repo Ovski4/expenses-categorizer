@@ -84,3 +84,91 @@ Transaction type: Type de transaction
 Transactions: Transactions
 undefined: non défini
 You need to create an account with this name or alias before importing transactions: Vous devez créer un compte avec ce nom ou alias pour pouvoir importer ces transactions
+
+Accommodation: Logement
+Loan: Prêt
+Camping booking: Camping
+Rent: Loyer
+Furnitures: Mobilier
+Hotel, Airbnb...: Hôtel, Airbnb...
+Bond: Caution
+Power (Electricity, gas...): Énergie (électricité, gaz...)
+Activities: Activités
+Tour: Visite guidée
+Camping equipment: Équipement de camping
+Sport event: Évenement sportif
+Kayaking: Kayak
+Night club: Discothèque
+Museum: Musée
+Bicycle equipment: Équipement vélo
+Pool: Piscine
+Cryptocurrency: Crypto-monnaie
+Sport gear: Équipement de sport
+Bicycle repair: Réparation vélo
+Sport field: Location de terrain de sport
+Sport extreme: Sport extrême
+Other activities: Autres activités
+Advance: Avance
+Cash Withdrawal: Retrait d'espèces
+Clothes: Vêtements
+Communication: Communication
+Mobile subscription: Abonnement téléphone
+Internet subscription: Abonnement internet
+Culture: Culture
+Android app: Applications Android
+Book: Livres
+Music: Musique
+Games: Jeux
+Video games: Jeux vidéos
+Drinks: Boissons
+Extras: Extras
+Art decoration: Décoration
+Leather goods: Maroquinerie
+Comfort: Confort
+Fees: Taxes
+Post office fees: Frais de poste
+Bank fee: Frais banquaire
+Fine: Amende
+Stamps: Timbres
+Tax: Taxe
+Insurance: Assurance
+Property tax: Taxe foncière
+Condominium fees: Taxe de copropriété
+Food: Nourriture
+Ice creams: Glaces
+Bakery: Boulangerie
+Restaurant: Restaurant
+Outdoor Market: Marché d'extérieur
+Supermarket and groceries: Supermarchés et épiceries
+Fast food: Fast food
+For nothing: Pour rien
+Gifts: Cadeaux
+Donation: Dons
+Health: Santé
+Pharmacy: Pharmacie
+Doctor, medical centre: Docteur, centre médical
+House: Maison
+Plumbing: Plomberie
+House equipment: Équipement maison
+Payback: Remboursement
+Personal care: Soins personnels 
+Tissues: Mouchoirs
+Shampoo: Shampoing
+Laundry: Lessive
+Hairdresser: Coiffeur
+Tech: Tech
+Hosting: Hébergement de serveurs
+Tech accessory: Accessoires tech
+Transfer: Virements
+Transport: Transport
+Gasoline: Essence
+Car park: Parking
+Train: Train
+Uber: Uber
+Flight: Vol
+Bus: Bus
+Highway toll: Péages
+Carpooling: Covoiturage
+Tramway or subway: Tramway ou métro
+Ferry: Ferry
+Interest: Intérêts
