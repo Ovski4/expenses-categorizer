@@ -17,6 +17,7 @@ tests:
     - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
     - pip install --upgrade pip
     - pip install docker-compose
+    - docker network create expenses
     - docker-compose run --rm php php bin/phpunit
 
 build:
