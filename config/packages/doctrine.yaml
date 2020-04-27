@@ -1,13 +1,8 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
-
-        # IMPORTANT: You MUST configure your db driver and server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #driver: 'mysql'
-        #server_version: '5.7'
-
-        # Only needed for MySQL (ignored otherwise)
+        url: 'mysql://%env(resolve:MYSQL_USER)%:%env(resolve:MYSQL_PASSWORD)%@mysql:3306/%env(resolve:MYSQL_DATABASE)%'
+        driver: 'mysql'
+        server_version: '5.7'
         charset: utf8mb4
         default_table_options:
             collate: utf8mb4_unicode_ci
@@ -22,4 +17,3 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-      

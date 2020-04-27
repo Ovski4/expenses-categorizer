@@ -10,10 +10,10 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_USER=expenses_categorizer
-      - MYSQL_DATABASE=expenses_categorizer
-      - MYSQL_PASSWORD=expenses_categorizer
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
     volumes:
       - mysql:/var/lib/mysql
 
@@ -26,8 +26,8 @@ services:
 
   php:
     build:
-      context: docker/build/
-      dockerfile: Dockerfile-php
+      context: ./
+      dockerfile: ./docker/build/Dockerfile-php
     volumes:
       - ./:/var/www/html
       - statements:/var/statements
@@ -42,8 +42,8 @@ services:
 
   web_socket:
     build:
-      context: docker/build/
-      dockerfile: Dockerfile-php
+      context: ./
+      dockerfile: ./docker/build/Dockerfile-php
     volumes:
       - ./:/var/www/html
       - composer:/root/.composer

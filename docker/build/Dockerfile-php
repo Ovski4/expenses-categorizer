@@ -14,24 +14,18 @@ RUN apt-get install zlib1g-dev -y && docker-php-ext-install zip
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # install composer
-COPY install-composer.sh /tmp/install-composer.sh
+COPY ./docker/build/install-composer.sh /tmp/install-composer.sh
 RUN bash /tmp/install-composer.sh
 
 # install symfony binary
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
-# setup user
-RUN useradd --create-home --uid 1000 --shell /bin/bash ovski
-RUN chown ovski. -R /var/www/html
-USER ovski
-WORKDIR /var/www/html
-RUN git config --global user.email "baptiste.bouchereau@gmail.com"
-RUN git config --global user.name "Baptiste Bouchereau"
-
-ENV APP_ENV dev
-ENV APP_SECRET 414fbd2d83c92fee32a8a75080cfea040cf3a83f
-ENV DATABASE_URL "mysql://expenses_categorizer:expenses_categorizer@mysql:3306/expenses_categorizer"
-
+# install dependencies
 COPY . /var/www/html
 RUN composer install
+
+RUN useradd --create-home --uid 1000 --shell /bin/bash web
+RUN chown web. -R /var/www/html
+USER web
+WORKDIR /var/www/html
