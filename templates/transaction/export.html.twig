@@ -3,13 +3,13 @@
 {% block title %}{% trans %}Export transactions{% endtrans %}{% endblock %}
 
 {% block navbar %}
-    {% include 'navbar.html.twig' with {'current': 'export_transaction'} %}
+    {% include 'navbar.html.twig' with {'current': 'elasticsearch_export'} %}
 {% endblock %}
 
 {% block body %}
     <h1>{% trans %}Export transactions{% endtrans %}</h1>
 
-    <form method="post" action="{{ path('transaction_export') }}">
+    <form method="post" action="{{ path('elasticsearch_export') }}">
         <input type="hidden" name="_method" value="PATCH">
         <button class="btn btn-primary">{% trans %}Export transactions to elasticsearch{% endtrans %}</button>
     </form>
@@ -122,7 +122,7 @@
             ;
         }
 
-        const form = document.querySelector('form[action="/transaction/export"]');
+        const form = document.querySelector('form[action="/transaction/export/elasticsearch"]');
 
         window.addEventListener('load', () => {
             form.querySelector('button').addEventListener('click', (event) => {

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator\Constraints\TransactionSubCategoryIsLogicalConstraint;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
@@ -76,7 +77,7 @@ class Transaction
         );
     }
 
-    public function toArray()
+    public function toArray(?TranslatorInterface $translator = null)
     {
         $array = [
             'label'        => $this->label,
@@ -86,6 +87,10 @@ class Transaction
             'amount'       => $this->amount,
             'type'         => $this->getType()
         ];
+
+        if ($translator !== null) {
+            $array['type'] = $translator->trans($this->getType());
+        }
 
         if ($this->getSubCategory() != null) {
             $array['sub_category'] = $this->getSubCategory()->getName();

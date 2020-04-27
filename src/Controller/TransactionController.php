@@ -8,6 +8,7 @@ use App\Exception\AccountNotFoundException;
 use App\Form\StatementType;
 use App\Form\TransactionType;
 use App\Services\AccountStatementParserClient;
+use App\Services\Exporter\CsvExporter;
 use App\Services\StatementUploader;
 use App\Services\TransactionCategorizer;
 use App\Services\TransactionExporter;
@@ -73,9 +74,9 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/export", name="transaction_export", methods={"PATCH", "GET"})
+     * @Route("/export/elasticsearch", name="elasticsearch_export", methods={"PATCH", "GET"})
      */
-    public function export(Request $request, TransactionExporter $transactionExporter, TranslatorInterface $translator): Response
+    public function exportToElasticsearch(Request $request, TransactionExporter $transactionExporter, TranslatorInterface $translator): Response
     {
         if ($request->isMethod('PATCH')) {
             try {
@@ -90,6 +91,26 @@ class TransactionController extends AbstractController
         }
 
         return $this->render('transaction/export.html.twig');
+    }
+
+    /**
+     * @Route("/export/csv", name="csv_export", methods={"GET"})
+     */
+    public function export(CsvExporter $csvExporter): Response
+    {
+        $csv = $csvExporter->export();
+
+        $response = new Response($csv);
+        $response->headers->set('Content-Type', 'application/csv');
+        $response->headers->set(
+            'Content-Disposition',
+            sprintf(
+                'attachment; filename="transactions_%s.csv"',
+                (new \DateTime('now'))->format('Y-m-d')
+            )
+        );
+
+        return $response;
     }
 
     /**

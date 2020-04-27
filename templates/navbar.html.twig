@@ -10,9 +10,14 @@
                         {% trans %}Import from a file{% endtrans %}
                     </a>
                 </li>
-                <li class="nav-item{% if current is defined and current == 'export_transaction' %} active{% endif %}">
-                    <a href="{{ path('transaction_export') }}" class="nav-link">
+                <li class="nav-item{% if current is defined and current == 'elasticsearch_export' %} active{% endif %}">
+                    <a href="{{ path('elasticsearch_export') }}" class="nav-link">
                         {% trans %}Export to elasticsearch{% endtrans %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('csv_export') }}" class="nav-link">
+                        {% trans %}Csv export{% endtrans %}
                     </a>
                 </li>
                 <li class="nav-item{% if current is defined and current == 'categorize_transaction' %} active{% endif %}">
