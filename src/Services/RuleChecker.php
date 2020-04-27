@@ -7,25 +7,23 @@ use App\Entity\SubCategory;
 use App\Entity\Transaction;
 use App\Entity\SubCategoryTransactionRule;
 use App\Exception\TransactionMatchesMultipleRulesException;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\SubCategoryTransactionRuleRepository;
 
 class RuleChecker
 {
-    private $entityManager;
+    private $repository;
 
     private $rules;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(SubCategoryTransactionRuleRepository $repository)
     {
-        $this->entityManager = $entityManager;
+        $this->repository = $repository;
         $this->setRules();
     }
 
     public function setRules()
     {
-        $this->rules = $this->entityManager
-            ->getRepository(SubCategoryTransactionRule::class)
-            ->findAll()
+        $this->rules = $this->repository->findAll()
         ;
     }
 
