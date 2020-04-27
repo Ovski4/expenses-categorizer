@@ -18,7 +18,7 @@ tests:
     - pip install --upgrade pip
     - pip install docker-compose
     - docker network create expenses
-    - docker-compose run --rm php php bin/phpunit
+    - docker-compose run --rm php bash -c "composer install && php bin/phpunit"
 
 build:
   stage: build
