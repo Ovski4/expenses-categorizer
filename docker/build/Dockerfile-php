@@ -34,3 +34,4 @@ ENV APP_SECRET 414fbd2d83c92fee32a8a75080cfea040cf3a83f
 ENV DATABASE_URL "mysql://expenses_categorizer:expenses_categorizer@mysql:3306/expenses_categorizer"
 
 COPY . /var/www/html
+RUN composer install
