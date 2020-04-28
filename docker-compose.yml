@@ -11,9 +11,9 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: toor
-      MYSQL_USER: $MYSQL_USER
-      MYSQL_DATABASE: $MYSQL_DATABASE
-      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_USER: expenses_categorizer
+      MYSQL_DATABASE: expenses_categorizer
+      MYSQL_PASSWORD: expenses_categorizer
     volumes:
       - mysql:/var/lib/mysql
 
@@ -30,6 +30,9 @@ services:
       dockerfile: ./docker/build/Dockerfile-php
     environment:
       APP_DOMAIN: localhost
+      MYSQL_USER: expenses_categorizer
+      MYSQL_DATABASE: expenses_categorizer
+      MYSQL_PASSWORD: expenses_categorizer
     volumes:
       - ./:/var/www/html
       - statements:/var/statements
@@ -52,6 +55,10 @@ services:
     depends_on:
       - mysql
     command: php bin/console app:start-web-socket-server
+    environment:
+      MYSQL_USER: expenses_categorizer
+      MYSQL_DATABASE: expenses_categorizer
+      MYSQL_PASSWORD: expenses_categorizer
 
   nginx:
     image: nginx:1.16.1
