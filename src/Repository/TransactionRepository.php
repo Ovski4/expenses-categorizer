@@ -38,7 +38,7 @@ class TransactionRepository extends ServiceEntityRepository
             ->setParameter('account', $transaction->getAccount())
             ->setParameter('label', $transaction->getLabel())
             ->setParameter('amount', $transaction->getAmount())
-            ->setParameter('created_at', $transaction->getCreatedAt())
+            ->setParameter('created_at', $transaction->getCreatedAt()->format('Y-m-d'))
             ->getQuery()
             ->getResult()
         ;
