@@ -52,8 +52,12 @@
                 <td>{{ transaction.createdAt|date('d/m/Y') }}</td>
                 <td>{{ transaction.account }}</td>
                 <td>
-                  {{ transaction.subCategory }}
-                  <em>{% if transaction.subCategory is null %}uncategorized{% endif %}</em>
+                    {{ transaction.subCategory }}
+                    <em>
+                        {% if transaction.subCategory is null %}
+                            {% trans %}uncategorized{% endtrans %}
+                        {% endif %}
+                    </em>
                 </td>
                 <td>
                     <a href="{{ path('transaction_edit', {'id': transaction.id}) }}"><i class="fas fa-edit"></i></a>
