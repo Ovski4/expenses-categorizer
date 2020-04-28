@@ -12,8 +12,8 @@
     {% if transactions is defined %}
 
         <div class="alert alert-info" role="alert">
-            {{ transactions|length }} transactions to import
-            (total amount is {{ transactions|reduce((sum, transaction) => sum + transaction.amount, 0) }})
+            {{ transactions|length }} {% trans %}transactions to import{% endtrans %}
+            ({% trans %}total amount is{% endtrans %} {{ transactions|reduce((sum, transaction) => sum + transaction.amount, 0) }})
         </div>
 
         {% if existingTransactionCount > 0 %}

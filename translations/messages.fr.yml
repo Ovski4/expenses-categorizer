@@ -69,6 +69,8 @@ Please upload a valid PDF document: Veuillez importer un document PDF valide
 positive: positive
 Revenues: Revenues
 Save: Sauvegarder
+Save these transactions: Sauvegarder ces transactions
+Validate transactions: Valider les transactions
 Show all transactions: Montrer toutes les transactions
 Statement (PDF file): Relevé de compte (fichier PDF)
 Show only transactions to categorize: Montrer uniquement les transactions à catégoriser
@@ -77,14 +79,16 @@ Sub category transaction rule list: Liste des règles de catégorisation
 Sub category: Sous-catégorie
 Synced: Synchronisé
 Total: Total
+total amount is: Le montant total est de
 Top category: Catégorie parente
 Type: Type
-Updated: Mis à jour
 This account cannot be deleted while transactions belong to it.: Ce compte ne peut pas être supprimé tant que des transactions y sont liées.
 This top category cannot be deleted while sub categories belong to it.: Cette catégorie parente ne peut pas être supprimée tant que des sous-catégories y sont liées.
 Transaction list: Liste des transactions
 Transaction type: Type de transaction
 Transactions: Transactions
+transactions to import: transactions à importer
+Updated: Mis à jour
 undefined: non défini
 You need to create an account with this name or alias before importing transactions: Vous devez créer un compte avec ce nom ou alias pour pouvoir importer ces transactions
 
