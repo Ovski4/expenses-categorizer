@@ -24,14 +24,28 @@ tests:
     - docker-compose run php php bin/console doctrine:migrations:migrate --no-interaction
     - docker-compose run --rm php php bin/phpunit
 
-build:
+build-php:
   stage: build
   script:
-    - docker build --pull -f docker/build/Dockerfile-php -t ovski/transactions-manager:latest .
-push:
+    - docker build --pull -f docker/build/php/Dockerfile -t ovski/transactions-manager-php:latest .
+
+push-php:
   stage: push
   script:
-    - docker build --pull -f docker/build/Dockerfile-php -t ovski/transactions-manager:latest .
-    - docker push ovski/transactions-manager:latest
+    - docker build --pull -f docker/build/php/Dockerfile -t ovski/transactions-manager-php:latest .
+    - docker push ovski/transactions-manager-php:latest
+  only:
+    - master
+
+build-nginx:
+  stage: build
+  script:
+    - docker build --pull -f docker/build/nginx/Dockerfile -t ovski/transactions-manager-nginx:latest .
+
+push-nginx:
+  stage: push
+  script:
+    - docker build --pull -f docker/build/nginx/Dockerfile -t ovski/transactions-manager-nginx:latest .
+    - docker push ovski/transactions-manager-nginx:latest
   only:
     - master

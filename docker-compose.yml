@@ -27,7 +27,7 @@ services:
   php:
     build:
       context: ./
-      dockerfile: ./docker/build/Dockerfile-php
+      dockerfile: ./docker/build/php/Dockerfile
     environment:
       APP_DOMAIN: localhost
       MYSQL_USER: expenses_categorizer
@@ -48,7 +48,7 @@ services:
   web_socket:
     build:
       context: ./
-      dockerfile: ./docker/build/Dockerfile-php
+      dockerfile: ./docker/build/php/Dockerfile
     volumes:
       - ./:/var/www/html
       - composer:/root/.composer
@@ -61,10 +61,11 @@ services:
       MYSQL_PASSWORD: expenses_categorizer
 
   nginx:
-    image: nginx:1.16.1
+    build:
+      context: ./
+      dockerfile: ./docker/build/nginx/Dockerfile
     volumes:
       - ./:/var/www/html
-      - ./docker/conf/vhost.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
     ports:

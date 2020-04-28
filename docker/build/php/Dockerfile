@@ -14,7 +14,7 @@ RUN apt-get install zlib1g-dev -y && docker-php-ext-install zip
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # install composer
-COPY ./docker/build/install-composer.sh /tmp/install-composer.sh
+COPY ./docker/build/php/install-composer.sh /tmp/install-composer.sh
 RUN bash /tmp/install-composer.sh
 
 # install symfony binary
