@@ -21,7 +21,6 @@ class TransactionExporter
     {
         $this->entityManager = $entityManager;
         $this->dispatcher = $dispatcher;
-        $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();;
     }
 
     function exportOne($transaction)
@@ -37,6 +36,7 @@ class TransactionExporter
 
     public function exportAllSync()
     {
+        $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
         $this->createIndexIfNotExists();
 
         $transactions = $this->entityManager
@@ -95,7 +95,13 @@ class TransactionExporter
 
     public function exportAllAsync(LoopInterface $loop)
     {
+        $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
         $this->createIndexIfNotExists();
+
+        if (false == $this->entityManager->getConnection()->ping()) {
+            $this->entityManager->getConnection()->close();
+            $this->entityManager->getConnection()->connect();
+        }
 
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)

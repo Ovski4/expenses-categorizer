@@ -89,6 +89,11 @@ class TransactionCategorizer
 
     public function categorizeAllAsync(LoopInterface $loop)
     {
+        if (false == $this->entityManager->getConnection()->ping()) {
+            $this->entityManager->getConnection()->close();
+            $this->entityManager->getConnection()->connect();
+        }
+
         $this->ruleChecker->setRules();
 
         $uncategorizedTransactions = $this->entityManager
