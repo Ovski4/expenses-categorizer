@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.statements_dir: '/var/statements/'
-    app.url: localhost
+    app.domain: '%env(resolve:APP_DOMAIN)%'
     app.account_statement_parser_api_url: account_statement_parser
 
 services:

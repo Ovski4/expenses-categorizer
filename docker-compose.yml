@@ -28,6 +28,8 @@ services:
     build:
       context: ./
       dockerfile: ./docker/build/Dockerfile-php
+    environment:
+      APP_DOMAIN: localhost
     volumes:
       - ./:/var/www/html
       - statements:/var/statements
