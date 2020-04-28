@@ -98,10 +98,13 @@ class TransactionExporter
         $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
         $this->createIndexIfNotExists();
 
-        if (false == $this->entityManager->getConnection()->ping()) {
+        if ($this->entityManager->getConnection()->ping() === false) {
+            echo "Closing and re-opening mysql connection\n";
             $this->entityManager->getConnection()->close();
             $this->entityManager->getConnection()->connect();
         }
+
+        $this->entityManager->clear();
 
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)

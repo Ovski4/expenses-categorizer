@@ -90,11 +90,13 @@ class TransactionCategorizer
 
     public function categorizeAllAsync(LoopInterface $loop)
     {
-        if (false == $this->entityManager->getConnection()->ping()) {
+        if ($this->entityManager->getConnection()->ping() === false) {
+            echo "Closing and re-opening mysql connection\n";
             $this->entityManager->getConnection()->close();
             $this->entityManager->getConnection()->connect();
         }
 
+        $this->entityManager->clear();
         $this->ruleChecker->setRules();
 
         $uncategorizedTransactions = $this->entityManager
