@@ -33,6 +33,7 @@ services:
       MYSQL_USER: expenses_categorizer
       MYSQL_DATABASE: expenses_categorizer
       MYSQL_PASSWORD: expenses_categorizer
+      APP_ENV: prod
     volumes:
       - ./:/var/www/html
       - statements:/var/statements
