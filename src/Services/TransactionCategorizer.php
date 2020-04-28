@@ -78,6 +78,7 @@ class TransactionCategorizer
                 $this->categorizeOne($transaction);
                 $this->categorizeInNextTick($loop, $transactions);
             } else {
+                echo "flushing the entity manager after categorizing transactions\n";
                 $this->entityManager->flush();
                 $this->dispatcher->dispatch(
                     new TransactionsCategorizedEvent(),

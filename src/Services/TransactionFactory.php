@@ -19,7 +19,9 @@ class TransactionFactory
         $transaction = new Transaction();
         $transaction
             ->setAmount($array['value'])
-            ->setCreatedAt(\DateTime::createFromFormat('d/m/Y', $array['date']))
+            ->setCreatedAt(
+                (\DateTime::createFromFormat('d/m/Y', $array['date']))->setTime(0, 0, 0)
+            )
             ->setLabel($array['label'])
             ->setAccount($this->accountRepository->findByAliasOrName($array['account']))
         ;

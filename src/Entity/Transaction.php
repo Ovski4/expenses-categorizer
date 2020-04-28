@@ -134,13 +134,14 @@ class Transaction
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTime $created_at): self
     {
+        $created_at->setTime(0, 0, 0);
         $this->created_at = $created_at;
 
         return $this;
