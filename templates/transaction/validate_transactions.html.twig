@@ -23,10 +23,12 @@
             </div>
         {% endif %}
 
-        <form method="post" action="{{ path('validate_transactions', {'statement': statement, 'parserName': parserName }) }}">
-            <input type="hidden" name="_method" value="POST">
-            <button class="btn btn-primary">{% trans %}Save these transactions{% endtrans %}</button>
-        </form>
+        {% if existingTransactionCount != transactions|length %}
+            <form method="post" action="{{ path('validate_transactions', {'statement': statement, 'parserName': parserName }) }}">
+                <input type="hidden" name="_method" value="POST">
+                <button class="btn btn-primary">{% trans %}Save these transactions{% endtrans %}</button>
+            </form>
+        {% endif %}
 
         <table class="table">
             <thead class="thead-dark">
