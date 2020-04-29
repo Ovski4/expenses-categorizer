@@ -29,3 +29,5 @@ RUN useradd --create-home --uid 1000 --shell /bin/bash web
 RUN chown web. -R /var/www/html
 USER web
 WORKDIR /var/www/html
+
+COPY ./docker/build/php/docker-php-entrypoint /usr/local/bin/
