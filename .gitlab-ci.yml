@@ -9,7 +9,7 @@ services:
   - docker:dind
 
 before_script:
-  - docker login --username=$DOCKER_USER --password=$DOCKER_PASS
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
 tests:
   stage: test
@@ -17,7 +17,6 @@ tests:
     - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
     - pip install --upgrade pip
     - pip install docker-compose
-    - docker network create expenses
     - docker-compose run --rm php composer install
     - docker-compose up -d mysql
     - sleep 30
@@ -27,25 +26,41 @@ tests:
 build-php:
   stage: build
   script:
-    - docker build --pull -f docker/build/php/Dockerfile -t ovski/transactions-manager-php:latest .
-
-push-php:
-  stage: push
-  script:
-    - docker build --pull -f docker/build/php/Dockerfile -t ovski/transactions-manager-php:latest .
-    - docker push ovski/transactions-manager-php:latest
-  only:
-    - master
+    - docker build --pull -f docker/build/php/Dockerfile -t $CI_REGISTRY_IMAGE/php .
 
 build-nginx:
   stage: build
   script:
-    - docker build --pull -f docker/build/nginx/Dockerfile -t ovski/transactions-manager-nginx:latest .
+    - docker build --pull -f docker/build/nginx/Dockerfile -t $CI_REGISTRY_IMAGE/nginx .
 
-push-nginx:
+push-php-latest:
   stage: push
   script:
-    - docker build --pull -f docker/build/nginx/Dockerfile -t ovski/transactions-manager-nginx:latest .
-    - docker push ovski/transactions-manager-nginx:latest
+    - docker build --pull -f docker/build/php/Dockerfile -t $CI_REGISTRY_IMAGE/php:latest .
+    - docker push $CI_REGISTRY_IMAGE/php:latest
   only:
     - master
+
+push-nginx-latest:
+  stage: push
+  script:
+    - docker build --pull -f docker/build/nginx/Dockerfile -t $CI_REGISTRY_IMAGE/nginx:latest .
+    - docker push $CI_REGISTRY_IMAGE/nginx:latest
+  only:
+    - master
+
+push-php-tagged:
+  stage: push
+  script:
+    - docker build --pull -f docker/build/php/Dockerfile -t $CI_REGISTRY_IMAGE/php:$CI_COMMIT_TAG .
+    - docker push $CI_REGISTRY_IMAGE/php:$CI_COMMIT_TAG
+  only:
+    - tags
+
+push-nginx-tagged:
+  stage: push
+  script:
+    - docker build --pull -f docker/build/nginx/Dockerfile -t $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_TAG .
+    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_TAG
+  only:
+    - tags

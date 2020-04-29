@@ -72,9 +72,3 @@ services:
       - php
     ports:
       - 80:80
-
-networks:
-
-  default:
-    name: expenses
-    external: true
