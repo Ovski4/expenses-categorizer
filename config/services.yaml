@@ -7,7 +7,7 @@ parameters:
     app.statements_dir: '/var/statements/'
     app.domain: '%env(resolve:APP_DOMAIN)%'
     app.account_statement_parser_api_url: account_statement_parser
-
+    app.locale: '%env(resolve:LOCALE)%'
 services:
     # default configuration for services in *this* file
     _defaults:
