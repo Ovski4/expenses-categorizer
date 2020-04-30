@@ -8,15 +8,23 @@ class TransactionMatchesMultipleRulesException extends \Exception
 {
     private $transaction;
 
-    public function __construct(Transaction $transaction)
+    private $rules;
+
+    public function __construct(Transaction $transaction, array $rules)
     {
         $this->transaction = $transaction;
+        $this->rules = $rules;
 
-        parent::__construct('Multiple sub categories found for transaction "%transaction%"');
+        parent::__construct('Multiple rules are matching the transaction');
     }
 
     public function getTransaction()
     {
         return $this->transaction;
+    }
+
+    public function getRules()
+    {
+        return $this->rules;
     }
 }

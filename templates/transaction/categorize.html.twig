@@ -75,7 +75,7 @@
             return tr;
         }
 
-        const createTableRow = (message) => {
+        const createSuccessTableRow = (message) => {
             const tr = document.createElement('tr');
             tr.style.opacity = 0;
             tr.innerHTML = `
@@ -86,6 +86,33 @@
                 <td class="table-info">${message.data.sub_category}</td>`
             ;
             document.querySelector('table tbody').appendChild(tr);
+
+            return tr;
+        }
+
+        const createErrorTableRow = (message) => {
+            const tr = document.createElement('tr');
+            tr.style.opacity = 0;
+            tr.className = 'table-danger';
+            tr.innerHTML = `
+                <td>${message.data.transaction.label}</td>
+                <td>${message.data.transaction.created_at.substring(0, 10)}</td>
+                <td>${message.data.transaction.amount}</td>
+                <td>${message.data.transaction.type}</td>
+                <td>{% trans %}Multiple rules with identical priorities match this transaction{% endtrans %}<ul></ul><td>`
+            ;
+
+            document.querySelector('table tbody').appendChild(tr);
+
+            const ul = tr.querySelector('table tbody ul');
+            for (let i = 0; i < message.data.rules.length; i++) {
+                const rule = message.data.rules[i];
+                ul.innerHTML += `<li>
+                    <a href="/sub/category/transaction/rule/${rule.id}/edit">
+                        {% trans %}See rule{% endtrans %} ${i+1}
+                    </a>
+                </li>`;
+            }
 
             return tr;
         }
@@ -115,13 +142,16 @@
                     try {
                         const message = JSON.parse(event.data);
                         if (message.topic === 'single_transaction.categorized') {
-                            const tr = createTableRow(message);
+                            const tr = createSuccessTableRow(message);
                             fadeIn(tr, 1000);
                         } else if (message.topic === 'transactions.categorized') {
                             const tr = createLastTableRow(message);
                             fadeIn(tr, 1000);
                             button.disabled = false;
                             ws.close();
+                        } else if (message.topic === 'single_transaction.matches_multiple_rules') {
+                            const tr = createErrorTableRow(message);
+                            fadeIn(tr, 1000);
                         }
                     } catch (e) {
                         console.log(event.data);

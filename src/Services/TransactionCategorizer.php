@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
+use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Event\TransactionsCategorizedEvent;
 use App\Exception\TransactionMatchesMultipleRulesException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,8 +31,12 @@ class TransactionCategorizer
     {
         try {
             $subCategory = $this->ruleChecker->getMatchingSubCategory($transaction);
-        } catch(TransactionMatchesMultipleRulesException $e ) {
-            // Todo : Handle properly
+        } catch(TransactionMatchesMultipleRulesException $e) {
+            $this->dispatcher->dispatch(
+                new TransactionMatchesMultipleRulesEvent($e->getTransaction(), $e->getRules()),
+                TransactionMatchesMultipleRulesEvent::NAME
+            );
+
             $subCategory = null;
         }
 

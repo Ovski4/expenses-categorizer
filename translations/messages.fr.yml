@@ -53,6 +53,7 @@ Import from a file: Importer à partir d'un fichier
 Import transactions: Importer des transactions
 Import transactions from this file: Importer des transactions à partir de ce fichier
 Label: Label
+Multiple rules with identical priorities match this transaction: Plusieurs règles aux priorités identiques correspondent à cette transaction
 Name: Nom
 New transaction: Nouvelle transaction
 New account: Nouveau compte
@@ -69,10 +70,12 @@ No transactions were found. Are you sure your pdf is a valid statement file from
 Operator: Opérande
 Please upload a valid PDF document: Veuillez importer un document PDF valide
 positive: positive
+Priority: Priorité
 Revenues: Revenues
 Save: Sauvegarder
 Save these transactions: Sauvegarder ces transactions
 Validate transactions: Valider les transactions
+See rule: Voir la règle
 Show all transactions: Montrer toutes les transactions
 Statement (PDF file): Relevé de compte (fichier PDF)
 Show only transactions to categorize: Montrer uniquement les transactions à catégoriser

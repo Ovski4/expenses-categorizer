@@ -112,6 +112,21 @@ class SubCategoryTransactionRule
             : $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
     }
 
+    public function toArray()
+    {
+        $array = [
+            'id'           => $this->id,
+            'contains'     => $this->contains,
+            'operator'     => $this->operator,
+            'amount'       => $this->amount,
+            'sub_category' => $this->subCategory->getName(),
+            'type'         => $this->subCategory->getTransactionType(),
+            'priority'     => $this->getPriority()
+        ];
+
+        return $array;
+    }
+
     public function getId(): ?string
     {
         return $this->id;

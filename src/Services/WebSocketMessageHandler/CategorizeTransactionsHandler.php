@@ -3,6 +3,7 @@
 namespace App\Services\WebSocketMessageHandler;
 
 use App\Event\TransactionCategorizedEvent;
+use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Event\TransactionsCategorizedEvent;
 use App\Services\TransactionCategorizer;
 use Ratchet\ConnectionInterface;
@@ -29,7 +30,8 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
     {
         return [
             TransactionCategorizedEvent::NAME => 'onTransactionCategorized',
-            TransactionsCategorizedEvent::NAME => 'onTransactionsCategorized'
+            TransactionsCategorizedEvent::NAME => 'onTransactionsCategorized',
+            TransactionMatchesMultipleRulesEvent::NAME => 'onTransactionMatchesMultipleRules'
         ];
     }
 
@@ -44,6 +46,22 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
     {
         foreach ($this->clients as $connection) {
             $this->sendMessage($connection, 'transactions.categorized');
+        }
+    }
+
+    public function onTransactionMatchesMultipleRules(TransactionMatchesMultipleRulesEvent $event)
+    {
+        foreach ($this->clients as $connection) {
+            $this->sendMessage(
+                $connection,
+                'single_transaction.matches_multiple_rules',
+                [
+                    'transaction' => $event->getTransaction()->toArray(),
+                    'rules' => array_map(function($rule) {
+                        return $rule->toArray();
+                    }, $event->getRules())
+                ]
+            );
         }
     }
 }

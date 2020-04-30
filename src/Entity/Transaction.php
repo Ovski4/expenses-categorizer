@@ -80,12 +80,12 @@ class Transaction
     public function toArray(?TranslatorInterface $translator = null)
     {
         $array = [
-            'label'        => $this->label,
-            'currency'     => $this->account->getCurrency(),
-            'account'      => $this->account->getName(),
-            'created_at'   => $this->created_at->format('c'),
-            'amount'       => $this->amount,
-            'type'         => $this->getType()
+            'label'      => $this->label,
+            'currency'   => $this->account->getCurrency(),
+            'account'    => $this->account->getName(),
+            'created_at' => $this->created_at->format('c'),
+            'amount'     => $this->amount,
+            'type'       => $this->getType()
         ];
 
         if ($translator !== null) {
