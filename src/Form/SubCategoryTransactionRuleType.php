@@ -35,6 +35,11 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
                 'required' => false,
                 'data' => null
             ])
+            ->add('priority', NumberType::class, [
+                'html5' => true,
+                'required' => true,
+                'empty_data' => 0
+            ])
         ;
     }
 

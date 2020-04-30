@@ -27,11 +27,11 @@ class RuleCheckerTest extends TestCase
         return $topCategory;
     }
 
-    private function createSubCategory()
+    private function createSubCategory($name = 'Test sub category expense 1')
     {
         $subCategory = new SubCategory();
         $subCategory
-            ->setName('Test sub category expense 1')
+            ->setName($name)
             ->setTopCategory($this->createTopCategory())
         ;
 
@@ -71,7 +71,7 @@ class RuleCheckerTest extends TestCase
         $this->mockSubCategoryTransactionRuleRepository([$rule]);
         $ruleChecker = new RuleChecker($this->ruleRepository);
         $transaction1 = $this->createTransaction('Some dummy text here', -22);
-        $transaction2 = $this->createTransaction('Some even dummiest text here', -22);
+        $transaction2 = $this->createTransaction('Some even dummier text here', -22);
 
         $this->assertEquals($ruleChecker->getMatchingSubCategory($transaction1), $this->createSubCategory());
         $this->assertNull($ruleChecker->getMatchingSubCategory($transaction2));
@@ -95,10 +95,34 @@ class RuleCheckerTest extends TestCase
     }
 
     /**
+     * Multiple matches with different categories
+     * 
      * @expectedException \Exception
      * @expectedExceptionMessage Multiple sub categories found for transaction
      */
     public function testExceptionIsThrown()
+    {
+        $rule1 = new SubCategoryTransactionRule();
+        $rule1
+            ->setContains('dummy text')
+            ->setSubCategory($this->createSubCategory())
+        ;
+        $rule2 = new SubCategoryTransactionRule();
+        $rule2
+            ->setContains('some text')
+            ->setSubCategory($this->createSubCategory('Test sub category expense 2'))
+        ;
+
+        $this->mockSubCategoryTransactionRuleRepository([$rule1, $rule2]);
+        $ruleChecker = new RuleChecker($this->ruleRepository);
+        $transaction = $this->createTransaction('Here is some text and dummy text here', -22);
+        $ruleChecker->getMatchingSubCategory($transaction);
+    }
+
+    /**
+     * Multiple matches but for the same category
+     */
+    public function testExceptionIsNotThrown()
     {
         $rule1 = new SubCategoryTransactionRule();
         $rule1
@@ -114,6 +138,29 @@ class RuleCheckerTest extends TestCase
         $this->mockSubCategoryTransactionRuleRepository([$rule1, $rule2]);
         $ruleChecker = new RuleChecker($this->ruleRepository);
         $transaction = $this->createTransaction('Here is some text and dummy text here', -22);
-        $ruleChecker->getMatchingSubCategory($transaction);
+
+        $this->assertEquals($ruleChecker->getMatchingSubCategory($transaction), $this->createSubCategory());
+        
+    }
+
+    public function testPriorityMatters()
+    {
+        $rule1 = new SubCategoryTransactionRule();
+        $rule1
+            ->setContains('dummy text')
+            ->setSubCategory($this->createSubCategory())
+        ;
+        $rule2 = new SubCategoryTransactionRule();
+        $rule2
+            ->setContains('some text')
+            ->setSubCategory($this->createSubCategory('Test sub category expense 2'))
+            ->setPriority(1)
+        ;
+
+        $this->mockSubCategoryTransactionRuleRepository([$rule1, $rule2]);
+        $ruleChecker = new RuleChecker($this->ruleRepository);
+        $transaction = $this->createTransaction('Here is some text and dummy text here', -22);
+
+        $this->assertEquals($ruleChecker->getMatchingSubCategory($transaction), $rule2->getSubCategory());
     }
 }

@@ -29,33 +29,95 @@ class RuleChecker
 
     public function getMatchingSubCategory(Transaction $transaction) : ?SubCategory
     {
-        $foundSubCategory = null;
+        $matchingRules = [];
+
         foreach ($this->rules as $rule) {
-            $ruleType = $rule->getSubCategory()->getTransactionType();
-
-            $amountMatches = true;
-            if ($rule->getAmount() !== null) {
-                if (
-                    $rule->getOperator() == Operator::EQUALS &&
-                    $rule->getAmount() !== $transaction->getAmount()
-                ) {
-                    $amountMatches = false;
-                }
-            }
-
-            if (
-                $amountMatches &&
-                $transaction->getType() == $ruleType &&
-                strpos($transaction->getLabel(), $rule->getContains()) !== false
-            ) {
-                if ($foundSubCategory != null) {
-                    throw new TransactionMatchesMultipleRulesException($transaction);
-                }
-
-                $foundSubCategory = $rule->getSubCategory();
+            if ($this->ruleMatchesTransaction($rule, $transaction)) {
+                $matchingRules[] = $rule;
             }
         }
 
-        return $foundSubCategory;
+        $bestRule = $this->getBestRule($transaction, $matchingRules);
+
+        return $bestRule === null ? null : $bestRule->getSubCategory();
+    }
+
+    private function ruleMatchesTransaction($rule, $transaction)
+    {
+        // label is not within rule "contains" property
+        if (strpos($transaction->getLabel(), $rule->getContains()) === false) {
+            return false;
+        }
+
+        // types differ
+        if ($transaction->getType() !== $rule->getSubCategory()->getTransactionType()) {
+            return false;
+        }
+
+        // amount are not equal
+        if (
+            $rule->getAmount() !== null &&
+            $rule->getOperator() == Operator::EQUALS &&
+            $rule->getAmount() !== $transaction->getAmount()
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getBestRule(Transaction $transaction, array $rules): ?SubCategoryTransactionRule
+    {
+        $rules = $this->filterRulesWithHighestPriorities($rules);
+
+        if (!$this->allRulesHaveTheSameSubCategory($rules)) {
+            throw new TransactionMatchesMultipleRulesException($transaction, $rules);
+        }
+
+        return $rules[0] ?? null;
+    }
+
+    private function filterRulesWithHighestPriorities(array $rules)
+    {
+        $filteredRules = [];
+        $highestPriority = $this->getHighestPriorityValue($rules);
+
+        foreach ($rules as $rule) {
+            if ($rule->getPriority() === $highestPriority) {
+                $filteredRules[] = $rule;
+            }
+        }
+
+        return $filteredRules;
+    }
+
+    private function getHighestPriorityValue(array $rules)
+    {
+        $highestPriority = null;
+
+        foreach ($rules as $rule) {
+            if ($highestPriority === null) {
+                $highestPriority = $rule->getPriority();
+            } else if ($rule->getPriority() > $highestPriority) {
+                $highestPriority = $rule->getPriority();
+            }
+        }
+
+        return $highestPriority;
+    }
+
+    private function allRulesHaveTheSameSubCategory(array $rules)
+    {
+        $subCategory = null;
+
+        foreach ($rules as $rule) {
+            if ($subCategory === null) {
+                $subCategory = $rule->getSubCategory();
+            } else if ($subCategory != $rule->getSubCategory()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

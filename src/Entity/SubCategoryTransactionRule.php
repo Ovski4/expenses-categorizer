@@ -56,7 +56,17 @@ class SubCategoryTransactionRule
      */
     private $subCategory;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $priority;
+
     private $transactionType;
+
+    public function __construct()
+    {
+        $this->priority = 0;
+    }
 
     /**
      * @ORM\PrePersist
@@ -83,10 +93,10 @@ class SubCategoryTransactionRule
     public function checkSubCategory()
     {
         if ($this->subCategory !== null) {
-            if ($this->subCategory->getTransactionType() !== $this->getType()) {
+            if ($this->subCategory->getTransactionType() !== $this->guessTypeFromAmount()) {
                 throw new \Exception(sprintf(
                     'Invalid sub category transaction type (%s) for transaction %s with amount %s',
-                    $this->getType(),
+                    $this->subCategory->getTransactionType(),
                     $this->id,
                     $this->amount
                 ));
@@ -94,9 +104,12 @@ class SubCategoryTransactionRule
         }
     }
 
-    public function getType(): ?string
+    public function guessTypeFromAmount(): ?string
     {
-        return $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
+        return
+            $this->amount === null
+            ? null
+            : $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
     }
 
     public function getId(): ?string
@@ -168,6 +181,18 @@ class SubCategoryTransactionRule
         }
 
         $this->operator = $operator;
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): self
+    {
+        $this->priority = $priority;
 
         return $this;
     }
