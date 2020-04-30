@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Bank;
 use App\Entity\Transaction;
+use App\Event\TransactionCategorizedEvent;
+use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Exception\AccountNotFoundException;
 use App\Form\StatementType;
 use App\Form\TransactionType;
@@ -21,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -60,13 +63,34 @@ class TransactionController extends AbstractController
     /**
      * @Route("/categorize", name="transaction_categorize", methods={"PATCH", "GET"})
      */
-    public function categorize(Request $request, TransactionCategorizer $transactionCategorizer): Response
+    public function categorize(Request $request, TransactionCategorizer $transactionCategorizer, EventDispatcherInterface $dispatcher): Response
     {
         if ($request->isMethod('PATCH')) {
-            $transactions = $transactionCategorizer->categorizeAllSync();
+            $transactions = [];
+            $errors = [];
+
+            $dispatcher->addListener(
+                TransactionCategorizedEvent::NAME,
+                function (TransactionCategorizedEvent $event) use (&$transactions) {
+                    $transactions[] = $event->getTransaction();
+                }
+            );
+
+            $dispatcher->addListener(
+                TransactionMatchesMultipleRulesEvent::NAME,
+                function (TransactionMatchesMultipleRulesEvent $event) use (&$errors) {
+                    $errors[] = [
+                        'rules' => $event->getRules(),
+                        'transaction' => $event->getTransaction()
+                    ];
+                }
+            );
+
+            $transactionCategorizer->categorizeAllSync();
 
             return $this->render('transaction/categorize.html.twig', [
                 'transactions' => $transactions,
+                'errors' => $errors
             ]);
         }
 

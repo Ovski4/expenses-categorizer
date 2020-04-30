@@ -62,6 +62,8 @@ services:
       MYSQL_USER: expenses_categorizer
       MYSQL_DATABASE: expenses_categorizer
       MYSQL_PASSWORD: expenses_categorizer
+      APP_ENV: dev
+      LOCALE: fr
 
   nginx:
     build:

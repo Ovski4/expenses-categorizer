@@ -61,18 +61,11 @@ class TransactionCategorizer
             ->findUncategorizedTransactions()
         ;
 
-        $categorizedTransactions = [];
-
         foreach ($uncategorizedTransactions as $transaction) {
-            $categorizedTransaction = $this->categorizeOne($transaction);
-            if ($categorizedTransaction) {
-                $categorizedTransactions[] = $transaction;
-            }
+            $this->categorizeOne($transaction);
         }
 
         $this->entityManager->flush();
-
-        return $categorizedTransactions;
     }
 
     public function categorizeInNextTick($loop, $transactions)

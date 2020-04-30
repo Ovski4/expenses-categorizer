@@ -26,6 +26,26 @@
         </thead>
         <tbody>
         {% if transactions is defined %}
+            {% for error in errors %}
+                <tr class="table-danger">
+                    <td>{{ error.transaction.label | capitalize }}</td>
+                    <td>{{ error.transaction.createdAt|date('Y-m-d') }}</td>
+                    <td>{{ error.transaction.amount }}</td>
+                    <td>{{ error.transaction.type }}</td>
+                    <td>
+                        {% trans %}Multiple rules with identical priorities match this transaction{% endtrans %}
+                        <ul>
+                            {% for index, rule in error.rules %}
+                                <li>
+                                    <a href="{{ path('sub_category_transaction_rule_edit', {'id': rule.id}) }}">
+                                        {{ rule.subCategory }} - {% trans %}rule{% endtrans %} {{ index+1 }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    <td>
+                </tr>
+            {% endfor %}
             {% for transaction in transactions %}
                 <tr>
                     <td>{{ transaction.label | capitalize }}</td>
@@ -109,7 +129,7 @@
                 const rule = message.data.rules[i];
                 ul.innerHTML += `<li>
                     <a href="/sub/category/transaction/rule/${rule.id}/edit">
-                        {% trans %}See rule{% endtrans %} ${i+1}
+                        ${rule.sub_category} - {% trans %} rule{% endtrans %} ${i+1}
                     </a>
                 </li>`;
             }
@@ -154,6 +174,7 @@
                             fadeIn(tr, 1000);
                         }
                     } catch (e) {
+                        console.log(e);
                         console.log(event.data);
                     }
                 };
