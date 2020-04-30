@@ -76,7 +76,6 @@ class TransactionCategorizer
                 $this->categorizeOne($transaction);
                 $this->categorizeInNextTick($loop, $transactions);
             } else {
-                echo "flushing the entity manager after categorizing transactions\n";
                 $this->entityManager->flush();
                 $this->dispatcher->dispatch(
                     new TransactionsCategorizedEvent(),
@@ -89,7 +88,6 @@ class TransactionCategorizer
     public function categorizeAllAsync(LoopInterface $loop)
     {
         if ($this->entityManager->getConnection()->ping() === false) {
-            echo "Closing and re-opening mysql connection\n";
             $this->entityManager->getConnection()->close();
             $this->entityManager->getConnection()->connect();
         }

@@ -31,7 +31,16 @@ class ElasticsearchExporter
             'body'  => $transaction->toArray()
         ];
 
-        return $this->client->index($params);
+        $response = $this->client->index($params);
+
+        if (!in_array($response['result'], ['created', 'updated'])) {
+            throw new \Exception('Error creating or updating transaction');
+        }
+
+        $this->dispatcher->dispatch(
+            new TransactionExportedEvent($transaction, $response),
+            TransactionExportedEvent::NAME
+        );
     }
 
     public function exportAllSync()
@@ -49,25 +58,9 @@ class ElasticsearchExporter
             TransactionsExportingEvent::NAME
         );
 
-        $createdTransactions = [];
-        $updatedTransactions = [];
-
         foreach ($transactions as $transaction) {
-            $response = $this->exportOne($transaction);
-            if ($response['result'] === 'created') {
-                $createdTransactions[] = $transaction;
-            } else if ($response['result'] === 'updated') {
-                $updatedTransactions[] = $transaction;
-            } else {
-                throw new \Exception('Error creating or updating transaction');
-            }
+            $this->exportOne($transaction);
         }
-
-        return [
-            'total_transactions_count' => count($transactions),
-            'created_transactions_count' => count($createdTransactions),
-            'updated_transactions_count' => count($updatedTransactions)
-        ];
     }
 
     public function exportInNextTick($loop, $transactions)
@@ -75,14 +68,7 @@ class ElasticsearchExporter
         $loop->futureTick(function() use ($loop, $transactions) {
             if (count($transactions) > 0) {
                 $transaction = array_pop($transactions);
-                $response = $this->exportOne($transaction);
-                if (!in_array($response['result'], ['created', 'updated'])) {
-                    throw new \Exception('Error creating or updating transaction');
-                }
-                $this->dispatcher->dispatch(
-                    new TransactionExportedEvent($response),
-                    TransactionExportedEvent::NAME
-                );
+                $this->exportOne($transaction);
                 $this->exportInNextTick($loop, $transactions);
             } else {
                 $this->dispatcher->dispatch(
@@ -99,7 +85,6 @@ class ElasticsearchExporter
         $this->createIndexIfNotExists();
 
         if ($this->entityManager->getConnection()->ping() === false) {
-            echo "Closing and re-opening mysql connection\n";
             $this->entityManager->getConnection()->close();
             $this->entityManager->getConnection()->connect();
         }
