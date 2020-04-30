@@ -152,7 +152,7 @@
 
                 document.querySelector('table tbody').innerHTML = '<tr><td colspan="6">{% trans %}Categorizing{% endtrans %}...</td></tr>';
 
-                var ws = new WebSocket('wss://{{ app_domain }}/web-socket/');
+                var ws = new WebSocket('ws{% if app.environment == "prod" %}s{% endif %}://{{ app_domain }}/web-socket/');
 
                 ws.onopen = () => {
                     ws.send('categorize_transactions');
