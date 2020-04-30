@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\TransactionExporter;
+use App\Services\Exporter\ElasticsearchExporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,7 +13,7 @@ class ExportTransactionsToElasticsearchCommand extends Command
 
     private $exporter;
 
-    public function __construct(TransactionExporter $exporter)
+    public function __construct(ElasticsearchExporter $exporter)
     {
         $this->exporter = $exporter;
 

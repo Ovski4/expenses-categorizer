@@ -13,7 +13,7 @@ use App\Services\AccountStatementParserClient;
 use App\Services\Exporter\CsvExporter;
 use App\Services\StatementUploader;
 use App\Services\TransactionCategorizer;
-use App\Services\TransactionExporter;
+use App\Services\Exporter\ElasticsearchExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -100,11 +100,11 @@ class TransactionController extends AbstractController
     /**
      * @Route("/export/elasticsearch", name="elasticsearch_export", methods={"PATCH", "GET"})
      */
-    public function exportToElasticsearch(Request $request, TransactionExporter $transactionExporter, TranslatorInterface $translator): Response
+    public function exportToElasticsearch(Request $request, ElasticsearchExporter $exporter, TranslatorInterface $translator): Response
     {
         if ($request->isMethod('PATCH')) {
             try {
-                $exportData = $transactionExporter->exportAllSync();
+                $exportData = $exporter->exportAllSync();
             } catch(NoNodesAvailableException $e) {
                 return $this->render('transaction/export.html.twig', [
                     'error' => $translator->trans('Elasticsearch seems to be down')

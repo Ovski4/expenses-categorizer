@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Exporter;
 
 use App\Entity\Transaction;
 use App\Event\TransactionExportedEvent;
@@ -11,7 +11,7 @@ use Elasticsearch\ClientBuilder;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class TransactionExporter
+class ElasticsearchExporter
 {
     private $entityManager;
     private $client;

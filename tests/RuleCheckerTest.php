@@ -98,7 +98,7 @@ class RuleCheckerTest extends TestCase
      * Multiple matches with different categories
      * 
      * @expectedException \Exception
-     * @expectedExceptionMessage Multiple sub categories found for transaction
+     * @expectedExceptionMessage Multiple rules are matching the transaction
      */
     public function testExceptionIsThrown()
     {
