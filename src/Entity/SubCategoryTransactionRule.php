@@ -92,7 +92,7 @@ class SubCategoryTransactionRule
      */
     public function checkSubCategory()
     {
-        if ($this->subCategory !== null) {
+        if ($this->guessTypeFromAmount() !== null) {
             if ($this->subCategory->getTransactionType() !== $this->guessTypeFromAmount()) {
                 throw new \Exception(sprintf(
                     'Invalid sub category transaction type (%s) for transaction %s with amount %s',
