@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator\Constraints\RuleIsLogicalConstraint;
+use App\Validator\Constraints\RuleIsCompleteConstraint;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryTransactionRuleRepository")
  * @ORM\HasLifecycleCallbacks
+ * @RuleIsLogicalConstraint
+ * @RuleIsCompleteConstraint
  */
 class SubCategoryTransactionRule
 {
@@ -45,7 +49,7 @@ class SubCategoryTransactionRule
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function checkEntity()
+    public function checkOperatorAndAmountFields()
     {
         if (
             ($this->amount !== null && $this->operator == null) ||
@@ -55,6 +59,31 @@ class SubCategoryTransactionRule
                 'Entity SubCategoryTransactionRule must have both operator and amount set or none'
             );
         }
+    }
+
+    /**
+     * Prevent a wrong subCategory to be set
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function checkSubCategory()
+    {
+        if ($this->subCategory !== null) {
+            if ($this->subCategory->getTransactionType() !== $this->getType()) {
+                throw new \Exception(sprintf(
+                    'Invalid sub category transaction type (%s) for transaction %s with amount %s',
+                    $this->getType(),
+                    $this->id,
+                    $this->amount
+                ));
+            }
+        }
+    }
+
+    public function getType(): ?string
+    {
+        return $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
     }
 
     public function getId(): ?string

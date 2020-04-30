@@ -1,2 +1,4 @@
 account.alias_already_present: The alias "%alias%" is already present for account "%account%".
 transaction_sub_category.is_logical: The value of the transaction amount (%sign%) and the selected sub category (a %transaction_type% category) does not make sense.
+rule_sub_category.is_logical: The value of the amount (%sign%) and the selected sub category (a %transaction_type% category) does not make sense.
+rule.is_complete: A rule must have both operator and amount set or none.
