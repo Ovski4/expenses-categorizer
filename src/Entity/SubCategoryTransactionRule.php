@@ -5,12 +5,25 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator\Constraints\RuleIsLogicalConstraint;
 use App\Validator\Constraints\RuleIsCompleteConstraint;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryTransactionRuleRepository")
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(
+ *    uniqueConstraints={
+ *        @ORM\UniqueConstraint(
+ *            name="sub_category_transaction_rule_unique",
+ *            columns={"contains", "sub_category_id"})
+ *    }
+ * )
  * @RuleIsLogicalConstraint
  * @RuleIsCompleteConstraint
+ * @UniqueEntity(
+ *     fields={"contains", "subCategory"},
+ *     errorPath="contains",
+ *     message="rule.already_exists"
+ * )
  */
 class SubCategoryTransactionRule
 {

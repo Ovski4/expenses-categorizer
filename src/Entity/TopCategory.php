@@ -14,6 +14,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *        @ORM\UniqueConstraint(name="top_category_unique", columns={"name", "transaction_type"})
  *    }
  * )
+ * @UniqueEntity(
+ *     fields={"name", "transactionType"}
+ * )
  */
 class TopCategory
 {

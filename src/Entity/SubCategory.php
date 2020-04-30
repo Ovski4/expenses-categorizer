@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryRepository")
@@ -14,6 +13,9 @@ use Exception;
  *    uniqueConstraints={
  *        @ORM\UniqueConstraint(name="sub_category_unique", columns={"name", "top_category_id"})
  *    }
+ * )
+ * @UniqueEntity(
+ *     fields={"name", "topCategory"}
  * )
  */
 class SubCategory

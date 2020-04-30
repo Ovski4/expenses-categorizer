@@ -2,3 +2,4 @@ rule_sub_category.is_logical: La valeur du montant associé à la règle (%sign%
 transaction_sub_category.is_logical: La valeur de la transaction (%sign%) et la sous-catégorie sélectionnée (de type %transaction_type%) n'est pas logique.
 account.alias_already_present: L'alias "%alias%" existe déjà pour le compte "%account%".
 rule.is_complete: Une règle doit avoir à la fois un montant et une opérande, on bien aucun des 2.
+rule.already_exists: Une règle avec les mêmes valeur de "contient" et "sous-catégorie" existe déjà.
