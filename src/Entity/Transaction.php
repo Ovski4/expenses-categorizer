@@ -80,6 +80,7 @@ class Transaction
     public function toArray(?TranslatorInterface $translator = null)
     {
         $array = [
+            'id'         => $this->id,
             'label'      => $this->label,
             'currency'   => $this->account->getCurrency(),
             'account'    => $this->account->getName(),

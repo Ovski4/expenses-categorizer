@@ -25,10 +25,13 @@ class ElasticsearchExporter
 
     function exportOne($transaction)
     {
+        $body = $transaction->toArray();
+        unset($body['id']);
+
         $params = [
             'index' => 'transactions',
             'id'    => $transaction->getId(),
-            'body'  => $transaction->toArray()
+            'body'  => $body
         ];
 
         $response = $this->client->index($params);
