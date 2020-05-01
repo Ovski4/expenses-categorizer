@@ -3,6 +3,7 @@
 namespace App\Services\WebSocketMessageHandler;
 
 use App\Event\TransactionCategorizedEvent;
+use App\Event\TransactionCategoryChangedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Event\TransactionsCategorizedEvent;
 use App\Services\TransactionCategorizer;
@@ -31,7 +32,8 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
         return [
             TransactionCategorizedEvent::NAME => 'onTransactionCategorized',
             TransactionsCategorizedEvent::NAME => 'onTransactionsCategorized',
-            TransactionMatchesMultipleRulesEvent::NAME => 'onTransactionMatchesMultipleRules'
+            TransactionMatchesMultipleRulesEvent::NAME => 'onTransactionMatchesMultipleRules',
+            TransactionCategoryChangedEvent::NAME => 'onTransactionCategoryChanged'
         ];
     }
 
@@ -39,6 +41,20 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
     {
         foreach ($this->clients as $connection) {
             $this->sendMessage($connection, 'single_transaction.categorized', $event->getTransaction()->toArray());
+        }
+    }
+
+    public function onTransactionCategoryChanged(TransactionCategoryChangedEvent $event)
+    {
+        foreach ($this->clients as $connection) {
+            $this->sendMessage(
+                $connection,
+                'single_transaction.category_changed',
+                [
+                    'transaction' => $event->getTransaction()->toArray(),
+                    'old_sub_category' => $event->getOldSubCategory()->getName()
+                ]
+            );
         }
     }
 

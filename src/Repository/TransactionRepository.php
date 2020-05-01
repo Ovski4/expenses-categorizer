@@ -19,15 +19,6 @@ class TransactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Transaction::class);
     }
 
-    public function findUncategorizedTransactions()
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.subCategory is NULL')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
     public function exists(Transaction $transaction)
     {
         $result = $this->createQueryBuilder('t')

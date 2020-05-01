@@ -107,16 +107,29 @@
         }
 
         const createSuccessTableRow = (message) => {
+
+            let transaction;
+            if (typeof message.data.transaction !== 'undefined') {
+                transaction = message.data.transaction;
+                transaction.sub_category =
+                    message.data.old_sub_category +
+                    ' -> ' +
+                    transaction.sub_category
+                ;
+            } else {
+                transaction = message.data;
+            }
+
             const tr = document.createElement('tr');
             tr.style.opacity = 0;
             tr.innerHTML = `
-                <td>${message.data.label}</td>
-                <td>${message.data.created_at.substring(0, 10)}</td>
-                <td>${message.data.amount}</td>
-                <td>${message.data.type}</td>
-                <td class="table-info">${message.data.sub_category}</td>
+                <td>${transaction.label}</td>
+                <td>${transaction.created_at.substring(0, 10)}</td>
+                <td>${transaction.amount}</td>
+                <td>${transaction.type}</td>
+                <td class="table-info">${transaction.sub_category}</td>
                 <td>
-                    <a href="/transaction/${message.data.id}/edit">
+                    <a href="/transaction/${transaction.id}/edit">
                         <i class="fas fa-edit"></i>
                     </a>
                 </td>`
@@ -191,6 +204,9 @@
                             ws.close();
                         } else if (message.topic === 'single_transaction.matches_multiple_rules') {
                             const tr = createErrorTableRow(message);
+                            fadeIn(tr, 1000);
+                        } else if (message.topic === 'single_transaction.category_changed') {
+                            const tr = createSuccessTableRow(message);
                             fadeIn(tr, 1000);
                         }
                     } catch (e) {

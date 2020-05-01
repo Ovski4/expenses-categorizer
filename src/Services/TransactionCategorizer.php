@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
+use App\Event\TransactionCategoryChangedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Event\TransactionsCategorizedEvent;
 use App\Exception\TransactionMatchesMultipleRulesException;
@@ -27,41 +28,46 @@ class TransactionCategorizer
         $this->dispatcher = $dispatcher;
     }
 
-    function categorizeOne($transaction)
+    function categorizeOne(Transaction $transaction)
     {
         try {
-            $subCategory = $this->ruleChecker->getMatchingSubCategory($transaction);
+            $newSubCategory = $this->ruleChecker->getMatchingSubCategory($transaction);
         } catch(TransactionMatchesMultipleRulesException $e) {
             $this->dispatcher->dispatch(
                 new TransactionMatchesMultipleRulesEvent($e->getTransaction(), $e->getRules()),
                 TransactionMatchesMultipleRulesEvent::NAME
             );
 
-            $subCategory = null;
+            $newSubCategory = null;
         }
 
-        if ($subCategory) {
-            $transaction->setSubCategory($subCategory);
+        if ($newSubCategory !== null) {
+            $oldSubCategory = $transaction->getSubCategory();
+            $transaction->setSubCategory($newSubCategory);
             $this->entityManager->persist($transaction);
-            $this->dispatcher->dispatch(
-                new TransactionCategorizedEvent($transaction),
-                TransactionCategorizedEvent::NAME
-            );
 
-            return $transaction;
+            if ($oldSubCategory === null) {
+                $this->dispatcher->dispatch(
+                    new TransactionCategorizedEvent($transaction),
+                    TransactionCategorizedEvent::NAME
+                );
+            } else if ($oldSubCategory !== $newSubCategory) {
+                $this->dispatcher->dispatch(
+                    new TransactionCategoryChangedEvent($transaction, $oldSubCategory),
+                    TransactionCategoryChangedEvent::NAME
+                );
+            }
         }
-
-        return null;
     }
 
     public function categorizeAllSync()
     {
-        $uncategorizedTransactions = $this->entityManager
+        $transactions = $this->entityManager
             ->getRepository(Transaction::class)
-            ->findUncategorizedTransactions()
+            ->findAll()
         ;
 
-        foreach ($uncategorizedTransactions as $transaction) {
+        foreach ($transactions as $transaction) {
             $this->categorizeOne($transaction);
         }
 
@@ -95,11 +101,11 @@ class TransactionCategorizer
         $this->entityManager->clear();
         $this->ruleChecker->setRules();
 
-        $uncategorizedTransactions = $this->entityManager
+        $transactions = $this->entityManager
             ->getRepository(Transaction::class)
-            ->findUncategorizedTransactions()
+            ->findAll()
         ;
 
-        $this->categorizeInNextTick($loop, $uncategorizedTransactions);
+        $this->categorizeInNextTick($loop, $transactions);
     }
 }

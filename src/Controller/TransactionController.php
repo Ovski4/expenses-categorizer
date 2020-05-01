@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Bank;
+use App\Entity\SubCategory;
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
+use App\Event\TransactionCategoryChangedEvent;
 use App\Event\TransactionExportedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Exception\AccountNotFoundException;
@@ -74,6 +76,22 @@ class TransactionController extends AbstractController
                 TransactionCategorizedEvent::NAME,
                 function (TransactionCategorizedEvent $event) use (&$transactions) {
                     $transactions[] = $event->getTransaction();
+                }
+            );
+
+            $dispatcher->addListener(
+                TransactionCategoryChangedEvent::NAME,
+                function (TransactionCategoryChangedEvent $event) use (&$transactions) {
+                    $transaction = clone $event->getTransaction();
+                    $subCategory = clone $transaction->getSubCategory();
+                    $subCategory->setName(sprintf(
+                        '%s -> %s',
+                        $event->getOldSubCategory(),
+                        $transaction->getSubCategory()->getName()
+                    ));
+                    $transaction->setSubCategory($subCategory);
+
+                    $transactions[] = $transaction;
                 }
             );
 
