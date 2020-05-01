@@ -35,6 +35,7 @@ services:
       MYSQL_PASSWORD: expenses_categorizer
       APP_ENV: dev
       LOCALE: fr
+      RUN_MIGRATIONS: 'true'
     volumes:
       - ./:/var/www/html
       - statements:/var/statements
