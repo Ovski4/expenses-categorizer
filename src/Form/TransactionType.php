@@ -17,7 +17,7 @@ class TransactionType extends AbstractCategoryRelatedType
         $builder
             ->add('label')
             ->add('amount')
-            ->add('created_at', DateType::class, [
+            ->add('createdAt', DateType::class, [
                 'widget' => 'single_text',
             ])
             ->add('account', EntityType::class, [

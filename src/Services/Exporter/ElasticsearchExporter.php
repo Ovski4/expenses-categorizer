@@ -53,7 +53,7 @@ class ElasticsearchExporter
 
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)
-            ->findBy([], ['created_at'=>'asc'])
+            ->findBy([], ['createdAt'=>'asc'])
         ;
 
         $this->dispatcher->dispatch(
@@ -96,7 +96,7 @@ class ElasticsearchExporter
 
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)
-            ->findBy([], ['created_at'=>'asc'])
+            ->findBy([], ['createdAt'=>'asc'])
         ;
 
         $this->dispatcher->dispatch(

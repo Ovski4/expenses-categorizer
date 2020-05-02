@@ -33,7 +33,7 @@ class CsvExporter
     {
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)
-            ->findBy([], ['created_at'=>'asc'])
+            ->findBy([], ['createdAt'=>'asc'])
         ;
 
         $header = [

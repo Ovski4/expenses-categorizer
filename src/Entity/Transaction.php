@@ -34,7 +34,7 @@ class Transaction
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
@@ -73,7 +73,7 @@ class Transaction
             '%s ; %s ; %s',
             $this->label,
             $this->amount,
-            $this->created_at->format('Y-m-d')
+            $this->createdAt->format('Y-m-d')
         );
     }
 
@@ -84,7 +84,7 @@ class Transaction
             'label'      => $this->label,
             'currency'   => $this->account->getCurrency(),
             'account'    => $this->account->getName(),
-            'created_at' => $this->created_at->format('c'),
+            'created_at' => $this->createdAt->format('c'),
             'amount'     => $this->amount,
             'type'       => $this->getType()
         ];
@@ -137,13 +137,13 @@ class Transaction
 
     public function getCreatedAt(): ?\DateTime
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $created_at): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
-        $created_at->setTime(0, 0, 0);
-        $this->created_at = $created_at;
+        $createdAt->setTime(0, 0, 0);
+        $this->createdAt = $createdAt;
 
         return $this;
     }
