@@ -14,23 +14,15 @@
         <p>{{ pager.getNbResults }} transactions</p>
     </div>
 
+    <form id="filter-form" class="large-filter-form" method="get" action=".">
+        {{ form_rest(filter_form) }}
+        <span>
+            <input class="btn btn-primary" type="submit" name="submit-filter" value="{% trans %}Filter{% endtrans %}" />
+        </span>
+    </form>
+
     <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_new') }}">
         {% trans %}Create a new transaction{% endtrans %}
-    </a>
-    <a
-        type="button"
-        class="{{ only_show_uncategorized ? 'active' : '' }} btn btn-outline-primary"
-        href="{{ path('transaction_index', {'page': pager.currentPage, 'only_show_uncategorized': ''}) }}"
-    >
-        {% trans %}Show only transactions to categorize{% endtrans %}
-    </a>
-
-    <a
-        type="button"
-        class="{{ only_show_uncategorized ? '' : 'active' }} btn btn-outline-primary"
-        href="{{ path('transaction_index', {'page': pager.currentPage}) }}"
-    >
-        {% trans %}Show all transactions{% endtrans %}
     </a>
 
     <table class="table">
@@ -71,5 +63,9 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="pagerfanta">
+        {{ pagerfanta(pager, 'custom_view') }}
+    </div>
 
 {% endblock %}

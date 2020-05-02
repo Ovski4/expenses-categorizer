@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Entity\SubCategoryTransactionRule;
 use App\Entity\Transaction;
+use App\FilterForm\SubCategoryTransactionRuleFilterType;
 use App\Form\SubCategoryTransactionRuleType;
 use App\Repository\SubCategoryTransactionRuleRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +24,29 @@ class SubCategoryTransactionRuleController extends AbstractController
     /**
      * @Route("/", name="sub_category_transaction_rule_index", methods={"GET"})
      */
-    public function index(SubCategoryTransactionRuleRepository $subCategoryTransactionRuleRepository): Response
+    public function index(
+        Request $request,
+        FormFactoryInterface $formFactory,
+        EntityManagerInterface $entityManager,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    ): Response
     {
+        $filterForm = $formFactory->create(SubCategoryTransactionRuleFilterType::class);
+
+        $queryBuilder = $entityManager->createQueryBuilder()
+            ->select('rule')
+            ->from(SubCategoryTransactionRule::class, 'rule')
+            ->orderBy('rule.contains', 'asc')
+        ;
+
+        if ($request->query->has($filterForm->getName())) {
+            $filterForm->submit($request->query->get($filterForm->getName()));
+            $filterBuilderUpdater->addFilterConditions($filterForm, $queryBuilder);
+        }
+
         return $this->render('sub_category_transaction_rule/index.html.twig', [
-            'sub_category_transaction_rules' => $subCategoryTransactionRuleRepository->findBy(
-                [],
-                ['contains' => 'asc']
-            ),
+            'sub_category_transaction_rules' => $queryBuilder->getQuery()->getResult(),
+            'filter_form' => $filterForm->createView(),
         ]);
     }
 

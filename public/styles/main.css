@@ -127,3 +127,56 @@ label.required:before {
 #categories .list-group-item:last-child {
     border-bottom: 1px solid rgba(0,0,0,.125);
 }
+
+form#filter-form {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    border-top: 1px solid #dbd8d8;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #dbd8d8;
+}
+
+form#filter-form > span {
+    align-self: center;
+    margin-left: 1rem;
+}
+
+form#filter-form.simple-filter-form {
+    justify-content: start;
+}
+
+
+form#filter-form .form-group {
+    align-items: center;
+    display: flex;
+    margin: 0;
+}
+
+form#filter-form.large-filter-form .form-group {
+    align-items: center;
+    display: flex;
+    margin: 0;
+}
+
+form#filter-form label {
+        margin: 0 1rem 0 0;
+}
+
+form#filter-form.large-filter-form fieldset div label {
+    min-width: 1rem;
+}
+
+form#filter-form.large-filter-form > .form-group {
+    flex-direction: column;
+    align-items: baseline;
+    align-self: baseline;
+}
+
+form#filter-form.large-filter-form > .form-group label {
+    padding-bottom: calc(.375rem + 1px);
+}
+
+form#filter-form.large-filter-form .col-form-label {
+    padding-top: 0;
+}

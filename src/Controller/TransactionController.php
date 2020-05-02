@@ -10,6 +10,7 @@ use App\Event\TransactionCategoryChangedEvent;
 use App\Event\TransactionExportedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Exception\AccountNotFoundException;
+use App\FilterForm\TransactionFilterType;
 use App\Form\StatementType;
 use App\Form\TransactionType;
 use App\Services\AccountStatementParserClient;
@@ -19,6 +20,7 @@ use App\Services\TransactionCategorizer;
 use App\Services\Exporter\ElasticsearchExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +29,7 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -37,16 +40,24 @@ class TransactionController extends AbstractController
     /**
      * @Route("/", name="transaction_index", methods={"GET"})
      */
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(
+        Request $request,
+        FormFactoryInterface $formFactory,
+        EntityManagerInterface $entityManager,
+        FilterBuilderUpdaterInterface $filterBuilderUpdater
+    ): Response
     {
+        $filterForm = $formFactory->create(TransactionFilterType::class);
+
         $queryBuilder = $entityManager->createQueryBuilder()
             ->select('transaction')
             ->from(Transaction::class, 'transaction')
-            ->orderBy('transaction.created_at', 'desc')
+            ->orderBy('transaction.createdAt', 'desc')
         ;
 
-        if ($request->query->has('only_show_uncategorized')) {
-            $queryBuilder->where('transaction.subCategory is NULL');
+        if ($request->query->has($filterForm->getName())) {
+            $filterForm->submit($request->query->get($filterForm->getName()));
+            $filterBuilderUpdater->addFilterConditions($filterForm, $queryBuilder);
         }
 
         $adapter = new DoctrineORMAdapter($queryBuilder);
@@ -59,7 +70,7 @@ class TransactionController extends AbstractController
 
         return $this->render('transaction/index.html.twig', [
             'pager' => $pagerfanta,
-            'only_show_uncategorized' => $request->query->has('only_show_uncategorized')
+            'filter_form' => $filterForm->createView(),
         ]);
     }
 

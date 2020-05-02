@@ -24,7 +24,7 @@ Create a new account: Créer un nouveau compte
 Create an account now: Créer un compte dès maintenant
 Create a new rule: Créer une nouvelle règle
 Create a new transaction: Créer une nouvelle transaction
-Created at: Créer le
+Created at: Créé le
 Csv export: Exporter au format csv
 Currency: Monnaie
 Date: Date
@@ -47,6 +47,9 @@ Export to elasticsearch: Exporter sur elasticsearch
 Exporting: Export en cours
 Export transactions: Exporter des transactions
 Export transactions to elasticsearch: Exporter des transactions sur elasticsearch
+Filter: Filtrer
+from_number: de
+from_date: du
 Go back to file upload: Revenir à l'import des fichiers
 Go back to the transaction list: Revenir à la liste des transactions
 Go back to the rule list: Revenir à la liste des règles
@@ -95,7 +98,8 @@ Top category: Catégorie parente
 Type: Type
 This account cannot be deleted while transactions belong to it.: Ce compte ne peut pas être supprimé tant que des transactions y sont liées.
 This top category cannot be deleted while sub categories belong to it.: Cette catégorie parente ne peut pas être supprimée tant que des sous-catégories y sont liées.
-to: à
+to_number: à
+to_date: au
 Transactions containing text: Les transactions contenant le texte
 Transaction list: Liste des transactions
 Transaction type: Type de transaction

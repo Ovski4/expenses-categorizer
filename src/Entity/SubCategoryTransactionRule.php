@@ -57,7 +57,7 @@ class SubCategoryTransactionRule
     private $subCategory;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", options={"default": "0"})
      */
     private $priority;
 
