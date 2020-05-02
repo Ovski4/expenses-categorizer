@@ -5,6 +5,7 @@ Account with alias or name "%search%" was not found: Le compte avec l'alias ou l
 Actions: Actions
 Aliases: Alias
 Amount: Montant
+and whose amount is: et dont le montant est
 Are you sure you never imported this statement?: Êtes-vous certain de n'avoir jamais importé ce relevé de compte?
 Are you sure you want to delete this item?: Êtes-vous certain de vouloir supprimer cet élément ?
 Bank: Banque
@@ -55,6 +56,7 @@ Select which operator to use to compare transactions amount with this rule amoun
 Import from a file: Importer à partir d'un fichier
 Import transactions: Importer des transactions
 Import transactions from this file: Importer des transactions à partir de ce fichier
+Incomplete rule: Règle non complète
 Label: Label
 Multiple rules with identical priorities match this transaction: Plusieurs règles aux priorités identiques correspondent à cette transaction
 Name: Nom
@@ -78,7 +80,6 @@ Revenues: Revenues
 rule: règle
 Save: Sauvegarder
 Save these transactions: Sauvegarder ces transactions
-Validate transactions: Valider les transactions
 See rule: Voir la règle
 Show all transactions: Montrer toutes les transactions
 Statement (PDF file): Relevé de compte (fichier PDF)
@@ -93,6 +94,8 @@ Top category: Catégorie parente
 Type: Type
 This account cannot be deleted while transactions belong to it.: Ce compte ne peut pas être supprimé tant que des transactions y sont liées.
 This top category cannot be deleted while sub categories belong to it.: Cette catégorie parente ne peut pas être supprimée tant que des sous-catégories y sont liées.
+to: à
+Transactions containing text: Les transactions contenant le texte
 Transaction list: Liste des transactions
 Transaction type: Type de transaction
 Transactions: Transactions
@@ -100,6 +103,8 @@ transactions to import: transactions à importer
 Updated: Mis à jour
 undefined: non défini
 uncategorized: non catégorisé
+Validate transactions: Valider les transactions
+will be categorized in: seront catégorisés dans
 You need to create an account with this name or alias before importing transactions: Vous devez créer un compte avec ce nom ou alias pour pouvoir importer ces transactions
 
 Accommodation: Logement
