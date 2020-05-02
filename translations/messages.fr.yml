@@ -53,6 +53,7 @@ Go back to the rule list: Revenir à la liste des règles
 Go back to the category list: Revenir à la liste des catégories
 Go back to the account list: Revenir à la liste des comptes
 Select which operator to use to compare transactions amount with this rule amount: Choisissez quelle opérande doit être utilisée pour comparer le montant des transactions avec le montant de cette règle
+If a transaction matches multiple rules, the rule with the highest priority will prevail: Si une transaction correspond à plusieurs règles, la règle avec la priorité la plus haute l'emportera
 Import from a file: Importer à partir d'un fichier
 Import transactions: Importer des transactions
 Import transactions from this file: Importer des transactions à partir de ce fichier

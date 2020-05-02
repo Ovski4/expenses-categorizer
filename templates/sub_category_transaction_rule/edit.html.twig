@@ -21,62 +21,6 @@
 {% endblock %}
 
 {% block javascripts %}
-
     {{ parent() }}
-
-    <script type="text/javascript">
-        const formElements = document.querySelectorAll(
-            'form .form-group select,' +
-            'form .form-group input'
-        );
-
-        const renderFormObject = () => {
-            const subCategoryElement = document.getElementById('sub_category_transaction_rule_subCategory');
-            const subCategoryText = subCategoryElement.options[subCategoryElement.selectedIndex].text;
-
-            const operatorElement = document.getElementById('sub_category_transaction_rule_operator');
-            const operatorText = operatorElement.options[operatorElement.selectedIndex].text;
-
-            return {
-                'contains': document.getElementById('sub_category_transaction_rule_contains').value,
-                'subCategory': subCategoryText,
-                'amount': document.getElementById('sub_category_transaction_rule_amount').value,
-                'operator': operatorText
-            }
-        };
-
-        const renderInfoDiv = () => {
-            const formObject = renderFormObject();
-            const descriptionDiv = document.getElementById('rule-description');
-
-            descriptionDiv.style.display = 'block';
-            descriptionDiv.innerText = buildDescription(formObject);
-        };
-
-        const buildDescription = (formObject) => {
-            if (formObject['contains'] == '' || formObject['subCategory'] == '') {
-                return '{% trans %}Incomplete rule{% endtrans %}';
-            }
-
-            let text = `{% trans %}Transactions containing text{% endtrans %} "${formObject['contains']}"`;
-
-            if (formObject['amount'] != '' && formObject['operator'] != '') {
-                text += ` {% trans %}and whose amount is{% endtrans %} ${formObject['operator']} {% trans %}to{% endtrans %} ${formObject['amount']}`;
-            }
-
-            text += ` {% trans %}will be categorized in{% endtrans %} "${formObject['subCategory']}"`;
-
-            return text;
-        };
-
-        renderInfoDiv();
-
-        formElements.forEach(element => {
-            element.addEventListener('change', (event) => {
-                renderInfoDiv();
-            });
-        });
-
-    </script>
-
+    {% include 'sub_category_transaction_rule/form.js.twig' %}
 {% endblock %}

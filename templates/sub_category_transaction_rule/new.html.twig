@@ -9,9 +9,16 @@
 {% block body %}
     <h1>{% trans %}Create a new rule{% endtrans %}</h1>
 
+    <div id="rule-description" class="alert alert-info" style="display: none" role="alert"></div>
+
     {{ include('sub_category_transaction_rule/_form.html.twig') }}
 
     <a class="btn btn-outline-primary" href="{{ path('sub_category_transaction_rule_index') }}">
         {% trans %}Go back to the rule list{% endtrans %}
     </a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'sub_category_transaction_rule/form.js.twig' %}
 {% endblock %}

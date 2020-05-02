@@ -36,6 +36,7 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
                 'required' => false
             ])
             ->add('priority', NumberType::class, [
+                'help' => 'If a transaction matches multiple rules, the rule with the highest priority will prevail',
                 'html5' => true,
                 'required' => true,
                 'empty_data' => 0
