@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Bank;
-use App\Entity\SubCategory;
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
 use App\Event\TransactionCategoryChangedEvent;
@@ -20,6 +19,7 @@ use App\Services\TransactionCategorizer;
 use App\Services\Exporter\ElasticsearchExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
+use InvalidArgumentException;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +57,12 @@ class TransactionController extends AbstractController
 
         if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->get($filterForm->getName()));
-            $filterBuilderUpdater->addFilterConditions($filterForm, $queryBuilder);
+
+            try {
+                $filterBuilderUpdater->addFilterConditions($filterForm, $queryBuilder);
+            } catch (InvalidArgumentException $e) {
+                // form validation will do the rest
+            }
         }
 
         $adapter = new DoctrineORMAdapter($queryBuilder);

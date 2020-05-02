@@ -130,7 +130,7 @@ label.required:before {
 
 form#filter-form {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     margin: 1rem 0;
     border-top: 1px solid #dbd8d8;
     padding: 0.5rem 0;
@@ -142,11 +142,6 @@ form#filter-form > span {
     margin-left: 1rem;
 }
 
-form#filter-form.simple-filter-form {
-    justify-content: start;
-}
-
-
 form#filter-form .form-group {
     align-items: center;
     display: flex;
@@ -156,7 +151,6 @@ form#filter-form .form-group {
 form#filter-form.large-filter-form .form-group {
     align-items: center;
     display: flex;
-    margin: 0;
 }
 
 form#filter-form label {
@@ -171,6 +165,7 @@ form#filter-form.large-filter-form > .form-group {
     flex-direction: column;
     align-items: baseline;
     align-self: baseline;
+    margin: 0 0.8rem;
 }
 
 form#filter-form.large-filter-form > .form-group label {

@@ -42,6 +42,7 @@ class TransactionFilterType extends AbstractType
                 ]
             ])
             ->add('createdAt', Filters\DateRangeFilterType::class, [
+                'label' => 'Created',
                 'left_date_options' => [
                     'widget' => 'single_text',
                     'label' => 'from_date'
