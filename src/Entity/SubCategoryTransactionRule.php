@@ -106,10 +106,11 @@ class SubCategoryTransactionRule
 
     public function guessTypeFromAmount(): ?string
     {
-        return
-            $this->amount === null
-            ? null
-            : $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
+        if ($this->amount === null) {
+            return null;
+        }
+
+        return $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
     }
 
     public function toArray()

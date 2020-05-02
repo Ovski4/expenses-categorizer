@@ -31,9 +31,9 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
                 'required' => false
             ])
             ->add('operator', ChoiceType::class, [
+                'help' => 'Select which operator to use to compare transactions amount with this rule amount',
                 'choices' => $choices,
-                'required' => false,
-                'data' => null
+                'required' => false
             ])
             ->add('priority', NumberType::class, [
                 'html5' => true,

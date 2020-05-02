@@ -54,13 +54,23 @@ class RuleChecker
             return false;
         }
 
-        // amount are not equal
-        if (
-            $rule->getAmount() !== null &&
-            $rule->getOperator() == Operator::EQUALS &&
-            $rule->getAmount() !== $transaction->getAmount()
-        ) {
-            return false;
+        $ruleAmount = $rule->getAmount();
+        $ruleOperator = $rule->getOperator();
+        $transactionAmount = $transaction->getAmount();
+
+        if ($ruleAmount !== null && $ruleOperator !== null) {
+
+            if ($ruleOperator == Operator::EQUALS && $transactionAmount !== $ruleAmount) {
+                return false;
+            }
+
+            if ($ruleOperator == Operator::GREATER_THAN_OR_EQUAL && $transactionAmount < $ruleAmount) {
+                return false;
+            }
+
+            if ($ruleOperator == Operator::LOWER_THAN_OR_EQUAL && $transactionAmount > $ruleAmount) {
+                return false;
+            }
         }
 
         return true;

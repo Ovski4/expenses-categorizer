@@ -38,7 +38,9 @@ Edit this top category: Éditer cette catégorie parente
 Edit this sub category: Éditer cette sous-catégorie
 Edit this account: Éditer ce compte
 Elasticsearch seems to be down: Il semblerait qu'Elasticsearch ne fonctionne pas
-equals: est égal
+equals: égal
+greater than or equal: supérieur ou égal
+lower than or equal: inférieur ou égal
 Expenses: Dépenses
 Export to elasticsearch: Exporter sur elasticsearch
 Exporting: Export en cours
@@ -49,6 +51,7 @@ Go back to the transaction list: Revenir à la liste des transactions
 Go back to the rule list: Revenir à la liste des règles
 Go back to the category list: Revenir à la liste des catégories
 Go back to the account list: Revenir à la liste des comptes
+Select which operator to use to compare transactions amount with this rule amount: Choisissez quelle opérande doit être utilisée pour comparer le montant des transactions avec le montant de cette règle
 Import from a file: Importer à partir d'un fichier
 Import transactions: Importer des transactions
 Import transactions from this file: Importer des transactions à partir de ce fichier
