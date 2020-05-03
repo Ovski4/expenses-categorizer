@@ -150,7 +150,7 @@ class SubCategoryTransactionRule
         return $this->amount;
     }
 
-    public function setAmount(float $amount): self
+    public function setAmount(?float $amount): self
     {
         $this->amount = $amount;
 
@@ -190,9 +190,9 @@ class SubCategoryTransactionRule
         return $this->operator;
     }
 
-    public function setOperator(string $operator)
+    public function setOperator(?string $operator)
     {
-        if (!in_array($operator, Operator::getAll())) {
+        if ($operator !== null && !in_array($operator, Operator::getAll())) {
             throw new \Exception(sprintf('Invalid operator %s', $operator));
         }
 
