@@ -59,6 +59,11 @@ class Transaction
      */
     private $syncedInElasticsearchAt;
 
+    public function __construct()
+    {
+        $this->updatedAt = new \DateTime('now');
+    }
+
     /**
      * Delete in elasticsearch
      *

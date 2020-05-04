@@ -71,6 +71,7 @@ class SubCategoryTransactionRule
     public function __construct()
     {
         $this->priority = 0;
+        $this->updatedAt = new \DateTime('now');
     }
 
     /**
