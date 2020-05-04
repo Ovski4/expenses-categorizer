@@ -63,9 +63,23 @@ class SubCategoryTransactionRule
 
     private $transactionType;
 
+    /**
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $updatedAt;
+
     public function __construct()
     {
         $this->priority = 0;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtToNow()
+    {
+        $this->setUpdatedAt(new \DateTime('now'));
     }
 
     /**
@@ -85,8 +99,6 @@ class SubCategoryTransactionRule
     }
 
     /**
-     * Prevent a wrong subCategory to be set
-     *
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
@@ -209,6 +221,18 @@ class SubCategoryTransactionRule
     public function setPriority(int $priority): self
     {
         $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

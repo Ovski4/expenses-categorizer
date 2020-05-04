@@ -50,6 +50,16 @@ class Transaction
     private $subCategory;
 
     /**
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $syncedInElasticsearchAt;
+
+    /**
      * Delete in elasticsearch
      *
      * @ORM\PreRemove
@@ -69,6 +79,15 @@ class Transaction
             // if the transaction does not exist, it's fine
             // update this part if updated_at with synced_at is implemented
         }
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtToNow()
+    {
+        $this->setUpdatedAt(new \DateTime('now'));
     }
 
     /**
@@ -192,6 +211,30 @@ class Transaction
     public function setSubCategory(?SubCategory $subCategory): self
     {
         $this->subCategory = $subCategory;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getSyncedInElasticsearchAt(): ?\DateTimeInterface
+    {
+        return $this->syncedInElasticsearchAt;
+    }
+
+    public function setSyncedInElasticsearchAt(?\DateTimeInterface $syncedInElasticsearchAt): self
+    {
+        $this->syncedInElasticsearchAt = $syncedInElasticsearchAt;
 
         return $this;
     }

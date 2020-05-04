@@ -36,7 +36,8 @@ class SubCategoryTransactionRuleController extends AbstractController
         $queryBuilder = $entityManager->createQueryBuilder()
             ->select('rule')
             ->from(SubCategoryTransactionRule::class, 'rule')
-            ->orderBy('rule.contains', 'asc')
+            ->orderBy('rule.updatedAt', 'desc')
+            ->addOrderBy('rule.contains', 'asc')
         ;
 
         if ($request->query->has($filterForm->getName())) {
