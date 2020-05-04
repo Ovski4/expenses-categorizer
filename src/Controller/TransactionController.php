@@ -29,7 +29,9 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -328,10 +330,15 @@ class TransactionController extends AbstractController
     /**
      * @Route("/{id}/edit", name="transaction_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Transaction $transaction): Response
+    public function edit(Request $request, Transaction $transaction, Session $session): Response
     {
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
+
+        if ($session->has('error')) {
+            $form->addError(new FormError($session->get('error')));
+            $session->remove('error');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -348,11 +355,25 @@ class TransactionController extends AbstractController
     /**
      * @Route("/{id}", name="transaction_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Transaction $transaction): Response
+    public function delete(
+        Request $request,
+        Transaction $transaction,
+        TranslatorInterface $translator,
+        Session $session
+    ) : Response
     {
         if ($this->isCsrfTokenValid('delete'.$transaction->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($transaction);
+            try {
+                $entityManager->remove($transaction);
+            } catch(NoNodesAvailableException $e) {
+                $session->set(
+                    'error',
+                    $translator->trans('error_deleting_transaction_in_elasticsearch')
+                );
+
+                return $this->redirect($request->headers->get('referer'));
+            }
             $entityManager->flush();
         }
 

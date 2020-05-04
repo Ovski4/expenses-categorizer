@@ -1,4 +1,5 @@
-from_number: from
-to_number: to
+error_deleting_transaction_in_elasticsearch: We tried to delete this transaction in elasticsearch but could not reach it
 from_date: from
+from_number: from
 to_date: to
+to_number: to

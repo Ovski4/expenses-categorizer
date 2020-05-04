@@ -38,7 +38,8 @@ Edit this sub category transaction rule: Éditer cette règle
 Edit this top category: Éditer cette catégorie parente
 Edit this sub category: Éditer cette sous-catégorie
 Edit this account: Éditer ce compte
-Elasticsearch seems to be down: Il semblerait qu'Elasticsearch ne fonctionne pas
+error_deleting_transaction_in_elasticsearch: Cette transaction n'a pas pu être supprimée d'elasticsearch car elasticsearch ne fonctionne pas
+Elasticsearch seems to be down: Il semblerait qu'elasticsearch ne fonctionne pas
 equals: égal
 greater than or equal: supérieur ou égal
 lower than or equal: inférieur ou égal
