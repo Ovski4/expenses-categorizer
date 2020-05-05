@@ -1,13 +1,10 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.statements_dir: '/var/statements/'
     app.domain: '%env(resolve:APP_DOMAIN)%'
     app.account_statement_parser_api_url: account_statement_parser
     app.locale: '%env(resolve:LOCALE)%'
+    app.elasticsearch_host: elasticsearch:9200
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -33,9 +30,19 @@ services:
             - { name: 'app.message_handler', trigger: 'export_transactions' }
 
     ElasticsearchSyncStatusUpdater:
-        class: App\Services\ElasticsearchSyncStatusUpdater
+        class: App\Services\DoctrineListeners\ElasticsearchSyncStatusUpdater
         tags:
             - { name: 'doctrine.event_subscriber' }
+
+    ElasticsearchTransactionRemover:
+        class: App\Services\DoctrineListeners\ElasticsearchTransactionRemover
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'preRemove'
+                entity: 'App\Entity\Transaction'
+                lazy: true
+                method: 'remove'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

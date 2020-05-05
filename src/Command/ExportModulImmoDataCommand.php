@@ -7,6 +7,7 @@ use Elasticsearch\ClientBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ExportModulImmoDataCommand extends Command
 {
@@ -14,9 +15,9 @@ class ExportModulImmoDataCommand extends Command
 
     private $client;
 
-    public function __construct()
+    public function __construct(ParameterBagInterface $params)
     {
-        $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();;
+        $this->client = ClientBuilder::create()->setHosts([$params->get('app.elasticsearch_host')])->build();
 
         parent::__construct();
     }

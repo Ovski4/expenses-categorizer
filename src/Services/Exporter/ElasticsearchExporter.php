@@ -9,6 +9,7 @@ use App\Event\TransactionsExportingEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\ClientBuilder;
 use React\EventLoop\LoopInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ElasticsearchExporter
@@ -17,8 +18,13 @@ class ElasticsearchExporter
     private $client;
     private $dispatcher;
 
-    public function __construct(EventDispatcherInterface $dispatcher, EntityManagerInterface $entityManager)
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        EntityManagerInterface $entityManager,
+        ParameterBagInterface $params
+    )
     {
+        $this->elasticsearchHost = $params->get('app.elasticsearch_host');
         $this->entityManager = $entityManager;
         $this->dispatcher = $dispatcher;
     }
@@ -48,7 +54,7 @@ class ElasticsearchExporter
 
     public function exportAllSync()
     {
-        $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
+        $this->client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
         $this->createIndexIfNotExists();
 
         $transactions = $this->entityManager
@@ -84,7 +90,7 @@ class ElasticsearchExporter
 
     public function exportAllAsync(LoopInterface $loop)
     {
-        $this->client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
+        $this->client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
         $this->createIndexIfNotExists();
 
         if ($this->entityManager->getConnection()->ping() === false) {

@@ -60,28 +60,6 @@ class Transaction
     }
 
     /**
-     * Delete in elasticsearch
-     *
-     * @ORM\PreRemove
-     */
-    public function deleteInElasticSearch()
-    {
-        $client = ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
-
-        $params = [
-            'index' => 'transactions',
-            'id'    => $this->getId()
-        ];
-
-        try {
-            $client->delete($params);
-        } catch (Missing404Exception $e) {
-            // if the transaction does not exist, it's fine
-            // update this part if updated_at with synced_at is implemented
-        }
-    }
-
-    /**
      * Prevent a wrong subCategory to be set
      *
      * @ORM\PrePersist

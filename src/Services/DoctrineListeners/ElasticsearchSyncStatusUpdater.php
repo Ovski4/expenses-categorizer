@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\DoctrineListeners;
 
 use App\Entity\Account;
 use App\Entity\SubCategory;
