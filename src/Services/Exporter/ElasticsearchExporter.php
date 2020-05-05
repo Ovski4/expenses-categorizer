@@ -25,6 +25,7 @@ class ElasticsearchExporter
     )
     {
         $this->elasticsearchHost = $params->get('app.elasticsearch_host');
+        $this->elasticsearchIndex = $params->get('app.elasticsearch_index');
         $this->entityManager = $entityManager;
         $this->dispatcher = $dispatcher;
     }
@@ -35,7 +36,7 @@ class ElasticsearchExporter
         unset($body['id']);
 
         $params = [
-            'index' => 'transactions',
+            'index' => $this->elasticsearchIndex,
             'id'    => $transaction->getId(),
             'body'  => $body
         ];
@@ -115,13 +116,13 @@ class ElasticsearchExporter
 
     private function createIndexIfNotExists()
     {
-        $indexParams['index']  = 'transactions';
+        $indexParams['index']  = $this->elasticsearchIndex;
         if ($this->client->indices()->exists($indexParams)) {
             return;
         }
 
         $params = [
-            'index' => 'transactions',
+            'index' => $this->elasticsearchIndex,
             'body' => [
                 'mappings' => [
                     'properties' => [

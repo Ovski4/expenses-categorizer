@@ -4,6 +4,7 @@ parameters:
     app.account_statement_parser_api_url: account_statement_parser
     app.locale: '%env(resolve:LOCALE)%'
     app.elasticsearch_host: elasticsearch:9200
+    app.elasticsearch_index: transactions
 
 services:
     # default configuration for services in *this* file
