@@ -36,7 +36,7 @@
         let text = `{% trans %}Transactions containing text{% endtrans %} "${formObject['contains']}"`;
 
         if (formObject['amount'] != '' && formObject['operator'] != '') {
-            text += ` {% trans %}and whose amount is{% endtrans %} ${formObject['operator']} {% trans %}to{% endtrans %} ${formObject['amount']}`;
+            text += ` {% trans %}and whose amount is{% endtrans %} ${formObject['operator']} {% trans %}to_number{% endtrans %} ${formObject['amount']}`;
         }
 
         text += ` {% trans %}will be categorized in{% endtrans %} "${formObject['subCategory']}"`;
