@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\TopCategory;
 use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -35,5 +36,18 @@ class TransactionRepository extends ServiceEntityRepository
         ;
 
         return empty($result) ? false : true;
+    }
+
+    public function findByTopCategory(TopCategory $topCategory)
+    {
+        $results = $this->createQueryBuilder('t')
+            ->join('t.subCategory', 'sc')
+            ->where('sc.topCategory = :topCategory')
+            ->setParameter('topCategory', $topCategory)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $results;
     }
 }

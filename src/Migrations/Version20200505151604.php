@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200504200925 extends AbstractMigration
+final class Version20200505151604 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -23,7 +23,7 @@ final class Version20200504200925 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE sub_category_transaction_rule ADD updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL');
-        $this->addSql('ALTER TABLE transaction ADD updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, ADD synced_in_elasticsearch_at DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE transaction ADD to_sync_in_elasticsearch TINYINT(1) DEFAULT \'1\' NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -32,6 +32,6 @@ final class Version20200504200925 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE sub_category_transaction_rule DROP updated_at');
-        $this->addSql('ALTER TABLE transaction DROP updated_at, DROP synced_in_elasticsearch_at');
+        $this->addSql('ALTER TABLE transaction DROP to_sync_in_elasticsearch');
     }
 }

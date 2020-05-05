@@ -141,7 +141,8 @@ class TransactionController extends AbstractController
         Request $request,
         ElasticsearchExporter $exporter,
         TranslatorInterface $translator,
-        EventDispatcherInterface $dispatcher)
+        EventDispatcherInterface $dispatcher,
+        EntityManagerInterface $entityManager)
     : Response
     {
         if ($request->isMethod('PATCH')) {
@@ -160,10 +161,14 @@ class TransactionController extends AbstractController
                         } else if ($response['result'] === 'updated') {
                             $updatedTransactions[] = $transaction;
                         }
+
+                        $transaction->setToSyncInElasticsearch(false);
                     }
                 );
 
                 $exporter->exportAllSync();
+
+                $entityManager->flush();
 
                 return $this->render('transaction/export.html.twig', [
                     'total_transactions_count' => count($createdTransactions) + count($updatedTransactions),
@@ -184,7 +189,7 @@ class TransactionController extends AbstractController
     /**
      * @Route("/export/csv", name="csv_export", methods={"GET"})
      */
-    public function export(CsvExporter $csvExporter): Response
+    public function exportToCsv(CsvExporter $csvExporter): Response
     {
         $csv = $csvExporter->export();
 

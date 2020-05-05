@@ -6,6 +6,7 @@ use App\Event\TransactionExportedEvent;
 use App\Event\TransactionsExportedEvent;
 use App\Event\TransactionsExportingEvent;
 use App\Services\Exporter\ElasticsearchExporter;
+use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Ratchet\ConnectionInterface;
 use React\EventLoop\LoopInterface;
@@ -18,10 +19,16 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler implemen
 
     private $translator;
 
-    public function __construct(ElasticsearchExporter $elasticsearchExporter, TranslatorInterface $translator)
-    {
+    private $entityManager;
+
+    public function __construct(
+        ElasticsearchExporter $elasticsearchExporter,
+        TranslatorInterface $translator,
+        EntityManagerInterface $entityManager
+    ) {
         $this->elasticsearchExporter = $elasticsearchExporter;
         $this->translator = $translator;
+        $this->entityManager = $entityManager;
 
         parent::__construct();
     }
@@ -47,6 +54,7 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler implemen
     public function onTransactionExported(TransactionExportedEvent $event)
     {
         foreach ($this->clients as $connection) {
+            $event->getTransaction()->setToSyncInElasticsearch(false);
             $this->sendMessage($connection, 'single_transaction.exported', $event->getResponse());
         }
     }
@@ -54,6 +62,7 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler implemen
     public function onTransactionsExported()
     {
         foreach ($this->clients as $connection) {
+            $this->entityManager->flush();
             $this->sendMessage($connection, 'transactions.exported');
         }
     }

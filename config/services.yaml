@@ -32,6 +32,11 @@ services:
         tags:
             - { name: 'app.message_handler', trigger: 'export_transactions' }
 
+    ElasticsearchSyncStatusUpdater:
+        class: App\Services\ElasticsearchSyncStatusUpdater
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
