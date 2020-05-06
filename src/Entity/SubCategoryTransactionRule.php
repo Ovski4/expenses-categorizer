@@ -17,7 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *            columns={"contains", "sub_category_id"})
  *    }
  * )
- * @RuleIsLogicalConstraint
  * @RuleIsCompleteConstraint
  * @UniqueEntity(
  *     fields={"contains", "subCategory"},
@@ -61,7 +60,7 @@ class SubCategoryTransactionRule
      */
     private $priority;
 
-    private $transactionType;
+    private $transactionType = null;
 
     /**
      * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
@@ -97,33 +96,6 @@ class SubCategoryTransactionRule
                 'Entity SubCategoryTransactionRule must have both operator and amount set or none'
             );
         }
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function checkSubCategory()
-    {
-        if ($this->guessTypeFromAmount() !== null) {
-            if ($this->subCategory->getTransactionType() !== $this->guessTypeFromAmount()) {
-                throw new \Exception(sprintf(
-                    'Invalid sub category transaction type (%s) for transaction %s with amount %s',
-                    $this->subCategory->getTransactionType(),
-                    $this->id,
-                    $this->amount
-                ));
-            }
-        }
-    }
-
-    public function guessTypeFromAmount(): ?string
-    {
-        if ($this->amount === null) {
-            return null;
-        }
-
-        return $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
     }
 
     public function toArray()
@@ -170,6 +142,11 @@ class SubCategoryTransactionRule
         return $this;
     }
 
+    public function getDisplayableAmount(): ?float
+    {
+        return $this->amount !== null ? abs($this->amount) : null;
+    }
+
     public function getSubCategory(): ?SubCategory
     {
         return $this->subCategory;
@@ -200,6 +177,23 @@ class SubCategoryTransactionRule
 
     public function getOperator(): ?string
     {
+        return $this->operator;
+    }
+
+    public function getReversedOperator(): ?string
+    {
+        if ($this->subCategory !== null && $this->subCategory->getTransactionType() == TransactionType::EXPENSES) {
+
+            if ($this->operator == Operator::GREATER_THAN_OR_EQUAL) {
+                return Operator::LOWER_THAN_OR_EQUAL;
+
+            }
+
+            if ($this->operator == Operator::LOWER_THAN_OR_EQUAL) {
+                return Operator::GREATER_THAN_OR_EQUAL;
+            }
+        }
+
         return $this->operator;
     }
 

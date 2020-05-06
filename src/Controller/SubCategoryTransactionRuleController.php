@@ -4,17 +4,20 @@ namespace App\Controller;
 
 use App\Entity\SubCategoryTransactionRule;
 use App\Entity\Transaction;
+use App\Exception\IllogicalRuleException;
 use App\FilterForm\SubCategoryTransactionRuleFilterType;
 use App\Form\SubCategoryTransactionRuleType;
 use App\Repository\SubCategoryTransactionRuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/sub/category/transaction/rule")
@@ -54,7 +57,7 @@ class SubCategoryTransactionRuleController extends AbstractController
     /**
      * @Route("/new", name="sub_category_transaction_rule_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $subCategoryTransactionRule = new SubCategoryTransactionRule();
 
@@ -71,8 +74,22 @@ class SubCategoryTransactionRuleController extends AbstractController
             ;
         }
 
-        $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
-        $form->handleRequest($request);
+        try {
+            $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
+            $form->handleRequest($request);
+        } catch (IllogicalRuleException $e) {
+            $form->addError(new FormError(sprintf(
+                '%s "%s" %s %s',
+                $translator->trans('Transaction type is set to'),
+                strtolower($translator->trans($e->getTransactionType())),
+                $translator->trans('but the sub category belongs to'),
+                strtolower($translator->trans($e->getSubCategory()->getTransactionType()))
+            )));
+        } catch (\UnexpectedValueException $e) {
+            $form->addError(new FormError(
+                $translator->trans('The amount of the rule must be an absolute amount, and therefore be positive.')
+            ));
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -91,10 +108,28 @@ class SubCategoryTransactionRuleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="sub_category_transaction_rule_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, SubCategoryTransactionRule $subCategoryTransactionRule): Response
+    public function edit(
+        Request $request,
+        SubCategoryTransactionRule $subCategoryTransactionRule,
+        TranslatorInterface $translator
+    ): Response
     {
-        $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
-        $form->handleRequest($request);
+        try {
+            $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
+            $form->handleRequest($request);
+        } catch (IllogicalRuleException $e) {
+            $form->addError(new FormError(sprintf(
+                '%s "%s" %s %s',
+                $translator->trans('Transaction type is set to'),
+                strtolower($translator->trans($e->getTransactionType())),
+                $translator->trans('but the sub category belongs to'),
+                strtolower($translator->trans($e->getSubCategory()->getTransactionType()))
+            )));
+        } catch (\UnexpectedValueException $e) {
+            $form->addError(new FormError(
+                $translator->trans('The amount of the rule must be an absolute amount, and therefore be positive.')
+            ));
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
