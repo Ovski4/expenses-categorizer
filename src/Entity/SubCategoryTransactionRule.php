@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Validator\Constraints\RuleIsLogicalConstraint;
 use App\Validator\Constraints\RuleIsCompleteConstraint;
+use App\Validator\Constraints\RuleIsLogicalConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryTransactionRuleRepository")
@@ -17,8 +18,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *            columns={"contains", "sub_category_id"})
  *    }
  * )
- * @RuleIsLogicalConstraint
  * @RuleIsCompleteConstraint
+ * @RuleIsLogicalConstraint
  * @UniqueEntity(
  *     fields={"contains", "subCategory"},
  *     errorPath="contains",
@@ -47,6 +48,7 @@ class SubCategoryTransactionRule
 
     /**
      * @ORM\Column(type="float", length=255, nullable=true)
+     * @Assert\Positive
      */
     private $amount;
 
@@ -61,6 +63,9 @@ class SubCategoryTransactionRule
      */
     private $priority;
 
+    /**
+     * This field is not needed in the database as we compute the sign of the amount
+     */
     private $transactionType;
 
     /**
@@ -105,25 +110,57 @@ class SubCategoryTransactionRule
      */
     public function checkSubCategory()
     {
-        if ($this->guessTypeFromAmount() !== null) {
-            if ($this->subCategory->getTransactionType() !== $this->guessTypeFromAmount()) {
-                throw new \Exception(sprintf(
-                    'Invalid sub category transaction type (%s) for transaction %s with amount %s',
-                    $this->subCategory->getTransactionType(),
-                    $this->id,
-                    $this->amount
-                ));
-            }
+        if ($this->subCategory->getTransactionType() !== $this->transactionType) {
+            throw new \Exception(sprintf(
+                'Invalid sub category transaction type (%s) for transaction %s with amount %s',
+                $this->subCategory->getTransactionType(),
+                $this->id,
+                $this->amount
+            ));
         }
     }
 
-    public function guessTypeFromAmount(): ?string
+    /**
+     * From a usable format to a database format
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setAmountAndOperatorBeforePersist()
     {
-        if ($this->amount === null) {
-            return null;
+        if ($this->transactionType == TransactionType::EXPENSES) {
+
+            if ($this->operator == Operator::GREATER_THAN_OR_EQUAL) {
+                $this->operator = Operator::LOWER_THAN_OR_EQUAL;
+            } else if ($this->operator == Operator::LOWER_THAN_OR_EQUAL) {
+                $this->operator = Operator::GREATER_THAN_OR_EQUAL;
+            }
+
+            $this->amount = $this->amount !== null ? -abs($this->amount) : null;
+        }
+    }
+
+    /**
+     * From database format to a more usable format
+     *
+     * @ORM\PostLoad
+     */
+    public function setAmountAndOperatorAfterLoad()
+    {
+        $this->transactionType = $this->subCategory->getTransactionType();
+
+        if ($this->transactionType == TransactionType::EXPENSES) {
+
+            if ($this->operator == Operator::GREATER_THAN_OR_EQUAL) {
+                $this->operator = Operator::LOWER_THAN_OR_EQUAL;
+            } else if ($this->operator == Operator::LOWER_THAN_OR_EQUAL) {
+                $this->operator = Operator::GREATER_THAN_OR_EQUAL;
+            }
+
+            $this->amount = $this->amount !== null ? abs($this->amount) : null;
         }
 
-        return $this->amount > 0 ? TransactionType::REVENUES : TransactionType::EXPENSES;
+        return $this;
     }
 
     public function toArray()
@@ -187,9 +224,9 @@ class SubCategoryTransactionRule
         return $this->transactionType;
     }
 
-    public function setTransactionType(string $transactionType)
+    public function setTransactionType(?string $transactionType)
     {
-        if (!in_array($transactionType, TransactionType::getAll())) {
+        if ($transactionType !== null && !in_array($transactionType, TransactionType::getAll())) {
             throw new \Exception(sprintf('Invalid transaction type %s', $transactionType));
         }
 

@@ -8,7 +8,6 @@ use App\Entity\TransactionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SubCategoryType extends AbstractCategoryRelatedType
 {
@@ -23,7 +22,7 @@ class SubCategoryType extends AbstractCategoryRelatedType
             ->add('name')
             ->add('topCategory', EntityType::class, [
                 'class' => TopCategory::class,
-                'choices' => $this->getChoices(null, TopCategory::class),
+                'choices' => $this->getChoices(TopCategory::class),
             ])
         ;
     }
