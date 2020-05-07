@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator\Constraints\RuleIsCompleteConstraint;
+use App\Validator\Constraints\RuleIsLogicalConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryTransactionRuleRepository")
@@ -17,6 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *    }
  * )
  * @RuleIsCompleteConstraint
+ * @RuleIsLogicalConstraint
  * @UniqueEntity(
  *     fields={"contains", "subCategory"},
  *     errorPath="contains",
@@ -45,6 +48,7 @@ class SubCategoryTransactionRule
 
     /**
      * @ORM\Column(type="float", length=255, nullable=true)
+     * @Assert\Positive
      */
     private $amount;
 
@@ -59,7 +63,10 @@ class SubCategoryTransactionRule
      */
     private $priority;
 
-    private $transactionType = null;
+    /**
+     * This field is not needed in the database as we compute the sign of the amount
+     */
+    private $transactionType;
 
     /**
      * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
@@ -94,6 +101,22 @@ class SubCategoryTransactionRule
             throw new \Exception(
                 'Entity SubCategoryTransactionRule must have both operator and amount set or none'
             );
+        }
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function checkSubCategory()
+    {
+        if ($this->subCategory->getTransactionType() !== $this->transactionType) {
+            throw new \Exception(sprintf(
+                'Invalid sub category transaction type (%s) for transaction %s with amount %s',
+                $this->subCategory->getTransactionType(),
+                $this->id,
+                $this->amount
+            ));
         }
     }
 

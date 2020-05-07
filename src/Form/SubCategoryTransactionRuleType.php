@@ -29,12 +29,11 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
             'required' => true
         ];
 
-        $entity = $builder->getData();
         $builder
             ->add('contains')
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
-                'choices' => $this->getChoices($entity->getTransactionType()),
+                'choices' => $this->getChoices(),
             ])
             ->add(
                 'amount', NumberType::class, [
