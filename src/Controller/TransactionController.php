@@ -17,6 +17,7 @@ use App\Services\Exporter\CsvExporter;
 use App\Services\StatementUploader;
 use App\Services\TransactionCategorizer;
 use App\Services\Exporter\ElasticsearchExporter;
+use App\Services\FileParser\FileParserRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use InvalidArgumentException;
@@ -242,14 +243,15 @@ class TransactionController extends AbstractController
         string $parserName,
         string $statement,
         Request $request,
-        AccountStatementParserClient $parserClient,
+        FileParserRegistry $registry,
         EntityManagerInterface $manager,
         ParameterBagInterface $params,
         TranslatorInterface $translator
     ): Response
     {
         try {
-            $transactions = $parserClient->parse(
+            $fileParser = $registry->getFileParser($parserName);
+            $transactions = $fileParser->parse(
                 $params->get('app.statements_dir') . $statement,
                 $parserName
             );
@@ -292,9 +294,9 @@ class TransactionController extends AbstractController
         if (empty($transactions)) {
             return $this->render('transaction/validate_transactions.html.twig', [
                 'error' => sprintf(
-                    '%s "%s"?',
-                    $translator->trans('No transactions were found. Are you sure your pdf is a valid statement file from'),
-                    Bank::getByParserName($parserName)['name']
+                    '%s %s?',
+                    $translator->trans('No transactions were found. Are you sure your pdf is a valid'),
+                    strtolower($translator->trans($fileParser->getLabel()))
                 ),
                 'suggestionLabel' => $translator->trans('Go back to file upload'),
                 'suggestionPath' => 'transaction_upload_statement'

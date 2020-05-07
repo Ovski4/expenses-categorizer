@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Bank;
+use App\Services\FileParser\AbstractFileParser;
+use App\Services\FileParser\FileParserRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -12,18 +14,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StatementType extends AbstractType
 {
-    protected $translator;
+    private $translator;
 
-    public function __construct(TranslatorInterface $translator)
+    private $fileParserRegistry;
+
+    public function __construct(TranslatorInterface $translator, FileParserRegistry $fileParserRegistry)
     {
         $this->translator = $translator;
+        $this->fileParserRegistry = $fileParserRegistry;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('statement', FileType::class, [
-                'label' => 'Statement (PDF file)',
+                'label' => 'PDF file',
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -38,7 +43,7 @@ class StatementType extends AbstractType
             ])
             ->add('parserName', ChoiceType::class, [
                 'choices'  => $this->getChoices(),
-                'label' => 'Bank',
+                'label' => 'File type',
                 'required' => true
             ])
         ;
@@ -46,10 +51,14 @@ class StatementType extends AbstractType
 
     private function getChoices()
     {
-        return array_reduce(Bank::getAll(),function($carry, $item) {
-            $carry[$item['name']] = $item['parserName'];
+        return array_reduce(
+            $this->fileParserRegistry->getfileParsers(),
+            function(array $choices, AbstractFileParser $fileParser) {
+                $choices[$fileParser->getLabel()] = $fileParser->getName();
 
-            return $carry;
-        }, []);
+                return $choices;
+            },
+            []
+        );
     }
 }

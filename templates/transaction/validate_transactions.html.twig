@@ -19,7 +19,7 @@
         {% if existingTransactionCount > 0 %}
             <div class="alert alert-{{ existingTransactionCount == transactions|length ? 'danger' : 'warning' }}" role="alert">
                 {{ existingTransactionCount }} {% trans %}of these transactions already exists!{% endtrans %}
-                {% trans %}Are you sure you never imported this statement?{% endtrans %}
+                {% trans %}Are you sure you never imported this file?{% endtrans %}
             </div>
         {% endif %}
 

@@ -12,6 +12,10 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    _instanceof:
+        App\Services\FileParser\AbstractFileParser:
+            tags: ['app.file_parser']
+
     PagerFantaTranslated:
         class: Pagerfanta\View\OptionableView
         arguments:

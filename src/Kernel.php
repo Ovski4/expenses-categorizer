@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\DependencyInjection\Compiler\FileParserCompilerPass;
 use App\DependencyInjection\Compiler\WebSocketMessageHandlerCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -56,5 +57,6 @@ class Kernel extends BaseKernel
     protected function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new WebSocketMessageHandlerCompilerPass());
+        $container->addCompilerPass(new FileParserCompilerPass());
     }
 }

@@ -11,9 +11,9 @@ class WebSocketMessageHandlerRegistry
         $this->handlers = [];
     }
 
-    public function setHandler($name, AbstractWebSocketMessageHandler $handler)
+    public function setHandler($trigger, AbstractWebSocketMessageHandler $handler)
     {
-        $this->handlers[$name] = $handler;
+        $this->handlers[$trigger] = $handler;
 
         return $this;
     }

@@ -6,7 +6,7 @@ Actions: Actions
 Aliases: Alias
 Amount: Montant
 and whose amount is: et dont le montant est
-Are you sure you never imported this statement?: Êtes-vous certain de n'avoir jamais importé ce relevé de compte?
+Are you sure you never imported this file?: Êtes-vous certain de n'avoir jamais importé ce fichier?
 Are you sure you want to delete this item?: Êtes-vous certain de vouloir supprimer cet élément ?
 Bank: Banque
 Back to the category list: Revenir à la liste des catégories
@@ -25,6 +25,8 @@ Create an account now: Créer un compte dès maintenant
 Create a new rule: Créer une nouvelle règle
 Create a new transaction: Créer une nouvelle transaction
 Created at: Créé le
+Caisse d'épargne account statement: Relevé de compte de la caisse d'Épargne
+Crédit Mutuel account statement: Relevé de compte du Crédit Mutuel
 Csv export: Exporter au format csv
 Currency: Monnaie
 Date: Date
@@ -49,6 +51,7 @@ Exporting: Export en cours
 Export transactions: Exporter des transactions
 Export transactions to elasticsearch: Exporter des transactions sur elasticsearch
 Filter: Filtrer
+File type: Type de fichier
 from_number: de
 from_date: du
 Go back to file upload: Revenir à l'import des fichiers
@@ -76,7 +79,7 @@ No transaction categorized: Aucune transaction à catégoriser
 No more transactions to export: Plus de transactions à exporter
 No more transactions to categorize: Plus de transactions à catégoriser
 No sub category selected: Aucune sous-catégorie sélectionné
-No transactions were found. Are you sure your pdf is a valid statement file from: Aucune transaction trouvée. Êtes-vous certain que votre pdf est un fichier valide
+No transactions were found. Are you sure your pdf is a valid: Aucune transaction trouvée. Êtes-vous certain que votre pdf est bien un
 Operator: Opérande
 Please upload a valid PDF document: Veuillez importer un document PDF valide
 positive: positive
@@ -87,7 +90,7 @@ Save: Sauvegarder
 Save these transactions: Sauvegarder ces transactions
 See rule: Voir la règle
 Show all transactions: Montrer toutes les transactions
-Statement (PDF file): Relevé de compte (fichier PDF)
+PDF file: Fichier PDF
 Show only transactions to categorize: Montrer uniquement les transactions à catégoriser
 Sub categories rules: Règles de catégorisation
 Sub category transaction rule list: Liste des règles de catégorisation
