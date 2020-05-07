@@ -56,7 +56,7 @@ class RuleChecker
 
         $ruleAmount = $rule->getAmount();
         $ruleOperator = $rule->getOperator();
-        $transactionAmount = $transaction->getAmount();
+        $transactionAmount = abs($transaction->getAmount());
 
         if ($ruleAmount !== null && $ruleOperator !== null) {
 
