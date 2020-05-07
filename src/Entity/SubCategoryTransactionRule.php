@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Validator\Constraints\RuleIsLogicalConstraint;
 use App\Validator\Constraints\RuleIsCompleteConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -98,6 +97,49 @@ class SubCategoryTransactionRule
         }
     }
 
+    /**
+     * From a usable format to a database format
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setAmountAndOperatorBeforePersist()
+    {
+        if ($this->transactionType == TransactionType::EXPENSES) {
+
+            if ($this->operator == Operator::GREATER_THAN_OR_EQUAL) {
+                $this->operator = Operator::LOWER_THAN_OR_EQUAL;
+            } else if ($this->operator == Operator::LOWER_THAN_OR_EQUAL) {
+                $this->operator = Operator::GREATER_THAN_OR_EQUAL;
+            }
+
+            $this->amount = $this->amount !== null ? -abs($this->amount) : null;
+        }
+    }
+
+    /**
+     * From database format to a more usable format
+     *
+     * @ORM\PostLoad
+     */
+    public function setAmountAndOperatorAfterLoad()
+    {
+        $this->transactionType = $this->subCategory->getTransactionType();
+
+        if ($this->transactionType == TransactionType::EXPENSES) {
+
+            if ($this->operator == Operator::GREATER_THAN_OR_EQUAL) {
+                $this->operator = Operator::LOWER_THAN_OR_EQUAL;
+            } else if ($this->operator == Operator::LOWER_THAN_OR_EQUAL) {
+                $this->operator = Operator::GREATER_THAN_OR_EQUAL;
+            }
+
+            $this->amount = $this->amount !== null ? abs($this->amount) : null;
+        }
+
+        return $this;
+    }
+
     public function toArray()
     {
         $array = [
@@ -142,11 +184,6 @@ class SubCategoryTransactionRule
         return $this;
     }
 
-    public function getDisplayableAmount(): ?float
-    {
-        return $this->amount !== null ? abs($this->amount) : null;
-    }
-
     public function getSubCategory(): ?SubCategory
     {
         return $this->subCategory;
@@ -164,9 +201,9 @@ class SubCategoryTransactionRule
         return $this->transactionType;
     }
 
-    public function setTransactionType(string $transactionType)
+    public function setTransactionType(?string $transactionType)
     {
-        if (!in_array($transactionType, TransactionType::getAll())) {
+        if ($transactionType !== null && !in_array($transactionType, TransactionType::getAll())) {
             throw new \Exception(sprintf('Invalid transaction type %s', $transactionType));
         }
 
@@ -177,23 +214,6 @@ class SubCategoryTransactionRule
 
     public function getOperator(): ?string
     {
-        return $this->operator;
-    }
-
-    public function getReversedOperator(): ?string
-    {
-        if ($this->subCategory !== null && $this->subCategory->getTransactionType() == TransactionType::EXPENSES) {
-
-            if ($this->operator == Operator::GREATER_THAN_OR_EQUAL) {
-                return Operator::LOWER_THAN_OR_EQUAL;
-
-            }
-
-            if ($this->operator == Operator::LOWER_THAN_OR_EQUAL) {
-                return Operator::GREATER_THAN_OR_EQUAL;
-            }
-        }
-
         return $this->operator;
     }
 

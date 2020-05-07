@@ -6,16 +6,13 @@ use App\Entity\Operator;
 use App\Entity\SubCategory;
 use App\Entity\SubCategoryTransactionRule;
 use App\Entity\TransactionType;
-use App\Exception\IllogicalRuleException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\DataMapperInterface;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType implements DataMapperInterface
+class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -55,7 +52,6 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType impleme
                 'required' => true,
                 'empty_data' => 0
             ])
-            ->setDataMapper($this)
         ;
     }
 
@@ -64,69 +60,5 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType impleme
         $resolver->setDefaults([
             'data_class' => SubCategoryTransactionRule::class,
         ]);
-    }
-
-    private function getReversedOperator($transactionType, $operator): ?string
-    {
-        if ($transactionType == TransactionType::EXPENSES) {
-
-            if ($operator == Operator::GREATER_THAN_OR_EQUAL) {
-                return Operator::LOWER_THAN_OR_EQUAL;
-            }
-
-            if ($operator == Operator::LOWER_THAN_OR_EQUAL) {
-                return Operator::GREATER_THAN_OR_EQUAL;
-            }
-        }
-
-        return $operator;
-    }
-
-    public function mapDataToForms($viewData, $forms)
-    {
-        if (null === $viewData) {
-            return;
-        }
-
-        if (!$viewData instanceof SubCategoryTransactionRule) {
-            throw new UnexpectedTypeException($viewData, SubCategoryTransactionRule::class);
-        }
-
-        $forms = iterator_to_array($forms);
-        $forms['contains']->setData($viewData->getContains());
-        $forms['subCategory']->setData($viewData->getSubCategory());
-        $forms['amount']->setData($viewData->getDisplayableAmount());
-        $forms['transactionType']->setData($viewData->getTransactionType());
-        $forms['operator']->setData($viewData->getReversedOperator());
-        $forms['priority']->setData($viewData->getPriority());
-    }
-
-    public function mapFormsToData($forms, &$viewData)
-    {
-        $forms = iterator_to_array($forms);
-
-        $transactionType = $forms['transactionType']->getData();
-        $subCategory = $forms['subCategory']->getData();
-
-        if ($subCategory->getTransactionType() !== $transactionType) {
-            throw new IllogicalRuleException($transactionType, $subCategory);
-        }
-
-        if ( $forms['amount']->getData() < 0) {
-            throw new \UnexpectedValueException();
-        }
-
-        $amount = $transactionType == TransactionType::EXPENSES ?
-            -1 * $forms['amount']->getData() :
-            $forms['amount']->getData()
-        ;
-
-        $viewData
-            ->setContains($forms['contains']->getData())
-            ->setAmount($amount)
-            ->setOperator($this->getReversedOperator($transactionType, $forms['operator']->getData()))
-            ->setPriority($forms['priority']->getData())
-            ->setSubCategory($subCategory)
-        ;
     }
 }
