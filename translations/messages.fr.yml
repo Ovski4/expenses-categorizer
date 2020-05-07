@@ -10,7 +10,6 @@ Are you sure you never imported this statement?: Êtes-vous certain de n'avoir j
 Are you sure you want to delete this item?: Êtes-vous certain de vouloir supprimer cet élément ?
 Bank: Banque
 Back to the category list: Revenir à la liste des catégories
-but the sub category belongs to: mais la sous-catégorie appartient aux
 Category list: Liste des Catégories
 Categorizing: Catégorisation en cours
 Create a new sub category: Créer une nouvelle sous-catégorie
@@ -98,13 +97,11 @@ Total: Total
 total amount is: Le montant total est de
 Top category: Catégorie parente
 Type: Type
-The amount of the rule must be an absolute amount, and therefore be positive.: Le montant de la règle doit être un montant absolu, et donc sa valeur doit être positive.
 This account cannot be deleted while transactions belong to it.: Ce compte ne peut pas être supprimé tant que des transactions y sont liées.
 This top category cannot be deleted while sub categories belong to it.: Cette catégorie parente ne peut pas être supprimée tant que des sous-catégories y sont liées.
 to_number: à
 to_date: au
 Transactions containing text: Les transactions contenant le texte
-Transaction type is set to: Le type de transaction est
 Transaction list: Liste des transactions
 Transaction type: Type de transaction
 Transactions: Transactions
