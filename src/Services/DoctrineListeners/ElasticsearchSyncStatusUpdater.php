@@ -49,7 +49,14 @@ class ElasticsearchSyncStatusUpdater implements EventSubscriber
             }
 
             if ($entity instanceof Transaction) {
-                $transactions[] = $entity;
+                $changes = $unitOfWork->getEntityChangeSet($entity);
+
+                if (!(
+                    isset($changes['toSyncInElasticsearch']) &&
+                    $changes['toSyncInElasticsearch'][1] === false
+                )) {
+                    $transactions[] = $entity;
+                }
             }
 
             foreach ($transactions as $transaction) {
