@@ -28,6 +28,7 @@
                 <th>{% trans %}Operator{% endtrans %}</th>
                 <th>{% trans %}Transaction type{% endtrans %}</th>
                 <th>{% trans %}Sub category{% endtrans %}</th>
+                <th>{% trans %}Priority{% endtrans %}</th>
                 <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
@@ -45,6 +46,7 @@
                 </td>
                 <td>{{ sub_category_transaction_rule.subCategory.topCategory.transactionType }}</td>
                 <td>{{ sub_category_transaction_rule.subCategory }}</td>
+                <td>{{ sub_category_transaction_rule.priority }}</td>
                 <td>
                     <a href="{{ path('sub_category_transaction_rule_edit', {'id': sub_category_transaction_rule.id}) }}"><i class="fas fa-edit"></i></a>
                 </td>
