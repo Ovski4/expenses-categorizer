@@ -22,7 +22,7 @@ class SubCategoryType extends AbstractCategoryRelatedType
             ->add('name')
             ->add('topCategory', EntityType::class, [
                 'class' => TopCategory::class,
-                'choices' => $this->getChoices(null, TopCategory::class),
+                'choices' => $this->getChoices(TopCategory::class),
             ])
         ;
     }

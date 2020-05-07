@@ -20,30 +20,21 @@ abstract class AbstractCategoryRelatedType extends AbstractType
         $this->translator = $translator;
     }
 
-    protected function getChoices($transactionType = null, $class = SubCategory::class)
+    protected function getChoices($class = SubCategory::class)
     {
         $choices = [$this->translator->trans('No sub category selected') => null];
 
-        if ($transactionType != null) {
-            $subCategories = $this->entityManager
-                ->getRepository($class)
-                ->findByTransactionType($transactionType)
-            ;
+        $expensesSubCategories = $this->entityManager
+            ->getRepository($class)
+            ->findByTransactionType(EntityTransactionType::EXPENSES)
+        ;
+        $revenuesSubCategories = $this->entityManager
+            ->getRepository($class)
+            ->findByTransactionType(EntityTransactionType::REVENUES)
+        ;
 
-            $choices[$transactionType] = $subCategories;
-        } else {
-            $expensesSubCategories = $this->entityManager
-                ->getRepository($class)
-                ->findByTransactionType(EntityTransactionType::EXPENSES)
-            ;
-            $revenuesSubCategories = $this->entityManager
-                ->getRepository($class)
-                ->findByTransactionType(EntityTransactionType::REVENUES)
-            ;
-
-            $choices[$this->translator->trans(EntityTransactionType::EXPENSES)] = $expensesSubCategories;
-            $choices[$this->translator->trans(EntityTransactionType::REVENUES)] = $revenuesSubCategories;
-        }
+        $choices[$this->translator->trans(EntityTransactionType::EXPENSES)] = $expensesSubCategories;
+        $choices[$this->translator->trans(EntityTransactionType::REVENUES)] = $revenuesSubCategories;
 
         return $choices;
     }
