@@ -24,12 +24,11 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
             $transactionTypeChoices[$this->translator->trans($transactionType)] = $transactionType;
         }
 
-        $transactionTypeOptions = [
-            'choices' => $transactionTypeChoices,
-            'required' => true
-        ];
-
         $builder
+            ->add('transactionType', ChoiceType::class, [
+                'choices' => $transactionTypeChoices,
+                'required' => true
+            ])
             ->add('contains')
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
@@ -39,7 +38,6 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
                 'amount', NumberType::class, [
                 'required' => false
             ])
-            ->add('transactionType', ChoiceType::class, $transactionTypeOptions)
             ->add('operator', ChoiceType::class, [
                 'help' => 'Select which operator to use to compare transactions amount with this rule amount',
                 'choices' => $operatorChoices,
