@@ -8,7 +8,6 @@ use App\Entity\TransactionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SubCategoryType extends AbstractCategoryRelatedType
 {
