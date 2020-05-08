@@ -12,9 +12,9 @@ Core values
 Workflow
 --------
 
-1. Import transactions from files (this application + third party parsers (adding new parsers is easy))
+1. Import transactions from files (this application + third party parsers)
 2. Categorize transactions (this application)
-3. Export and analyze the transactions. No need to reinvent the wheel : elasticsearch & kibana are perfect for this.
+3. Export and analyze the transactions. (no need to reinvent the wheel : elasticsearch & kibana are perfect for this)
 
 ![Kibana dashboard](docs/kibana-dashboard.png "Kibana dashboard")
 
@@ -25,7 +25,7 @@ Run the app:
 
 ```bash
 docker-compose up -d
-docker-compose run php php bin/console doctrine:migrations:migrate --no-interaction
+# migrations are run as soon as the php container get started
 ```
 
 Run the tests:
