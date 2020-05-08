@@ -1,7 +1,6 @@
 <?php
 
 use App\Entity\Account;
-use App\Entity\Currency;
 use App\Entity\Operator;
 use App\Services\RuleChecker;
 use PHPUnit\Framework\TestCase;
@@ -42,7 +41,7 @@ class RuleCheckerTest extends TestCase
     {
         $transaction = new Transaction();
         $transaction
-            ->setAccount((new Account)->setName('Fake account')->setCurrency(Currency::EUR))
+            ->setAccount((new Account)->setName('Fake account')->setCurrency('EUR'))
             ->setAmount($amount)
             ->setCreatedAt(new \DateTime('now'))
             ->setLabel($label)

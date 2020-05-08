@@ -3,10 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Account;
-use App\Entity\Currency;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,10 +22,6 @@ class AccountType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach (Currency::getAll() as $currency) {
-            $choices[$currency] = $currency;
-        }
-
         $builder
             ->add('name')
             ->add('aliases', CollectionType::class, [
@@ -36,8 +31,7 @@ class AccountType extends AbstractType
                 'delete_empty' => true,
                 'attr' => ['class' => 'collection'],
             ])
-            ->add('currency', ChoiceType::class, [
-                'choices' => $choices,
+            ->add('currency', CurrencyType::class, [
                 'required' => true
             ])
         ;

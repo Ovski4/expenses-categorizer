@@ -79,10 +79,6 @@ class Account
 
     public function setCurrency(string $currency): self
     {
-        if (!in_array($currency, Currency::getAll())) {
-            throw new \Exception(sprintf('Invalid currency %s', $currency));
-        }
-
         $this->currency = $currency;
 
         return $this;
