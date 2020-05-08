@@ -225,6 +225,9 @@
     "react/stream": {
         "version": "v1.1.0"
     },
+    "rregeer/phpunit-coverage-check": {
+        "version": "0.3.1"
+    },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
         "recipe": {

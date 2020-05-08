@@ -9,6 +9,7 @@
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
+clover.xml
 .phpunit
 .phpunit.result.cache
 /phpunit.xml
