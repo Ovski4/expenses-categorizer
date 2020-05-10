@@ -14,7 +14,7 @@ Core values
 How to use it?
 --------------
 
-Follow [the workflow](docs/worflow.md) to get to know how to used the app.
+Follow [the workflow](docs/workflow.md) to get to know how to used the app.
 
 Installation
 ------------
