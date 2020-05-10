@@ -1,18 +1,14 @@
-language: minimal
+language: php
+
+php:
+  - '7.2'
 
 services:
-  - docker
+  - mysql
 
 script:
-  - docker-compose up -d mysql
-  - sleep 30
-  - >-
-    docker-compose run
-    -e TRAVIS_JOB_ID="$TRAVIS_JOB_ID"
-    -e SYMFONY_DEPRECATIONS_HELPER=disabled
-    php bash -c
-    "
-    mkdir -p build/logs &&
-    php bin/phpunit --coverage-clover build/logs/clover.xml &&
-    php vendor/bin/php-coveralls -v
-    "
+  - composer install
+  - php bin/console doctrine:migrations:migrate --no-interaction
+  - mkdir -p build/logs
+  - php bin/phpunit --coverage-clover build/logs/clover.xml
+  - php vendor/bin/php-coveralls -v
