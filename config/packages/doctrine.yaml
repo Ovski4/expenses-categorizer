@@ -1,6 +1,6 @@
 doctrine:
     dbal:
-        url: 'mysql://%env(resolve:MYSQL_USER)%:%env(resolve:MYSQL_PASSWORD)%@mysql:3306/%env(resolve:MYSQL_DATABASE)%'
+        url: 'mysql://%env(resolve:MYSQL_USER)%:%env(resolve:MYSQL_PASSWORD)%@%env(resolve:MYSQL_HOST)%:3306/%env(resolve:MYSQL_DATABASE)%'
         driver: 'mysql'
         server_version: '5.7'
         charset: utf8mb4
