@@ -35,6 +35,7 @@
     "require-dev": {
         "cap-collectif/id-to-uuid": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "php-coveralls/php-coveralls": "^2.2",
         "rregeer/phpunit-coverage-check": "^0.3.1",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",

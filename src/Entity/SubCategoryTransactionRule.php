@@ -112,10 +112,9 @@ class SubCategoryTransactionRule
     {
         if ($this->subCategory->getTransactionType() !== $this->transactionType) {
             throw new \Exception(sprintf(
-                'Invalid sub category transaction type (%s) for transaction %s with amount %s',
+                'Invalid transaction type "%s" for rule with contains "%s"',
                 $this->subCategory->getTransactionType(),
-                $this->id,
-                $this->amount
+                $this->contains
             ));
         }
     }
