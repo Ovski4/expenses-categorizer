@@ -38,7 +38,7 @@ To run the app in prod, prefix all above docker-compose commands with `-f docker
 
 Update the services environment variables in the docker-compose-prod.yml file according to your needs.
 
-Run the tests:
+### Run the tests
 
 ```bash
 docker-compose run php php bin/phpunit
@@ -67,7 +67,6 @@ Here is an example below:
 
 namespace App\Services\FileParser;
 
-use Symfony\Component\HttpClient\HttpClient;
 use App\Entity\Transaction;
 
 class HelloBankAccountStatementParser extends AbstractFileParser 
