@@ -36,10 +36,10 @@ services:
       APP_ENV: dev
       LOCALE: fr
       RUN_MIGRATIONS: 'true'
-    volumes:
-      - ./:/var/www/html
-      - statements:/var/statements
-      - composer:/root/.composer
+    # volumes:
+    #   - ./:/var/www/html
+    #   - statements:/var/statements
+    #   - composer:/root/.composer
     depends_on:
       - mysql
 
@@ -52,9 +52,9 @@ services:
     build:
       context: ./
       dockerfile: ./docker/build/php/Dockerfile
-    volumes:
-      - ./:/var/www/html
-      - composer:/root/.composer
+    # volumes:
+    #   - ./:/var/www/html
+    #   - composer:/root/.composer
     depends_on:
       - mysql
       - php
@@ -70,8 +70,8 @@ services:
     build:
       context: ./
       dockerfile: ./docker/build/nginx/Dockerfile
-    volumes:
-      - ./:/var/www/html
+    # volumes:
+    #   - ./:/var/www/html
     depends_on:
       - php
     ports:

@@ -26,7 +26,6 @@ COPY . /var/www/html
 RUN composer install
 
 RUN useradd --create-home --uid 1000 --shell /bin/bash web
-RUN usermod -a -G www-data web
 RUN chown web. -R /var/www/html
 USER web
 WORKDIR /var/www/html
