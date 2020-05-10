@@ -12,20 +12,32 @@ Core values
 Workflow
 --------
 
-1. Import transactions from files (this application + third party parsers)
-2. Categorize transactions (this application)
-3. Export and analyze the transactions. (no need to reinvent the wheel : elasticsearch & kibana are perfect for this)
+1. Import transactions from files (this application + third party parsers to plug in)
+
+![Import a file](docs/import-transactions.png "Import a file")
+![Validate transactions](docs/validate-transactions.png "Validate transactions")
+
+2. Categorize transactions (this application). Create some rules that will categorize most of your transactions automatically.
+
+![Create a rule](docs/create-rule.png "Create a rule")
+![Categorize transactions](docs/categorize-transactions.png "Categorize transactions")
+
+3. Export and analyze your expenses and revenues. (no need to reinvent the wheel : elasticsearch & kibana are perfect for this)
 
 ![Kibana dashboard](docs/kibana-dashboard.png "Kibana dashboard")
 
-Getting started
----------------
+Installation
+------------
 
 Run the app:
 
 ```bash
-docker-compose up -d
-# migrations are run as soon as the php container get started
+docker-compose up -d mysql
+docker-compose logs -f mysql # wait for mysql to be ready
+docker-compose up -d # doctrine migrations will run as soon as the php container get started
+
+# optionally, create some default transaction categories
+docker-compose run php php bin/console doctrine:fixtures:load --append
 ```
 
 Run the tests:
@@ -38,13 +50,15 @@ Create new parsers
 ------------------
 
 The current implementation can import transactions from account statements coming from the following banks:
- * Crédit Mutuel
+ * Crédit Mutuel (parser service here)
  * Caisse d'épargne
 
-To add a new file parser, create a new class that implements **AbstractFileParser**.
+Source code for these parsers can be found at https://github.com/Ovski4/account-statement-parsers.
+
+To add a new file parser, create a new class that implements **AbstractFileParser**. The symfony framework will take care of creating tagged services automatically and update the user interface (the forms) accordingly.
 
 You will have to implement the following methods:
- * parse() : returns an array of Transactions object.
+ * parse() : returns an array of [Transactions objects](src/Entity/Transaction.php).
  * getName() : returns a string that will appear in urls
  * getLabel() : returns a string that will be used in forms and alerts (a human readable string).
 
