@@ -6,4 +6,13 @@ services:
 script:
   - docker-compose up -d mysql
   - sleep 30
-  - docker-compose run php bash -c "mkdir -p build/logs && SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit --coverage-clover build/logs/clover.xml && php vendor/bin/php-coveralls -v"
+  - >-
+    docker-compose
+    -e TRAVIS_JOB_ID="$TRAVIS_JOB_ID"
+    -e SYMFONY_DEPRECATIONS_HELPER=disabled
+    run php bash -c
+    "
+    mkdir -p build/logs &&
+    php bin/phpunit --coverage-clover build/logs/clover.xml &&
+    php vendor/bin/php-coveralls -v
+    "
