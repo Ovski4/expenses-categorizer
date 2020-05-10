@@ -1,0 +1,57 @@
+version: '3.7'
+
+volumes:
+  mysql:
+  statements:
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_USER: expenses_categorizer
+      MYSQL_DATABASE: expenses_categorizer
+      MYSQL_PASSWORD: expenses_categorizer
+    volumes:
+      - mysql:/var/lib/mysql
+
+  php:
+    image: ovski/expenses-categorizer-php:latest
+    environment:
+      APP_DOMAIN: localhost
+      MYSQL_USER: expenses_categorizer
+      MYSQL_DATABASE: expenses_categorizer
+      MYSQL_PASSWORD: expenses_categorizer
+      MYSQL_HOST: mysql
+      APP_ENV: prod
+      LOCALE: en
+      RUN_MIGRATIONS: 'true'
+    depends_on:
+      - mysql
+
+  account_statement_parser:
+    image: ovski/account-statement-parser:latest
+    volumes:
+      - statements:/var/statements
+
+  web_socket:
+    image: ovski/expenses-categorizer-php:latest
+    depends_on:
+      - mysql
+      - php
+    command: php bin/console app:start-web-socket-server
+    environment:
+      MYSQL_USER: expenses_categorizer
+      MYSQL_DATABASE: expenses_categorizer
+      MYSQL_PASSWORD: expenses_categorizer
+      MYSQL_HOST: mysql
+      APP_ENV: prod
+      LOCALE: en
+
+  nginx:
+    image: ovski/expenses-categorizer-nginx:latest
+    depends_on:
+      - php
+    ports:
+      - 80:80

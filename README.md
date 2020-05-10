@@ -3,7 +3,7 @@ Expenses categorizer
 
 [![Build Status](https://travis-ci.org/Ovski4/expenses-categorizer.svg?branch=master)](https://travis-ci.org/Ovski4/expenses-categorizer) [![Coverage Status](https://coveralls.io/repos/github/Ovski4/expenses-categorizer/badge.svg?branch=master)](https://coveralls.io/github/Ovski4/expenses-categorizer?branch=master)
 
-An application written in PHP (Symfony 4 framework) used to import, categorize and analyze transactions.
+An application written in PHP (Symfony 4 framework) to import, categorize and analyze transactions.
 
 Core values
 -----------
@@ -14,12 +14,12 @@ Core values
 How to use it?
 --------------
 
-Follow [the workflow](docs/workflow.md) to get to know how to used the app.
+Follow [the workflow](docs/workflow.md) to get to know how to use the app.
 
-Installation
-------------
+Installation with docker
+------------------------
 
-Run the app:
+### Run the app in dev
 
 ```bash
 docker-compose up -d mysql
@@ -29,6 +29,14 @@ docker-compose up -d # doctrine migrations will run as soon as the php container
 # optionally, create some default transaction categories
 docker-compose run php php bin/console doctrine:fixtures:load --append
 ```
+
+Browse [http://localhost](http://localhost)
+
+### Run the app in prod
+
+To run the app in prod, prefix all above docker-compose commands with `-f docker-compose-prod.yml`.
+
+Update the services environment variables in the docker-compose-prod.yml file according to your needs.
 
 Run the tests:
 
