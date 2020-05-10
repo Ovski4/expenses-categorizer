@@ -1,6 +1,8 @@
 Expenses categorizer
 ====================
 
+[![Build Status](https://travis-ci.org/Ovski4/expenses-categorizer.svg?branch=master)](https://travis-ci.org/Ovski4/expenses-categorizer) [![Coverage Status](https://coveralls.io/repos/github/Ovski4/expenses-categorizer/badge.svg?branch=master)](https://coveralls.io/github/Ovski4/expenses-categorizer?branch=master)
+
 An application written in PHP (Symfony 4 framework) used to import, categorize and analyze transactions.
 
 Core values
@@ -9,22 +11,10 @@ Core values
 * Being able to categorize transactions from a monthly account statement in seconds, not minutes (obviously initial setup will take longer).
 * Build every chart one can think of to make sense of expenses and revenues.
 
-Workflow
---------
+How to use it?
+--------------
 
-1. Import transactions from files (this application + third party parsers to plug in)
-
-![Import a file](docs/import-transactions.png "Import a file")
-![Validate transactions](docs/validate-transactions.png "Validate transactions")
-
-2. Categorize transactions (this application). Create some rules that will categorize most of your transactions automatically.
-
-![Create a rule](docs/create-rule.png "Create a rule")
-![Categorize transactions](docs/categorize-transactions.png "Categorize transactions")
-
-3. Export and analyze your expenses and revenues. (no need to reinvent the wheel : elasticsearch & kibana are perfect for this)
-
-![Kibana dashboard](docs/kibana-dashboard.png "Kibana dashboard")
+Follow [the workflow](docs/worflow.md) to get to know how to used the app.
 
 Installation
 ------------
@@ -53,7 +43,7 @@ The current implementation can import transactions from account statements comin
  * Crédit Mutuel (parser service here)
  * Caisse d'épargne
 
-Source code for these parsers can be found at https://github.com/Ovski4/account-statement-parsers.
+Source code for these parsers can be found at https://github.com/Ovski4/expenses-categorizer.
 
 To add a new file parser, create a new class that implements **AbstractFileParser**. The symfony framework will take care of creating tagged services automatically and update the user interface (the forms) accordingly.
 
