@@ -7,10 +7,10 @@ script:
   - docker-compose up -d mysql
   - sleep 30
   - >-
-    docker-compose
+    docker-compose run
     -e TRAVIS_JOB_ID="$TRAVIS_JOB_ID"
     -e SYMFONY_DEPRECATIONS_HELPER=disabled
-    run php bash -c
+    php bash -c
     "
     mkdir -p build/logs &&
     php bin/phpunit --coverage-clover build/logs/clover.xml &&
