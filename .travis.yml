@@ -6,4 +6,5 @@ services:
 script:
   - docker-compose up -d mysql
   - sleep 30
-  - docker-compose run --rm php php bin/phpunit --coverage-clover clover.xml
+  - docker-compose run php php bin/phpunit --coverage-clover clover.xml
+  - docker-compose run php php vendor/bin/php-coveralls
