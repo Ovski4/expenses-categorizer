@@ -51,7 +51,7 @@ The current implementation can import transactions from account statements comin
  * Crédit Mutuel (parser service here)
  * Caisse d'épargne
 
-Source code for these parsers can be found at https://github.com/Ovski4/expenses-categorizer.
+Source code for these parsers can be found at https://github.com/Ovski4/account-statement-parsers.
 
 To add a new file parser, create a new class that implements **AbstractFileParser**. The symfony framework will take care of creating tagged services automatically and update the user interface (the forms) accordingly.
 
