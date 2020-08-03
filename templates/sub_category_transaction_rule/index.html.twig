@@ -41,7 +41,9 @@
                     <em>{% if sub_category_transaction_rule.amount is null %}{% trans %}undefined{% endtrans %}{% endif %}</em>
                 </td>
                 <td>
-                    {{ sub_category_transaction_rule.operator|trans }}
+                    {% if sub_category_transaction_rule.operator is not null %}
+                        {{ sub_category_transaction_rule.operator|trans }}
+                    {% endif %}
                     <em>{% if sub_category_transaction_rule.operator is null %}{% trans %}undefined{% endtrans %}{% endif %}</em>
                 </td>
                 <td>{{ sub_category_transaction_rule.subCategory.topCategory.transactionType }}</td>

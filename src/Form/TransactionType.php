@@ -6,12 +6,19 @@ use App\Entity\Account;
 use App\Entity\SubCategory;
 use App\Entity\Transaction;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class TransactionType extends AbstractCategoryRelatedType
+class TransactionType extends AbstractType
 {
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -26,8 +33,10 @@ class TransactionType extends AbstractCategoryRelatedType
             ])
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
-                'choices' => $this->getChoices(),
-                'required' => false
+                'group_by' => function($choice) {
+                    return $this->translator->trans($choice->getTransactionType());
+                },
+                'required' => false,
             ])
         ;
     }

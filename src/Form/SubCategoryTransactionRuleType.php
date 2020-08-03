@@ -7,13 +7,20 @@ use App\Entity\SubCategory;
 use App\Entity\SubCategoryTransactionRule;
 use App\Entity\TransactionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
+class SubCategoryTransactionRuleType extends AbstractType
 {
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach (Operator::getAll() as $operator) {
@@ -32,7 +39,9 @@ class SubCategoryTransactionRuleType extends AbstractCategoryRelatedType
             ->add('contains')
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
-                'choices' => $this->getChoices(),
+                'group_by' => function($choice) {
+                    return $this->translator->trans($choice->getTransactionType());
+                },
             ])
             ->add(
                 'amount', NumberType::class, [
