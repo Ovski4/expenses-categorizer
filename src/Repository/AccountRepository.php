@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Account;
 use App\Exception\AccountNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NoResultException;
 
 /**
