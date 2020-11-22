@@ -63,7 +63,12 @@ class ElasticsearchSyncStatusUpdater implements EventSubscriber
                 $transaction->setToSyncInElasticsearch(true);
                 $entityManager->persist($transaction);
                 $classMetadata = $entityManager->getClassMetadata(Transaction::class);
-                $unitOfWork->computeChangeSet($classMetadata, $transaction);
+
+                if ($unitOfWork->getEntityChangeSet($entity)) {
+                    $unitOfWork->recomputeSingleEntityChangeSet($classMetadata, $transaction);
+                } else {
+                    $unitOfWork->computeChangeSet($classMetadata, $transaction);
+                }
             }
         }
     }
