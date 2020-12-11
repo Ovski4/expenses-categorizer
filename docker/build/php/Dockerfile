@@ -11,7 +11,7 @@ RUN docker-php-ext-install pdo
 RUN docker-php-ext-install pdo_mysql
 RUN apt-get install libicu-dev -y && docker-php-ext-install intl
 RUN apt-get install zlib1g-dev -y && docker-php-ext-install zip
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+# RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # install composer
 COPY ./docker/build/php/install-composer.sh /tmp/install-composer.sh
