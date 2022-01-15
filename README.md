@@ -25,6 +25,10 @@ Installation with docker
 docker-compose up -d mysql
 docker-compose logs -f mysql # wait for mysql to be ready
 docker-compose up -d # doctrine migrations will run as soon as the php container get started
+docker-compose run php composer install
+
+# allow the web user from the php container to write in the /var/statements folder
+docker exec -it expenses-categorizer_account_statement_parser_1 chown 1000 -R /var/statements
 
 # optionally, create some default transaction categories
 docker-compose run php php bin/console doctrine:fixtures:load --append
