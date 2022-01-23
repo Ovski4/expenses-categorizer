@@ -50,15 +50,35 @@ class StatementType extends AbstractType
             ])
             ->add('parserName', ChoiceType::class, [
                 'choices'  => $this->getChoices(),
+                'preferred_choices' => $this->getPreferredChoices(),
                 'label' => 'File type',
                 'required' => true
             ])
         ;
     }
 
+    private function getPreferredChoices()
+    {
+        $lastParserUsedSettings = $this->entityManager
+            ->getRepository(Settings::class)
+            ->findOneByName(Settings::NAME_LAST_PARSER_USED)
+        ;
+
+        $choices = $this->getChoices();
+
+        if (!is_null($lastParserUsedSettings)) {
+            $parserName = $lastParserUsedSettings->getValue();
+            $parserLabel = array_search($parserName, $choices);
+
+            return [ $parserLabel => $parserName ];
+        }
+
+        return [];
+    }
+
     private function getChoices()
     {
-        $choices = array_reduce(
+        return array_reduce(
             $this->fileParserRegistry->getfileParsers(),
             function(array $choices, AbstractFileParser $fileParser) {
                 $choices[$fileParser->getLabel()] = $fileParser->getName();
@@ -67,38 +87,5 @@ class StatementType extends AbstractType
             },
             []
         );
-
-        $lastParserUsedSettings = $this->entityManager
-            ->getRepository(Settings::class)
-            ->findOneByName(Settings::NAME_LAST_PARSER_USED)
-        ;
-
-        if (!is_null($lastParserUsedSettings)) {
-            return $this->moveToFirstPosition($choices, $lastParserUsedSettings->getValue());
-        }
-
-        return $choices;
-    }
-
-    /**
-     * Find the item in array with the given value and mov it at first position
-     */
-    private function moveToFirstPosition(array $associativeArray, string $firstItemValue): array
-    {
-        $reArrangedArray = [];
-
-        foreach ($associativeArray as $key => $value) {
-            if ($value === $firstItemValue) {
-                $reArrangedArray[$key] = $value;
-            }
-        }
-
-        foreach ($associativeArray as $key => $value) {
-            if ($value !== $firstItemValue) {
-                $reArrangedArray[$key] = $value;
-            }
-        }
-
-        return $reArrangedArray;
     }
 }
