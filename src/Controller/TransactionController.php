@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bank;
+use App\Entity\Settings;
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
 use App\Event\TransactionCategoryChangedEvent;
@@ -212,7 +213,8 @@ class TransactionController extends AbstractController
      */
     public function uploadStatement(
         Request $request,
-        StatementUploader $statementUploader
+        StatementUploader $statementUploader,
+        EntityManagerInterface $manager
     ): Response
     {
         $form = $this->createForm(StatementType::class);
@@ -222,6 +224,8 @@ class TransactionController extends AbstractController
             $statementFile = $form['statement']->getData();
             $parserName = $form['parserName']->getData();
             $statementFile = $statementUploader->upload($statementFile);
+
+            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_PARSER_USED, $parserName);
 
             return $this->redirect(
                 $this->generateUrl('validate_transactions', [

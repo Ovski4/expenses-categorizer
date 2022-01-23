@@ -2,9 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Bank;
+use App\Entity\Settings;
 use App\Services\FileParser\AbstractFileParser;
 use App\Services\FileParser\FileParserRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -18,10 +19,16 @@ class StatementType extends AbstractType
 
     private $fileParserRegistry;
 
-    public function __construct(TranslatorInterface $translator, FileParserRegistry $fileParserRegistry)
-    {
+    private $entityManager;
+
+    public function __construct(
+        TranslatorInterface $translator,
+        FileParserRegistry $fileParserRegistry,
+        EntityManagerInterface $entityManager
+    ) {
         $this->translator = $translator;
         $this->fileParserRegistry = $fileParserRegistry;
+        $this->entityManager = $entityManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -51,7 +58,7 @@ class StatementType extends AbstractType
 
     private function getChoices()
     {
-        return array_reduce(
+        $choices = array_reduce(
             $this->fileParserRegistry->getfileParsers(),
             function(array $choices, AbstractFileParser $fileParser) {
                 $choices[$fileParser->getLabel()] = $fileParser->getName();
@@ -60,5 +67,38 @@ class StatementType extends AbstractType
             },
             []
         );
+
+        $lastParserUsedSettings = $this->entityManager
+            ->getRepository(Settings::class)
+            ->findOneByName(Settings::NAME_LAST_PARSER_USED)
+        ;
+
+        if (!is_null($lastParserUsedSettings)) {
+            return $this->moveToFirstPosition($choices, $lastParserUsedSettings->getValue());
+        }
+
+        return $choices;
+    }
+
+    /**
+     * Find the item in array with the given value and mov it at first position
+     */
+    private function moveToFirstPosition(array $associativeArray, string $firstItemValue): array
+    {
+        $reArrangedArray = [];
+
+        foreach ($associativeArray as $key => $value) {
+            if ($value === $firstItemValue) {
+                $reArrangedArray[$key] = $value;
+            }
+        }
+
+        foreach ($associativeArray as $key => $value) {
+            if ($value !== $firstItemValue) {
+                $reArrangedArray[$key] = $value;
+            }
+        }
+
+        return $reArrangedArray;
     }
 }
