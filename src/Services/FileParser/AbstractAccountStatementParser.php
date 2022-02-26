@@ -6,7 +6,7 @@ use Symfony\Component\HttpClient\HttpClient;
 
 abstract class AbstractAccountStatementParser extends AbstractFileParser 
 {
-    public function parse(string $filepath): array
+    public function parse(string $filepath, ?string $accountName): array
     {
         $accountStatementParserApiUrl = $this->params->get('app.account_statement_parser_api_url');
 
@@ -25,6 +25,10 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
         $transactions = [];
 
         foreach($results as $result) {
+            if ($accountName) {
+                $result['account'] = $accountName;
+            }
+
             $transactions[] = $this->transactionFactory->createFromArray($result);
         }
 

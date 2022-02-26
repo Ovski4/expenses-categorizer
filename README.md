@@ -94,7 +94,7 @@ class HelloBankAccountStatementParser extends AbstractFileParser
         return 'Hello Bank account statement';
     }
 
-    public function parse(string $filepath): array
+    public function parse(string $filepath, ?string $accountName): array
     {
         $results = ... // do your magic here with the file
 

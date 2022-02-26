@@ -240,15 +240,16 @@ class TransactionController extends AbstractController
         if ($csvStatementForm->isSubmitted() && $csvStatementForm->isValid()) {
             $statementFile = $csvStatementForm['statement']->getData();
             $parserName = $csvStatementForm['parserName']->getData();
+            $account = $csvStatementForm['account']->getData();
             $statementFile = $statementUploader->upload($statementFile);
 
             $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_CSV_PARSER_USED, $parserName);
 
-            // @todo redirect somewhere else
             return $this->redirect(
                 $this->generateUrl('validate_transactions', [
                     'statement' => $statementFile,
-                    'parserName' => $parserName
+                    'parserName' => $parserName,
+                    'account' => $account->getName()
                 ])
             );
         }
@@ -276,7 +277,7 @@ class TransactionController extends AbstractController
             $fileParser = $registry->getFileParser($parserName);
             $transactions = $fileParser->parse(
                 $params->get('app.statements_dir') . $statement,
-                $parserName
+                $request->query->get('account')
             );
         } catch (AccountNotFoundException $e) {
             return $this->render('transaction/validate_transactions.html.twig', [

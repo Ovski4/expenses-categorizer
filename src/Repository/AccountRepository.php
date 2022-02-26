@@ -26,6 +26,7 @@ class AccountRepository extends ServiceEntityRepository
      */
     public function findByAliasOrName($search)
     {
+        // @todo fix issue with multiple accounts found
         try {
             return $this->createQueryBuilder('a')
                 ->andWhere('a.aliases LIKE :alias or a.name = :name')

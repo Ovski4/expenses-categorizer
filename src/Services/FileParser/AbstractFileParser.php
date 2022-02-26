@@ -23,5 +23,5 @@ abstract class AbstractFileParser
     abstract public function getName(): string;
     abstract public function getFileType(): string;
     abstract public function getLabel(): string;
-    abstract public function parse(string $filePath): array;
+    abstract public function parse(string $filePath, ?string $accountName): array;
 }

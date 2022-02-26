@@ -33,10 +33,12 @@
     </div>
 
     <script type="text/javascript">
-        document.querySelector('.custom-file-input').addEventListener('change',function(e){
-            var fileName = document.getElementById('pdf_statement_statement').files[0].name;
-            var nextSibling = e.target.nextElementSibling
-            nextSibling.innerText = fileName
+        document.querySelectorAll('.custom-file-input').forEach(function(element) {
+            element.addEventListener('change', function(e) {
+                const fileName = element.files[0].name;
+                const nextSibling = e.target.nextElementSibling
+                nextSibling.innerText = fileName
+            });
         });
     </script>
 {% endblock %}
