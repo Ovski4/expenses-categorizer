@@ -8,11 +8,29 @@
 
 {% block body %}
     <h1>{% trans %}Import transactions{% endtrans %}</h1>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6" style="padding: 2rem;">
+            <br>
+            <h4>Using a PDF file statement</h4>
+            <br>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-primary">{% trans %}Import transactions from this file{% endtrans %}</button>
-    {{ form_end(form) }}
+            {{ form_start(pdf_statement_form) }}
+                {{ form_widget(pdf_statement_form) }}
+                <button class="btn btn-primary">{% trans %}Import transactions from this pdf{% endtrans %}</button>
+            {{ form_end(pdf_statement_form) }}
+        </div>
+        <div class="col-lg-6" style="padding: 2rem;">
+            <br>
+            <h4>Using a CSV file</h4>
+            <br>
+
+            {{ form_start(csv_statement_form) }}
+                {{ form_widget(csv_statement_form) }}
+                <button class="btn btn-primary">{% trans %}Import transactions from this csv{% endtrans %}</button>
+            {{ form_end(csv_statement_form) }}
+        </div>
+    </div>
 
     <script type="text/javascript">
         document.querySelector('.custom-file-input').addEventListener('change',function(e){

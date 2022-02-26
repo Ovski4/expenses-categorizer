@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PdfStatementType extends AbstractType
+class CsvStatementType extends AbstractType
 {
     private $translator;
 
@@ -35,16 +35,15 @@ class PdfStatementType extends AbstractType
     {
         $builder
             ->add('statement', FileType::class, [
-                'label' => 'PDF file',
+                'label' => 'CSV file',
                 'mapped' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
+                            'text/csv',
                         ],
-                        'mimeTypesMessage' => $this->translator->trans('Please upload a valid PDF document'),
+                        'mimeTypesMessage' => $this->translator->trans('Please upload a valid CSV document'),
                     ])
                 ],
             ])
@@ -61,7 +60,7 @@ class PdfStatementType extends AbstractType
     {
         $lastParserUsedSettings = $this->entityManager
             ->getRepository(Settings::class)
-            ->findOneByName(Settings::NAME_LAST_PDF_STATEMENT_PARSER_USED)
+            ->findOneByName(Settings::NAME_LAST_CSV_PARSER_USED)
         ;
 
         $choices = $this->getChoices();
@@ -79,7 +78,7 @@ class PdfStatementType extends AbstractType
     private function getChoices()
     {
         return array_reduce(
-            $this->fileParserRegistry->getFileParsers( AbstractFileParser::FILE_TYPE_PDF ),
+            $this->fileParserRegistry->getFileParsers( AbstractFileParser::FILE_TYPE_CSV ),
             function(array $choices, AbstractFileParser $fileParser) {
                 $choices[$fileParser->getLabel()] = $fileParser->getName();
 

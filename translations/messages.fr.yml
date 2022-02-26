@@ -66,7 +66,8 @@ Select which operator to use to compare transactions amount with this rule amoun
 If a transaction matches multiple rules, the rule with the highest priority will prevail: Si une transaction correspond à plusieurs règles, la règle avec la priorité la plus haute l'emportera
 Import from a file: Importer à partir d'un fichier
 Import transactions: Importer des transactions
-Import transactions from this file: Importer des transactions à partir de ce fichier
+Import transactions from this pdf: Importer des transactions à partir de ce fichier pdf
+Import transactions from this csv: Importer des transactions à partir de ce fichier csv
 Incomplete rule: Règle non complète
 Label: Label
 Multiple rules with identical priorities match this transaction: Plusieurs règles aux priorités identiques correspondent à cette transaction

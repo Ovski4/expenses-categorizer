@@ -10,6 +10,7 @@ use App\Event\TransactionExportedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Exception\AccountNotFoundException;
 use App\FilterForm\TransactionFilterType;
+use App\Form\CsvStatementType;
 use App\Form\PdfStatementType;
 use App\Form\TransactionType;
 use App\Services\Exporter\CsvExporter;
@@ -215,15 +216,18 @@ class TransactionController extends AbstractController
         EntityManagerInterface $manager
     ): Response
     {
-        $form = $this->createForm(PdfStatementType::class);
-        $form->handleRequest($request);
+        $pdfStatementForm = $this->createForm(PdfStatementType::class);
+        $pdfStatementForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $statementFile = $form['statement']->getData();
-            $parserName = $form['parserName']->getData();
+        $csvStatementForm = $this->createForm(CsvStatementType::class);
+        $csvStatementForm->handleRequest($request);
+
+        if ($pdfStatementForm->isSubmitted() && $pdfStatementForm->isValid()) {
+            $statementFile = $pdfStatementForm['statement']->getData();
+            $parserName = $pdfStatementForm['parserName']->getData();
             $statementFile = $statementUploader->upload($statementFile);
 
-            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_STATEMENT_PARSER_USED, $parserName);
+            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_PDF_STATEMENT_PARSER_USED, $parserName);
 
             return $this->redirect(
                 $this->generateUrl('validate_transactions', [
@@ -233,8 +237,25 @@ class TransactionController extends AbstractController
             );
         }
 
+        if ($csvStatementForm->isSubmitted() && $csvStatementForm->isValid()) {
+            $statementFile = $csvStatementForm['statement']->getData();
+            $parserName = $csvStatementForm['parserName']->getData();
+            $statementFile = $statementUploader->upload($statementFile);
+
+            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_CSV_PARSER_USED, $parserName);
+
+            // @todo redirect somewhere else
+            return $this->redirect(
+                $this->generateUrl('validate_transactions', [
+                    'statement' => $statementFile,
+                    'parserName' => $parserName
+                ])
+            );
+        }
+
         return $this->render('transaction/upload_statement.html.twig', [
-            'form' => $form->createView(),
+            'pdf_statement_form' => $pdfStatementForm->createView(),
+            'csv_statement_form' => $csvStatementForm->createView(),
         ]);
     }
 

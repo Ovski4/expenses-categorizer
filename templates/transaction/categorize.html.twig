@@ -8,6 +8,7 @@
 
 {% block body %}
     <h1>{% trans %}Categorize transactions{% endtrans %}</h1>
+    <hr><br>
 
     <form method="post" action="{{ path('transaction_categorize') }}">
         <input type="hidden" name="_method" value="PATCH">
