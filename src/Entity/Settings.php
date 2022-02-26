@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Settings
 {
-    const NAME_LAST_PARSER_USED = 'last_parser_used';
+    const NAME_LAST_STATEMENT_PARSER_USED = 'last_parser_used';
 
     /**
      * @ORM\Id

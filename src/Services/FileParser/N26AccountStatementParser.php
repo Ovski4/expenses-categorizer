@@ -9,6 +9,11 @@ class N26AccountStatementParser extends AbstractAccountStatementParser
         return 'n26';
     }
 
+    public function getFileType(): string
+    {
+        return self::FILE_TYPE_PDF;
+    }
+
     public function getLabel(): string
     {
         return 'N26 account statement';

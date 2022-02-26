@@ -7,6 +7,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 abstract class AbstractFileParser
 {
+    const FILE_TYPE_PDF = 'pdf';
+    const FILE_TYPE_CSV = 'csv';
+
     protected $transactionFactory;
 
     protected $params;
@@ -18,6 +21,7 @@ abstract class AbstractFileParser
     }
 
     abstract public function getName(): string;
+    abstract public function getFileType(): string;
     abstract public function getLabel(): string;
     abstract public function parse(string $filePath): array;
 }

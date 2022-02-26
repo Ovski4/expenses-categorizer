@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class StatementType extends AbstractType
+class PdfStatementType extends AbstractType
 {
     private $translator;
 
@@ -61,7 +61,7 @@ class StatementType extends AbstractType
     {
         $lastParserUsedSettings = $this->entityManager
             ->getRepository(Settings::class)
-            ->findOneByName(Settings::NAME_LAST_PARSER_USED)
+            ->findOneByName(Settings::NAME_LAST_STATEMENT_PARSER_USED)
         ;
 
         $choices = $this->getChoices();
@@ -79,7 +79,7 @@ class StatementType extends AbstractType
     private function getChoices()
     {
         return array_reduce(
-            $this->fileParserRegistry->getfileParsers(),
+            $this->fileParserRegistry->getFileParsers( AbstractFileParser::FILE_TYPE_PDF ),
             function(array $choices, AbstractFileParser $fileParser) {
                 $choices[$fileParser->getLabel()] = $fileParser->getName();
 

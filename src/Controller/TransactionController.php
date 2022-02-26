@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Bank;
 use App\Entity\Settings;
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
@@ -11,9 +10,8 @@ use App\Event\TransactionExportedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Exception\AccountNotFoundException;
 use App\FilterForm\TransactionFilterType;
-use App\Form\StatementType;
+use App\Form\PdfStatementType;
 use App\Form\TransactionType;
-use App\Services\AccountStatementParserClient;
 use App\Services\Exporter\CsvExporter;
 use App\Services\StatementUploader;
 use App\Services\TransactionCategorizer;
@@ -217,7 +215,7 @@ class TransactionController extends AbstractController
         EntityManagerInterface $manager
     ): Response
     {
-        $form = $this->createForm(StatementType::class);
+        $form = $this->createForm(PdfStatementType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -225,7 +223,7 @@ class TransactionController extends AbstractController
             $parserName = $form['parserName']->getData();
             $statementFile = $statementUploader->upload($statementFile);
 
-            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_PARSER_USED, $parserName);
+            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_STATEMENT_PARSER_USED, $parserName);
 
             return $this->redirect(
                 $this->generateUrl('validate_transactions', [
