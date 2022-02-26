@@ -45,7 +45,7 @@ services:
       - mysql
 
   account_statement_parser:
-    image: ovski/account-statement-parser:v1.0.4
+    image: ovski/account-statement-parser:v1.0.5
     volumes:
       - statements:/var/statements
 

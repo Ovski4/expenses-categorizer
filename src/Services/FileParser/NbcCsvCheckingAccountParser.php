@@ -2,11 +2,11 @@
 
 namespace App\Services\FileParser;
 
-class NbcCsvParser extends AbstractAccountStatementParser
+class NbcCsvCheckingAccountParser extends AbstractAccountStatementParser
 {
     public function getName(): string
     {
-        return 'nbc';
+        return 'nbc-checking';
     }
 
     public function getFileType(): string
@@ -16,6 +16,6 @@ class NbcCsvParser extends AbstractAccountStatementParser
 
     public function getLabel(): string
     {
-        return 'NBC csv export';
+        return 'NBC checking account csv export';
     }
 }

@@ -29,7 +29,8 @@ Created at: Créé le
 Caisse d'épargne account statement: Relevé de compte de la caisse d'Épargne
 Crédit Mutuel account statement: Relevé de compte du Crédit Mutuel
 N26 account statement: Relevé de compte N26
-NBC csv export: Export CSV NBC
+NBC checking account csv export: Export CSV NBC du compte chèque
+NBC credit account csv export: Export CSV NBC du compte crédit
 Csv export: Exporter au format csv
 Currency: Monnaie
 Date: Date
@@ -83,7 +84,7 @@ No transaction categorized: Aucune transaction à catégoriser
 No more transactions to export: Plus de transactions à exporter
 No more transactions to categorize: Plus de transactions à catégoriser
 No sub category selected: Aucune sous-catégorie sélectionné
-No transactions were found. Are you sure your pdf is a valid: Aucune transaction trouvée. Êtes-vous certain que votre pdf est bien un
+No transactions were found. Are you sure your file is a valid: Aucune transaction trouvée. Êtes-vous certain que votre fichier est bien un
 Operator: Opérande
 Please upload a valid PDF document: Veuillez importer un document PDF valide
 Please upload a valid CSV document: Veuillez importer un document CSV valide

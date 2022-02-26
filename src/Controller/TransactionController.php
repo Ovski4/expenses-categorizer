@@ -32,6 +32,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -249,7 +250,7 @@ class TransactionController extends AbstractController
                 $this->generateUrl('validate_transactions', [
                     'statement' => $statementFile,
                     'parserName' => $parserName,
-                    'account' => $account->getName()
+                    'account' => $account->getId()
                 ])
             );
         }
@@ -275,9 +276,15 @@ class TransactionController extends AbstractController
     {
         try {
             $fileParser = $registry->getFileParser($parserName);
+
+            $options = [];
+            if ($request->query->has('account')) {
+                $options['accountId'] = $request->query->get('account');
+            }
+
             $transactions = $fileParser->parse(
                 $params->get('app.statements_dir') . $statement,
-                $request->query->get('account')
+                $options
             );
         } catch (AccountNotFoundException $e) {
             return $this->render('transaction/validate_transactions.html.twig', [
@@ -292,6 +299,8 @@ class TransactionController extends AbstractController
                     'search' => $e->getAccountSearch()
                 ]
             ]);
+        } catch (ServerException $e) {
+            $transactions = [];
         }
 
         if ($request->isMethod('POST')) {
@@ -319,7 +328,7 @@ class TransactionController extends AbstractController
             return $this->render('transaction/validate_transactions.html.twig', [
                 'error' => sprintf(
                     '%s %s?',
-                    $translator->trans('No transactions were found. Are you sure your pdf is a valid'),
+                    $translator->trans('No transactions were found. Are you sure your file is a valid'),
                     strtolower($translator->trans($fileParser->getLabel()))
                 ),
                 'suggestionLabel' => $translator->trans('Go back to file upload'),
