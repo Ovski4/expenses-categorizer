@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Account;
 use App\Entity\Settings;
 use App\Services\FileParser\AbstractFileParser;
 use App\Services\FileParser\FileParserRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -47,23 +49,28 @@ class CsvStatementType extends AbstractType
                     ])
                 ],
             ])
+            ->add('account', EntityType::class, [
+                'class' => Account::class,
+                'required' => true
+                // @todo: save in settings and set preferred choices
+            ])
             ->add('parserName', ChoiceType::class, [
-                'choices'  => $this->getChoices(),
-                'preferred_choices' => $this->getPreferredChoices(),
+                'choices'  => $this->getParserChoices(),
+                'preferred_choices' => $this->getParserPreferredChoices(),
                 'label' => 'File type',
                 'required' => true
             ])
         ;
     }
 
-    private function getPreferredChoices()
+    private function getParserPreferredChoices()
     {
         $lastParserUsedSettings = $this->entityManager
             ->getRepository(Settings::class)
             ->findOneByName(Settings::NAME_LAST_CSV_PARSER_USED)
         ;
 
-        $choices = $this->getChoices();
+        $choices = $this->getParserChoices();
 
         if (!is_null($lastParserUsedSettings)) {
             $parserName = $lastParserUsedSettings->getValue();
@@ -75,7 +82,7 @@ class CsvStatementType extends AbstractType
         return [];
     }
 
-    private function getChoices()
+    private function getParserChoices()
     {
         return array_reduce(
             $this->fileParserRegistry->getFileParsers( AbstractFileParser::FILE_TYPE_CSV ),
