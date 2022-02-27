@@ -23,9 +23,8 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
             )
         );
         $results = json_decode($response->getContent(), true);
-        
-        $transactions = [];
 
+        $transactions = [];
         foreach($results as $result) {
             if ($resolvedOptions['accountId'] !== null) {
                 $result['accountId'] = $resolvedOptions['accountId'];

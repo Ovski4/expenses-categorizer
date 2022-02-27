@@ -53,7 +53,6 @@ class CsvStatementType extends AbstractType
             ->add('account', EntityType::class, [
                 'class' => Account::class,
                 'required' => true
-                // @todo: save in settings and set preferred choices
             ])
             ->add('parserName', ChoiceType::class, [
                 'choices'  => $this->getParserChoices(),
