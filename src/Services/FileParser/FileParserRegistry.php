@@ -42,8 +42,17 @@ class FileParserRegistry
         ));
     }
 
-    public function getfileParsers()
+    public function getFileParsers( string $fileType = null )
     {
+        if ($fileType) {
+            return array_filter(
+                $this->fileParsers,
+                function( AbstractFileParser $fileParser ) use ($fileType) {
+                    return $fileParser->getFileType() == $fileType;
+                }
+            );
+        }
+
         return $this->fileParsers;
     }
 }

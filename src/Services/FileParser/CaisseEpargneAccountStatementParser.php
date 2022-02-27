@@ -9,6 +9,11 @@ class CaisseEpargneAccountStatementParser extends AbstractAccountStatementParser
         return 'caisse-epargne';
     }
 
+    public function getFileType(): string
+    {
+        return self::FILE_TYPE_PDF;
+    }
+
     public function getLabel(): string
     {
         return 'Caisse d\'épargne account statement';

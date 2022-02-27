@@ -2,20 +2,20 @@
 
 namespace App\Services\FileParser;
 
-class N26AccountStatementParser extends AbstractAccountStatementParser
+class NbcCsvCreditAccountParser extends AbstractAccountStatementParser
 {
     public function getName(): string
     {
-        return 'n26';
+        return 'nbc-credit';
     }
 
     public function getFileType(): string
     {
-        return self::FILE_TYPE_PDF;
+        return self::FILE_TYPE_CSV;
     }
 
     public function getLabel(): string
     {
-        return 'N26 account statement';
+        return 'NBC credit account csv export';
     }
 }

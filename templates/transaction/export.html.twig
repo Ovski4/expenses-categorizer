@@ -8,6 +8,7 @@
 
 {% block body %}
     <h1>{% trans %}Export transactions{% endtrans %}</h1>
+    <hr><br>
 
     <form method="post" action="{{ path('elasticsearch_export') }}">
         <input type="hidden" name="_method" value="PATCH">

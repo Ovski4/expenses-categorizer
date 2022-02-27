@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Bank;
 use App\Entity\Settings;
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
@@ -11,9 +10,9 @@ use App\Event\TransactionExportedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Exception\AccountNotFoundException;
 use App\FilterForm\TransactionFilterType;
-use App\Form\StatementType;
+use App\Form\CsvStatementType;
+use App\Form\PdfStatementType;
 use App\Form\TransactionType;
-use App\Services\AccountStatementParserClient;
 use App\Services\Exporter\CsvExporter;
 use App\Services\StatementUploader;
 use App\Services\TransactionCategorizer;
@@ -33,6 +32,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -217,15 +217,15 @@ class TransactionController extends AbstractController
         EntityManagerInterface $manager
     ): Response
     {
-        $form = $this->createForm(StatementType::class);
-        $form->handleRequest($request);
+        $pdfStatementForm = $this->createForm(PdfStatementType::class);
+        $pdfStatementForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $statementFile = $form['statement']->getData();
-            $parserName = $form['parserName']->getData();
+        if ($pdfStatementForm->isSubmitted() && $pdfStatementForm->isValid()) {
+            $statementFile = $pdfStatementForm['statement']->getData();
+            $parserName = $pdfStatementForm['parserName']->getData();
             $statementFile = $statementUploader->upload($statementFile);
 
-            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_PARSER_USED, $parserName);
+            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_PDF_STATEMENT_PARSER_USED, $parserName);
 
             return $this->redirect(
                 $this->generateUrl('validate_transactions', [
@@ -235,8 +235,29 @@ class TransactionController extends AbstractController
             );
         }
 
+        $csvStatementForm = $this->createForm(CsvStatementType::class);
+        $csvStatementForm->handleRequest($request);
+
+        if ($csvStatementForm->isSubmitted() && $csvStatementForm->isValid()) {
+            $statementFile = $csvStatementForm['statement']->getData();
+            $parserName = $csvStatementForm['parserName']->getData();
+            $account = $csvStatementForm['account']->getData();
+            $statementFile = $statementUploader->upload($statementFile);
+
+            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_CSV_PARSER_USED, $parserName);
+
+            return $this->redirect(
+                $this->generateUrl('validate_transactions', [
+                    'statement' => $statementFile,
+                    'parserName' => $parserName,
+                    'account' => $account->getId()
+                ])
+            );
+        }
+
         return $this->render('transaction/upload_statement.html.twig', [
-            'form' => $form->createView(),
+            'pdf_statement_form' => $pdfStatementForm->createView(),
+            'csv_statement_form' => $csvStatementForm->createView(),
         ]);
     }
 
@@ -255,9 +276,15 @@ class TransactionController extends AbstractController
     {
         try {
             $fileParser = $registry->getFileParser($parserName);
+
+            $options = [];
+            if ($request->query->has('account')) {
+                $options['accountId'] = $request->query->get('account');
+            }
+
             $transactions = $fileParser->parse(
                 $params->get('app.statements_dir') . $statement,
-                $parserName
+                $options
             );
         } catch (AccountNotFoundException $e) {
             return $this->render('transaction/validate_transactions.html.twig', [
@@ -272,6 +299,8 @@ class TransactionController extends AbstractController
                     'search' => $e->getAccountSearch()
                 ]
             ]);
+        } catch (ServerException $e) {
+            $transactions = [];
         }
 
         if ($request->isMethod('POST')) {
@@ -299,7 +328,7 @@ class TransactionController extends AbstractController
             return $this->render('transaction/validate_transactions.html.twig', [
                 'error' => sprintf(
                     '%s %s?',
-                    $translator->trans('No transactions were found. Are you sure your pdf is a valid'),
+                    $translator->trans('No transactions were found. Are you sure your file is a valid'),
                     strtolower($translator->trans($fileParser->getLabel()))
                 ),
                 'suggestionLabel' => $translator->trans('Go back to file upload'),

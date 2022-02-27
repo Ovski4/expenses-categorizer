@@ -26,9 +26,12 @@ Create an account now: Créer un compte dès maintenant
 Create a new rule: Créer une nouvelle règle
 Create a new transaction: Créer une nouvelle transaction
 Created at: Créé le
+CSV file: Fichier CSV
 Caisse d'épargne account statement: Relevé de compte de la caisse d'Épargne
 Crédit Mutuel account statement: Relevé de compte du Crédit Mutuel
 N26 account statement: Relevé de compte N26
+NBC checking account csv export: Export CSV NBC du compte chèque
+NBC credit account csv export: Export CSV NBC du compte crédit
 Csv export: Exporter au format csv
 Currency: Monnaie
 Date: Date
@@ -65,7 +68,8 @@ Select which operator to use to compare transactions amount with this rule amoun
 If a transaction matches multiple rules, the rule with the highest priority will prevail: Si une transaction correspond à plusieurs règles, la règle avec la priorité la plus haute l'emportera
 Import from a file: Importer à partir d'un fichier
 Import transactions: Importer des transactions
-Import transactions from this file: Importer des transactions à partir de ce fichier
+Import transactions from this pdf: Importer des transactions à partir de ce fichier pdf
+Import transactions from this csv: Importer des transactions à partir de ce fichier csv
 Incomplete rule: Règle non complète
 Label: Label
 Multiple rules with identical priorities match this transaction: Plusieurs règles aux priorités identiques correspondent à cette transaction
@@ -81,9 +85,10 @@ No transaction categorized: Aucune transaction à catégoriser
 No more transactions to export: Plus de transactions à exporter
 No more transactions to categorize: Plus de transactions à catégoriser
 No sub category selected: Aucune sous-catégorie sélectionné
-No transactions were found. Are you sure your pdf is a valid: Aucune transaction trouvée. Êtes-vous certain que votre pdf est bien un
+No transactions were found. Are you sure your file is a valid: Aucune transaction trouvée. Êtes-vous certain que votre fichier est bien un
 Operator: Opérande
 Please upload a valid PDF document: Veuillez importer un document PDF valide
+Please upload a valid CSV document: Veuillez importer un document CSV valide
 positive: positive
 Priority: Priorité
 Revenues: Revenues
@@ -114,6 +119,8 @@ transactions to import: transactions à importer
 Updated: Mis à jour
 undefined: non défini
 uncategorized: non catégorisé
+Using a CSV file: Avec un fichier au format CSV
+Using a PDF file statement: Avec un relevé de compte au format PDF
 Validate transactions: Valider les transactions
 will be categorized in: seront catégorisés dans
 You need to create an account with this name or alias before importing transactions: Vous devez créer un compte avec ce nom ou alias pour pouvoir importer ces transactions
