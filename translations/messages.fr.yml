@@ -26,6 +26,7 @@ Create an account now: Créer un compte dès maintenant
 Create a new rule: Créer une nouvelle règle
 Create a new transaction: Créer une nouvelle transaction
 Created at: Créé le
+CSV file: Fichier CSV
 Caisse d'épargne account statement: Relevé de compte de la caisse d'Épargne
 Crédit Mutuel account statement: Relevé de compte du Crédit Mutuel
 N26 account statement: Relevé de compte N26
@@ -118,6 +119,8 @@ transactions to import: transactions à importer
 Updated: Mis à jour
 undefined: non défini
 uncategorized: non catégorisé
+Using a CSV file: Avec un fichier au format CSV
+Using a PDF file statement: Avec un relevé de compte au format PDF
 Validate transactions: Valider les transactions
 will be categorized in: seront catégorisés dans
 You need to create an account with this name or alias before importing transactions: Vous devez créer un compte avec ce nom ou alias pour pouvoir importer ces transactions

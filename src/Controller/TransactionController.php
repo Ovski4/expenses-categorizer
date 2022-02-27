@@ -220,9 +220,6 @@ class TransactionController extends AbstractController
         $pdfStatementForm = $this->createForm(PdfStatementType::class);
         $pdfStatementForm->handleRequest($request);
 
-        $csvStatementForm = $this->createForm(CsvStatementType::class);
-        $csvStatementForm->handleRequest($request);
-
         if ($pdfStatementForm->isSubmitted() && $pdfStatementForm->isValid()) {
             $statementFile = $pdfStatementForm['statement']->getData();
             $parserName = $pdfStatementForm['parserName']->getData();
@@ -237,6 +234,9 @@ class TransactionController extends AbstractController
                 ])
             );
         }
+
+        $csvStatementForm = $this->createForm(CsvStatementType::class);
+        $csvStatementForm->handleRequest($request);
 
         if ($csvStatementForm->isSubmitted() && $csvStatementForm->isValid()) {
             $statementFile = $csvStatementForm['statement']->getData();
