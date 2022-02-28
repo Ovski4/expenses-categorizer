@@ -42,6 +42,13 @@ To run the app in prod, prefix all above docker-compose commands with `-f docker
 
 Update the services environment variables in the docker-compose-prod.yml file according to your needs.
 
+Build the images
+
+```bash
+docker build -f docker/build/php/Dockerfile -t ovski/expenses-categorizer-php:latest .
+docker build -f docker/build/nginx/Dockerfile -t ovski/expenses-categorizer-nginx:latest .
+```
+
 ### Run the tests
 
 ```bash
