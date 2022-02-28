@@ -23,7 +23,7 @@ abstract class AbstractFileParser
         $this->params = $params;
         $this->resolver = ( new OptionsResolver() )
             ->setDefaults(['accountId' => null])
-            ->setAllowedTypes('accountId', 'string');
+            ->setAllowedTypes('accountId', ['string', 'null']);
     }
 
     abstract public function getName(): string;

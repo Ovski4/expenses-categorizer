@@ -280,6 +280,8 @@ class TransactionController extends AbstractController
             $options = [];
             if ($request->query->has('account')) {
                 $options['accountId'] = $request->query->get('account');
+            } else if ($request->request->has('account')) {
+                $options['accountId'] = $request->request->get('account');
             }
 
             $transactions = $fileParser->parse(

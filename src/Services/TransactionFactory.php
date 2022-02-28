@@ -18,7 +18,7 @@ class TransactionFactory
     {
         $transaction = new Transaction();
 
-        $account = $array['accountId']
+        $account = isset($array['accountId'])
             ? $this->accountRepository->findOneById($array['accountId'])
             : $this->accountRepository->findByAliasOrName($array['account'])
         ;
