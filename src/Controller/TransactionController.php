@@ -268,6 +268,8 @@ class TransactionController extends AbstractController
         string $parserName,
         string $statement,
         Request $request,
+        ?string $account,
+        ?bool $saveOnlyNewTransactions,
         FileParserRegistry $registry,
         EntityManagerInterface $manager,
         ParameterBagInterface $params,
@@ -276,17 +278,9 @@ class TransactionController extends AbstractController
     {
         try {
             $fileParser = $registry->getFileParser($parserName);
-
-            $options = [];
-            if ($request->query->has('account')) {
-                $options['accountId'] = $request->query->get('account');
-            } else if ($request->request->has('account')) {
-                $options['accountId'] = $request->request->get('account');
-            }
-
             $transactions = $fileParser->parse(
                 $params->get('app.statements_dir') . $statement,
-                $options
+                $account ? ['accountId' => $account] : []
             );
         } catch (AccountNotFoundException $e) {
             return $this->render('transaction/validate_transactions.html.twig', [
@@ -307,8 +301,11 @@ class TransactionController extends AbstractController
 
         if ($request->isMethod('POST')) {
             foreach($transactions as $transaction) {
-                $manager->persist($transaction);
+                if (!$saveOnlyNewTransactions || !$manager->getRepository(Transaction::class)->exists($transaction)) {
+                    $manager->persist($transaction);
+                }
             }
+
             $manager->flush();
 
             return $this->redirectToRoute('transaction_index');
@@ -316,10 +313,7 @@ class TransactionController extends AbstractController
 
         $existingTransactionCount = 0;
         foreach($transactions as $transaction) {
-            $transactionExist = $manager
-                ->getRepository(Transaction::class)
-                ->exists($transaction)
-            ;
+            $transactionExist = $manager->getRepository(Transaction::class)->exists($transaction);
             $existingTransactionCount = $transactionExist ?
                 $existingTransactionCount + 1 :
                 $existingTransactionCount

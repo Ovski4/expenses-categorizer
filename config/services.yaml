@@ -16,6 +16,10 @@ services:
         App\Services\FileParser\AbstractFileParser:
             tags: ['app.file_parser']
 
+    App\ArgumentResolver\RequestParameterValueResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
     PagerFantaTranslated:
         class: Pagerfanta\View\OptionableView
         arguments:
