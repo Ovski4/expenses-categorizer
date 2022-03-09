@@ -1,5 +1,6 @@
 error_deleting_transaction_in_elasticsearch: We tried to delete this transaction in elasticsearch but could not reach it
 from_date: from
 from_number: from
+save_transactions: "{1}Save only the new transaction|]1,Inf[ Save only the %count% new transactions"
 to_date: to
 to_number: to

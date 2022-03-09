@@ -24,13 +24,30 @@
         {% endif %}
 
         {% if existingTransactionCount != transactions|length %}
-            <form method="post" action="{{ path('validate_transactions', {'statement': statement, 'parserName': parserName }) }}">
+
+            {% if existingTransactionCount > 0 %}
+                <form method="post" action="{{ path('validate_transactions', {'statement': statement, 'parserName': parserName }) }}">
+                    <input type="hidden" name="_method" value="POST">
+                    {% if app.request.query.has('account') %}
+                        <input type="hidden" name="account" value="{{ app.request.query.get('account') }}">
+                    {% endif %}
+                    <input type="hidden" name="saveOnlyNewTransactions" value="true">
+                    <button class="btn btn-primary">{{ 'save_transactions'|trans({'%count%': transactions|length - existingTransactionCount}, 'messages') }}</button>
+                </form>
+            {% endif %}
+
+            <form
+                method="post"
+                action="{{ path('validate_transactions', {'statement': statement, 'parserName': parserName }) }}"
+                onsubmit="return confirm('{% trans %}Are you sure you want to save all transactions, even with duplicated records?{% endtrans %}');"
+            >
                 <input type="hidden" name="_method" value="POST">
                 {% if app.request.query.has('account') %}
                     <input type="hidden" name="account" value="{{ app.request.query.get('account') }}">
                 {% endif %}
-                <button class="btn btn-primary">{% trans %}Save these transactions{% endtrans %}</button>
+                <button class="btn btn-{{ existingTransactionCount > 0 ? 'danger' : 'primary' }}">{% trans %}Save all transactions{% endtrans %}</button>
             </form>
+
         {% endif %}
 
         <table class="table">
