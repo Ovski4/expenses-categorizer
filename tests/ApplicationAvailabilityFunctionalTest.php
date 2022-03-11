@@ -19,7 +19,6 @@ class ApplicationAvailabilityFunctionalTest extends WebTestCase
 
     public function urlProvider()
     {
-        yield ['/'];
         yield ['/transaction/new'];
         yield ['/transaction/?page=1&only_show_uncategorized=true'];
         yield ['/account/'];
