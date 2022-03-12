@@ -39,7 +39,9 @@
             <form
                 method="post"
                 action="{{ path('validate_transactions', {'statement': statement, 'parserName': parserName }) }}"
-                onsubmit="return confirm('{% trans %}Are you sure you want to save all transactions, even with duplicated records?{% endtrans %}');"
+                {% if existingTransactionCount > 0 %}
+                    onsubmit="return confirm('{% trans %}Are you sure you want to save all transactions, even with duplicated records?{% endtrans %}');"
+                {% endif %}
             >
                 <input type="hidden" name="_method" value="POST">
                 {% if app.request.query.has('account') %}
