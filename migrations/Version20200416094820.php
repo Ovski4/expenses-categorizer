@@ -22,8 +22,8 @@ final class Version20200416094820 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE account (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, aliases LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\', currency VARCHAR(3) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE transaction ADD new_account_id INT DEFAULT NULL');
+        $this->addSql('CREATE TABLE account (id CHAR(36) NOT NULL COMMENT \'(DC2Type:uuid)\', name VARCHAR(255) NOT NULL, aliases LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:simple_array)\', currency VARCHAR(3) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE transaction ADD new_account_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:uuid)\'');
         $this->addSql('ALTER TABLE transaction ADD CONSTRAINT FK_723705D14654BC76 FOREIGN KEY (new_account_id) REFERENCES account (id)');
         $this->addSql('CREATE INDEX IDX_723705D14654BC76 ON transaction (new_account_id)');
     }

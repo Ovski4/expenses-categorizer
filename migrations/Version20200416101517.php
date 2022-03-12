@@ -24,7 +24,7 @@ final class Version20200416101517 extends AbstractMigration
 
         $this->addSql('ALTER TABLE transaction DROP FOREIGN KEY FK_723705D14654BC76');
         $this->addSql('DROP INDEX IDX_723705D14654BC76 ON transaction');
-        $this->addSql('ALTER TABLE transaction DROP account, CHANGE new_account_id account_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE transaction DROP account, CHANGE new_account_id account_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:uuid)\'');
         $this->addSql('ALTER TABLE transaction ADD CONSTRAINT FK_723705D19B6B5FBA FOREIGN KEY (account_id) REFERENCES account (id)');
         $this->addSql('CREATE INDEX IDX_723705D19B6B5FBA ON transaction (account_id)');
     }
