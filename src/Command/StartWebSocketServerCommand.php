@@ -31,7 +31,7 @@ class StartWebSocketServerCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $loop = \React\EventLoop\Factory::create();
         $this->webSocketMessaging->setLoop($loop);
@@ -49,5 +49,7 @@ class StartWebSocketServerCommand extends Command
         $output->writeln('Web socket server started');
         $server->run();
         $output->writeln('Web socket server closed');
+
+        return self::SUCCESS;
     }
 }

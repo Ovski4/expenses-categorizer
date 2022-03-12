@@ -11,7 +11,7 @@ use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 class TransactionFilterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('label', Filters\TextFilterType::class, [
@@ -55,12 +55,12 @@ class TransactionFilterType extends AbstractType
         ;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'item_filter';
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection'   => false,

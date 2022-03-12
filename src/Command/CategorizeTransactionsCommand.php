@@ -31,13 +31,15 @@ class CategorizeTransactionsCommand extends Command implements EventSubscriberIn
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
         $this->transactionCategorizer->categorizeAllSync();
+
+        return self::SUCCESS;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             TransactionCategorizedEvent::NAME => 'onTransactionCategorized'

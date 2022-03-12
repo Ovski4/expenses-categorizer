@@ -30,7 +30,7 @@ class ExportModulImmoDataCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->createIndexIfNotExists();
         $output->writeln('The <info>modulimmo</info> index has been created');
@@ -44,6 +44,8 @@ class ExportModulImmoDataCommand extends Command
         }
 
         $output->writeln(sprintf('<info>%s</info> records indexed', count($records)*2));
+
+        return self::SUCCESS;
     }
 
     private function createRecord($data, $keyword)

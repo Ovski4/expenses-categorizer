@@ -27,7 +27,7 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
         $this->transactionCategorizer->categorizeAllAsync($loop);
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             TransactionCategorizedEvent::NAME => 'onTransactionCategorized',

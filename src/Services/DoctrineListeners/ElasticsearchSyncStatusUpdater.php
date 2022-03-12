@@ -12,7 +12,7 @@ use Doctrine\ORM\Events;
 
 class ElasticsearchSyncStatusUpdater implements EventSubscriber
 {
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::onFlush

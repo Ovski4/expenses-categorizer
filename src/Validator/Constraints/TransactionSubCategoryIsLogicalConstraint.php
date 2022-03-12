@@ -11,12 +11,12 @@ class TransactionSubCategoryIsLogicalConstraint extends Constraint
 {
     public $message = 'transaction_sub_category.is_logical';
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return TransactionSubCategoryIsLogicalConstraintValidator::class;
     }

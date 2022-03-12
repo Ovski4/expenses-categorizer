@@ -11,12 +11,12 @@ class RuleIsCompleteConstraint extends Constraint
 {
     public $message = 'rule.is_complete';
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return RuleIsCompleteConstraintValidator::class;
     }

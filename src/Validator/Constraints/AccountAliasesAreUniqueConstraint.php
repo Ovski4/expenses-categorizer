@@ -12,12 +12,12 @@ class AccountAliasesAreUniqueConstraint extends Constraint
 {
     public $message = 'account.alias_already_present';
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return AccountAliasesAreUniqueConstraintValidator::class;
     }

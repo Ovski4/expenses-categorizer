@@ -28,7 +28,7 @@ class ExportTransactionsToElasticsearchCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $results = $this->exporter->exportAllSync();
         $output->writeln(sprintf(
@@ -37,5 +37,7 @@ class ExportTransactionsToElasticsearchCommand extends Command
             $results['created_transactions_count'],
             $results['updated_transactions_count']
         ));
+
+        return self::SUCCESS;
     }
 }

@@ -10,7 +10,7 @@ use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 
 class SubCategoryTransactionRuleFilterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('contains', Filters\TextFilterType::class, [
@@ -19,12 +19,12 @@ class SubCategoryTransactionRuleFilterType extends AbstractType
         ;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'item_filter';
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection'   => false,

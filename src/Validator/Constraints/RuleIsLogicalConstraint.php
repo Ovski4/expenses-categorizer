@@ -11,12 +11,12 @@ class RuleIsLogicalConstraint extends Constraint
 {
     public $message = 'rule_sub_category.is_logical';
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return RuleIsLogicalConstraintValidator::class;
     }

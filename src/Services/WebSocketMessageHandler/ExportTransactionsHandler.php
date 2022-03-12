@@ -42,7 +42,7 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler implemen
         }
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             TransactionExportedEvent::NAME => 'onTransactionExported',
