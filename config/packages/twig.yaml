@@ -8,3 +8,7 @@ twig:
     exception_controller: null
     globals:
         app_domain: '%app.domain%'
+
+when@test:
+    twig:
+        strict_variables: true
