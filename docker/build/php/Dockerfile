@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 
 RUN apt-get update
 
@@ -10,7 +10,7 @@ RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install pdo
 RUN docker-php-ext-install pdo_mysql
 RUN apt-get install libicu-dev -y && docker-php-ext-install intl
-RUN apt-get install zlib1g-dev -y && docker-php-ext-install zip
+RUN apt-get install libzip-dev zip -y && docker-php-ext-install zip
 # RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # install composer
