@@ -95,12 +95,11 @@ class RuleCheckerTest extends TestCase
 
     /**
      * Multiple matches with different categories
-     * 
-     * @expectedException \Exception
-     * @expectedExceptionMessage Multiple rules are matching the transaction
      */
     public function testExceptionIsThrown()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Multiple rules are matching the transaction');
         $rule1 = new SubCategoryTransactionRule();
         $rule1
             ->setContains('dummy text')
