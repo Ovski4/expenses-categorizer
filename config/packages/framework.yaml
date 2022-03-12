@@ -9,8 +9,15 @@ framework:
         handler_id: null
         cookie_secure: auto
         cookie_samesite: lax
+        storage_factory_id: session.storage.factory.native
 
     #esi: true
     #fragments: true
     php_errors:
         log: true
+
+when@test:
+    framework:
+        session:
+            storage_factory_id: session.storage.factory.mock_file
+
