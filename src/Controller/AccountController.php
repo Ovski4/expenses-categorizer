@@ -6,6 +6,7 @@ use App\Entity\Account;
 use App\Form\AccountType;
 use App\Repository\AccountRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +33,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/new", name="account_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $account = new Account();
 
@@ -44,7 +45,7 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->persist($account);
             $entityManager->flush();
 
@@ -60,7 +61,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/{id}/edit", name="account_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Account $account, Session $session): Response
+    public function edit(Request $request, Account $account, Session $session, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(AccountType::class, $account);
         $form->handleRequest($request);
@@ -71,7 +72,7 @@ class AccountController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $doctrine->getManager()->flush();
 
             return $this->redirectToRoute('account_index');
         }
@@ -85,10 +86,16 @@ class AccountController extends AbstractController
     /**
      * @Route("/{id}", name="account_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Account $account, Session $session, TranslatorInterface $translator): Response
+    public function delete(
+        Request $request,
+        Account $account,
+        Session $session,
+        TranslatorInterface $translator,
+        ManagerRegistry $doctrine
+    ): Response
     {
         if ($this->isCsrfTokenValid('delete'.$account->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->remove($account);
 
             try {

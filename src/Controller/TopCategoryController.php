@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TopCategory;
 use App\Form\TopCategoryType;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,14 +22,14 @@ class TopCategoryController extends AbstractController
     /**
      * @Route("/new", name="top_category_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $topCategory = new TopCategory();
         $form = $this->createForm(TopCategoryType::class, $topCategory);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->persist($topCategory);
             $entityManager->flush();
 
@@ -55,7 +56,7 @@ class TopCategoryController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $doctrine->getManager()->flush();
 
             return $this->redirectToRoute('category_index');
         }
@@ -69,10 +70,16 @@ class TopCategoryController extends AbstractController
     /**
      * @Route("/{id}", name="top_category_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, TopCategory $topCategory, Session $session, TranslatorInterface $translator): Response
+    public function delete(
+        Request $request,
+        TopCategory $topCategory,
+        Session $session,
+        TranslatorInterface $translator,
+        ManagerRegistry $doctrine
+    ): Response
     {
         if ($this->isCsrfTokenValid('delete'.$topCategory->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->remove($topCategory);
             try {
                 $entityManager->flush();

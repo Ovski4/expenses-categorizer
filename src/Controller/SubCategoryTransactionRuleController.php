@@ -7,6 +7,7 @@ use App\Entity\Transaction;
 use App\FilterForm\SubCategoryTransactionRuleFilterType;
 use App\Form\SubCategoryTransactionRuleType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -53,7 +54,7 @@ class SubCategoryTransactionRuleController extends AbstractController
     /**
      * @Route("/new", name="sub_category_transaction_rule_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $subCategoryTransactionRule = new SubCategoryTransactionRule();
 
@@ -73,7 +74,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->persist($subCategoryTransactionRule);
             $entityManager->flush();
 
@@ -99,7 +100,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $doctrine->getManager()->flush();
 
             return $this->redirectToRoute('sub_category_transaction_rule_index');
         }
@@ -113,10 +114,14 @@ class SubCategoryTransactionRuleController extends AbstractController
     /**
      * @Route("/{id}", name="sub_category_transaction_rule_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, SubCategoryTransactionRule $subCategoryTransactionRule): Response
+    public function delete(
+        Request $request,
+        SubCategoryTransactionRule $subCategoryTransactionRule,
+        ManagerRegistry $doctrine
+    ): Response
     {
         if ($this->isCsrfTokenValid('delete'.$subCategoryTransactionRule->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->remove($subCategoryTransactionRule);
             $entityManager->flush();
         }

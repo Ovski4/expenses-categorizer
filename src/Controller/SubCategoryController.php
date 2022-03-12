@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\SubCategory;
 use App\Form\SubCategoryType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +18,14 @@ class SubCategoryController extends AbstractController
     /**
      * @Route("/new", name="sub_category_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $subCategory = new SubCategory();
         $form = $this->createForm(SubCategoryType::class, $subCategory);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->persist($subCategory);
             $entityManager->flush();
 
@@ -46,7 +47,7 @@ class SubCategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $doctrine->getManager()->flush();
 
             return $this->redirectToRoute('category_index');
         }
@@ -60,10 +61,10 @@ class SubCategoryController extends AbstractController
     /**
      * @Route("/{id}", name="sub_category_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, SubCategory $subCategory): Response
+    public function delete(Request $request, SubCategory $subCategory, ManagerRegistry $doctrine): Response
     {
         if ($this->isCsrfTokenValid('delete'.$subCategory->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->remove($subCategory);
             $entityManager->flush();
         }

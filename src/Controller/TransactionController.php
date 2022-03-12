@@ -19,6 +19,7 @@ use App\Services\TransactionCategorizer;
 use App\Services\Exporter\ElasticsearchExporter;
 use App\Services\FileParser\FileParserRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use InvalidArgumentException;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -36,14 +37,10 @@ use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/transaction")
- */
+#[Route('/transaction')]
 class TransactionController extends AbstractController
 {
-    /**
-     * @Route("/", name="transaction_index", methods={"GET"})
-     */
+    #[Route('/', methods: ['GET'], name: 'transaction_index')]
     public function index(
         Request $request,
         FormFactoryInterface $formFactory,
@@ -343,14 +340,14 @@ class TransactionController extends AbstractController
     /**
      * @Route("/new", name="transaction_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $transaction = new Transaction();
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->persist($transaction);
             $entityManager->flush();
 
@@ -377,7 +374,7 @@ class TransactionController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $doctrine->getManager()->flush();
 
             return $this->redirectToRoute('transaction_index');
         }
@@ -395,11 +392,12 @@ class TransactionController extends AbstractController
         Request $request,
         Transaction $transaction,
         TranslatorInterface $translator,
-        Session $session
+        Session $session,
+        ManagerRegistry $doctrine
     ) : Response
     {
         if ($this->isCsrfTokenValid('delete'.$transaction->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             try {
                 $entityManager->remove($transaction);
             } catch(NoNodesAvailableException $e) {
