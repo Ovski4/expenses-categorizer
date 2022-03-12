@@ -34,44 +34,44 @@ class SubCategoryTransactionRule
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $id;
+    private ?string $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $contains;
+    private ?string $contains = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $operator;
+    private ?string $operator = null;
 
     /**
      * @ORM\Column(type="float", length=255, nullable=true)
      * @Assert\Positive
      */
-    private $amount;
+    private ?float $amount = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="subCategoryTransactionRules")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $subCategory;
+    private ?SubCategory $subCategory = null;
 
     /**
      * @ORM\Column(type="smallint", options={"default": "0"})
      */
-    private $priority;
+    private ?int $priority = 0;
 
     /**
      * This field is not needed in the database as we compute the sign of the amount
      */
-    private $transactionType;
+    private ?string $transactionType = null;
 
     /**
      * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
-    private $updatedAt;
+    private ?\DateTime $updatedAt = null;
 
     public function __construct()
     {

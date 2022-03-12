@@ -17,17 +17,17 @@ class Settings
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $name;
+    private  ?string $name = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $value;
+    private ?string $value = null;
 
     public function getId(): ?int
     {

@@ -26,18 +26,18 @@ class SubCategory
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $id;
+    private ?string $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private  ?string $name = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TopCategory", inversedBy="subCategories")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $topCategory;
+    private ?TopCategory $topCategory = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="subCategory")

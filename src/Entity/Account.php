@@ -20,23 +20,23 @@ class Account
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $id;
+    private ?string $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * @ORM\Column(type="simple_array", nullable=true)
      * @Assert\Unique(message="There are duplicated aliases")
      */
-    private $aliases = [];
+    private array $aliases = [];
 
     /**
      * @ORM\Column(type="string", length=3)
      */
-    private $currency;
+    private ?string $currency = null;
 
     public function __toString()
     {

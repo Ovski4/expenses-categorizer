@@ -31,7 +31,7 @@ class TopCategory
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private  ?string $name = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="topCategory")
@@ -41,7 +41,7 @@ class TopCategory
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $transactionType;
+    private ?string $transactionType = null;
 
     public function __construct()
     {

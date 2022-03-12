@@ -21,27 +21,27 @@ class Transaction
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $id;
+    private ?string $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $label;
+    private ?string $label = null;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $amount;
+    private ?float $amount = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private ?\DateTime $createdAt = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      */
-    private $account;
+    private ?Account $account = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="transactions")
