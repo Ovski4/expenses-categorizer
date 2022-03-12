@@ -1,6 +1,6 @@
 doctrine:
     dbal:
-        url: 'mysql://%env(resolve:MYSQL_USER)%:%env(resolve:MYSQL_PASSWORD)%@%env(resolve:MYSQL_HOST)%:3306/%env(resolve:MYSQL_DATABASE)%'
+        url: 'mysql://%env(resolve:MYSQL_USER)%:%env(resolve:MYSQL_PASSWORD)%@%env(resolve:MYSQL_HOST)%:3306/%env(resolve:MYSQL_DATABASE)%?serverVersion=5.7&charset=utf8mb4'
         driver: 'mysql'
         server_version: '5.7'
         charset: utf8mb4
@@ -13,7 +13,25 @@ doctrine:
         mappings:
             App:
                 is_bundle: false
-                type: annotation
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system
