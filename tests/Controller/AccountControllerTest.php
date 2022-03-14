@@ -2,11 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\HttpBrowser;
-use Symfony\Component\DomCrawler\Crawler;
 
 class AccountControllerTest extends WebTestCase
 {
