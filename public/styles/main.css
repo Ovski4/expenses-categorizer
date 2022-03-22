@@ -45,9 +45,16 @@ body {
 }
 
 .navbar-dark.navbar {
+    flex-direction: column;
     padding: 2rem 0;
     background-color: #212529 !important;
     align-items: baseline;
+}
+
+.navbar-dark.navbar > .version {
+    color: white;
+    margin-left: 2rem;
+    font-style: italic;
 }
 
 .navbar-dark > .navbar-nav > .nav-item.active > .nav-link {

@@ -37,6 +37,7 @@ services:
       APP_ENV: dev
       LOCALE: en
       RUN_MIGRATIONS: 'true'
+      VERSION: v1.1.0
     volumes:
       - ./:/var/www/html
       - statements:/var/statements

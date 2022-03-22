@@ -43,4 +43,7 @@
             </a>
         </li>
     </ul>
+    <div class="version">
+        {{ app.request.server.get('VERSION') ?? 'Version not set.' }}
+    </div>
 </nav>
