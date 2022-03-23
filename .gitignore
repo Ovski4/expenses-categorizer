@@ -14,3 +14,7 @@ clover.xml
 /phpunit.xml
 /reports/
 ###< symfony/phpunit-bridge ###
+
+###> personal ###
+/dumps/
+### personal ###
