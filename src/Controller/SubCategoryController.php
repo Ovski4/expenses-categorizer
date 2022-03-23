@@ -41,7 +41,7 @@ class SubCategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="sub_category_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, SubCategory $subCategory): Response
+    public function edit(Request $request, SubCategory $subCategory, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(SubCategoryType::class, $subCategory);
         $form->handleRequest($request);

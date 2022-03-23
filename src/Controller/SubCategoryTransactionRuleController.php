@@ -94,7 +94,7 @@ class SubCategoryTransactionRuleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="sub_category_transaction_rule_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, SubCategoryTransactionRule $subCategoryTransactionRule): Response
+    public function edit(Request $request, SubCategoryTransactionRule $subCategoryTransactionRule, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
         $form->handleRequest($request);

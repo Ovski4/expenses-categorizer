@@ -45,7 +45,7 @@ class TopCategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="top_category_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, TopCategory $topCategory, Session $session): Response
+    public function edit(Request $request, TopCategory $topCategory, Session $session, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(TopCategoryType::class, $topCategory);
         $form->handleRequest($request);

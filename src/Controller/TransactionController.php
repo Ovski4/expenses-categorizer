@@ -363,7 +363,7 @@ class TransactionController extends AbstractController
     /**
      * @Route("/{id}/edit", name="transaction_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Transaction $transaction, Session $session): Response
+    public function edit(Request $request, Transaction $transaction, Session $session, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
