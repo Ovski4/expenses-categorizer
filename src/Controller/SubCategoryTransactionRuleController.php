@@ -41,7 +41,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         ;
 
         if ($request->query->has($filterForm->getName())) {
-            $filterForm->submit($request->query->get($filterForm->getName()));
+            $filterForm->submit($request->query->all($filterForm->getName()));
             $filterBuilderUpdater->addFilterConditions($filterForm, $queryBuilder);
         }
 

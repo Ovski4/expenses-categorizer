@@ -57,7 +57,7 @@ class TransactionController extends AbstractController
         ;
 
         if ($request->query->has($filterForm->getName())) {
-            $filterForm->submit($request->query->get($filterForm->getName()));
+            $filterForm->submit($request->query->all($filterForm->getName()));
 
             try {
                 $filterBuilderUpdater->addFilterConditions($filterForm, $queryBuilder);
