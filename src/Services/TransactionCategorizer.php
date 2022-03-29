@@ -8,6 +8,7 @@ use App\Event\TransactionCategoryChangedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Event\TransactionsCategorizedEvent;
 use App\Exception\TransactionMatchesMultipleRulesException;
+use App\Services\ConnectionKeeper;
 use Doctrine\ORM\EntityManagerInterface;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -17,18 +18,18 @@ class TransactionCategorizer
     private $ruleChecker;
     private $entityManager;
     private $dispatcher;
-    private $connectionChecker;
+    private $connectionKeeper;
 
     public function __construct(
         RuleChecker $ruleChecker,
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $dispatcher,
-        ConnectionChecker $connectionChecker
+        ConnectionKeeper $connectionKeeper
     ) {
         $this->ruleChecker = $ruleChecker;
         $this->entityManager = $entityManager;
         $this->dispatcher = $dispatcher;
-        $this->connectionChecker = $connectionChecker;
+        $this->connectionKeeper = $connectionKeeper;
     }
 
     function categorizeOne(Transaction $transaction)
@@ -96,12 +97,7 @@ class TransactionCategorizer
 
     public function categorizeAllAsync(LoopInterface $loop)
     {
-        $connectionIsAlive = $this->connectionChecker->isAlive($this->entityManager->getConnection());
-        if ($connectionIsAlive === false) {
-            $this->entityManager->getConnection()->close();
-            $this->entityManager->getConnection()->connect();
-        }
-
+        $this->connectionKeeper->keepAlive();
         $this->entityManager->clear();
         $this->ruleChecker->setRules();
 

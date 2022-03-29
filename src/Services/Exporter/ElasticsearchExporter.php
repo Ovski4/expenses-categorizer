@@ -6,7 +6,7 @@ use App\Entity\Transaction;
 use App\Event\TransactionExportedEvent;
 use App\Event\TransactionsExportedEvent;
 use App\Event\TransactionsExportingEvent;
-use App\Services\ConnectionChecker;
+use App\Services\ConnectionKeeper;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\ClientBuilder;
 use React\EventLoop\LoopInterface;
@@ -18,20 +18,20 @@ class ElasticsearchExporter
     private $entityManager;
     private $client;
     private $dispatcher;
-    private $connectionChecker;
+    private $connectionKeeper;
 
     public function __construct(
         EventDispatcherInterface $dispatcher,
         EntityManagerInterface $entityManager,
         ParameterBagInterface $params,
-        ConnectionChecker $connectionChecker
+        ConnectionKeeper $connectionKeeper
     )
     {
         $this->elasticsearchHost = $params->get('app.elasticsearch_host');
         $this->elasticsearchIndex = $params->get('app.elasticsearch_index');
         $this->entityManager = $entityManager;
         $this->dispatcher = $dispatcher;
-        $this->connectionChecker = $connectionChecker;
+        $this->connectionKeeper = $connectionKeeper;
     }
 
     function exportOne($transaction)
@@ -98,12 +98,7 @@ class ElasticsearchExporter
         $this->client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
         $this->createIndexIfNotExists();
 
-        $connectionIsAlive = $this->connectionChecker->isAlive($this->entityManager->getConnection());
-        if ($connectionIsAlive === false) {
-            $this->entityManager->getConnection()->close();
-            $this->entityManager->getConnection()->connect();
-        }
-
+        $this->connectionKeeper->keepAlive();
         $this->entityManager->clear();
 
         $transactions = $this->entityManager
