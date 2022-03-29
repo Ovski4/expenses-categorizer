@@ -59,8 +59,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         $subCategoryTransactionRule = new SubCategoryTransactionRule();
 
         if ($request->query->has('transaction')) {
-            $transaction = $this
-                ->getDoctrine()
+            $transaction = $doctrine
                 ->getManager()
                 ->getRepository(Transaction::class)
                 ->findOneById($request->query->get('transaction'))
