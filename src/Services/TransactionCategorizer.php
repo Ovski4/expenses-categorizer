@@ -17,15 +17,18 @@ class TransactionCategorizer
     private $ruleChecker;
     private $entityManager;
     private $dispatcher;
+    private $connectionChecker;
 
     public function __construct(
         RuleChecker $ruleChecker,
         EntityManagerInterface $entityManager,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        ConnectionChecker $connectionChecker
     ) {
         $this->ruleChecker = $ruleChecker;
         $this->entityManager = $entityManager;
         $this->dispatcher = $dispatcher;
+        $this->connectionChecker = $connectionChecker;
     }
 
     function categorizeOne(Transaction $transaction)
@@ -93,7 +96,8 @@ class TransactionCategorizer
 
     public function categorizeAllAsync(LoopInterface $loop)
     {
-        if ($this->entityManager->getConnection()->ping() === false) {
+        $connectionIsAlive = $this->connectionChecker->isAlive($this->entityManager->getConnection());
+        if ($connectionIsAlive === false) {
             $this->entityManager->getConnection()->close();
             $this->entityManager->getConnection()->connect();
         }

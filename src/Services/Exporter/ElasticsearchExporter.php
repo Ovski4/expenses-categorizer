@@ -6,6 +6,7 @@ use App\Entity\Transaction;
 use App\Event\TransactionExportedEvent;
 use App\Event\TransactionsExportedEvent;
 use App\Event\TransactionsExportingEvent;
+use App\Services\ConnectionChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\ClientBuilder;
 use React\EventLoop\LoopInterface;
@@ -17,17 +18,20 @@ class ElasticsearchExporter
     private $entityManager;
     private $client;
     private $dispatcher;
+    private $connectionChecker;
 
     public function __construct(
         EventDispatcherInterface $dispatcher,
         EntityManagerInterface $entityManager,
-        ParameterBagInterface $params
+        ParameterBagInterface $params,
+        ConnectionChecker $connectionChecker
     )
     {
         $this->elasticsearchHost = $params->get('app.elasticsearch_host');
         $this->elasticsearchIndex = $params->get('app.elasticsearch_index');
         $this->entityManager = $entityManager;
         $this->dispatcher = $dispatcher;
+        $this->connectionChecker = $connectionChecker;
     }
 
     function exportOne($transaction)
@@ -94,7 +98,8 @@ class ElasticsearchExporter
         $this->client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
         $this->createIndexIfNotExists();
 
-        if ($this->entityManager->getConnection()->ping() === false) {
+        $connectionIsAlive = $this->connectionChecker->isAlive($this->entityManager->getConnection());
+        if ($connectionIsAlive === false) {
             $this->entityManager->getConnection()->close();
             $this->entityManager->getConnection()->connect();
         }
