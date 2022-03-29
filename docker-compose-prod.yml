@@ -17,40 +17,46 @@ services:
       - mysql:/var/lib/mysql
 
   php:
-    image: ovski/expenses-categorizer-php:latest
+    image: ovski/expenses-categorizer-php:v1.1.2
     environment:
-      APP_DOMAIN: localhost
+      APP_DOMAIN: your.domain.com
+      APP_ENV: prod
+      APP_SECRET: whatever
+      LOCALE: en
       MYSQL_USER: expenses_categorizer
       MYSQL_DATABASE: expenses_categorizer
       MYSQL_PASSWORD: expenses_categorizer
       MYSQL_HOST: mysql
-      APP_ENV: prod
-      LOCALE: en
       RUN_MIGRATIONS: 'true'
+      VERSION: v1.1.2
+    volumes:
+      - statements:/var/statements
     depends_on:
       - mysql
 
   account_statement_parser:
-    image: ovski/account-statement-parser:latest
+    image: ovski/account-statement-parser:v1.0.5
     volumes:
       - statements:/var/statements
 
   web_socket:
-    image: ovski/expenses-categorizer-php:latest
+    image: ovski/expenses-categorizer-php:v1.1.2
     depends_on:
       - mysql
       - php
     command: php bin/console app:start-web-socket-server
     environment:
+      APP_DOMAIN: your.domain.com
+      APP_ENV: prod
+      APP_SECRET: whatever
+      LOCALE: en
       MYSQL_USER: expenses_categorizer
       MYSQL_DATABASE: expenses_categorizer
       MYSQL_PASSWORD: expenses_categorizer
       MYSQL_HOST: mysql
-      APP_ENV: prod
-      LOCALE: en
-
+      VERSION: v1.1.2
   nginx:
-    image: ovski/expenses-categorizer-nginx:latest
+    image: ovski/expenses-categorizer-nginx:v1.1.2
     depends_on:
       - php
     ports:
