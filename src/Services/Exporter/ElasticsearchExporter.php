@@ -75,25 +75,34 @@ class ElasticsearchExporter
         foreach ($transactions as $transaction) {
             $this->exportOne($transaction);
         }
+
+        $this->dispatcher->dispatch(
+            new TransactionsExportedEvent(),
+            TransactionsExportedEvent::NAME
+        );
     }
 
-    public function exportInNextTick($loop, $transactions)
+    public function exportInNextTick($loop, $transactions, array $listeners)
     {
-        $loop->futureTick(function() use ($loop, $transactions) {
+        $loop->futureTick(function() use ($loop, $transactions, $listeners) {
             if (count($transactions) > 0) {
                 $transaction = array_pop($transactions);
                 $this->exportOne($transaction);
-                $this->exportInNextTick($loop, $transactions);
+                $this->exportInNextTick($loop, $transactions, $listeners);
             } else {
                 $this->dispatcher->dispatch(
                     new TransactionsExportedEvent(),
                     TransactionsExportedEvent::NAME
                 );
+
+                foreach( $listeners as $eventName => $listener ) {
+                    $this->dispatcher->removeListener($eventName, $listener);
+                }
             }
         });
     }
 
-    public function exportAllAsync(LoopInterface $loop)
+    public function exportAllAsync(LoopInterface $loop, array $listeners)
     {
         $this->client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
         $this->createIndexIfNotExists();
@@ -111,7 +120,7 @@ class ElasticsearchExporter
             TransactionsExportingEvent::NAME
         );
 
-        $this->exportInNextTick($loop, $transactions);
+        $this->exportInNextTick($loop, $transactions, $listeners);
     }
 
     private function createIndexIfNotExists()
