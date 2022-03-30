@@ -33,9 +33,9 @@ class StartWebSocketServerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $loop = \React\EventLoop\Factory::create();
+        $loop = \React\EventLoop\Loop::get();
         $this->webSocketMessaging->setLoop($loop);
-        $socket = new \React\Socket\Server('0.0.0.0:8081', $loop);
+        $socket = new \React\Socket\SocketServer('0.0.0.0:8081', [], $loop);
         $server = new IoServer(
             new HttpServer(
                 new WsServer(
