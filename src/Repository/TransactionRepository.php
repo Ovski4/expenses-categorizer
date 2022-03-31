@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Account;
 use App\Entity\TopCategory;
 use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -49,5 +50,16 @@ class TransactionRepository extends ServiceEntityRepository
         ;
 
         return $results;
+    }
+
+    public function getBalanceByAccount(Account $account)
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.account = :account')
+            ->setParameter('account', $account)
+            ->select('SUM(t.amount) as amount_sum')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
     }
 }

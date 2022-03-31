@@ -19,6 +19,7 @@
                 <th>{% trans %}Name{% endtrans %}</th>
                 <th>{% trans %}Aliases{% endtrans %}</th>
                 <th>{% trans %}Currency{% endtrans %}</th>
+                <th>{% trans %}Balance{% endtrans %}</th>
                 <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
@@ -28,6 +29,7 @@
                 <td>{{ account.name }}</td>
                 <td>{{ account.aliases | join(', ') }}</td>
                 <td>{{ account.currency }}</td>
+                <td>{{ balances[account.id] ?? '-' }}</td>
                 <td>
                     <a href="{{ path('account_edit', {'id': account.id}) }}"><i class="fas fa-edit"></i></a>
                 </td>

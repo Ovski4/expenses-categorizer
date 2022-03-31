@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Form\AccountType;
 use App\Repository\AccountRepository;
+use App\Repository\TransactionRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,10 +24,18 @@ class AccountController extends AbstractController
     /**
      * @Route("/", name="account_index", methods={"GET"})
      */
-    public function index(AccountRepository $accountRepository): Response
+    public function index(AccountRepository $accountRepository, TransactionRepository $transactionRepository): Response
     {
+        $accounts = $accountRepository->findBy([], ['name'=>'asc']);
+        $balances = [];
+
+        foreach ($accounts as $account) {
+            $balances[$account->getId()] = round($transactionRepository->getBalanceByAccount($account), 2);
+        }
+
         return $this->render('account/index.html.twig', [
-            'accounts' => $accountRepository->findBy([], ['name'=>'asc']),
+            'accounts' => $accounts,
+            'balances' => $balances,
         ]);
     }
 
