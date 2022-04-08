@@ -111,6 +111,7 @@ total amount is: Le montant total est de
 Top category: Catégorie parente
 Type: Type
 This account cannot be deleted while transactions belong to it.: Ce compte ne peut pas être supprimé tant que des transactions y sont liées.
+This sub category cannot be deleted while transactions or rules are associated with it.: Cette catégorie enfante ne peut pas être supprimée tant que des transactions ou des règles y sont liées.
 This top category cannot be deleted while sub categories belong to it.: Cette catégorie parente ne peut pas être supprimée tant que des sous-catégories y sont liées.
 to_number: à
 to_date: au
@@ -195,7 +196,7 @@ House: Maison
 Plumbing: Plomberie
 House equipment: Équipement maison
 Payback: Remboursement
-Personal care: Soins personnels 
+Personal care: Soins personnels
 Tissues: Mouchoirs
 Shampoo: Shampoing
 Laundry: Lessive

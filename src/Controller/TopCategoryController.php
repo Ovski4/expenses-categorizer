@@ -81,6 +81,7 @@ class TopCategoryController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$topCategory->getId(), $request->request->get('_token'))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($topCategory);
+
             try {
                 $entityManager->flush();
             } catch(ForeignKeyConstraintViolationException $e) {
