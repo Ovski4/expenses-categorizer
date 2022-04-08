@@ -2,6 +2,8 @@
 
 namespace App\FilterForm;
 
+use App\Entity\Account;
+use App\Entity\SubCategory;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,9 +19,18 @@ class TransactionFilterType extends AbstractType
             ->add('label', Filters\TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS
             ])
-            ->add('subCategory', Filters\BooleanFilterType::class, [
+            ->add('account', Filters\EntityFilterType ::class, [
+                'class' => Account::class,
+            ])
+            ->add('subCategory', Filters\EntityFilterType ::class, [
+                'class' => SubCategory::class,
+            ])
+            ->add('categorized', Filters\BooleanFilterType::class, [
+                'property_path' => '[subCategory]',
                 'label' => 'Categorized',
                 'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+                    $field = sprintf('%s.%s', $values['alias'], 'subCategory');
+
                     if ($values['value'] === null) {
                         return null;
                     } else if ($values['value'] === 'y') {

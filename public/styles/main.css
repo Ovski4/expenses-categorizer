@@ -138,10 +138,16 @@ label.required:before {
 form#filter-form {
     display: flex;
     justify-content: start;
+    flex-wrap: wrap;
     margin: 1rem 0;
     border-top: 1px solid #dbd8d8;
-    padding: 0.5rem 0;
+    padding: 1rem 0;
     border-bottom: 1px solid #dbd8d8;
+}
+
+form#filter-form > .form-group > label,
+form#filter-form > .form-group > legend {
+    font-weight: 500;
 }
 
 form#filter-form > span {
@@ -171,8 +177,7 @@ form#filter-form.large-filter-form fieldset div label {
 form#filter-form.large-filter-form > .form-group {
     flex-direction: column;
     align-items: baseline;
-    align-self: baseline;
-    margin: 0 0.8rem;
+    margin: 0 0.8rem 0.8rem 0.8rem;
 }
 
 form#filter-form.large-filter-form > .form-group label {

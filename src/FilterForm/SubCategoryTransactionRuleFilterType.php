@@ -2,6 +2,7 @@
 
 namespace App\FilterForm;
 
+use App\Entity\SubCategory;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +16,10 @@ class SubCategoryTransactionRuleFilterType extends AbstractType
         $builder
             ->add('contains', Filters\TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS
-             ])
+            ])
+            ->add('subCategory', Filters\EntityFilterType ::class, [
+                'class' => SubCategory::class,
+            ])
         ;
     }
 
