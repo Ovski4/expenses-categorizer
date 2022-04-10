@@ -13,13 +13,11 @@ jobs:
       - name: Wait for MySQL to be ready
         run: sleep 10
 
+      - name: Build PHP container
+        run: docker-compose build --build-arg XDEBUG=TRUE php
+
       - name: Start PHP container
         run: docker-compose up -d php
-
-      - name: Install XDebug extension
-        run: >
-          docker-compose run php pecl install xdebug
-          && docker-compose run php docker-php-ext-enable xdebug
 
       - name: Give writing permissions to the php container user
         run: sudo chown 1000:1000 -R .

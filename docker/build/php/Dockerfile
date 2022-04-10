@@ -1,5 +1,7 @@
 FROM php:8.1-fpm
 
+ARG XDEBUG
+
 RUN apt-get update
 
 RUN apt-get install -y git wget unzip
@@ -11,7 +13,10 @@ RUN docker-php-ext-install pdo
 RUN docker-php-ext-install pdo_mysql
 RUN apt-get install libicu-dev -y && docker-php-ext-install intl
 RUN apt-get install libzip-dev zip -y && docker-php-ext-install zip
-# RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN if [ "$XDEBUG" = "TRUE"  ] ; \
+        then pecl install xdebug && docker-php-ext-enable xdebug ; \
+        else echo Skipping XDebug installation ; \
+    fi
 
 # install composer
 COPY ./docker/build/php/install-composer.sh /tmp/install-composer.sh
