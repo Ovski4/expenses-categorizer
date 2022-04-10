@@ -1,7 +1,7 @@
 Expenses categorizer
 ====================
 
-[![Build Status](https://travis-ci.org/Ovski4/expenses-categorizer.svg?branch=master)](https://travis-ci.org/Ovski4/expenses-categorizer) [![Coverage Status](https://coveralls.io/repos/github/Ovski4/expenses-categorizer/badge.svg?branch=master)](https://coveralls.io/github/Ovski4/expenses-categorizer?branch=master)
+![Build Status](https://github.com/Ovski4/expenses-categorizer/actions/workflows/actions.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Ovski4/expenses-categorizer/badge.svg?branch=master)](https://coveralls.io/github/Ovski4/expenses-categorizer?branch=master)
 
 An application written in PHP (Symfony 4 framework) to import, categorize and analyze transactions.
 
