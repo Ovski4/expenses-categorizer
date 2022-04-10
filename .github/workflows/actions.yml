@@ -1,0 +1,44 @@
+on: [push]
+
+jobs:
+  run-tests:
+    environment: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Start MySQL container
+        run: docker-compose up -d mysql
+
+      - name: Wait for MySQL to be ready
+        run: sleep 10
+
+      - name: Start PHP container
+        run: docker-compose up -d php
+
+      - name: Install XDebug extension
+        run: >
+          docker-compose run php pecl install xdebug
+          && docker-compose run php docker-php-ext-enable xdebug
+
+      - name: Give writing permissions to the php container user
+        run: sudo chown 1000:1000 -R .
+
+      - name: Run composer install
+        run: docker-compose run php composer install
+
+      - name: Create a folder to store the coverage xml report
+        run: sudo mkdir -p build/logs
+
+      - name: Give writing permissions to the php container user on the coverage folder
+        run: sudo chown 1000:1000 build/logs
+
+      - name: Run phpunit test and build clover coverage.
+        run: >
+          docker-compose run -e XDEBUG_MODE=coverage php
+          php bin/phpunit --coverage-clover build/logs/clover.xml
+
+      - name: Upload coverage results to Coveralls
+        run: >
+          docker-compose run -e COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} php
+          php vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
