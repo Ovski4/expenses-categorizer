@@ -57,7 +57,7 @@ class Transaction
     /**
      * @ORM\Column(type="boolean", options={"default": "0"})
      */
-    private $categorizedManually;
+    private $categorizedManually = false;
 
     public function __construct()
     {
