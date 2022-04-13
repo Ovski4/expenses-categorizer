@@ -69,7 +69,7 @@ class RuleCheckerTest extends TestCase
 
         $this->mockSubCategoryTransactionRuleRepository([$rule]);
         $ruleChecker = new RuleChecker($this->ruleRepository);
-        $transaction1 = $this->createTransaction('Some dummy text here', -22);
+        $transaction1 = $this->createTransaction('Some dummy TEXT here', -22);
         $transaction2 = $this->createTransaction('Some even dummier text here', -22);
 
         $this->assertEquals($ruleChecker->getMatchingSubCategory($transaction1), $this->createSubCategory());
