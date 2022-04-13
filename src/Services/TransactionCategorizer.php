@@ -34,6 +34,10 @@ class TransactionCategorizer
 
     function categorizeOne(Transaction $transaction)
     {
+        if ($transaction->isCategorizedManually()) {
+            return;
+        }
+
         try {
             $newSubCategory = $this->ruleChecker->getMatchingSubCategory($transaction);
         } catch(TransactionMatchesMultipleRulesException $e) {

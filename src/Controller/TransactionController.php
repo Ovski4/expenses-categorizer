@@ -18,6 +18,7 @@ use App\Services\StatementUploader;
 use App\Services\TransactionCategorizer;
 use App\Services\Exporter\ElasticsearchExporter;
 use App\Services\FileParser\FileParserRegistry;
+use App\Services\TransactionDiffChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
@@ -347,6 +348,11 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if($transaction->isCategorized()) {
+                $transaction->setCategorizedManually(true);
+            }
+
             $entityManager = $doctrine->getManager();
             $entityManager->persist($transaction);
             $entityManager->flush();
@@ -363,7 +369,13 @@ class TransactionController extends AbstractController
     /**
      * @Route("/{id}/edit", name="transaction_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Transaction $transaction, Session $session, ManagerRegistry $doctrine): Response
+    public function edit(
+        Request $request,
+        Transaction $transaction,
+        Session $session,
+        ManagerRegistry $doctrine,
+        TransactionDiffChecker $transactionDiffChecker
+    ): Response
     {
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
@@ -374,6 +386,10 @@ class TransactionController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($transactionDiffChecker->subCategoryChanged($transaction)) {
+                $transaction->setCategorizedManually($transaction->isCategorized() ? true : false);
+            }
+
             $doctrine->getManager()->flush();
 
             return $this->redirectToRoute('transaction_index');
