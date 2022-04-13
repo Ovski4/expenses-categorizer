@@ -187,3 +187,11 @@ form#filter-form.large-filter-form > .form-group label {
 form#filter-form.large-filter-form .col-form-label {
     padding-top: 0;
 }
+
+.existing-transaction {
+    background-color: #f9f5e9;
+}
+
+.new-transaction {
+    background-color: #dff6fb;
+}

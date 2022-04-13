@@ -63,7 +63,15 @@
             </thead>
             <tbody>
             {% for transaction in transactions %}
-                <tr>
+                <tr
+                    {% if existingTransactionCount > 0 %}
+                        {% if transaction.exists %}
+                            class="existing-transaction"
+                        {% else %}
+                             class="new-transaction"
+                        {% endif %}
+                    {% endif %}
+                >
                     <td>{{ transaction.label | capitalize }}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>{{ transaction.createdAt|date('d/m/Y') }}</td>

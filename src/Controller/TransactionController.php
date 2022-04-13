@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\DecoratedTransaction;
 use App\Entity\Settings;
 use App\Entity\Transaction;
 use App\Event\TransactionCategorizedEvent;
@@ -316,6 +317,10 @@ class TransactionController extends AbstractController
                 $existingTransactionCount + 1 :
                 $existingTransactionCount
             ;
+
+            $decoratedTransaction = new DecoratedTransaction($transaction);
+            $decoratedTransaction->setExists($transactionExist);
+            $decoratedTransactions[] = $decoratedTransaction;
         }
 
         if (empty($transactions)) {
@@ -330,7 +335,7 @@ class TransactionController extends AbstractController
             ]);
         } else {
             return $this->render('transaction/validate_transactions.html.twig', [
-                'transactions' => $transactions,
+                'transactions' => $decoratedTransactions,
                 'existingTransactionCount' => $existingTransactionCount,
                 'statement' => $statement,
                 'parserName' => $parserName
