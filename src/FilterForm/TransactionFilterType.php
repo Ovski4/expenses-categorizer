@@ -4,26 +4,43 @@ namespace App\FilterForm;
 
 use App\Entity\Account;
 use App\Entity\SubCategory;
+use Doctrine\ORM\EntityRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TransactionFilterType extends AbstractType
 {
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('label', Filters\TextFilterType::class, [
-                'condition_pattern' => FilterOperands::STRING_CONTAINS
+                'condition_pattern' => FilterOperands::STRING_CONTAINS,
+                'attr' => [
+                    'placeholder' => 'Biocoop...'
+                ]
             ])
             ->add('account', Filters\EntityFilterType ::class, [
                 'class' => Account::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->orderBy('a.name', 'asc');
+                },
             ])
             ->add('subCategory', Filters\EntityFilterType ::class, [
                 'class' => SubCategory::class,
+                'group_by' => function($choice) {
+                    return $this->translator->trans($choice->getTransactionType());
+                },
             ])
             ->add('categorized', Filters\BooleanFilterType::class, [
                 'property_path' => '[subCategory]',
