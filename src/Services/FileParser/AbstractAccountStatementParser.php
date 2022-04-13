@@ -30,7 +30,11 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
                 $result['accountId'] = $resolvedOptions['accountId'];
             }
 
-            $transactions[] = $this->transactionFactory->createFromArray($result);
+            $transaction = $this->transactionFactory->createFromArray($result);
+
+            if ($transaction->getAmount() !== 0) {
+                $transactions[] = $transaction;
+            }
         }
 
         return $transactions;
