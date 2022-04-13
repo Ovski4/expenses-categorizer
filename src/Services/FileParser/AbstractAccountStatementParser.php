@@ -5,7 +5,7 @@ namespace App\Services\FileParser;
 use Exception;
 use Symfony\Component\HttpClient\HttpClient;
 
-abstract class AbstractAccountStatementParser extends AbstractFileParser 
+abstract class AbstractAccountStatementParser extends AbstractFileParser
 {
     public function parse(string $filepath, array $options): array
     {
