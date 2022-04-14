@@ -2,24 +2,31 @@
 
 namespace App\FilterForm;
 
-use App\Entity\SubCategory;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SubCategoryTransactionRuleFilterType extends AbstractType
 {
+    use SubCategoryFilterTypeTrait;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('contains', Filters\TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS
             ])
-            ->add('subCategory', Filters\EntityFilterType ::class, [
-                'class' => SubCategory::class,
-            ])
+            ->add('subCategory', Filters\EntityFilterType ::class,
+                $this->getSubCategoryFilterTypeOptions()
+            )
         ;
     }
 
