@@ -4,7 +4,7 @@ on:
       - 'master'
 
 jobs:
-  run-tests:
+  build-docker-latest:
     environment: ci
     runs-on: ubuntu-latest
     steps:

@@ -1,7 +1,7 @@
 on: [push]
 
 jobs:
-  run-tests:
+  run-phpunit-and-build-coverage-report:
     environment: ci
     runs-on: ubuntu-latest
     steps:
