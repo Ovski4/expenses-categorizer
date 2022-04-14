@@ -7,12 +7,14 @@ use App\Entity\Settings;
 use App\Services\FileParser\AbstractFileParser;
 use App\Services\FileParser\FileParserRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CsvStatementType extends AbstractType
@@ -52,11 +54,20 @@ class CsvStatementType extends AbstractType
             ])
             ->add('account', EntityType::class, [
                 'class' => Account::class,
-                'required' => true
+                'required' => true,
+                // Accounts with aliases don't need the account to be selected
+                'query_builder' => function (EntityRepository $er) {
+                    $qb = $er->createQueryBuilder('a');
+
+                    return $qb->where($qb->expr()->isNull('a.aliases'));
+                },
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
             ->add('parserName', ChoiceType::class, [
                 'choices'  => $this->getParserChoices(),
-                'preferred_choices' => $this->getParserPreferredChoices(),
+                // 'preferred_choices' => $this->getParserPreferredChoices(),
                 'label' => 'File type',
                 'required' => true
             ])
