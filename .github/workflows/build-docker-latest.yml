@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - 'docker-build'
+      - 'master'
 
 jobs:
   run-tests:
@@ -22,3 +22,9 @@ jobs:
 
       - name: Push the nginx image
         run: docker push ovski/expenses-categorizer-nginx:latest
+
+      - name: Build the php image
+        run: docker build -f docker/build/php/Dockerfile -t ovski/expenses-categorizer-php:latest .
+
+      - name: Push the php image
+        run: docker push ovski/expenses-categorizer-php:latest
