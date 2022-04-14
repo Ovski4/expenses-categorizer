@@ -37,6 +37,7 @@ class CsvExporter
         ;
 
         $header = [
+            'Id',
             $this->translator->trans('Label'),
             $this->translator->trans('Currency'),
             $this->translator->trans('Account'),
