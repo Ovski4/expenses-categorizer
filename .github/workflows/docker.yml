@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - 'master'
+      - 'docker-build'
 
 jobs:
   run-tests:
@@ -17,16 +17,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push the nginx image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./docker/build/nginx/Dockerfile
-          push: true
-          tags: ovski/expenses-categorizer-nginx:latest
+      - name: Build the nginx image
+        run: docker build -f docker/build/nginx/Dockerfile -t ovski/expenses-categorizer-nginx:latest .
 
-      - name: Build and push the php image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./docker/build/php/Dockerfile
-          push: true
-          tags: ovski/expenses-categorizer-php:latest
+      - name: Push the nginx image
+        run: docker push ovski/expenses-categorizer-nginx:latest
