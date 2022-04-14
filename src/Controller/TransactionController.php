@@ -235,6 +235,14 @@ class TransactionController extends AbstractController
         }
 
         $csvStatementForm = $this->createForm(CsvStatementType::class);
+        $accountOptions = $csvStatementForm
+            ->get('account')
+            ->getConfig()
+            ->getOption('query_builder')
+            ->getQuery()
+            ->getResult()
+        ;
+
         $csvStatementForm->handleRequest($request);
 
         if ($csvStatementForm->isSubmitted() && $csvStatementForm->isValid()) {
@@ -257,6 +265,7 @@ class TransactionController extends AbstractController
         return $this->render('transaction/upload_statement.html.twig', [
             'pdf_statement_form' => $pdfStatementForm->createView(),
             'csv_statement_form' => $csvStatementForm->createView(),
+            'includes_accounts_without_aliases' => count( $accountOptions ) > 0,
         ]);
     }
 

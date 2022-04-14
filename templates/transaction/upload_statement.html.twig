@@ -10,6 +10,7 @@
     <h1>{% trans %}Import transactions{% endtrans %}</h1>
     <hr>
     <div class="row">
+
         <div class="col-lg-6" style="padding: 2rem;">
             <br>
             <h4>{% trans %}Using a PDF file statement{% endtrans %}</h4>
@@ -20,16 +21,23 @@
                 <button class="btn btn-primary">{% trans %}Import transactions from this pdf{% endtrans %}</button>
             {{ form_end(pdf_statement_form) }}
         </div>
-        <div class="col-lg-6" style="padding: 2rem;">
-            <br>
-            <h4>{% trans %}Using a CSV file{% endtrans %}</h4>
-            <br>
 
-            {{ form_start(csv_statement_form) }}
-                {{ form_widget(csv_statement_form) }}
-                <button class="btn btn-primary">{% trans %}Import transactions from this csv{% endtrans %}</button>
-            {{ form_end(csv_statement_form) }}
-        </div>
+        {# We don't need to show the csv file import form if all accounts have aliases.
+        For csv files, the account needs to be specified.
+        But accounts with aliases can have transactions imported without specifying the account #}
+        {% if includes_accounts_without_aliases %}
+            <div class="col-lg-6" style="padding: 2rem;">
+                <br>
+                <h4>{% trans %}Using a CSV file{% endtrans %}</h4>
+                <br>
+
+                {{ form_start(csv_statement_form) }}
+                    {{ form_widget(csv_statement_form) }}
+                    <button class="btn btn-primary">{% trans %}Import transactions from this csv{% endtrans %}</button>
+                {{ form_end(csv_statement_form) }}
+            </div>
+        {% endif %}
+
     </div>
 
     <script type="text/javascript">
