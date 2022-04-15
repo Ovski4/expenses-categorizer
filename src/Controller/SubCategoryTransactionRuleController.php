@@ -16,14 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/sub/category/transaction/rule")
- */
+#[Route('/sub/category/transaction/rule')]
 class SubCategoryTransactionRuleController extends AbstractController
 {
-    /**
-     * @Route("/", name="sub_category_transaction_rule_index", methods={"GET"})
-     */
+    #[Route('/', name: 'sub_category_transaction_rule_index', methods: ['GET'])]
     public function index(
         Request $request,
         FormFactoryInterface $formFactory,
@@ -54,9 +50,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="sub_category_transaction_rule_new", methods={"GET","POST"})
-     */
+    #[Route('/new', name: 'sub_category_transaction_rule_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $subCategoryTransactionRule = new SubCategoryTransactionRule();
@@ -93,9 +87,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="sub_category_transaction_rule_edit", methods={"GET","POST"})
-     */
+    #[Route('/{id}/edit', name: 'sub_category_transaction_rule_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, SubCategoryTransactionRule $subCategoryTransactionRule, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(SubCategoryTransactionRuleType::class, $subCategoryTransactionRule);
@@ -113,9 +105,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="sub_category_transaction_rule_delete", methods={"DELETE"})
-     */
+    #[Route('/{id}', name: 'sub_category_transaction_rule_delete', methods: ['DELETE'])]
     public function delete(
         Request $request,
         SubCategoryTransactionRule $subCategoryTransactionRule,
