@@ -31,6 +31,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         FilterBuilderUpdaterInterface $filterBuilderUpdater
     ): Response
     {
+        $hasFilters = false;
         $filterForm = $formFactory->create(SubCategoryTransactionRuleFilterType::class);
 
         $queryBuilder = $entityManager->createQueryBuilder()
@@ -41,6 +42,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         ;
 
         if ($request->query->has($filterForm->getName())) {
+            $hasFilters = true;
             $filterForm->submit($request->query->all($filterForm->getName()));
             $filterBuilderUpdater->addFilterConditions($filterForm, $queryBuilder);
         }
@@ -48,6 +50,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         return $this->render('sub_category_transaction_rule/index.html.twig', [
             'sub_category_transaction_rules' => $queryBuilder->getQuery()->getResult(),
             'filter_form' => $filterForm->createView(),
+            'has_filters' => $hasFilters,
         ]);
     }
 

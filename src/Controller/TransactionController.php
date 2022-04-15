@@ -50,6 +50,7 @@ class TransactionController extends AbstractController
         FilterBuilderUpdaterInterface $filterBuilderUpdater
     ): Response
     {
+        $hasFilters = false;
         $filterForm = $formFactory->create(TransactionFilterType::class);
 
         $queryBuilder = $entityManager->createQueryBuilder()
@@ -59,6 +60,7 @@ class TransactionController extends AbstractController
         ;
 
         if ($request->query->has($filterForm->getName())) {
+            $hasFilters = true;
             $filterForm->submit($request->query->all($filterForm->getName()));
 
             try {
@@ -79,6 +81,7 @@ class TransactionController extends AbstractController
         return $this->render('transaction/index.html.twig', [
             'pager' => $pagerfanta,
             'filter_form' => $filterForm->createView(),
+            'has_filters' => $hasFilters,
         ]);
     }
 

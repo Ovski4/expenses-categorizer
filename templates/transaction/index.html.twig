@@ -19,11 +19,13 @@
         <span>
             <input class="btn btn-primary" type="submit" name="submit-filter" value="{% trans %}Filter{% endtrans %}" />
         </span>
-        <span>
-            <a class="btn btn-primary" href="{{ path('transaction_index') }}">
-                <i class="fas fa-redo"></i> {% trans %}Reset filters{% endtrans %}
-            </a>
-        </span>
+        {% if has_filters %}
+            <span>
+                <a class="btn btn-primary" href="{{ path('transaction_index') }}">
+                    <i class="fas fa-redo"></i> {% trans %}Reset filters{% endtrans %}
+                </a>
+            </span>
+        {% endif %}
     </form>
 
     <a type="button" class="btn btn-outline-primary" href="{{ path('transaction_new') }}">
