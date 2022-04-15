@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpClient\Exception\ServerException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/transaction/import')]
@@ -37,6 +38,13 @@ class TransactionImportController extends AbstractController
         string $parserName
     ) {
         $parser = $registry->getFileParser($parserName);
+
+        if(is_null($parser)) {
+            throw new NotFoundHttpException(
+                sprintf('File import for "%s" not available', $parserName)
+            );
+        }
+
         $form = $parser->requiresPdfFile()
             ? $this->createForm(PdfStatementType::class)
             : $this->createForm(CsvStatementType::class)
