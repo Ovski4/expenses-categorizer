@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Import transactions{% endtrans %}{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'import_transaction'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Import transactions{% endtrans %}</h1>
+    <hr>
+    <div class="row">
+
+        <div class="col-lg-6" style="padding: 2rem;">
+            <br>
+            <h4>From a {{ parser.label }}</h4>
+            <br>
+
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary">{% trans %}Import transactions from this file{% endtrans %}</button>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        document.querySelectorAll('.custom-file-input').forEach(function(element) {
+            element.addEventListener('change', function(e) {
+                const fileName = element.files[0].name;
+                const nextSibling = e.target.nextElementSibling
+                nextSibling.innerText = fileName
+            });
+        });
+    </script>
+{% endblock %}

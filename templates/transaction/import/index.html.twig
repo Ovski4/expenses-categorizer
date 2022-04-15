@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Import transactions{% endtrans %}{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'import_transaction'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Import transactions{% endtrans %}</h1>
+
+    <div style="display: flex; flex-wrap: wrap">
+        {% for parser in parsers %}
+            <div class="card" style="width: 18rem; margin: 1rem;">
+                <div class="card-img">
+                    <img
+                        class="card-img-top {{ parser.name }}"
+                        src="/images/logo-{{ parser.name }}.svg"
+                        alt="{{ parser.label }} logo"
+                    >
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Import transactions from a {{ parser.label }}
+                    </p>
+                    <p class="card-action">
+                        <a class="btn btn-primary" href="{{ path('transaction_upload_statement', {'parserName': parser.name}) }}">
+                            Import
+                        </a>
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

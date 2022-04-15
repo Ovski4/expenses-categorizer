@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\DecoratedTransaction;
-use App\Entity\Settings;
 use App\Entity\Transaction;
 use App\Exception\AccountNotFoundException;
 use App\Form\CsvStatementType;
@@ -22,63 +21,51 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/transaction/import')]
 class TransactionImportController extends AbstractController
 {
-    #[Route('/upload-statement', name: 'transaction_upload_statement', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'transaction_import_index')]
+    public function index(FileParserRegistry $registry)
+    {
+        return $this->render('transaction/import/index.html.twig', [
+            'parsers' => $registry->getFileParsers(),
+        ]);
+    }
+
+    #[Route('/{parserName}/upload', name: 'transaction_upload_statement', methods: ['GET', 'POST'])]
     public function uploadStatement(
         Request $request,
         StatementUploader $statementUploader,
-        EntityManagerInterface $manager
-    ): Response
-    {
-        $pdfStatementForm = $this->createForm(PdfStatementType::class);
-        $pdfStatementForm->handleRequest($request);
-
-        if ($pdfStatementForm->isSubmitted() && $pdfStatementForm->isValid()) {
-            $statementFile = $pdfStatementForm['statement']->getData();
-            $parserName = $pdfStatementForm['parserName']->getData();
-            $statementFile = $statementUploader->upload($statementFile);
-
-            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_PDF_STATEMENT_PARSER_USED, $parserName);
-
-            return $this->redirect(
-                $this->generateUrl('validate_transactions', [
-                    'statement' => $statementFile,
-                    'parserName' => $parserName
-                ])
-            );
-        }
-
-        $csvStatementForm = $this->createForm(CsvStatementType::class);
-        $accountOptions = $csvStatementForm
-            ->get('account')
-            ->getConfig()
-            ->getOption('query_builder')
-            ->getQuery()
-            ->getResult()
+        FileParserRegistry $registry,
+        string $parserName
+    ) {
+        $parser = $registry->getFileParser($parserName);
+        $form = $parser->requiresPdfFile()
+            ? $this->createForm(PdfStatementType::class)
+            : $this->createForm(CsvStatementType::class)
         ;
 
-        $csvStatementForm->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($csvStatementForm->isSubmitted() && $csvStatementForm->isValid()) {
-            $statementFile = $csvStatementForm['statement']->getData();
-            $parserName = $csvStatementForm['parserName']->getData();
-            $account = $csvStatementForm['account']->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $statementFile = $form['statement']->getData();
             $statementFile = $statementUploader->upload($statementFile);
 
-            $manager->getRepository(Settings::class)->createOrUpdate(Settings::NAME_LAST_CSV_PARSER_USED, $parserName);
+            $parameters = [
+                'statement' => $statementFile,
+                'parserName' => $parserName
+            ];
+
+            if ($parser->requiresCsvFile()) {
+                $account = $form['account']->getData();
+                $parameters['account'] = $account->getId();
+            }
 
             return $this->redirect(
-                $this->generateUrl('validate_transactions', [
-                    'statement' => $statementFile,
-                    'parserName' => $parserName,
-                    'account' => $account->getId()
-                ])
+                $this->generateUrl('validate_transactions', $parameters)
             );
         }
 
-        return $this->render('transaction/upload_statement.html.twig', [
-            'pdf_statement_form' => $pdfStatementForm->createView(),
-            'csv_statement_form' => $csvStatementForm->createView(),
-            'includes_accounts_without_aliases' => count( $accountOptions ) > 0,
+        return $this->render('transaction/import/upload_statement.html.twig', [
+            'form' => $form->createView(),
+            'parser' => $parser,
         ]);
     }
 
@@ -102,7 +89,7 @@ class TransactionImportController extends AbstractController
                 $account ? ['accountId' => $account] : []
             );
         } catch (AccountNotFoundException $e) {
-            return $this->render('transaction/validate_transactions.html.twig', [
+            return $this->render('transaction/import/validate_transactions.html.twig', [
                 'error' => sprintf(
                     '%s. %s',
                     $translator->trans($e->getMessage(), ['%search%' => $e->getAccountSearch()]),
@@ -144,17 +131,20 @@ class TransactionImportController extends AbstractController
         }
 
         if (empty($transactions)) {
-            return $this->render('transaction/validate_transactions.html.twig', [
+            return $this->render('transaction/import/validate_transactions.html.twig', [
                 'error' => sprintf(
                     '%s %s?',
                     $translator->trans('No transactions were found. Are you sure your file is a valid'),
                     strtolower($translator->trans($fileParser->getLabel()))
                 ),
                 'suggestionLabel' => $translator->trans('Go back to file upload'),
-                'suggestionPath' => 'transaction_upload_statement'
+                'suggestionPath' => 'transaction_upload_statement',
+                'suggestionPathParams' => [
+                    'parserName' => $parserName
+                ]
             ]);
         } else {
-            return $this->render('transaction/validate_transactions.html.twig', [
+            return $this->render('transaction/import/validate_transactions.html.twig', [
                 'transactions' => $decoratedTransactions,
                 'existingTransactionCount' => $existingTransactionCount,
                 'statement' => $statement,

@@ -6,7 +6,7 @@
             </a>
             <ul class="navbar-nav flex-column">
                 <li class="nav-item{% if current is defined and current == 'import_transaction' %} active{% endif %}">
-                    <a href="{{ path('transaction_upload_statement') }}" class="nav-link">
+                    <a href="{{ path('transaction_import_index') }}" class="nav-link">
                         {% trans %}Import from a file{% endtrans %}
                     </a>
                 </li>

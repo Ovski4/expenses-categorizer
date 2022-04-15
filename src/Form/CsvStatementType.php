@@ -3,16 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Account;
-use App\Entity\Settings;
-use App\Services\FileParser\AbstractFileParser;
-use App\Services\FileParser\FileParserRegistry;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -20,19 +17,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CsvStatementType extends AbstractType
 {
     private $translator;
+    private $requestStack;
+    private $slugger;
 
-    private $fileParserRegistry;
-
-    private $entityManager;
-
-    public function __construct(
-        TranslatorInterface $translator,
-        FileParserRegistry $fileParserRegistry,
-        EntityManagerInterface $entityManager
-    ) {
+    public function __construct(TranslatorInterface $translator, RequestStack $requestStack, SluggerInterface $slugger)
+    {
         $this->translator = $translator;
-        $this->fileParserRegistry = $fileParserRegistry;
-        $this->entityManager = $entityManager;
+        $this->requestStack = $requestStack;
+        $this->slugger = $slugger;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -55,6 +47,28 @@ class CsvStatementType extends AbstractType
             ->add('account', EntityType::class, [
                 'class' => Account::class,
                 'required' => true,
+                // prefer accounts whose names are closer to the parser name.
+                'preferred_choices' => function ($account, $key, $value) {
+                    $slugifiedAccountName = $this->slugger->slug($account->getName())->lower()->toString();
+                    $request = $this->requestStack->getCurrentRequest();
+                    $parserName = $request->attributes->get('parserName');
+                    $checkedValues = [
+                        'credit' => ['credit'],
+                        'check' => ['check', 'cheque']
+                    ];
+
+                    foreach($checkedValues as $parserPart => $accountNameParts) {
+                        foreach($accountNameParts as $accountNamePart) {
+                            if (strpos($slugifiedAccountName, $accountNamePart) !== false
+                                && strpos($parserName, $parserPart) !== false
+                            ) {
+                                return true;
+                            }
+                        }
+                    }
+
+                    return false;
+                },
                 // Accounts with aliases don't need the account to be selected
                 'query_builder' => function (EntityRepository $er) {
                     $qb = $er->createQueryBuilder('a');
@@ -65,44 +79,6 @@ class CsvStatementType extends AbstractType
                     new NotBlank(),
                 ],
             ])
-            ->add('parserName', ChoiceType::class, [
-                'choices'  => $this->getParserChoices(),
-                // 'preferred_choices' => $this->getParserPreferredChoices(),
-                'label' => 'File type',
-                'required' => true
-            ])
         ;
-    }
-
-    private function getParserPreferredChoices()
-    {
-        $lastParserUsedSettings = $this->entityManager
-            ->getRepository(Settings::class)
-            ->findOneByName(Settings::NAME_LAST_CSV_PARSER_USED)
-        ;
-
-        $choices = $this->getParserChoices();
-
-        if (!is_null($lastParserUsedSettings)) {
-            $parserName = $lastParserUsedSettings->getValue();
-            $parserLabel = array_search($parserName, $choices);
-
-            return [ $parserLabel => $parserName ];
-        }
-
-        return [];
-    }
-
-    private function getParserChoices()
-    {
-        return array_reduce(
-            $this->fileParserRegistry->getFileParsers( AbstractFileParser::FILE_TYPE_CSV ),
-            function(array $choices, AbstractFileParser $fileParser) {
-                $choices[$fileParser->getLabel()] = $fileParser->getName();
-
-                return $choices;
-            },
-            []
-        );
     }
 }

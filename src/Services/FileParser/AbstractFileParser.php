@@ -26,6 +26,16 @@ abstract class AbstractFileParser
             ->setAllowedTypes('accountId', ['string', 'null']);
     }
 
+    public function requiresPdfFile(): bool
+    {
+        return $this->getFileType() === self::FILE_TYPE_PDF;
+    }
+
+    public function requiresCsvFile(): bool
+    {
+        return $this->getFileType() === self::FILE_TYPE_CSV;
+    }
+
     abstract public function getName(): string;
     abstract public function getFileType(): string;
     abstract public function getLabel(): string;

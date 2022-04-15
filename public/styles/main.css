@@ -195,3 +195,42 @@ form#filter-form.large-filter-form .col-form-label {
 .new-transaction {
     background-color: #dff6fb;
 }
+
+.card-img {
+    display: flex;
+    height: 100px;
+}
+
+.card-action {
+    text-align: center;
+}
+
+.card-img-top {
+    height: 80px;
+    width: 230px;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 1rem;
+    align-self: center;
+}
+
+.card-img-top.nbc-credit,
+.card-img-top.nbc-checking {
+    height: 60px;
+    width: 170px;
+}
+
+.card-img-top.n26 {
+    height: 60px;
+    width: 170px;
+}
+
+.card-img-top.credit-mutuel {
+    height: 100px;
+    width: 250px;
+}
+
+.card-img-top.boursorama {
+    height: 60px;
+    width: 170px;
+}
