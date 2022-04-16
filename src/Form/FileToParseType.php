@@ -11,8 +11,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -20,12 +20,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class FileToParseType extends AbstractType
 {
     private $translator;
-    private $slugger;
+    private $locale;
 
-    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger)
+    public function __construct(TranslatorInterface $translator, RequestStack $requestStack)
     {
         $this->translator = $translator;
-        $this->slugger = $slugger;
+        $this->locale = $requestStack->getCurrentRequest()->getLocale();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -36,6 +36,9 @@ class FileToParseType extends AbstractType
         $builder
             ->add('statement', FileType::class, [
                 'label' => strtoupper($fileType) . ' file',
+                'attr' => [
+                    'lang' => $this->locale,
+                ],
                 'mapped' => false,
                 'constraints' => [
                     new File([

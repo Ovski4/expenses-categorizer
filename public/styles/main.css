@@ -15,6 +15,10 @@ body {
     flex-grow: 1;
 }
 
+.custom-file-input:lang(fr) + .custom-file-label::after {
+    content: "Parcourir";
+}
+
 #main input, #main select {
     max-width: 40rem;
 }
