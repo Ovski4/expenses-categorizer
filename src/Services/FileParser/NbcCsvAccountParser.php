@@ -2,7 +2,6 @@
 
 namespace App\Services\FileParser;
 
-use AccountGuessable;
 use App\Services\FileParser\Traits\CsvFileParserTrait;
 use App\Services\TransactionFactory;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

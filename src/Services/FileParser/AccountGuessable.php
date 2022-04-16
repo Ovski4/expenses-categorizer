@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Services\FileParser;
+
 use App\Entity\Account;
 
 /**
