@@ -59,7 +59,7 @@ class FileToParseType extends AbstractType
                     'class' => Account::class,
                     'required' => true,
                     // prefer accounts that matches the parser.
-                    'preferred_choices' => function ($account, $key, $value) use ($parser) {
+                    'preferred_choices' => function ($account) use ($parser) {
                         if ($parser instanceof AccountGuessable) {
                             return $parser->matches($account);
                         }

@@ -40,7 +40,7 @@ abstract class AbstractFileParser
 
     /**
      * The label of the file parsed by this parser.
-     * This will be used in forms and alerts (a human readable string).
+     * This will be used in forms and alerts (i.e it is a human friendly name).
      */
     abstract public function getLabel(): string;
 
