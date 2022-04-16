@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use AccountGuessable;
 use App\Entity\Account;
 use App\Services\FileParser\AbstractFileParser;
 use Doctrine\ORM\EntityRepository;
@@ -10,7 +11,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints\File;
@@ -20,13 +20,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class FileToParseType extends AbstractType
 {
     private $translator;
-    private $requestStack;
     private $slugger;
 
-    public function __construct(TranslatorInterface $translator, RequestStack $requestStack, SluggerInterface $slugger)
+    public function __construct(TranslatorInterface $translator, SluggerInterface $slugger)
     {
         $this->translator = $translator;
-        $this->requestStack = $requestStack;
         $this->slugger = $slugger;
     }
 
@@ -57,24 +55,10 @@ class FileToParseType extends AbstractType
                 ->add('account', EntityType::class, [
                     'class' => Account::class,
                     'required' => true,
-                    // prefer accounts whose names are closer to the parser name.
-                    'preferred_choices' => function ($account, $key, $value) {
-                        $slugifiedAccountName = $this->slugger->slug($account->getName())->lower()->toString();
-                        $request = $this->requestStack->getCurrentRequest();
-                        $parserName = $request->attributes->get('parserName');
-                        $checkedValues = [
-                            'credit' => ['credit'],
-                            'check' => ['check', 'cheque']
-                        ];
-
-                        foreach($checkedValues as $parserPart => $accountNameParts) {
-                            foreach($accountNameParts as $accountNamePart) {
-                                if (strpos($slugifiedAccountName, $accountNamePart) !== false
-                                    && strpos($parserName, $parserPart) !== false
-                                ) {
-                                    return true;
-                                }
-                            }
+                    // prefer accounts that matches the parser.
+                    'preferred_choices' => function ($account, $key, $value) use ($parser) {
+                        if ($parser instanceof AccountGuessable) {
+                            return $parser->matches($account);
                         }
 
                         return false;
