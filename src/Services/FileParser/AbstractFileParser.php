@@ -23,18 +23,14 @@ abstract class AbstractFileParser
         $this->params = $params;
         $this->resolver = ( new OptionsResolver() )
             ->setDefaults(['accountId' => null])
-            ->setAllowedTypes('accountId', ['string', 'null']);
+            ->setAllowedTypes('accountId', ['string', 'null'])
+        ;
     }
 
-    public function requiresPdfFile(): bool
-    {
-        return $this->getFileType() === self::FILE_TYPE_PDF;
-    }
-
-    public function requiresCsvFile(): bool
-    {
-        return $this->getFileType() === self::FILE_TYPE_CSV;
-    }
+    /**
+     * The file mime-types allowed for this parser.
+     */
+    abstract public function getAllowedMimeTypes(): array;
 
     /**
      * Get the name of the file parser.

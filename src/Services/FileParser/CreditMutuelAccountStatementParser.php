@@ -2,16 +2,15 @@
 
 namespace App\Services\FileParser;
 
+use App\Services\FileParser\Traits\PdfFileParserTrait;
+
 class CreditMutuelAccountStatementParser extends AbstractAccountStatementParser
 {
+    use PdfFileParserTrait;
+
     public function getName(): string
     {
         return 'credit-mutuel';
-    }
-
-    public function getFileType(): string
-    {
-        return self::FILE_TYPE_PDF;
     }
 
     public function getLabel(): string

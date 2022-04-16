@@ -43,7 +43,7 @@ class FileToParseType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'mimeTypes' => $this->getMimeTypes($parser),
+                        'mimeTypes' => $parser->getAllowedMimeTypes(),
                         'mimeTypesMessage' => $this->translator->trans(sprintf(
                             'Please upload a valid %s document',
                             strtoupper($fileType)
@@ -86,24 +86,5 @@ class FileToParseType extends AbstractType
             ->setRequired('fileParser')
             ->setAllowedTypes('fileParser', AbstractFileParser::class)
         ;
-    }
-
-    private function getMimeTypes(AbstractFileParser $parser): array
-    {
-        if ($parser->requiresPdfFile()) {
-            return [
-                'application/pdf',
-                'application/x-pdf',
-            ];
-        }
-
-        if ($parser->requiresCsvFile()) {
-            return [
-                'text/csv',
-                'text/plain',
-            ];
-        }
-
-        throw new Exception(sprintf('Unsupported file type "%s"', $parser->getFileType()));
     }
 }

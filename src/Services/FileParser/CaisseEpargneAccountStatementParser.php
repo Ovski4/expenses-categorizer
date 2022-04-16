@@ -2,16 +2,15 @@
 
 namespace App\Services\FileParser;
 
+use App\Services\FileParser\Traits\PdfFileParserTrait;
+
 class CaisseEpargneAccountStatementParser extends AbstractAccountStatementParser
 {
+    use PdfFileParserTrait;
+
     public function getName(): string
     {
         return 'caisse-epargne';
-    }
-
-    public function getFileType(): string
-    {
-        return self::FILE_TYPE_PDF;
     }
 
     public function getLabel(): string
