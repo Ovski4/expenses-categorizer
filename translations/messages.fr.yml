@@ -31,8 +31,8 @@ CSV file: Fichier CSV
 Caisse d'épargne account statement: Relevé de compte de la caisse d'Épargne
 Crédit Mutuel account statement: Relevé de compte du Crédit Mutuel
 N26 account statement: Relevé de compte N26
-NBC checking account csv export: Export CSV NBC du compte chèque
-NBC credit account csv export: Export CSV NBC du compte crédit
+NBC checking account csv file: Fichier CSV NBC du compte chèque
+NBC credit account csv file: Fichier CSV NBC du compte crédit
 Csv export: Exporter au format csv
 Currency: Monnaie
 Date: Date
@@ -57,7 +57,10 @@ Exporting: Export en cours
 Export transactions: Exporter des transactions
 Export transactions to elasticsearch: Exporter des transactions sur elasticsearch
 Filter: Filtrer
+File import for "%parserName%" not available: L'import de fichier pour "%parserName%" n'est pas disponible
 File type: Type de fichier
+From a: À partir d'un
+from a: à partir d'un
 from_number: de
 from_date: du
 Go back to file upload: Revenir à l'import des fichiers
@@ -67,6 +70,7 @@ Go back to the category list: Revenir à la liste des catégories
 Go back to the account list: Revenir à la liste des comptes
 Select which operator to use to compare transactions amount with this rule amount: Choisissez quelle opérande doit être utilisée pour comparer le montant des transactions avec le montant de cette règle
 If a transaction matches multiple rules, the rule with the highest priority will prevail: Si une transaction correspond à plusieurs règles, la règle avec la priorité la plus haute l'emportera
+Import: Importer
 Import from a file: Importer à partir d'un fichier
 Import transactions: Importer des transactions
 Import transactions from this pdf: Importer des transactions à partir de ce fichier pdf

@@ -34,13 +34,17 @@ class TransactionImportController extends AbstractController
         Request $request,
         StatementUploader $statementUploader,
         FileParserRegistry $registry,
+        TranslatorInterface $translator,
         string $parserName
     ) {
         $parser = $registry->getFileParser($parserName);
 
         if(is_null($parser)) {
             throw new NotFoundHttpException(
-                sprintf('File import for "%s" not available', $parserName)
+                $translator->trans(
+                    'File import for "%parserName%" not available',
+                    ['%parserName%' => $parserName]
+                ),
             );
         }
 

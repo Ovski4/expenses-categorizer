@@ -21,11 +21,15 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">
-                        Import transactions from a {{ parser.label }}
+                        {% trans %}Import transactions{% endtrans %}
+                        {% trans %}from a{% endtrans %}
+                        <span class="parser-label">
+                            {{ parser.label|trans[0:1]|lower ~ parser.label|trans[1:] }}
+                        </span>
                     </p>
                     <p class="card-action">
                         <a class="btn btn-primary" href="{{ path('transaction_upload_statement', {'parserName': parser.name}) }}">
-                            Import
+                            {% trans %}Import{% endtrans %}
                         </a>
                     </p>
                 </div>

@@ -35,7 +35,7 @@ class NbcCsvCheckingAccountParser extends AbstractAccountStatementParser impleme
 
     public function getLabel(): string
     {
-        return 'NBC checking account csv export';
+        return 'NBC checking account csv file';
     }
 
     public function extractsAccountsFromFile(): bool

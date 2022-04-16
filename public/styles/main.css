@@ -239,3 +239,7 @@ form#filter-form.large-filter-form .col-form-label {
     height: 60px;
     width: 170px;
 }
+
+.parser-card .parser-label {
+    font-weight: 500;
+}

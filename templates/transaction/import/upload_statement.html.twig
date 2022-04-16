@@ -13,7 +13,7 @@
 
         <div class="col-lg-6" style="padding: 2rem;">
             <br>
-            <h4>From a {{ parser.label }}</h4>
+            <h4>{% trans %}From a{% endtrans %} {{ parser.label|trans[0:1]|lower ~ parser.label|trans[1:] }}</h4>
             <br>
 
             {{ form_start(form) }}
