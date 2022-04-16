@@ -18,4 +18,9 @@ class BoursoramaAccountStatementParser extends AbstractAccountStatementParser
     {
         return 'Boursorama account statement';
     }
+
+    public function extractsAccountsFromFile(): bool
+    {
+        return true;
+    }
 }

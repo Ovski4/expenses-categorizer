@@ -18,4 +18,9 @@ class CreditMutuelAccountStatementParser extends AbstractAccountStatementParser
     {
         return 'Crédit Mutuel account statement';
     }
+
+    public function extractsAccountsFromFile(): bool
+    {
+        return true;
+    }
 }

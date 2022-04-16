@@ -18,4 +18,9 @@ class N26AccountStatementParser extends AbstractAccountStatementParser
     {
         return 'N26 account statement';
     }
+
+    public function extractsAccountsFromFile(): bool
+    {
+        return true;
+    }
 }

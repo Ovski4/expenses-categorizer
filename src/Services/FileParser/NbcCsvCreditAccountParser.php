@@ -18,4 +18,9 @@ class NbcCsvCreditAccountParser extends AbstractAccountStatementParser
     {
         return 'NBC credit account csv export';
     }
+
+    public function extractsAccountsFromFile(): bool
+    {
+        return false;
+    }
 }

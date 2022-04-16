@@ -18,4 +18,9 @@ class CaisseEpargneAccountStatementParser extends AbstractAccountStatementParser
     {
         return 'Caisse d\'épargne account statement';
     }
+
+    public function extractsAccountsFromFile(): bool
+    {
+        return true;
+    }
 }

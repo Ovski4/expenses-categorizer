@@ -5,8 +5,7 @@ namespace App\Controller;
 use App\Entity\DecoratedTransaction;
 use App\Entity\Transaction;
 use App\Exception\AccountNotFoundException;
-use App\Form\CsvStatementType;
-use App\Form\PdfStatementType;
+use App\Form\FileToParseType;
 use App\Services\StatementUploader;
 use App\Services\FileParser\FileParserRegistry;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,10 +44,7 @@ class TransactionImportController extends AbstractController
             );
         }
 
-        $form = $parser->requiresPdfFile()
-            ? $this->createForm(PdfStatementType::class)
-            : $this->createForm(CsvStatementType::class)
-        ;
+        $form = $this->createForm(FileToParseType::class, null, ['fileParser' => $parser]);
 
         $form->handleRequest($request);
 
@@ -61,7 +57,7 @@ class TransactionImportController extends AbstractController
                 'parserName' => $parserName
             ];
 
-            if ($parser->requiresCsvFile()) {
+            if (isset($form['account'])) {
                 $account = $form['account']->getData();
                 $parameters['account'] = $account->getId();
             }

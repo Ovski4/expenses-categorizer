@@ -36,8 +36,31 @@ abstract class AbstractFileParser
         return $this->getFileType() === self::FILE_TYPE_CSV;
     }
 
+    /**
+     * Get the name of the file parser.
+     * This will be used in urls.
+     */
     abstract public function getName(): string;
-    abstract public function getFileType(): string;
+
+    /**
+     * The label of the file parsed by this parser.
+     * This will be used in forms and alerts (a human readable string).
+     */
     abstract public function getLabel(): string;
+
+    /**
+     * The type of the file parsed by this parser (csv, pdf...)
+     */
+    abstract public function getFileType(): string;
+
+    /**
+     * Whether or not this parser extract the accounts from the file.
+     * If not, the user will have to manually specify the account transactions will be imported into.
+     */
+    abstract public function extractsAccountsFromFile(): bool;
+
+    /**
+     * Use this method to add the parser logic.
+     */
     abstract public function parse(string $filePath, array $options): array;
 }

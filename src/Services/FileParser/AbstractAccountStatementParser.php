@@ -2,7 +2,6 @@
 
 namespace App\Services\FileParser;
 
-use Exception;
 use Symfony\Component\HttpClient\HttpClient;
 
 abstract class AbstractAccountStatementParser extends AbstractFileParser
