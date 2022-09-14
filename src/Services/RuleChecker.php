@@ -44,8 +44,10 @@ class RuleChecker
 
     private function ruleMatchesTransaction($rule, $transaction)
     {
-        // label is not within rule "contains" property
-        if (strpos($transaction->getLabel(), $rule->getContains()) === false) {
+        // label is not within rule "contains" property (case-insensitive check)
+        $lowerCaseTransactionLabel = strtolower($transaction->getLabel());
+        $lowerCaseRuleContains = strtolower($rule->getContains());
+        if (strpos($lowerCaseTransactionLabel, $lowerCaseRuleContains) === false) {
             return false;
         }
 

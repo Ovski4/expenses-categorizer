@@ -31,7 +31,7 @@ class ApplicationAvailabilityFunctionalTest extends WebTestCase
         yield ['/transaction/'];
         yield ['/transaction/categorize'];
         yield ['/transaction/export/elasticsearch'];
-        yield ['/transaction/import/upload-statement'];
+        yield ['/transaction/import/boursorama/upload'];
         yield ['/transaction/new'];
     }
 }

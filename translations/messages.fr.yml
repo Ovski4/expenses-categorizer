@@ -11,7 +11,7 @@ Are you sure you want to delete this item?: Êtes-vous certain de vouloir suppri
 Are you sure you want to save all transactions, even with duplicated records?: Êtes-vous certain de vouloir sauvegarder toutes ces transactions, au risque de créer des doublons?
 Bank: Banque
 Back to the category list: Revenir à la liste des catégories
-Boursorama account statement:  Relevé de compte Boursorama
+Boursorama account statement:  relevé de compte Boursorama
 Category list: Liste des Catégories
 Categorizing: Catégorisation en cours
 Create a new sub category: Créer une nouvelle sous-catégorie
@@ -28,11 +28,11 @@ Create a new rule: Créer une nouvelle règle
 Create a new transaction: Créer une nouvelle transaction
 Created at: Créé le
 CSV file: Fichier CSV
-Caisse d'épargne account statement: Relevé de compte de la caisse d'Épargne
-Crédit Mutuel account statement: Relevé de compte du Crédit Mutuel
-N26 account statement: Relevé de compte N26
-NBC checking account csv export: Export CSV NBC du compte chèque
-NBC credit account csv export: Export CSV NBC du compte crédit
+Caisse d'épargne account statement: relevé de compte de la Caisse d'Épargne
+Crédit Mutuel account statement: relevé de compte du Crédit Mutuel
+N26 account statement: relevé de compte N26
+NBC checking account csv file: fichier CSV NBC du compte chèque
+NBC credit account csv file: fichier CSV NBC du compte crédit
 Csv export: Exporter au format csv
 Currency: Monnaie
 Date: Date
@@ -57,7 +57,10 @@ Exporting: Export en cours
 Export transactions: Exporter des transactions
 Export transactions to elasticsearch: Exporter des transactions sur elasticsearch
 Filter: Filtrer
+File import for "%parserName%" not available: L'import de fichier pour "%parserName%" n'est pas disponible
 File type: Type de fichier
+From a: À partir d'un
+from a: à partir d'un
 from_number: de
 from_date: du
 Go back to file upload: Revenir à l'import des fichiers
@@ -67,10 +70,9 @@ Go back to the category list: Revenir à la liste des catégories
 Go back to the account list: Revenir à la liste des comptes
 Select which operator to use to compare transactions amount with this rule amount: Choisissez quelle opérande doit être utilisée pour comparer le montant des transactions avec le montant de cette règle
 If a transaction matches multiple rules, the rule with the highest priority will prevail: Si une transaction correspond à plusieurs règles, la règle avec la priorité la plus haute l'emportera
+Import: Importer
 Import from a file: Importer à partir d'un fichier
 Import transactions: Importer des transactions
-Import transactions from this pdf: Importer des transactions à partir de ce fichier pdf
-Import transactions from this csv: Importer des transactions à partir de ce fichier csv
 Incomplete rule: Règle non complète
 Label: Label
 Multiple rules with identical priorities match this transaction: Plusieurs règles aux priorités identiques correspondent à cette transaction

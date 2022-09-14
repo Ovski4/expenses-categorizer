@@ -1,0 +1,30 @@
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  build-docker-latest:
+    environment: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout git repository
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build the nginx image
+        run: docker build -f docker/build/nginx/Dockerfile -t ovski/expenses-categorizer-nginx:latest .
+
+      - name: Push the nginx image
+        run: docker push ovski/expenses-categorizer-nginx:latest
+
+      - name: Build the php image
+        run: docker build -f docker/build/php/Dockerfile -t ovski/expenses-categorizer-php:latest .
+
+      - name: Push the php image
+        run: docker push ovski/expenses-categorizer-php:latest

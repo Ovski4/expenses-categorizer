@@ -11,14 +11,14 @@ class FileParserRegistry
         $this->fileParsers = [];
     }
 
-    public function addFileParser(AbstractFileParser $fileParser)
+    public function addFileParser(AbstractFileParser $fileParser): self
     {
         $this->fileParsers[] = $fileParser;
 
         return $this;
     }
 
-    public function getFileParser($name)
+    public function getFileParser($name): ?AbstractFileParser
     {
         if (!is_string($name)) {
             throw new \Exception(sprintf(
@@ -33,16 +33,10 @@ class FileParserRegistry
             }
         }
 
-        throw new \InvalidArgumentException(sprintf(
-            'Could not load file parser "%s". Available file parsers are %s',
-            $name,
-            implode(', ', array_map(function($fileParser) {
-                return $fileParser->getName();
-            }, $this->fileParsers))
-        ));
+        return null;
     }
 
-    public function getFileParsers( string $fileType = null )
+    public function getFileParsers( string $fileType = null ): array
     {
         if ($fileType) {
             return array_filter(

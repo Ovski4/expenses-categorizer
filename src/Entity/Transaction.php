@@ -54,6 +54,11 @@ class Transaction
      */
     private $toSyncInElasticsearch;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": "0"})
+     */
+    private $categorizedManually = false;
+
     public function __construct()
     {
         $this->toSyncInElasticsearch = true;
@@ -184,6 +189,11 @@ class Transaction
         return $this;
     }
 
+    public function isCategorized(): ?bool
+    {
+        return $this->subCategory !== null;
+    }
+
     public function getToSyncInElasticsearch(): ?bool
     {
         return $this->toSyncInElasticsearch;
@@ -192,6 +202,18 @@ class Transaction
     public function setToSyncInElasticsearch(bool $toSyncInElasticsearch): self
     {
         $this->toSyncInElasticsearch = $toSyncInElasticsearch;
+
+        return $this;
+    }
+
+    public function isCategorizedManually(): ?bool
+    {
+        return $this->categorizedManually;
+    }
+
+    public function setCategorizedManually(bool $categorizedManually): self
+    {
+        $this->categorizedManually = $categorizedManually;
 
         return $this;
     }

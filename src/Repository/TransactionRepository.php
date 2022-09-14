@@ -52,6 +52,18 @@ class TransactionRepository extends ServiceEntityRepository
         return $results;
     }
 
+    public function findAllNotManuallyCategorized()
+    {
+        $results = $this->createQueryBuilder('t')
+            ->where('t.categorizedManually = :categorizedManually')
+            ->setParameter('categorizedManually', false)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $results;
+    }
+
     public function getBalanceByAccount(Account $account): float
     {
         return $this->createQueryBuilder('t')

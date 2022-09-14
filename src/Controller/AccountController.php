@@ -16,14 +16,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/account")
- */
+#[Route('/account')]
 class AccountController extends AbstractController
 {
-    /**
-     * @Route("/", name="account_index", methods={"GET"})
-     */
+    #[Route('/', name: 'account_index', methods: ['GET'])]
     public function index(AccountRepository $accountRepository, TransactionRepository $transactionRepository): Response
     {
         $accounts = $accountRepository->findBy([], ['name'=>'asc']);
@@ -39,9 +35,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="account_new", methods={"GET","POST"})
-     */
+    #[Route('/new', name: 'account_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $account = new Account();
@@ -67,9 +61,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="account_edit", methods={"GET","POST"})
-     */
+    #[Route('/{id}/edit', name: 'account_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Account $account, Session $session, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(AccountType::class, $account);
@@ -92,9 +84,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="account_delete", methods={"DELETE"})
-     */
+    #[Route('/{id}', name: 'account_delete', methods: ['DELETE'])]
     public function delete(
         Request $request,
         Account $account,

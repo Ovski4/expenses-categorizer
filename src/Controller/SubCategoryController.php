@@ -14,14 +14,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/sub/category")
- */
+#[Route('/sub/category')]
 class SubCategoryController extends AbstractController
 {
-    /**
-     * @Route("/new", name="sub_category_new", methods={"GET","POST"})
-     */
+    #[Route('/new', name: 'sub_category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $subCategory = new SubCategory();
@@ -42,9 +38,7 @@ class SubCategoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="sub_category_edit", methods={"GET","POST"})
-     */
+    #[Route('/{id}/edit', name: 'sub_category_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
         SubCategory $subCategory,
@@ -72,9 +66,7 @@ class SubCategoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="sub_category_delete", methods={"DELETE"})
-     */
+    #[Route('/{id}', name: 'sub_category_delete', methods: ['DELETE'])]
     public function delete(
         Request $request,
         Session $session,

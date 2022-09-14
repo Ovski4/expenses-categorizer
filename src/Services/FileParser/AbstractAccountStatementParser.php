@@ -2,10 +2,9 @@
 
 namespace App\Services\FileParser;
 
-use Exception;
 use Symfony\Component\HttpClient\HttpClient;
 
-abstract class AbstractAccountStatementParser extends AbstractFileParser 
+abstract class AbstractAccountStatementParser extends AbstractFileParser
 {
     public function parse(string $filepath, array $options): array
     {
@@ -30,7 +29,11 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
                 $result['accountId'] = $resolvedOptions['accountId'];
             }
 
-            $transactions[] = $this->transactionFactory->createFromArray($result);
+            $transaction = $this->transactionFactory->createFromArray($result);
+
+            if ($transaction->getAmount() !== 0) {
+                $transactions[] = $transaction;
+            }
         }
 
         return $transactions;

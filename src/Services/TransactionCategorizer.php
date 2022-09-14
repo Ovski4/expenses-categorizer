@@ -68,7 +68,7 @@ class TransactionCategorizer
     {
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)
-            ->findAll()
+            ->findAllNotManuallyCategorized()
         ;
 
         foreach ($transactions as $transaction) {
@@ -103,7 +103,7 @@ class TransactionCategorizer
 
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)
-            ->findAll()
+            ->findAllNotManuallyCategorized()
         ;
 
         $this->categorizeInNextTick($loop, $transactions);

@@ -10,26 +10,23 @@
     <h1>{% trans %}Import transactions{% endtrans %}</h1>
     <hr>
     <div class="row">
+
         <div class="col-lg-6" style="padding: 2rem;">
             <br>
-            <h4>{% trans %}Using a PDF file statement{% endtrans %}</h4>
+            <h4>
+                {% trans %}From a{% endtrans %}
+                {{ parser.label|trans }}
+            </h4>
             <br>
 
-            {{ form_start(pdf_statement_form) }}
-                {{ form_widget(pdf_statement_form) }}
-                <button class="btn btn-primary">{% trans %}Import transactions from this pdf{% endtrans %}</button>
-            {{ form_end(pdf_statement_form) }}
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary">
+                    {% trans %}Import{% endtrans %}
+                </button>
+            {{ form_end(form) }}
         </div>
-        <div class="col-lg-6" style="padding: 2rem;">
-            <br>
-            <h4>{% trans %}Using a CSV file{% endtrans %}</h4>
-            <br>
 
-            {{ form_start(csv_statement_form) }}
-                {{ form_widget(csv_statement_form) }}
-                <button class="btn btn-primary">{% trans %}Import transactions from this csv{% endtrans %}</button>
-            {{ form_end(csv_statement_form) }}
-        </div>
     </div>
 
     <script type="text/javascript">

@@ -15,6 +15,10 @@ body {
     flex-grow: 1;
 }
 
+.custom-file-input:lang(fr) + .custom-file-label::after {
+    content: "Parcourir";
+}
+
 #main input, #main select {
     max-width: 40rem;
 }
@@ -186,4 +190,60 @@ form#filter-form.large-filter-form > .form-group label {
 
 form#filter-form.large-filter-form .col-form-label {
     padding-top: 0;
+}
+
+.existing-transaction {
+    background-color: #f9f5e9;
+}
+
+.new-transaction {
+    background-color: #dff6fb;
+}
+
+.parser-card {
+    width: 18rem;
+    margin: 1rem;
+}
+
+.parser-card .card-img {
+    display: flex;
+    height: 100px;
+}
+
+.parser-card .card-action {
+    text-align: center;
+}
+
+.parser-card .card-img-top {
+    height: 80px;
+    width: 230px;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 1rem;
+    align-self: center;
+}
+
+.parser-card .card-img-top.nbc-credit,
+.parser-card .card-img-top.nbc-checking {
+    height: 60px;
+    width: 170px;
+}
+
+.parser-card .card-img-top.n26 {
+    height: 60px;
+    width: 170px;
+}
+
+.parser-card .card-img-top.credit-mutuel {
+    height: 100px;
+    width: 250px;
+}
+
+.parser-card .card-img-top.boursorama {
+    height: 60px;
+    width: 170px;
+}
+
+.parser-card .parser-label {
+    font-weight: 500;
 }
