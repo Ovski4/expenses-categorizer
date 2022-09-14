@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Services\WebSocketMessaging;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,10 +11,9 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 
+#[AsCommand(name: 'app:start-web-socket-server')]
 class StartWebSocketServerCommand extends Command
 {
-    protected static $defaultName = 'app:start-web-socket-server';
-
     private $webSocketMessaging;
 
     public function __construct(WebSocketMessaging $webSocketMessaging)
