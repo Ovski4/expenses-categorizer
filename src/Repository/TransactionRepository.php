@@ -52,14 +52,14 @@ class TransactionRepository extends ServiceEntityRepository
         return $results;
     }
 
-    public function getBalanceByAccount(Account $account)
+    public function getBalanceByAccount(Account $account): float
     {
         return $this->createQueryBuilder('t')
             ->where('t.account = :account')
             ->setParameter('account', $account)
             ->select('SUM(t.amount) as amount_sum')
             ->getQuery()
-            ->getSingleScalarResult()
+            ->getSingleScalarResult() ?? 0
         ;
     }
 }
