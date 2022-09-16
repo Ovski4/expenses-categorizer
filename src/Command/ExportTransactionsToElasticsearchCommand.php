@@ -6,15 +6,15 @@ use App\Event\TransactionExportedEvent;
 use App\Event\TransactionsExportedEvent;
 use App\Services\Exporter\ElasticsearchExporter;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+#[AsCommand(name: 'app:export-transactions')]
 class ExportTransactionsToElasticsearchCommand extends Command
 {
-    protected static $defaultName = 'app:export-transactions';
-
     private ElasticsearchExporter $exporter;
     private EntityManagerInterface $entityManager;
     private EventDispatcherInterface $dispatcher;

@@ -22,10 +22,6 @@ RUN if [ "$XDEBUG" = "TRUE"  ] ; \
 COPY ./docker/build/php/install-composer.sh /tmp/install-composer.sh
 RUN bash /tmp/install-composer.sh
 
-# install symfony binary
-RUN wget https://get.symfony.com/cli/installer -O - | bash
-RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
-
 # install dependencies
 COPY . /var/www/html
 RUN composer install
