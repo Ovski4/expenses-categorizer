@@ -2,46 +2,32 @@
 
 namespace App\Entity;
 
+use App\Repository\TopCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TopCategoryRepository")
- * @ORM\Table(
- *    uniqueConstraints={
- *        @ORM\UniqueConstraint(name="top_category_unique", columns={"name", "transaction_type"})
- *    }
- * )
- * @UniqueEntity(
- *     fields={"name", "transactionType"}
- * )
- */
+#[ORM\Entity(repositoryClass: TopCategoryRepository::class)]
+#[ORM\UniqueConstraint(name: 'top_category_unique', columns: ['name', 'transaction_type'])]
+#[UniqueEntity(fields: ['name', 'transactionType'])]
 class TopCategory
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    protected $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private  ?string $name = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    protected  ?string $name = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="topCategory")
-     */
-    private $subCategories;
+    #[ORM\OneToMany(targetEntity: SubCategory::class, mappedBy: 'topCategory')]
+    protected $subCategories;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private ?string $transactionType = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    protected ?string $transactionType = null;
 
     public function __construct()
     {

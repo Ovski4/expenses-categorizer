@@ -2,52 +2,36 @@
 
 namespace App\Entity;
 
+use App\Repository\SubCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\SubCategoryRepository")
- * @ORM\Table(
- *    uniqueConstraints={
- *        @ORM\UniqueConstraint(name="sub_category_unique", columns={"name", "top_category_id"})
- *    }
- * )
- * @UniqueEntity(
- *     fields={"name", "topCategory"}
- * )
- */
+#[ORM\Entity(repositoryClass: SubCategoryRepository::class)]
+#[ORM\UniqueConstraint(name: 'sub_category_unique', columns: ['name', 'top_category_id'])]
+#[UniqueEntity(fields: ['name', 'topCategory'])]
 class SubCategory
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private ?string $id = null;
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    protected ?string $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private  ?string $name = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    protected ?string $name = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TopCategory", inversedBy="subCategories")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private ?TopCategory $topCategory = null;
+    #[ORM\ManyToOne(targetEntity: TopCategory::class, inversedBy: 'subCategories')]
+    #[ORM\JoinColumn(nullable: false)]
+    protected ?TopCategory $topCategory = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="subCategory")
-     */
-    private $transactions;
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'subCategory')]
+    protected $transactions;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SubCategoryTransactionRule", mappedBy="subCategory")
-     */
-    private $subCategoryTransactionRules;
+    #[ORM\OneToMany(targetEntity: SubCategoryTransactionRule::class, mappedBy: 'subCategory')]
+    protected $subCategoryTransactionRules;
 
     public function __construct()
     {

@@ -2,62 +2,44 @@
 
 namespace App\Entity;
 
+use App\Repository\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator\Constraints\TransactionSubCategoryIsLogicalConstraint;
-use Elasticsearch\ClientBuilder;
-use Elasticsearch\Common\Exceptions\Missing404Exception;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
- * @ORM\HasLifecycleCallbacks
- * @TransactionSubCategoryIsLogicalConstraint
- */
+#[ORM\Entity(repositoryClass: TransactionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[TransactionSubCategoryIsLogicalConstraint]
 class Transaction
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private ?string $id = null;
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    protected ?string $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private ?string $label = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    protected ?string $label = null;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private ?float $amount = null;
+    #[ORM\Column(type: 'float')]
+    protected ?float $amount = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private ?\DateTime $createdAt = null;
+    #[ORM\Column(type: 'datetime')]
+    protected ?\DateTime $createdAt = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
-     */
-    private ?Account $account = null;
+    #[ORM\ManyToOne(targetEntity: Account::class)]
+    protected ?Account $account = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="transactions")
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     */
-    private $subCategory;
+    #[ORM\ManyToOne(targetEntity: SubCategory::class, inversedBy: 'transactions')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    protected $subCategory;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": "1"})
-     */
-    private $toSyncInElasticsearch;
+    #[ORM\Column(type: 'boolean', options: ['default' => 1])]
+    protected $toSyncInElasticsearch;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": "0"})
-     */
-    private $categorizedManually = false;
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    protected $categorizedManually = false;
 
     public function __construct()
     {
@@ -66,10 +48,9 @@ class Transaction
 
     /**
      * Prevent a wrong subCategory to be set
-     *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function checkSubCategory()
     {
         if ($this->subCategory !== null) {

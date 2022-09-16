@@ -2,41 +2,33 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\AccountRepository;
 use App\Validator\Constraints\AccountAliasesAreUniqueConstraint;
+use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
- * @AccountAliasesAreUniqueConstraint
- * @UniqueEntity("name")
- */
+#[ORM\Entity(repositoryClass: AccountRepository::class)]
+#[UniqueEntity('name')]
+#[AccountAliasesAreUniqueConstraint]
 class Account
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private ?string $id = null;
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    protected ?string $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private ?string $name = null;
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    protected ?string $name = null;
 
-    /**
-     * @ORM\Column(type="simple_array", nullable=true)
-     * @Assert\Unique(message="There are duplicated aliases")
-     */
-    private array $aliases = [];
+    #[ORM\Column(type: 'simple_array', nullable: true)]
+    #[Assert\Unique(message: 'There are duplicated aliases')]
+    protected array $aliases = [];
 
-    /**
-     * @ORM\Column(type="string", length=3)
-     */
-    private ?string $currency = null;
+    #[ORM\Column(type: 'string', length: 3)]
+    protected ?string $currency = null;
 
     public function __toString()
     {
