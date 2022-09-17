@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TransactionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator\Constraints\TransactionSubCategoryIsLogicalConstraint;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
@@ -25,6 +27,12 @@ class Transaction
     #[ORM\Column(type: 'float')]
     protected ?float $amount = null;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => 1])]
+    protected $toSyncInElasticsearch;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
+    protected $categorizedManually = false;
+
     #[ORM\Column(type: 'datetime')]
     protected ?\DateTime $createdAt = null;
 
@@ -35,15 +43,13 @@ class Transaction
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     protected $subCategory;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => 1])]
-    protected $toSyncInElasticsearch;
-
-    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
-    protected $categorizedManually = false;
+    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'transactions')]
+    protected Collection $tags;
 
     public function __construct()
     {
         $this->toSyncInElasticsearch = true;
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -195,6 +201,33 @@ class Transaction
     public function setCategorizedManually(bool $categorizedManually): self
     {
         $this->categorizedManually = $categorizedManually;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+            $tag->addTransaction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeTransaction($this);
+        }
 
         return $this;
     }
