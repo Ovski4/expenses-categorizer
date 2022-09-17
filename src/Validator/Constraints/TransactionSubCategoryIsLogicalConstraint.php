@@ -4,9 +4,7 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[\Attribute]
 class TransactionSubCategoryIsLogicalConstraint extends Constraint
 {
     public $message = 'transaction_sub_category.is_logical';

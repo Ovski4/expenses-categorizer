@@ -3,11 +3,8 @@
 namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Annotation
- */
+#[\Attribute]
 class AccountAliasesAreUniqueConstraint extends Constraint
 {
     public $message = 'account.alias_already_present';

@@ -4,9 +4,7 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[\Attribute]
 class RuleIsCompleteConstraint extends Constraint
 {
     public $message = 'rule.is_complete';

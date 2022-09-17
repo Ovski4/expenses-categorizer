@@ -4,9 +4,7 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[\Attribute]
 class RuleIsLogicalConstraint extends Constraint
 {
     public $message = 'rule_sub_category.is_logical';
