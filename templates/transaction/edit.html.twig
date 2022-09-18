@@ -17,3 +17,11 @@
 
     {{ include('transaction/_delete_form.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module">
+        import lib from '/js/sf_collection.js';
+        lib.sfCollection.init();
+    </script>
+{% endblock %}

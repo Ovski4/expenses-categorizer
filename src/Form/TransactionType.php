@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Account;
 use App\Entity\SubCategory;
+use App\Entity\Tag;
 use App\Entity\Transaction;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -40,12 +41,17 @@ class TransactionType extends AbstractType
                 'required' => false,
             ])
             ->add('tags', CollectionType::class, [
-                'entry_type' => TagType::class,
-                'entry_options' => ['label' => false],
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'class' => Tag::class,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
-                'attr' => ['class' => 'collection'],
+                'attr' => [
+                    'class' => 'collection'
+                ],
                 'by_reference' => false,
             ]);
         ;

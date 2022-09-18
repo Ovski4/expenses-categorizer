@@ -44,8 +44,13 @@ body {
 }
 
 #main form .collection  > .form-group > input,
+#main form .collection  > .form-group > select,
 #main form .collection  > .form-group > button {
     display: inline-block;
+}
+
+#main form .collection  > .form-group > select {
+	max-width: 20rem;
 }
 
 .navbar-dark.navbar {
