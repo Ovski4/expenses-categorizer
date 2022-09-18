@@ -15,3 +15,11 @@
         {% trans %}Go back to the transaction list{% endtrans %}
     </a>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module">
+        import lib from '/js/sf_collection.js';
+        lib.sfCollection.init();
+    </script>
+{% endblock %}

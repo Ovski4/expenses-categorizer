@@ -37,6 +37,11 @@
                 <i class="fas fa-folder"></i> {% trans %}Categories{% endtrans %}
             </a>
         </li>
+        <li class="nav-item{% if current is defined and current == 'tag' %} active{% endif %}">
+            <a class="nav-link" href="{{ path('tag_index') }}">
+                <i class="fas fa-tag"></i> {% trans %}Tags{% endtrans %}
+            </a>
+        </li>
         <li class="nav-item{% if current is defined and current == 'account' %} active{% endif %}">
             <a class="nav-link" href="{{ path('account_index') }}">
                 <i class="fas fa-file-invoice-dollar"></i> {% trans %}Accounts{% endtrans %}

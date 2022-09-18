@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}New Tag{% endtrans %}{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'tag'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Create a new tag{% endtrans %}</h1>
+
+    {{ include('tag/_form.html.twig') }}
+
+    <a class="btn btn-outline-primary" href="{{ path('tag_index') }}">
+        {% trans %}Go back to the tag list{% endtrans %}
+    </a>
+{% endblock %}

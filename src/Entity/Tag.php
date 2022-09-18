@@ -11,11 +11,11 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
-	#[ORM\Id]
+    #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    protected ?int $id = null;
+    protected ?string $id = null;
 
     #[ORM\Column(length: 255)]
     protected ?string $name = null;
@@ -28,7 +28,7 @@ class Tag
         $this->transactions = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

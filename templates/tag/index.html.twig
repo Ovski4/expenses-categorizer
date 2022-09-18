@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Tag list{% endtrans %}{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html.twig' with {'current': 'tag'} %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Tag list{% endtrans %}</h1>
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('tag_new') }}">
+        {% trans %}Create a new tag{% endtrans %}
+    </a>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>{% trans %}Label{% endtrans %}</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td>{{ tag.name }}</td>
+                <td>
+                    <a href="{{ path('tag_edit', {'id': tag.id}) }}"><i class="fas fa-edit"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+{% endblock %}
