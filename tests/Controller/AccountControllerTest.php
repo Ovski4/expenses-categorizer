@@ -36,7 +36,7 @@ class AccountControllerTest extends WebTestCase
     private function createAccount(): void
     {
         $this->client->request('GET', '/account/');
-        $crawler = $this->client->clickLink('Create a new account');            
+        $crawler = $this->client->clickLink('Create a new account');
 
         $buttonCrawlerNode = $crawler->selectButton('Save');
         $form = $buttonCrawlerNode->form();
@@ -77,7 +77,7 @@ class AccountControllerTest extends WebTestCase
         $this->client->submit($form, [
             'account[name]' => 'Account edited',
         ]);
-        
+
         $this->client->submit($form);
         $this->assertResponseRedirects();
 
