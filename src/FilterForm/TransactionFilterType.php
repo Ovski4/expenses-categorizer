@@ -3,6 +3,7 @@
 namespace App\FilterForm;
 
 use App\Entity\Account;
+use App\Entity\Tag;
 use Doctrine\ORM\EntityRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Symfony\Component\Form\AbstractType;
@@ -37,22 +38,38 @@ class TransactionFilterType extends AbstractType
                         ->orderBy('a.name', 'asc');
                 },
             ])
-            ->add('subCategory', Filters\EntityFilterType ::class, 
+            ->add('subCategory', Filters\EntityFilterType ::class,
                 $this->getSubCategoryFilterTypeOptions(),
             )
+            ->add('tag', Filters\EntityFilterType::class, [
+                'class' => Tag::class,
+                'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+                    $tag = $values['value'];
+                    if ($tag === null) {
+                        return null;
+                    }
+
+                    $filterQuery->getQueryBuilder()->innerJoin('transaction.tags', 'tags');
+                    $expression = $filterQuery->getExpr()->in('tags.id', ':tags');
+                    $parameters = ['tags' => $tag->getId()];
+
+                    return $filterQuery->createCondition($expression, $parameters);
+                },
+            ])
             ->add('categorized', Filters\BooleanFilterType::class, [
                 'property_path' => '[subCategory]',
                 'label' => 'Categorized',
                 'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
-                    if ($values['value'] === null) {
+                    $categorized = $values['value'];
+                    if ($categorized === null) {
                         return null;
                     }
 
                     $field = sprintf('%s.subCategory', $values['alias']);
 
-                    if ($values['value'] === 'y') {
+                    if ($categorized === 'y') {
                         $expression = $filterQuery->getExpr()->isNotNull($field);
-                    } else if ($values['value'] === 'n') {
+                    } else if ($categorized === 'n') {
                         $expression = $filterQuery->getExpr()->isNull($field);
                     }
 
