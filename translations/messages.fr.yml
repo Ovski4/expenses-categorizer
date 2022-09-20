@@ -185,6 +185,13 @@ Post office fees: Frais de poste
 Bank fee: Frais banquaire
 Fine: Amende
 Stamps: Timbres
+tags_info: >
+    Crééz des étiquettes quand vous souhaitez grouper des transactions, mais quand les inclure dans une seule catégorie n'est pas logique.
+    Par exemple:
+    <ul>
+      <li>Si vous voulez savoir combien vous ont coûté vos vacances, crééz une étiquette "<em>Vacances</em>" et étiquetez vos transactions avec.</li>
+      <li>Si vous voulez suivre des transactions qui nécessitent un remboursement, crééz une étiquette telle que "<em>En attente de remboursement</em>"</li>
+    </ul>
 Tax: Taxe
 Insurance: Assurance
 Property tax: Taxe foncière

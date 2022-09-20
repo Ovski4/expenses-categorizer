@@ -4,3 +4,10 @@ from_number: from
 save_transactions: "{1}Save only the new transaction|]1,Inf[ Save only the %count% new transactions"
 to_date: to
 to_number: to
+tags_info: >
+    Add tags to your transactions whenever you want to group transactions together, but when categorizing does not make sense.
+    For example:
+    <ul>
+      <li>If you want to know how much your vacation cost, create a "<em>Holidays</em>" tags and mark your transactions with it.</li>
+      <li>If you want to follow some transactions that should be refunded, create a tag such as "<em>Waiting for refund</em>"</li>
+    </ul>

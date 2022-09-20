@@ -36,5 +36,13 @@
             </tr>
         {% endfor %}
         </tbody>
+    </table>
+
+    {% if tags|length == 0 %}
+        <div id="rule-description" class="alert alert-info" role="alert">
+            <i class="fas fa-info-circle"></i>
+            {% trans %}tags_info{% endtrans %}
+        </div>
+    {% endif %}
 
 {% endblock %}
