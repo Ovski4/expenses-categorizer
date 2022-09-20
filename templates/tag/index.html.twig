@@ -16,7 +16,8 @@
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th>{% trans %}Label{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Balance{% endtrans %}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,6 +25,7 @@
         {% for tag in tags %}
             <tr>
                 <td>{{ tag.name }}</td>
+                <td>{{ balances[tag.id] ?? '-' }}</td>
                 <td>
                     <a href="{{ path('tag_edit', {'id': tag.id}) }}"><i class="fas fa-edit"></i></a>
                 </td>

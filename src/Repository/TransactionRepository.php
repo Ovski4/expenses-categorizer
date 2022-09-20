@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Account;
+use App\Entity\Tag;
 use App\Entity\TopCategory;
 use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -69,6 +71,18 @@ class TransactionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->where('t.account = :account')
             ->setParameter('account', $account)
+            ->select('SUM(t.amount) as amount_sum')
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0
+        ;
+    }
+
+    public function getBalanceByTag(Tag $tag): float
+    {
+        $queryBUilder = $this->createQueryBuilder('t');
+
+        return $queryBUilder->innerJoin('t.tags', 'tags', Join::WITH, $queryBUilder->expr()->eq('tags.id', ':tag'))
+            ->setParameter('tag', $tag->getId())
             ->select('SUM(t.amount) as amount_sum')
             ->getQuery()
             ->getSingleScalarResult() ?? 0

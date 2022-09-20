@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Tag;
 use App\Form\TagType;
 use App\Repository\TagRepository;
+use App\Repository\TransactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class TagController extends AbstractController
 {
     #[Route('/', name: 'tag_index', methods: ['GET'])]
-    public function index(TagRepository $tagRepository): Response
+    public function index(TagRepository $tagRepository, TransactionRepository $transactionRepository): Response
     {
+        $tags = $tagRepository->findAll();
+        $balances = [];
+
+        foreach ($tags as $tag) {
+            $balances[$tag->getId()] = round($transactionRepository->getBalanceByTag($tag), 2);
+        }
+
         return $this->render('tag/index.html.twig', [
-            'tags' => $tagRepository->findAll(),
+            'tags' => $tags,
+            'balances' => $balances,
         ]);
     }
 
