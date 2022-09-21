@@ -87,6 +87,10 @@ class SubCategoryTransactionRule
     #[ORM\PreUpdate]
     public function checkSubCategory()
     {
+        if(is_null($this->transactionType)) {
+            return;
+        }
+
         if ($this->subCategory->getTransactionType() !== $this->transactionType) {
             throw new \Exception(sprintf(
                 'Invalid transaction type "%s" for rule with contains "%s"',
