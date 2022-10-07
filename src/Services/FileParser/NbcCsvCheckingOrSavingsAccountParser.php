@@ -4,16 +4,16 @@ namespace App\Services\FileParser;
 
 use App\Entity\Account;
 
-class NbcCsvCheckingAccountParser extends NbcCsvAccountParser
+class NbcCsvCheckingOrSavingsAccountParser extends NbcCsvAccountParser
 {
     public function getName(): string
     {
-        return 'nbc-checking';
+        return 'nbc-checking-or-savings';
     }
 
     public function getLabel(): string
     {
-        return 'NBC checking account csv file';
+        return 'NBC checking or savings account csv file';
     }
 
     public function matches(Account $account): bool
