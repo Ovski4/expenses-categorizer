@@ -31,7 +31,7 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
 
             $transaction = $this->transactionFactory->createFromArray($result);
 
-            if ($transaction->getAmount() !== 0) {
+            if ($transaction->getAmount() != 0) {
                 $transactions[] = $transaction;
             }
         }
