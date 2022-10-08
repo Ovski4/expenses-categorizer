@@ -8,12 +8,12 @@ class NbcCsvCheckingOrSavingsAccountParser extends NbcCsvAccountParser
 {
     public function getName(): string
     {
-        return 'nbc-checking-or-savings';
+        return 'nbc-chequing-or-savings';
     }
 
     public function getLabel(): string
     {
-        return 'NBC checking or savings account csv file';
+        return 'NBC chequing or savings account csv file';
     }
 
     public function matches(Account $account): bool
