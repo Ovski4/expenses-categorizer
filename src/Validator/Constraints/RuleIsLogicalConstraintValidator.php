@@ -2,6 +2,8 @@
 
 namespace App\Validator\Constraints;
 
+use App\Entity\SubCategoryTransactionRule;
+use App\Entity\TransactionType;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -17,17 +19,22 @@ class RuleIsLogicalConstraintValidator extends ConstraintValidator
 
     public function validate($rule, Constraint $constraint)
     {
-        if (null === $rule || '' === $rule) {
+        if (null === $rule
+            || '' === $rule
+            || !$rule instanceof SubCategoryTransactionRule
+            || null === $rule->getAmount()
+        ) {
             return;
         }
 
-        try {
-            $rule->checkSubCategory();
-        } catch (\Exception $e) {
+        if (
+            ($rule->getTransactionType() === TransactionType::EXPENSES && $rule->getAmount() > 0)
+            || ($rule->getTransactionType() === TransactionType::REVENUES && $rule->getAmount() < 0)
+        ) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->setParameter('%sign%', $this->translator->trans($rule->getAmount() > 0 ? 'positive' : 'negative'))
-                ->setParameter('%transaction_type%', strtolower($this->translator->trans($rule->getSubCategory()->getTransactionType())))
+                ->setParameter('%transaction_type%', strtolower($this->translator->trans($rule->getTransactionType())))
                 ->addViolation()
             ;
         }

@@ -38,7 +38,6 @@ class SubCategoryTransactionRule
     protected ?string $operator = null;
 
     #[ORM\Column(type: 'float', length: 255, nullable: true)]
-    #[Assert\Positive()]
     protected ?float $amount = null;
 
     #[ORM\ManyToOne(targetEntity: SubCategory::class, inversedBy: 'subCategoryTransactionRules')]
@@ -47,11 +46,6 @@ class SubCategoryTransactionRule
 
     #[ORM\Column(type: 'smallint', options: ['default' => 0])]
     protected ?int $priority = 0;
-
-    /**
-     * This field is not needed in the database as we compute the sign of the amount
-     */
-    protected ?string $transactionType = null;
 
     #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     protected ?\DateTime $updatedAt = null;
@@ -83,65 +77,6 @@ class SubCategoryTransactionRule
         }
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function checkSubCategory()
-    {
-        if(is_null($this->transactionType)) {
-            return;
-        }
-
-        if ($this->subCategory->getTransactionType() !== $this->transactionType) {
-            throw new \Exception(sprintf(
-                'Invalid transaction type "%s" for rule with contains "%s"',
-                $this->subCategory->getTransactionType(),
-                $this->contains
-            ));
-        }
-    }
-
-    /**
-     * From a usable format to a database format
-     */
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function setAmountAndOperatorBeforePersist()
-    {
-        if ($this->transactionType == TransactionType::EXPENSES) {
-
-            if ($this->operator == Operator::GREATER_THAN_OR_EQUAL) {
-                $this->operator = Operator::LOWER_THAN_OR_EQUAL;
-            } else if ($this->operator == Operator::LOWER_THAN_OR_EQUAL) {
-                $this->operator = Operator::GREATER_THAN_OR_EQUAL;
-            }
-
-            $this->amount = $this->amount !== null ? -abs($this->amount) : null;
-        }
-    }
-
-    /**
-     * From database format to a more usable format
-     *
-     * @ORM\PostLoad
-     */
-    public function setAmountAndOperatorAfterLoad()
-    {
-        $this->transactionType = $this->subCategory->getTransactionType();
-
-        if ($this->transactionType == TransactionType::EXPENSES) {
-
-            if ($this->operator == Operator::GREATER_THAN_OR_EQUAL) {
-                $this->operator = Operator::LOWER_THAN_OR_EQUAL;
-            } else if ($this->operator == Operator::LOWER_THAN_OR_EQUAL) {
-                $this->operator = Operator::GREATER_THAN_OR_EQUAL;
-            }
-
-            $this->amount = $this->amount !== null ? abs($this->amount) : null;
-        }
-
-        return $this;
-    }
-
     public function toArray()
     {
         $array = [
@@ -150,7 +85,7 @@ class SubCategoryTransactionRule
             'operator'     => $this->operator,
             'amount'       => $this->amount,
             'sub_category' => $this->subCategory->getName(),
-            'type'         => $this->subCategory->getTransactionType(),
+            'type'         => $this->getTransactionType(),
             'priority'     => $this->getPriority()
         ];
 
@@ -200,18 +135,7 @@ class SubCategoryTransactionRule
 
     public function getTransactionType(): ?string
     {
-        return $this->transactionType;
-    }
-
-    public function setTransactionType(?string $transactionType)
-    {
-        if ($transactionType !== null && !in_array($transactionType, TransactionType::getAll())) {
-            throw new \Exception(sprintf('Invalid transaction type %s', $transactionType));
-        }
-
-        $this->transactionType = $transactionType;
-
-        return $this;
+        return $this->subCategory->getTransactionType();
     }
 
     public function getOperator(): ?string

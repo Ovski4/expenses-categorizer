@@ -93,6 +93,23 @@ class RuleCheckerTest extends TestCase
         $this->assertNull($ruleChecker->getMatchingSubCategory($transaction1), $this->createSubCategory());
     }
 
+    public function testRuleWithAmountIsChecked()
+    {
+        $rule = new SubCategoryTransactionRule();
+        $rule
+            ->setContains('dummy text')
+            ->setSubCategory($this->createSubCategory())
+            ->setAmount(-23)
+            ->setOperator(Operator::EQUALS)
+        ;
+
+        $this->mockSubCategoryTransactionRuleRepository([$rule]);
+        $ruleChecker = new RuleChecker($this->ruleRepository);
+        $transaction1 = $this->createTransaction('Some dummy text here', -23);
+
+        $this->assertNotNull($ruleChecker->getMatchingSubCategory($transaction1), $this->createSubCategory());
+    }
+
     /**
      * Multiple matches with different categories
      */

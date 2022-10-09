@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Operator;
 use App\Entity\SubCategory;
 use App\Entity\SubCategoryTransactionRule;
-use App\Entity\TransactionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -27,15 +26,7 @@ class SubCategoryTransactionRuleType extends AbstractType
             $operatorChoices[$this->translator->trans($operator)] = $operator;
         }
 
-        foreach (TransactionType::getAll() as $transactionType) {
-            $transactionTypeChoices[$this->translator->trans($transactionType)] = $transactionType;
-        }
-
         $builder
-            ->add('transactionType', ChoiceType::class, [
-                'choices' => $transactionTypeChoices,
-                'required' => true
-            ])
             ->add('contains')
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,

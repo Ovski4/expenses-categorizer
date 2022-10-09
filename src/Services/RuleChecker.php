@@ -52,13 +52,13 @@ class RuleChecker
         }
 
         // types differ
-        if ($transaction->getType() !== $rule->getSubCategory()->getTransactionType()) {
+        if ($transaction->getType() !== $rule->getTransactionType()) {
             return false;
         }
 
-        $ruleAmount = $rule->getAmount();
         $ruleOperator = $rule->getOperator();
-        $transactionAmount = abs($transaction->getAmount());
+        $ruleAmount = $rule->getAmount();
+        $transactionAmount = $transaction->getAmount();
 
         if ($ruleAmount !== null && $ruleOperator !== null) {
 
