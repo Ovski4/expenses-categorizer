@@ -43,7 +43,7 @@ class TagController extends AbstractController
             return $this->redirectToRoute('tag_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('tag/new.html.twig', [
+        return $this->render('tag/new.html.twig', [
             'tag' => $tag,
             'form' => $form,
         ]);
@@ -61,7 +61,7 @@ class TagController extends AbstractController
             return $this->redirectToRoute('tag_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('tag/edit.html.twig', [
+        return $this->render('tag/edit.html.twig', [
             'tag' => $tag,
             'form' => $form,
         ]);

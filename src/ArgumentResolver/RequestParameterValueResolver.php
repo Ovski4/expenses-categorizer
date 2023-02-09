@@ -3,11 +3,11 @@
 namespace App\ArgumentResolver;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use UnexpectedValueException;
 
-class RequestParameterValueResolver implements ArgumentValueResolverInterface
+class RequestParameterValueResolver implements ValueResolverInterface
 {
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
@@ -30,21 +30,26 @@ class RequestParameterValueResolver implements ArgumentValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $argumentName = $argument->getName();
+
+        if(
+            !$argument->isNullable()
+            || !in_array($argument->getType(), ['bool', 'string'])
+            || (!$request->query->has($argumentName) && !$request->request->has($argumentName))
+        ) {
+            return [];
+        }
+
         $value = $request->query->has($argumentName)
             ? $request->query->get($argumentName)
             : $request->request->get($argumentName)
         ;
 
         if ($argument->getType() === 'bool') {
-            yield boolval( $value );
-
-            return;
+            return [boolval($value)];
         }
 
         if ($argument->getType() === 'string') {
-            yield strval( $value );
-
-            return;
+            return [strval($value)];
         }
 
         throw new UnexpectedValueException(sprintf('Unable to support argument with name %s and type %s', $argumentName, $argument->getType() ));
