@@ -13,6 +13,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SubCategoryType extends AbstractType
 {
+    private $translator;
+
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
@@ -36,7 +38,7 @@ class SubCategoryType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => SubCategory::class,

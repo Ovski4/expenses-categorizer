@@ -21,7 +21,7 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    protected function build(ContainerBuilder $container)
+    protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new WebSocketMessageHandlerCompilerPass());
         $container->addCompilerPass(new FileParserCompilerPass());
