@@ -24,10 +24,10 @@ RUN bash /tmp/install-composer.sh
 
 # install dependencies
 COPY . /var/www/html
-RUN composer install
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
 
 RUN useradd --create-home --uid 1000 --shell /bin/bash web
-RUN chown web. -R /var/www/html
+RUN chown web:web -R /var/www/html
 USER web
 WORKDIR /var/www/html
 
