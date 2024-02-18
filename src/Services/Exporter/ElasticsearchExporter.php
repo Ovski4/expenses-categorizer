@@ -15,6 +15,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ElasticsearchExporter
 {
+    private string $elasticsearchHost;
+    private string $elasticsearchIndex;
     private $entityManager;
     private $client;
     private $dispatcher;

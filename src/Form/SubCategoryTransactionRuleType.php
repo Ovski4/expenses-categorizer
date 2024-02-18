@@ -15,6 +15,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SubCategoryTransactionRuleType extends AbstractType
 {
+    private $translator;
+
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
