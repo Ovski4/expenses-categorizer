@@ -8,7 +8,7 @@ use App\FilterForm\SubCategoryTransactionRuleFilterType;
 use App\Form\SubCategoryTransactionRuleType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

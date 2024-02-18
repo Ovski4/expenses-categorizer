@@ -3,7 +3,7 @@
 namespace App\FilterForm;
 
 use App\Entity\SubCategory;
-use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 trait SubCategoryFilterTypeTrait
 {
