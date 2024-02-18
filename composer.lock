@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1645fc2bac609765db201ec847186916",
+    "content-hash": "284bc3fef7319ec66bcdd07ace1b2ac2",
     "packages": [
         {
             "name": "babdev/pagerfanta-bundle",
@@ -146,29 +146,32 @@
         },
         {
             "name": "cboden/ratchet",
-            "version": "v0.4.4",
+            "version": "v0.6.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ratchetphp/Ratchet.git",
-                "reference": "5012dc954541b40c5599d286fd40653f5716a38f"
+                "url": "https://github.com/joem236/Ratchet.git",
+                "reference": "e0c689939c0a502817efa013ebe7dc8856d4cc2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ratchetphp/Ratchet/zipball/5012dc954541b40c5599d286fd40653f5716a38f",
-                "reference": "5012dc954541b40c5599d286fd40653f5716a38f",
+                "url": "https://api.github.com/repos/joem236/Ratchet/zipball/e0c689939c0a502817efa013ebe7dc8856d4cc2a",
+                "reference": "e0c689939c0a502817efa013ebe7dc8856d4cc2a",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/psr7": "^1.7|^2.0",
-                "php": ">=5.4.2",
-                "ratchet/rfc6455": "^0.3.1",
-                "react/event-loop": ">=0.4",
-                "react/socket": "^1.0 || ^0.8 || ^0.7 || ^0.6 || ^0.5",
-                "symfony/http-foundation": "^2.6|^3.0|^4.0|^5.0|^6.0",
-                "symfony/routing": "^2.6|^3.0|^4.0|^5.0|^6.0"
+                "guzzlehttp/psr7": "^1.7|^2.0|^2.6",
+                "php": "^7.3 || ^8.0",
+                "ratchet/rfc6455": "^0.3",
+                "react/event-loop": ">=v1.5.0",
+                "react/socket": "^1.0 || ^0.8 || ^0.7 || ^0.6 || ^0.5 || ^v1.15",
+                "symfony/http-foundation": "^2.6|^3.0|^4.0|^5.0|^6.0|^v7.0",
+                "symfony/routing": "^2.6|^3.0|^4.0|^5.0|^6.0|^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8"
+                "phpunit/phpunit": "^8.5|^10.5",
+                "react/event-loop": "^1.0|^1.5",
+                "react/socket": "^1.0|1.15",
+                "react/stream": "^1.0|^1.3"
             },
             "type": "library",
             "autoload": {
@@ -176,7 +179,11 @@
                     "Ratchet\\": "src/Ratchet"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Ratchet\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -195,17 +202,17 @@
             "homepage": "http://socketo.me",
             "keywords": [
                 "Ratchet",
-                "WebSockets",
-                "server",
-                "sockets",
-                "websocket"
+                "Server",
+                "Sockets",
+                "WebSocket",
+                "WebSockets"
             ],
             "support": {
-                "chat": "https://gitter.im/reactphp/reactphp",
                 "issues": "https://github.com/ratchetphp/Ratchet/issues",
-                "source": "https://github.com/ratchetphp/Ratchet/tree/v0.4.4"
+                "chat": "https://gitter.im/reactphp/reactphp",
+                "source": "https://github.com/joem236/Ratchet/tree/v0.6"
             },
-            "time": "2021-12-14T00:20:41+00:00"
+            "time": "2024-02-01T22:54:58+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -11827,7 +11834,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "cboden/ratchet": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -1,12 +1,18 @@
 {
     "type": "project",
     "license": "proprietary",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/joem236/Ratchet/"
+        }
+    ],
     "require": {
         "php": ">=8.0.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "babdev/pagerfanta-bundle": "^3.0",
-        "cboden/ratchet": "^0.4.2",
+        "cboden/ratchet": "v0.6.x-dev",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.0",
