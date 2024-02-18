@@ -3,7 +3,7 @@ Expenses categorizer
 
 ![PHPUnit build Status](https://github.com/Ovski4/expenses-categorizer/actions/workflows/run-phpunit-and-build-coverage-report.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Ovski4/expenses-categorizer/badge.svg?branch=master)](https://coveralls.io/github/Ovski4/expenses-categorizer?branch=master)
 
-An application written in PHP (Symfony 4 framework) to import, categorize and analyze transactions.
+An application written in PHP (Symfony 7 framework) to import, categorize and analyze transactions.
 
 Core values
 -----------
