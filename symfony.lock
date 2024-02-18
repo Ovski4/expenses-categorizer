@@ -138,9 +138,6 @@
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
-    "lexik/form-filter-bundle": {
-        "version": "v6.0.1"
-    },
     "monolog/monolog": {
         "version": "1.25.2"
     },
@@ -343,6 +340,9 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "spiriitlabs/form-filter-bundle": {
+        "version": "v7.0.3"
     },
     "symfony/asset": {
         "version": "v4.3.8"

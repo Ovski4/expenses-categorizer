@@ -22,23 +22,23 @@ Installation with docker
 ### Run the app in dev
 
 ```bash
-docker-compose up -d mysql
-docker-compose logs -f mysql # wait for mysql to be ready
-docker-compose up -d # doctrine migrations will run as soon as the php container get started
-docker-compose run php composer install
+docker compose up -d mysql
+docker compose logs -f mysql # wait for mysql to be ready
+docker compose up -d # doctrine migrations will run as soon as the php container get started
+docker compose run php composer install
 
 # allow the web user from the php container to write in the /var/statements folder
-docker exec -it expenses-categorizer_account_statement_parser_1 chown 1000 -R /var/statements
+docker exec -it expenses-categorizer-account_statement_parser-1 chown 1000 -R /var/statements
 
 # optionally, create some default transaction categories
-docker-compose run php php bin/console doctrine:fixtures:load --append
+docker compose run php php bin/console doctrine:fixtures:load --append
 ```
 
 Browse [http://localhost](http://localhost)
 
 ### Run the app in prod
 
-To run the app in prod, prefix all above docker-compose commands with `-f docker-compose-prod.yml`.
+To run the app in prod, prefix all above docker compose commands with `-f docker-compose-prod.yml`.
 
 Update the services environment variables in the docker-compose-prod.yml file according to your needs.
 
@@ -52,7 +52,7 @@ docker build -f docker/build/nginx/Dockerfile -t ovski/expenses-categorizer-ngin
 ### Run the tests
 
 ```bash
-docker-compose run php php bin/phpunit
+docker compose run php php bin/phpunit
 ```
 
 Create new parsers
