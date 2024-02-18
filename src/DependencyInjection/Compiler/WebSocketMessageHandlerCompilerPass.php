@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class WebSocketMessageHandlerCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $definition = $container->findDefinition(WebSocketMessageHandlerRegistry::class);
         $handlers = $container->findTaggedServiceIds('app.message_handler');

@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class FileParserCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $definition = $container->findDefinition(FileParserRegistry::class);
         $fileParser = $container->findTaggedServiceIds('app.file_parser');

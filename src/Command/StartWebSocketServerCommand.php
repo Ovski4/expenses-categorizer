@@ -23,7 +23,7 @@ class StartWebSocketServerCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Start the web socket server')

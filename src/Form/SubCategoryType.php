@@ -20,7 +20,7 @@ class SubCategoryType extends AbstractType
         $this->translator = $translator;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $choices = [];
         foreach (TransactionType::getAll() as $transactionType) { 

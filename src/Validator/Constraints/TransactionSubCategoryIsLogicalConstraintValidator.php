@@ -15,7 +15,7 @@ class TransactionSubCategoryIsLogicalConstraintValidator extends ConstraintValid
         $this->translator = $translator;
     }
 
-    public function validate($transaction, Constraint $constraint)
+    public function validate($transaction, Constraint $constraint): void
     {
         if (null === $transaction || '' === $transaction) {
             return;

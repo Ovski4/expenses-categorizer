@@ -7,7 +7,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class RuleIsCompleteConstraintValidator extends ConstraintValidator
 {
-    public function validate($rule, Constraint $constraint)
+    public function validate($rule, Constraint $constraint): void
     {
         if (null === $rule || '' === $rule) {
             return;

@@ -15,7 +15,7 @@ class AccountAliasesAreUniqueConstraintValidator extends ConstraintValidator
         $this->accountRepository = $accountRepository;
     }
 
-    public function validate($account, Constraint $constraint)
+    public function validate($account, Constraint $constraint): void
     {
         if (null === $account || '' === $account) {
             return;

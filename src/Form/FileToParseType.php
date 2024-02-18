@@ -28,7 +28,7 @@ class FileToParseType extends AbstractType
         $this->locale = $requestStack->getCurrentRequest()->getLocale();
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $parser = $options['fileParser'];
         $fileType = $parser->getFileType();

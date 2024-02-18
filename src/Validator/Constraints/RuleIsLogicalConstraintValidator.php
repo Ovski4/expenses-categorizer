@@ -17,7 +17,7 @@ class RuleIsLogicalConstraintValidator extends ConstraintValidator
         $this->translator = $translator;
     }
 
-    public function validate($rule, Constraint $constraint)
+    public function validate($rule, Constraint $constraint): void
     {
         if (null === $rule
             || '' === $rule

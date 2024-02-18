@@ -31,7 +31,7 @@ class ExportTransactionsToElasticsearchCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Export transactions to elasticsearch')

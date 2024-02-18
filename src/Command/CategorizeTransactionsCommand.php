@@ -23,7 +23,7 @@ class CategorizeTransactionsCommand extends Command implements EventSubscriberIn
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Categorize transactions from rules')
