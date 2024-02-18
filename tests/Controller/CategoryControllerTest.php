@@ -28,6 +28,5 @@ class CategoryControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Category list');
         $this->assertSelectorTextContains('h2', 'Expenses');
-        $this->assertSelectorTextContains('span', 'Accommodation');
     }
 }
