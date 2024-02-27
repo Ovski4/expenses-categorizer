@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Account;
 use App\Entity\DecoratedTransaction;
 use App\Entity\Transaction;
 use App\Exception\AccountNotFoundException;
@@ -152,11 +153,16 @@ class TransactionImportController extends AbstractController
                 ]
             ]);
         } else {
+            $targetedAccount = $manager->getRepository(Account::class)->findOneById($account);
+            $accountBalance = round($manager->getRepository(Transaction::class)->getBalanceByAccount($targetedAccount), 2);
+
             return $this->render('transaction/import/validate_transactions.html.twig', [
                 'transactions' => $decoratedTransactions,
                 'existingTransactionCount' => $existingTransactionCount,
                 'statement' => $statement,
-                'parserName' => $parserName
+                'parserName' => $parserName,
+                'accountName' => $targetedAccount->getName(),
+                'accountBalance' => $accountBalance,
             ]);
         }
     }

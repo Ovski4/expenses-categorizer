@@ -86,6 +86,7 @@ Name: Nom
 New Tag: Nouvelle étiquette
 New transaction: Nouvelle transaction
 New account: Nouveau compte
+New balance for account: La nouvelle balance pour le compte
 New sub category transaction rule: Nouvelle règle de catégorisation
 negative: négative
 No account found: Aucun compte trouvé
@@ -137,6 +138,7 @@ undefined: non défini
 uncategorized: non catégorisé
 Using a CSV file: Avec un fichier au format CSV
 Using a PDF file statement: Avec un relevé de compte au format PDF
+will be: sera
 Validate transactions: Valider les transactions
 will be categorized in: seront catégorisés dans
 You need to create an account with this name or alias before importing transactions: Vous devez créer un compte avec ce nom ou alias pour pouvoir importer ces transactions
