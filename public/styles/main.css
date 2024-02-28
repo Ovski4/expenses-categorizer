@@ -252,3 +252,8 @@ form#filter-form.large-filter-form .col-form-label {
 .parser-card .parser-label {
     font-weight: 500;
 }
+
+.expected-amount {
+    color: #3b3968;
+    font-weight: bold;
+}

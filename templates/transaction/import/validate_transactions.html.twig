@@ -15,7 +15,10 @@
             {{ transactions|length }} {% trans %}transactions to import{% endtrans %}
             {% set totalAmount = transactions|reduce((sum, transaction) => sum + transaction.amount, 0) %}
             ({% trans %}total amount is{% endtrans %} {{ totalAmount }}).
-            {% trans %}New balance for account{% endtrans %} <strong>{{ accountName }}</strong> {% trans %}will be{% endtrans %} {{ totalAmount + accountBalance }}.
+            {% trans %}New balance for account{% endtrans %}
+            <strong>{{ accountName }}</strong>
+            {% trans %}will be{% endtrans %}
+            <span class="expected-amount">{{ totalAmount + accountBalance }}</span>.
         </div>
 
         {% if existingTransactionCount > 0 %}
