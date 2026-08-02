@@ -32,6 +32,9 @@ docker exec -it expenses-categorizer-account_statement_parser-1 chown 1000 -R /v
 
 # optionally, create some default transaction categories
 docker compose run php php bin/console doctrine:fixtures:load --append
+
+# or import a dump
+docker compose exec -T mysql mysql -uexpenses_categorizer -pexpenses_categorizer expenses_categorizer < dump.sql
 ```
 
 Browse [http://localhost](http://localhost)
