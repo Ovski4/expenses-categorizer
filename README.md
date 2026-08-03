@@ -131,3 +131,11 @@ class HelloBankAccountStatementParser extends AbstractFileParser
 }
 
 ```
+
+
+Upgrade
+-------
+
+```
+docker compose run php composer update "symfony/*" pagerfanta/doctrine-orm-adapter php-coveralls/php-coveralls doctrine/doctrine-fixtures-bundle dama/doctrine-test-bundle doctrine/orm babdev/pagerfanta-bundle phpstan/phpdoc-parser spiriitlabs/form-filter-bundle doctrine/doctrine-migrations-bundle doctrine/doctrine-bundle symfony/proxy-manager-bridge ramsey/uuid-doctrine cboden/ratchet phpunit/phpunit doctrine/annotations -W
+```
