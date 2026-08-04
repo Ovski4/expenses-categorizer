@@ -12,7 +12,11 @@
     <php>
         <ini name="display_errors" value="1" />
         <ini name="error_reporting" value="-1" />
+        <!-- both are needed: docker-compose sets a real APP_ENV=dev, which lands
+             in $_SERVER (CLI SAPI) and $_ENV. Dotenv reads $_SERVER to pick which
+             .env.test file to load; KernelTestCase reads $_ENV to pick the kernel env. -->
         <server name="APP_ENV" value="test" force="true" />
+        <env name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
     </php>
 
