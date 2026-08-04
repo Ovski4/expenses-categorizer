@@ -5,7 +5,6 @@ twig:
     form_themes:
       - form_div_layout.html.twig
       - bootstrap_4_layout.html.twig
-    exception_controller: null
     globals:
         app_domain: '%app.domain%'
 

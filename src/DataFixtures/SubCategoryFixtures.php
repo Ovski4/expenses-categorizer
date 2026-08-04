@@ -19,14 +19,14 @@ class SubCategoryFixtures extends Fixture implements DependentFixtureInterface
         $this->translator = $translator;
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             TopCategoryFixtures::class,
         );
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $subCategories = [
             [
