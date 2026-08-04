@@ -36,7 +36,7 @@ class FileParserRegistry
         return null;
     }
 
-    public function getFileParsers( string $fileType = null ): array
+    public function getFileParsers(?string $fileType = null): array
     {
         if ($fileType) {
             return array_filter(
