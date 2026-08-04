@@ -74,10 +74,10 @@ class SubCategoryTransactionRuleController extends AbstractController
             $entityManager->persist($subCategoryTransactionRule);
             $entityManager->flush();
 
-            if (strpos($request->get('referer'), 'rule') !== false) {
+            if (strpos($request->request->get('referer'), 'rule') !== false) {
                 return $this->redirectToRoute('sub_category_transaction_rule_index');
             } else {
-                return new RedirectResponse($request->get('referer'));
+                return new RedirectResponse($request->request->get('referer'));
             }
         }
 
