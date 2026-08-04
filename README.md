@@ -55,7 +55,7 @@ docker build -f docker/build/nginx/Dockerfile -t ovski/expenses-categorizer-ngin
 ### Run the tests
 
 ```bash
-docker compose run php php bin/phpunit
+docker compose run php php vendor/bin/phpunit
 ```
 
 Create new parsers
