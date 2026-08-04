@@ -41,14 +41,14 @@ class FileToParseType extends AbstractType
                 ],
                 'mapped' => false,
                 'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => $parser->getAllowedMimeTypes(),
-                        'mimeTypesMessage' => $this->translator->trans(sprintf(
+                    new File(
+                        maxSize: '1024k',
+                        mimeTypes: $parser->getAllowedMimeTypes(),
+                        mimeTypesMessage: $this->translator->trans(sprintf(
                             'Please upload a valid %s document',
                             strtoupper($fileType)
                         )),
-                    ]),
+                    ),
                 ],
             ])
         ;
