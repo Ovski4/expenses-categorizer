@@ -1,7 +1,5 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
-    debug: '%kernel.debug%'
-    strict_variables: '%kernel.debug%'
+    file_name_pattern: '*.twig'
     form_themes:
       - form_div_layout.html.twig
       - bootstrap_4_layout.html.twig

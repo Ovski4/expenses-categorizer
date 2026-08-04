@@ -588,12 +588,12 @@
         "version": "v4.3.8"
     },
     "symfony/twig-bundle": {
-        "version": "5.4",
+        "version": "8.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.4",
-            "ref": "bb2178c57eee79e6be0b297aa96fc0c0def81387"
+            "branch": "main",
+            "version": "6.4",
+            "ref": "06dacf16872358cb1f2494e089070ff2d045233a"
         },
         "files": [
             "config/packages/twig.yaml",
