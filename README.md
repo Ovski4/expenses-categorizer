@@ -48,8 +48,7 @@ Update the services environment variables in the docker-compose-prod.yml file ac
 Build the images
 
 ```bash
-docker build -f docker/build/php/Dockerfile -t ovski/expenses-categorizer-php:latest .
-docker build -f docker/build/nginx/Dockerfile -t ovski/expenses-categorizer-nginx:latest .
+XDEBUG=TRUE docker compose up -d --build
 ```
 
 ### Run the tests

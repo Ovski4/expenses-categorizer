@@ -26,6 +26,8 @@ services:
     build:
       context: ./
       dockerfile: ./docker/build/php/Dockerfile
+      args:
+        XDEBUG: ${XDEBUG:-FALSE}
     environment:
       APP_DOMAIN: localhost
       MYSQL_USER: expenses_categorizer
@@ -52,6 +54,8 @@ services:
     build:
       context: ./
       dockerfile: ./docker/build/php/Dockerfile
+      args:
+        XDEBUG: ${XDEBUG:-FALSE}
     volumes:
       - ./:/var/www/html
       - composer:/root/.composer
