@@ -39,13 +39,7 @@ docker compose exec -T mysql mysql -uexpenses_categorizer -pexpenses_categorizer
 
 Browse [http://localhost](http://localhost)
 
-### Run the app in prod
-
-To run the app in prod, prefix all above docker compose commands with `-f docker-compose-prod.yml`.
-
-Update the services environment variables in the docker-compose-prod.yml file according to your needs.
-
-Build the images
+### Build the images with XDEBUG enabled
 
 ```bash
 XDEBUG=TRUE docker compose up -d --build
