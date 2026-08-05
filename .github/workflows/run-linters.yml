@@ -1,0 +1,37 @@
+on: [push]
+
+jobs:
+  run-linters:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build PHP container
+        run: docker compose build php
+
+      - name: Give writing permissions to the php container user
+        run: sudo chown 1000:1000 -R .
+
+      - name: Run composer install
+        run: docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer install
+
+      - name: Warm up the dev cache
+        # PHPStan reads var/cache/dev/App_KernelDevDebugContainer.xml to resolve services
+        run: >
+          docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php
+          php bin/console cache:warmup
+
+      - name: Check code style
+        run: docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint:style
+
+      - name: Run static analysis
+        run: docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint:stan
+
+      - name: Lint YAML files
+        run: docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint:yaml
+
+      - name: Lint Twig templates
+        run: docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint:twig
+
+      - name: Lint the service container
+        run: docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint:container

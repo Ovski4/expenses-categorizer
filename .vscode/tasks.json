@@ -1,0 +1,49 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Lint: everything",
+            "type": "shell",
+            "command": "docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint",
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Lint: static analysis",
+            "type": "shell",
+            // PHPStan reports container paths, so strip the mount prefix to make
+            // the results clickable in the Problems panel.
+            "command": "docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint:stan -- --error-format=raw | sed 's#/var/www/html/##'",
+            "group": "test",
+            "problemMatcher": {
+                "owner": "phpstan",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^(.+?):(\\d+):(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "message": 3
+                }
+            }
+        },
+        {
+            "label": "Lint: code style",
+            "type": "shell",
+            "command": "docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint:style",
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Fix: code style (whole project)",
+            "type": "shell",
+            "command": "docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer fix:style",
+            "problemMatcher": []
+        },
+        {
+            "label": "Fix: code style (current file)",
+            "type": "shell",
+            "command": "docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php vendor/bin/php-cs-fixer fix '${relativeFile}'",
+            "problemMatcher": []
+        }
+    ]
+}

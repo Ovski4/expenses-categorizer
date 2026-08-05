@@ -127,6 +127,28 @@ class HelloBankAccountStatementParser extends AbstractFileParser
 ```
 
 
+Linting
+-------
+
+Code style follows the `@Symfony` standard, enforced by php-cs-fixer. PHPStan runs
+at level 5, with the pre-existing errors captured in `phpstan-baseline.neon`.
+
+Run every check:
+
+```
+docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint
+```
+
+Rewrite files to match the coding standard:
+
+```
+docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer fix:style
+```
+
+Individual checks are available as `composer lint:style`, `lint:stan`, `lint:yaml`,
+`lint:twig` and `lint:container`. The same checks run on every push through the
+`run-linters` workflow. VS Code users get these as tasks (`Tasks: Run Task`).
+
 Upgrade
 -------
 

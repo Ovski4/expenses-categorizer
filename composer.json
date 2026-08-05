@@ -44,7 +44,11 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^8.0",
         "doctrine/doctrine-fixtures-bundle": "^4.0",
+        "friendsofphp/php-cs-fixer": "*",
         "php-coveralls/php-coveralls": "^2.2",
+        "phpstan/extension-installer": "*",
+        "phpstan/phpstan": "*",
+        "phpstan/phpstan-symfony": "*",
         "phpunit/phpunit": "^10.0",
         "rregeer/phpunit-coverage-check": "^0.3.1",
         "symfony/browser-kit": "^8.1",
@@ -62,7 +66,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "phpstan/extension-installer": true
         }
     },
     "autoload": {
@@ -93,7 +98,29 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "lint": [
+            "@lint:style",
+            "@lint:stan",
+            "@lint:yaml",
+            "@lint:twig",
+            "@lint:container"
+        ],
+        "lint:style": "php-cs-fixer check --diff",
+        "lint:stan": "phpstan analyse --no-progress --memory-limit=-1",
+        "lint:yaml": "php bin/console lint:yaml config translations",
+        "lint:twig": "php bin/console lint:twig templates",
+        "lint:container": "php bin/console lint:container",
+        "fix:style": "php-cs-fixer fix"
+    },
+    "scripts-descriptions": {
+        "lint": "Run every linter: code style, static analysis, YAML, Twig and container",
+        "lint:style": "Check code style against the Symfony standard (no changes written)",
+        "lint:stan": "Run PHPStan static analysis",
+        "lint:yaml": "Validate YAML syntax in config/ and translations/",
+        "lint:twig": "Validate Twig syntax in templates/",
+        "lint:container": "Check that services are injected with type-compatible values",
+        "fix:style": "Rewrite files to match the Symfony coding standard"
     },
     "conflict": {
         "symfony/symfony": "*"

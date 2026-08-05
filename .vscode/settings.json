@@ -1,0 +1,10 @@
+{
+    // PHP lives in the container only, so the built-in `php -l` validator has no
+    // binary to call. Intelephense already reports syntax errors, so turn it off.
+    "php.validate.enable": false,
+    "php.suggest.basic": false,
+    "intelephense.environment.phpVersion": "8.4.24",
+    "files.associations": {
+        "*.neon": "yaml"
+    }
+}
