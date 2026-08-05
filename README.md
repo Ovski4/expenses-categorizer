@@ -60,11 +60,12 @@ docker compose run php php vendor/bin/phpunit
 Create new parsers
 ------------------
 
-The current implementation can import transactions from french account statements coming from the following banks:
- * Crédit Mutuel (parser service here)
- * Caisse d'épargne
- * N26
- * Boursorama
+The current implementation can import transactions from account statements coming from the following banks:
+ * Crédit Mutuel: pdf statement
+ * Caisse d'épargne: pdf statement
+ * N26: pdf statement
+ * Boursorama: pdf statement
+ * National Bank of Canada (Banque National du Canada): csv export
 
 Source code for these parsers can be found at https://github.com/Ovski4/account-statement-parsers.
 
