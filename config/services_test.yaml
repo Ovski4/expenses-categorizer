@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+services:
+    # Tests must never hit the account statement parser api (nor any other remote
+    # service). Everything asking for an http client gets a mock one, whose
+    # responses are set from within the tests.
+    Symfony\Component\HttpClient\MockHttpClient:
+        public: true
+
+    Symfony\Contracts\HttpClient\HttpClientInterface:
+        alias: Symfony\Component\HttpClient\MockHttpClient
+        public: true
