@@ -149,7 +149,7 @@ class TransactionImportController extends AbstractController
         }
         // Parsers extracting accounts from the statement get no account in the url
         $targetedAccount = $account
-            ? $manager->getRepository(Account::class)->findOneById($account)
+            ? $manager->getRepository(Account::class)->find($account)
             : $transactions[0]->getAccount()
         ;
         $accountBalance = round($manager->getRepository(Transaction::class)->getBalanceByAccount($targetedAccount), 2);

@@ -1,22 +1,10 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to an undefined method Doctrine\\Persistence\\ObjectRepository\<App\\Entity\\Transaction\>\:\:findOneById\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Controller/SubCategoryTransactionRuleController.php
-
-		-
 			message: '#^Parameter \#1 \$currentPage of method Pagerfanta\\Pagerfanta\<mixed\>\:\:setCurrentPage\(\) expects int, string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Controller/TransactionController.php
-
-		-
-			message: '#^Call to an undefined method Doctrine\\ORM\\EntityRepository\<App\\Entity\\Account\>\:\:findOneById\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Controller/TransactionImportController.php
 
 		-
 			message: '#^Call to an undefined method Doctrine\\ORM\\EntityRepository\<App\\Entity\\Transaction\>\:\:exists\(\)\.$#'

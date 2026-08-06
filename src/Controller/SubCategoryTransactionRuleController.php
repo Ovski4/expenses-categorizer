@@ -58,7 +58,7 @@ class SubCategoryTransactionRuleController extends AbstractController
             $transaction = $doctrine
                 ->getManager()
                 ->getRepository(Transaction::class)
-                ->findOneById($request->query->get('transaction'))
+                ->find($request->query->get('transaction'))
             ;
             $subCategoryTransactionRule
                 ->setContains($transaction->getLabel())
