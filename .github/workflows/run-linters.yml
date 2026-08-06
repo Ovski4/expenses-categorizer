@@ -15,11 +15,14 @@ jobs:
       - name: Run composer install
         run: docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer install
 
-      - name: Warm up the dev cache
-        # PHPStan reads var/cache/dev/App_KernelDevDebugContainer.xml to resolve services
+      - name: Warm up the test cache
+        # PHPStan reads var/cache/test/App_KernelTestDebugContainer.xml to resolve
+        # services. The test container is used rather than the dev one because it
+        # also holds the services declared in config/services_test.yaml, which the
+        # analysed test suite relies on.
         run: >
           docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php
-          php bin/console cache:warmup
+          php bin/console cache:warmup --env=test
 
       - name: Check code style
         run: docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer lint:style
