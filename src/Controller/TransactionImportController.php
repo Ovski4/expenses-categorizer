@@ -153,7 +153,11 @@ class TransactionImportController extends AbstractController
                 ]
             ]);
         } else {
-            $targetedAccount = $manager->getRepository(Account::class)->findOneById($account);
+            // Parsers extracting accounts from the statement get no account in the url
+            $targetedAccount = $account
+                ? $manager->getRepository(Account::class)->findOneById($account)
+                : $transactions[0]->getAccount()
+            ;
             $accountBalance = round($manager->getRepository(Transaction::class)->getBalanceByAccount($targetedAccount), 2);
 
             return $this->render('transaction/import/validate_transactions.html.twig', [
