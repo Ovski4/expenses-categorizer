@@ -67,16 +67,15 @@ class TopCategoryController extends AbstractController
         TopCategory $topCategory,
         Session $session,
         TranslatorInterface $translator,
-        ManagerRegistry $doctrine
-    ): Response
-    {
+        ManagerRegistry $doctrine,
+    ): Response {
         if ($this->isCsrfTokenValid('delete'.$topCategory->getId(), $request->request->get('_token'))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($topCategory);
 
             try {
                 $entityManager->flush();
-            } catch(ForeignKeyConstraintViolationException $e) {
+            } catch (ForeignKeyConstraintViolationException $e) {
                 $session->set(
                     'error',
                     $translator->trans('This top category cannot be deleted while sub categories belong to it.')

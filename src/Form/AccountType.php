@@ -24,7 +24,7 @@ class AccountType extends AbstractType
                 'attr' => ['class' => 'collection'],
             ])
             ->add('currency', CurrencyType::class, [
-                'required' => true
+                'required' => true,
             ])
         ;
     }

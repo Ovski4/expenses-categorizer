@@ -33,7 +33,7 @@ class CsvExporter
     {
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)
-            ->findBy([], ['createdAt'=>'asc'])
+            ->findBy([], ['createdAt' => 'asc'])
         ;
 
         $header = [
@@ -45,14 +45,13 @@ class CsvExporter
             $this->translator->trans('Amount'),
             $this->translator->trans('Transaction type'),
             $this->translator->trans('Top category'),
-            $this->translator->trans('Sub category')
+            $this->translator->trans('Sub category'),
         ];
 
-        $lines = $this->arrayToCsvString($header) . "\n";
+        $lines = $this->arrayToCsvString($header)."\n";
 
-        foreach ($transactions as $transaction)
-        {
-            $lines = $lines . $this->arrayToCsvString($transaction->toArray($this->translator)) . "\n";
+        foreach ($transactions as $transaction) {
+            $lines = $lines.$this->arrayToCsvString($transaction->toArray($this->translator))."\n";
         }
 
         return $lines;

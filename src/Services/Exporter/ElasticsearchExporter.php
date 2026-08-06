@@ -26,9 +26,8 @@ class ElasticsearchExporter
         EventDispatcherInterface $dispatcher,
         EntityManagerInterface $entityManager,
         ParameterBagInterface $params,
-        ConnectionKeeper $connectionKeeper
-    )
-    {
+        ConnectionKeeper $connectionKeeper,
+    ) {
         $this->elasticsearchHost = $params->get('app.elasticsearch_host');
         $this->elasticsearchIndex = $params->get('app.elasticsearch_index');
         $this->entityManager = $entityManager;
@@ -36,15 +35,15 @@ class ElasticsearchExporter
         $this->connectionKeeper = $connectionKeeper;
     }
 
-    function exportOne($transaction)
+    public function exportOne($transaction)
     {
         $body = $transaction->toArray();
         unset($body['id']);
 
         $params = [
             'index' => $this->elasticsearchIndex,
-            'id'    => $transaction->getId(),
-            'body'  => $body
+            'id' => $transaction->getId(),
+            'body' => $body,
         ];
 
         $response = $this->client->index($params);
@@ -86,7 +85,7 @@ class ElasticsearchExporter
 
     public function exportInNextTick($loop, $transactions, array $listeners)
     {
-        $loop->futureTick(function() use ($loop, $transactions, $listeners) {
+        $loop->futureTick(function () use ($loop, $transactions, $listeners) {
             if (count($transactions) > 0) {
                 $transaction = array_pop($transactions);
                 $this->exportOne($transaction);
@@ -97,7 +96,7 @@ class ElasticsearchExporter
                     TransactionsExportedEvent::NAME
                 );
 
-                foreach( $listeners as $eventName => $listener ) {
+                foreach ($listeners as $eventName => $listener) {
                     $this->dispatcher->removeListener($eventName, $listener);
                 }
             }
@@ -127,7 +126,7 @@ class ElasticsearchExporter
 
     private function createIndexIfNotExists()
     {
-        $indexParams['index']  = $this->elasticsearchIndex;
+        $indexParams['index'] = $this->elasticsearchIndex;
         if ($this->client->indices()->exists($indexParams)) {
             return;
         }
@@ -138,32 +137,32 @@ class ElasticsearchExporter
                 'mappings' => [
                     'properties' => [
                         'label' => [
-                            'type' => 'text'
+                            'type' => 'text',
                         ],
                         'created_at' => [
-                            'type' => 'date'
+                            'type' => 'date',
                         ],
                         'account' => [
-                            'type' => 'keyword'
+                            'type' => 'keyword',
                         ],
                         'sub_category' => [
-                            'type' => 'keyword'
+                            'type' => 'keyword',
                         ],
                         'top_category' => [
-                            'type' => 'keyword'
+                            'type' => 'keyword',
                         ],
                         'currency' => [
-                            'type' => 'keyword'
+                            'type' => 'keyword',
                         ],
                         'type' => [
-                            'type' => 'keyword'
+                            'type' => 'keyword',
                         ],
                         'amount' => [
-                            'type' => 'float'
-                        ]
-                    ]
-                ]
-            ]
+                            'type' => 'float',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $this->client->indices()->create($params);

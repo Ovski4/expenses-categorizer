@@ -25,7 +25,7 @@ class NbcCsvCreditAccountParser extends NbcCsvAccountParser
         ;
 
         // Return true if "credit" is present in the slugified account name.
-        if (strpos($slugifiedAccountName, 'credit') !== false) {
+        if (false !== strpos($slugifiedAccountName, 'credit')) {
             return true;
         }
 

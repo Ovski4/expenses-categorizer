@@ -2,14 +2,14 @@
 
 use App\Entity\Account;
 use App\Entity\Operator;
-use App\Services\RuleChecker;
-use PHPUnit\Framework\TestCase;
 use App\Entity\SubCategory;
-use App\Entity\Transaction;
 use App\Entity\SubCategoryTransactionRule;
 use App\Entity\TopCategory;
+use App\Entity\Transaction;
 use App\Entity\TransactionType;
 use App\Repository\SubCategoryTransactionRuleRepository;
+use App\Services\RuleChecker;
+use PHPUnit\Framework\TestCase;
 
 class RuleCheckerTest extends TestCase
 {
@@ -41,9 +41,9 @@ class RuleCheckerTest extends TestCase
     {
         $transaction = new Transaction();
         $transaction
-            ->setAccount((new Account)->setName('Fake account')->setCurrency('EUR'))
+            ->setAccount((new Account())->setName('Fake account')->setCurrency('EUR'))
             ->setAmount($amount)
-            ->setCreatedAt(new \DateTime('now'))
+            ->setCreatedAt(new DateTime('now'))
             ->setLabel($label)
         ;
 
@@ -111,11 +111,11 @@ class RuleCheckerTest extends TestCase
     }
 
     /**
-     * Multiple matches with different categories
+     * Multiple matches with different categories.
      */
     public function testExceptionIsThrown()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Multiple rules are matching the transaction');
         $rule1 = new SubCategoryTransactionRule();
         $rule1
@@ -135,7 +135,7 @@ class RuleCheckerTest extends TestCase
     }
 
     /**
-     * Multiple matches but for the same category
+     * Multiple matches but for the same category.
      */
     public function testExceptionIsNotThrown()
     {
@@ -155,7 +155,6 @@ class RuleCheckerTest extends TestCase
         $transaction = $this->createTransaction('Here is some text and dummy text here', -22);
 
         $this->assertEquals($ruleChecker->getMatchingSubCategory($transaction), $this->createSubCategory());
-        
     }
 
     public function testPriorityMatters()

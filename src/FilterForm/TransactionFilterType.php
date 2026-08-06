@@ -6,11 +6,11 @@ use App\Entity\Account;
 use App\Entity\Tag;
 use Doctrine\ORM\EntityRepository;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
+use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
-use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TransactionFilterType extends AbstractType
@@ -30,24 +30,24 @@ class TransactionFilterType extends AbstractType
             ->add('label', Filters\TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
                 'attr' => [
-                    'placeholder' => 'Biocoop...'
-                ]
+                    'placeholder' => 'Biocoop...',
+                ],
             ])
-            ->add('account', Filters\EntityFilterType ::class, [
+            ->add('account', Filters\EntityFilterType::class, [
                 'class' => Account::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('a')
                         ->orderBy('a.name', 'asc');
                 },
             ])
-            ->add('subCategory', Filters\EntityFilterType ::class,
+            ->add('subCategory', Filters\EntityFilterType::class,
                 $this->getSubCategoryFilterTypeOptions(),
             )
             ->add('tag', Filters\EntityFilterType::class, [
                 'class' => Tag::class,
                 'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
                     $tag = $values['value'];
-                    if ($tag === null) {
+                    if (null === $tag) {
                         return null;
                     }
 
@@ -63,15 +63,15 @@ class TransactionFilterType extends AbstractType
                 'label' => 'Categorized',
                 'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
                     $categorized = $values['value'];
-                    if ($categorized === null) {
+                    if (null === $categorized) {
                         return null;
                     }
 
                     $field = sprintf('%s.subCategory', $values['alias']);
 
-                    if ($categorized === 'y') {
+                    if ('y' === $categorized) {
                         $expression = $filterQuery->getExpr()->isNotNull($field);
-                    } else if ($categorized === 'n') {
+                    } elseif ('n' === $categorized) {
                         $expression = $filterQuery->getExpr()->isNull($field);
                     }
 
@@ -81,23 +81,23 @@ class TransactionFilterType extends AbstractType
             ->add('amount', Filters\NumberRangeFilterType::class, [
                 'left_number_options' => [
                     'label' => 'from_number',
-                    'condition_operator' => FilterOperands::OPERATOR_GREATER_THAN_EQUAL
+                    'condition_operator' => FilterOperands::OPERATOR_GREATER_THAN_EQUAL,
                 ],
                 'right_number_options' => [
                     'label' => 'to_number',
-                    'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN_EQUAL
-                ]
+                    'condition_operator' => FilterOperands::OPERATOR_LOWER_THAN_EQUAL,
+                ],
             ])
             ->add('createdAt', Filters\DateRangeFilterType::class, [
                 'label' => 'Created',
                 'left_date_options' => [
                     'widget' => 'single_text',
-                    'label' => 'from_date'
+                    'label' => 'from_date',
                 ],
                 'right_date_options' => [
                     'widget' => 'single_text',
-                    'label' => 'to_date'
-                ]
+                    'label' => 'to_date',
+                ],
             ])
         ;
     }
@@ -110,8 +110,8 @@ class TransactionFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'csrf_protection'   => false,
-            'validation_groups' => ['filtering']
+            'csrf_protection' => false,
+            'validation_groups' => ['filtering'],
         ]);
     }
 }

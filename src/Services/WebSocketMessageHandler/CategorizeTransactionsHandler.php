@@ -33,7 +33,7 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
             TransactionCategorizedEvent::NAME => 'onTransactionCategorized',
             TransactionsCategorizedEvent::NAME => 'onTransactionsCategorized',
             TransactionMatchesMultipleRulesEvent::NAME => 'onTransactionMatchesMultipleRules',
-            TransactionCategoryChangedEvent::NAME => 'onTransactionCategoryChanged'
+            TransactionCategoryChangedEvent::NAME => 'onTransactionCategoryChanged',
         ];
     }
 
@@ -52,7 +52,7 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
                 'single_transaction.category_changed',
                 [
                     'transaction' => $event->getTransaction()->toArray(),
-                    'old_sub_category' => $event->getOldSubCategory()->getName()
+                    'old_sub_category' => $event->getOldSubCategory()->getName(),
                 ]
             );
         }
@@ -73,9 +73,9 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
                 'single_transaction.matches_multiple_rules',
                 [
                     'transaction' => $event->getTransaction()->toArray(),
-                    'rules' => array_map(function($rule) {
+                    'rules' => array_map(function ($rule) {
                         return $rule->toArray();
-                    }, $event->getRules())
+                    }, $event->getRules()),
                 ]
             );
         }

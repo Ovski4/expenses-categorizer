@@ -21,9 +21,9 @@ class AccountAliasesAreUniqueConstraintValidator extends ConstraintValidator
             return;
         }
 
-        foreach($account->getAliases() as $alias) {
+        foreach ($account->getAliases() as $alias) {
             $otherAccount = $this->accountRepository->findWithAliasExceptAccount($alias, $account->getId());
-            if ($otherAccount !== null) {
+            if (null !== $otherAccount) {
                 // in case of an alias which is a substring of another
                 if (in_array($alias, $otherAccount->getAliases())) {
                     $this->context

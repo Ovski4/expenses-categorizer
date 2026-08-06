@@ -5,7 +5,6 @@ namespace App\ArgumentResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
-use UnexpectedValueException;
 
 class RequestParameterValueResolver implements ValueResolverInterface
 {
@@ -13,7 +12,7 @@ class RequestParameterValueResolver implements ValueResolverInterface
     {
         $argumentName = $argument->getName();
 
-        if(
+        if (
             !$argument->isNullable()
             || !in_array($argument->getType(), ['bool', 'string'])
             || (!$request->query->has($argumentName) && !$request->request->has($argumentName))
@@ -26,14 +25,14 @@ class RequestParameterValueResolver implements ValueResolverInterface
             : $request->request->get($argumentName)
         ;
 
-        if ($argument->getType() === 'bool') {
+        if ('bool' === $argument->getType()) {
             return [boolval($value)];
         }
 
-        if ($argument->getType() === 'string') {
+        if ('string' === $argument->getType()) {
             return [strval($value)];
         }
 
-        throw new UnexpectedValueException(sprintf('Unable to support argument with name %s and type %s', $argumentName, $argument->getType() ));
+        throw new \UnexpectedValueException(sprintf('Unable to support argument with name %s and type %s', $argumentName, $argument->getType()));
     }
 }

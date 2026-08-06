@@ -6,7 +6,6 @@ use App\Services\WebSocketMessageHandler\WebSocketMessageHandlerRegistry;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use React\EventLoop\LoopInterface;
-use Throwable;
 
 class WebSocketMessaging implements MessageComponentInterface
 {
@@ -23,18 +22,20 @@ class WebSocketMessaging implements MessageComponentInterface
         $this->loop = $loop;
     }
 
-    public function onOpen(ConnectionInterface $conn) {}
+    public function onOpen(ConnectionInterface $conn)
+    {
+    }
 
     public function onClose(ConnectionInterface $closedConnection)
     {
-        foreach($this->handlerRegistry->getHandlers() as $handler) {
+        foreach ($this->handlerRegistry->getHandlers() as $handler) {
             $handler->detachClients($closedConnection);
         }
     }
 
-    public function onError(ConnectionInterface $conn, Throwable $e)
+    public function onError(ConnectionInterface $conn, \Throwable $e)
     {
-        $conn->send('An error has occurred: ' . $e->getMessage());
+        $conn->send('An error has occurred: '.$e->getMessage());
         $conn->close();
     }
 

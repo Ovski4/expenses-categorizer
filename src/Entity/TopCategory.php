@@ -21,7 +21,7 @@ class TopCategory
     protected $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    protected  ?string $name = null;
+    protected ?string $name = null;
 
     #[ORM\OneToMany(targetEntity: SubCategory::class, mappedBy: 'topCategory')]
     protected $subCategories;

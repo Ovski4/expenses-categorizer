@@ -33,11 +33,11 @@ class TransactionType extends AbstractType
             ])
             ->add('account', EntityType::class, [
                 'class' => Account::class,
-                'required' => true
+                'required' => true,
             ])
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
-                'group_by' => function($choice) {
+                'group_by' => function ($choice) {
                     return $this->translator->trans($choice->getTransactionType());
                 },
                 'required' => false,
@@ -52,11 +52,10 @@ class TransactionType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
                 'attr' => [
-                    'class' => 'collection'
+                    'class' => 'collection',
                 ],
                 'by_reference' => false,
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

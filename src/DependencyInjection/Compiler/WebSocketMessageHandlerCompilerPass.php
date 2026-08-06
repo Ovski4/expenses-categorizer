@@ -17,10 +17,7 @@ class WebSocketMessageHandlerCompilerPass implements CompilerPassInterface
         foreach ($handlers as $id => $tags) {
             foreach ($tags as $attributes) {
                 if (!isset($attributes['trigger'])) {
-                    throw new \Exception(sprintf(
-                        'Service with id "%s" tagged as "app.message_handler" must have its trigger attribute defined',
-                        $id
-                    ));
+                    throw new \Exception(sprintf('Service with id "%s" tagged as "app.message_handler" must have its trigger attribute defined', $id));
                 }
 
                 $definition->addMethodCall('setHandler', [$attributes['trigger'], new Reference($id)]);

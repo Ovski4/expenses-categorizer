@@ -42,7 +42,7 @@ class CategorizeTransactionsCommand extends Command implements EventSubscriberIn
     public static function getSubscribedEvents(): array
     {
         return [
-            TransactionCategorizedEvent::NAME => 'onTransactionCategorized'
+            TransactionCategorizedEvent::NAME => 'onTransactionCategorized',
         ];
     }
 

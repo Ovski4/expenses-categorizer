@@ -3,10 +3,10 @@
 namespace App\FilterForm;
 
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SubCategoryTransactionRuleFilterType extends AbstractType
@@ -24,9 +24,9 @@ class SubCategoryTransactionRuleFilterType extends AbstractType
     {
         $builder
             ->add('contains', Filters\TextFilterType::class, [
-                'condition_pattern' => FilterOperands::STRING_CONTAINS
+                'condition_pattern' => FilterOperands::STRING_CONTAINS,
             ])
-            ->add('subCategory', Filters\EntityFilterType ::class,
+            ->add('subCategory', Filters\EntityFilterType::class,
                 $this->getSubCategoryFilterTypeOptions()
             )
         ;
@@ -40,8 +40,8 @@ class SubCategoryTransactionRuleFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'csrf_protection'   => false,
-            'validation_groups' => array('filtering')
+            'csrf_protection' => false,
+            'validation_groups' => ['filtering'],
         ]);
     }
 }

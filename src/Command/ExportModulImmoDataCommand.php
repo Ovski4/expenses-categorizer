@@ -43,7 +43,7 @@ class ExportModulImmoDataCommand extends Command
             $this->createRecord($record, 'capital_month');
         }
 
-        $output->writeln(sprintf('<info>%s</info> records indexed', count($records)*2));
+        $output->writeln(sprintf('<info>%s</info> records indexed', count($records) * 2));
 
         return self::SUCCESS;
     }
@@ -52,12 +52,12 @@ class ExportModulImmoDataCommand extends Command
     {
         $params = [
             'index' => 'modulimmo',
-            'id'    => sha1(sprintf('%s%s', $data['date'], $keyword)),
-            'body'  => [
+            'id' => sha1(sprintf('%s%s', $data['date'], $keyword)),
+            'body' => [
                 'date' => $data['date'],
                 'amount' => $data[$keyword],
-                'keyword' => $keyword
-            ]
+                'keyword' => $keyword,
+            ],
         ];
 
         $response = $this->client->index($params);
@@ -69,7 +69,7 @@ class ExportModulImmoDataCommand extends Command
 
     private function createIndexIfNotExists()
     {
-        $indexParams['index']  = 'modulimmo';
+        $indexParams['index'] = 'modulimmo';
         if ($this->client->indices()->exists($indexParams)) {
             return;
         }
@@ -80,17 +80,17 @@ class ExportModulImmoDataCommand extends Command
                 'mappings' => [
                     'properties' => [
                         'date' => [
-                            'type' => 'date'
+                            'type' => 'date',
                         ],
                         'amount' => [
-                            'type' => 'float'
+                            'type' => 'float',
                         ],
                         'type' => [
-                            'type' => 'keyword'
-                        ]
-                    ]
-                ]
-            ]
+                            'type' => 'keyword',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $this->client->indices()->create($params);

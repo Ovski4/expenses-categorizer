@@ -26,7 +26,7 @@ class TransactionFactory
         $transaction
             ->setAmount($array['value'])
             ->setCreatedAt(
-                (\DateTime::createFromFormat('d/m/Y', $array['date']))->setTime(0, 0, 0)
+                \DateTime::createFromFormat('d/m/Y', $array['date'])->setTime(0, 0, 0)
             )
             ->setLabel($array['label'])
             ->setAccount($account)

@@ -25,8 +25,8 @@ class NbcCsvCheckingOrSavingsAccountParser extends NbcCsvAccountParser
         ;
 
         // Return true if "check" or "cheque" is present in the slugified account name.
-        foreach(['check', 'cheque'] as $keyword) {
-            if (strpos($slugifiedAccountName, $keyword) !== false) {
+        foreach (['check', 'cheque'] as $keyword) {
+            if (false !== strpos($slugifiedAccountName, $keyword)) {
                 return true;
             }
         }

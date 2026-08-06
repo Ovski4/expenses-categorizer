@@ -32,24 +32,24 @@ class SubCategoryTransactionRuleType extends AbstractType
             ->add('contains')
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
-                'group_by' => function($choice) {
+                'group_by' => function ($choice) {
                     return $this->translator->trans($choice->getTransactionType());
                 },
             ])
             ->add(
                 'amount', NumberType::class, [
-                'required' => false
-            ])
+                    'required' => false,
+                ])
             ->add('operator', ChoiceType::class, [
                 'help' => 'Select which operator to use to compare transactions amount with this rule amount',
                 'choices' => $operatorChoices,
-                'required' => false
+                'required' => false,
             ])
             ->add('priority', NumberType::class, [
                 'help' => 'If a transaction matches multiple rules, the rule with the highest priority will prevail',
                 'html5' => true,
                 'required' => true,
-                'empty_data' => 0
+                'empty_data' => 0,
             ])
         ;
     }

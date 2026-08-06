@@ -43,9 +43,8 @@ class SubCategoryController extends AbstractController
         Request $request,
         SubCategory $subCategory,
         Session $session,
-        ManagerRegistry $doctrine
-    ): Response
-    {
+        ManagerRegistry $doctrine,
+    ): Response {
         $form = $this->createForm(SubCategoryType::class, $subCategory);
         $form->handleRequest($request);
 
@@ -72,16 +71,15 @@ class SubCategoryController extends AbstractController
         Session $session,
         SubCategory $subCategory,
         TranslatorInterface $translator,
-        ManagerRegistry $doctrine
-    ): Response
-    {
+        ManagerRegistry $doctrine,
+    ): Response {
         if ($this->isCsrfTokenValid('delete'.$subCategory->getId(), $request->request->get('_token'))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($subCategory);
 
             try {
                 $entityManager->flush();
-            } catch(ForeignKeyConstraintViolationException $e) {
+            } catch (ForeignKeyConstraintViolationException $e) {
                 $session->set(
                     'error',
                     $translator->trans('This sub category cannot be deleted while transactions or rules are associated with it.')
@@ -89,7 +87,6 @@ class SubCategoryController extends AbstractController
 
                 return $this->redirect($request->headers->get('referer'));
             }
-
         }
 
         return $this->redirectToRoute('category_index');

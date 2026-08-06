@@ -23,7 +23,7 @@ class SubCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $choices = [];
-        foreach (TransactionType::getAll() as $transactionType) { 
+        foreach (TransactionType::getAll() as $transactionType) {
             $choices[$transactionType] = $transactionType;
         }
 
@@ -31,7 +31,7 @@ class SubCategoryType extends AbstractType
             ->add('name')
             ->add('topCategory', EntityType::class, [
                 'class' => TopCategory::class,
-                'group_by' => function($choice) {
+                'group_by' => function ($choice) {
                     return $this->translator->trans($choice->getTransactionType());
                 },
             ])

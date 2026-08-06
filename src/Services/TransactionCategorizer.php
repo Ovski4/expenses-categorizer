@@ -8,7 +8,6 @@ use App\Event\TransactionCategoryChangedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Event\TransactionsCategorizedEvent;
 use App\Exception\TransactionMatchesMultipleRulesException;
-use App\Services\ConnectionKeeper;
 use Doctrine\ORM\EntityManagerInterface;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -24,7 +23,7 @@ class TransactionCategorizer
         RuleChecker $ruleChecker,
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $dispatcher,
-        ConnectionKeeper $connectionKeeper
+        ConnectionKeeper $connectionKeeper,
     ) {
         $this->ruleChecker = $ruleChecker;
         $this->entityManager = $entityManager;
@@ -32,11 +31,11 @@ class TransactionCategorizer
         $this->connectionKeeper = $connectionKeeper;
     }
 
-    function categorizeOne(Transaction $transaction)
+    public function categorizeOne(Transaction $transaction)
     {
         try {
             $newSubCategory = $this->ruleChecker->getMatchingSubCategory($transaction);
-        } catch(TransactionMatchesMultipleRulesException $e) {
+        } catch (TransactionMatchesMultipleRulesException $e) {
             $this->dispatcher->dispatch(
                 new TransactionMatchesMultipleRulesEvent($e->getTransaction(), $e->getRules()),
                 TransactionMatchesMultipleRulesEvent::NAME
@@ -45,17 +44,17 @@ class TransactionCategorizer
             $newSubCategory = null;
         }
 
-        if ($newSubCategory !== null) {
+        if (null !== $newSubCategory) {
             $oldSubCategory = $transaction->getSubCategory();
             $transaction->setSubCategory($newSubCategory);
             $this->entityManager->persist($transaction);
 
-            if ($oldSubCategory === null) {
+            if (null === $oldSubCategory) {
                 $this->dispatcher->dispatch(
                     new TransactionCategorizedEvent($transaction),
                     TransactionCategorizedEvent::NAME
                 );
-            } else if ($oldSubCategory !== $newSubCategory) {
+            } elseif ($oldSubCategory !== $newSubCategory) {
                 $this->dispatcher->dispatch(
                     new TransactionCategoryChangedEvent($transaction, $oldSubCategory),
                     TransactionCategoryChangedEvent::NAME
@@ -80,7 +79,7 @@ class TransactionCategorizer
 
     public function categorizeInNextTick($loop, $transactions)
     {
-        $loop->futureTick(function() use ($loop, $transactions) {
+        $loop->futureTick(function () use ($loop, $transactions) {
             if (count($transactions) > 0) {
                 $transaction = array_pop($transactions);
                 $this->categorizeOne($transaction);

@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\Account;
 use App\Exception\AccountNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NoResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Account|null find($id, $lockMode = null, $lockVersion = null)
@@ -51,7 +51,7 @@ class AccountRepository extends ServiceEntityRepository
             ->setParameter('alias', '%'.$alias.'%')
         ;
 
-        if ($skipAccountId !== null) {
+        if (null !== $skipAccountId) {
             $queryBuilder
                 ->andWhere('a.id != :skipAccountId')
                 ->setParameter('skipAccountId', $skipAccountId)

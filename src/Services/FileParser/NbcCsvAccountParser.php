@@ -18,9 +18,8 @@ abstract class NbcCsvAccountParser extends AbstractAccountStatementParser implem
         TransactionFactory $transactionFactory,
         ParameterBagInterface $params,
         HttpClientInterface $httpClient,
-        SluggerInterface $slugger
-    )
-    {
+        SluggerInterface $slugger,
+    ) {
         parent::__construct($transactionFactory, $params, $httpClient);
 
         $this->slugger = $slugger;

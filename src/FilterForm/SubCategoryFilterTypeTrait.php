@@ -12,7 +12,7 @@ trait SubCategoryFilterTypeTrait
         return [
             'class' => SubCategory::class,
             'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
-                if ($values['value'] === null) {
+                if (null === $values['value']) {
                     return null;
                 }
 
@@ -22,7 +22,7 @@ trait SubCategoryFilterTypeTrait
 
                 return $filterQuery->createCondition($expression, $parameters);
             },
-            'group_by' => function($choice) {
+            'group_by' => function ($choice) {
                 return $this->translator->trans($choice->getTransactionType());
             },
         ];

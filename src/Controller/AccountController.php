@@ -22,7 +22,7 @@ class AccountController extends AbstractController
     #[Route('/', name: 'account_index', methods: ['GET'])]
     public function index(AccountRepository $accountRepository, TransactionRepository $transactionRepository): Response
     {
-        $accounts = $accountRepository->findBy([], ['name'=>'asc']);
+        $accounts = $accountRepository->findBy([], ['name' => 'asc']);
         $balances = [];
 
         foreach ($accounts as $account) {
@@ -90,16 +90,15 @@ class AccountController extends AbstractController
         Account $account,
         Session $session,
         TranslatorInterface $translator,
-        ManagerRegistry $doctrine
-    ): Response
-    {
+        ManagerRegistry $doctrine,
+    ): Response {
         if ($this->isCsrfTokenValid('delete'.$account->getId(), $request->request->get('_token'))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($account);
 
             try {
                 $entityManager->flush();
-            } catch(ForeignKeyConstraintViolationException $e) {
+            } catch (ForeignKeyConstraintViolationException $e) {
                 $session->set(
                     'error',
                     $translator->trans('This account cannot be deleted while transactions belong to it.')

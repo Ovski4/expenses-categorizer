@@ -7,16 +7,16 @@ use App\Entity\DecoratedTransaction;
 use App\Entity\Transaction;
 use App\Exception\AccountNotFoundException;
 use App\Form\FileToParseType;
-use App\Services\StatementUploader;
 use App\Services\FileParser\FileParserRegistry;
+use App\Services\StatementUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpClient\Exception\ServerException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/transaction/import')]
@@ -36,17 +36,12 @@ class TransactionImportController extends AbstractController
         StatementUploader $statementUploader,
         FileParserRegistry $registry,
         TranslatorInterface $translator,
-        string $parserName
+        string $parserName,
     ) {
         $parser = $registry->getFileParser($parserName);
 
-        if(is_null($parser)) {
-            throw new NotFoundHttpException(
-                $translator->trans(
-                    'File import for "%parserName%" not available',
-                    ['%parserName%' => $parserName]
-                ),
-            );
+        if (is_null($parser)) {
+            throw new NotFoundHttpException($translator->trans('File import for "%parserName%" not available', ['%parserName%' => $parserName]));
         }
 
         $form = $this->createForm(FileToParseType::class, null, ['fileParser' => $parser]);
@@ -59,7 +54,7 @@ class TransactionImportController extends AbstractController
 
             $parameters = [
                 'statement' => $statementFile,
-                'parserName' => $parserName
+                'parserName' => $parserName,
             ];
 
             if (isset($form['account'])) {
@@ -88,13 +83,12 @@ class TransactionImportController extends AbstractController
         FileParserRegistry $registry,
         EntityManagerInterface $manager,
         ParameterBagInterface $params,
-        TranslatorInterface $translator
-    ): Response
-    {
+        TranslatorInterface $translator,
+    ): Response {
         try {
             $fileParser = $registry->getFileParser($parserName);
             $transactions = $fileParser->parse(
-                $params->get('app.statements_dir') . $statement,
+                $params->get('app.statements_dir').$statement,
                 $account ? ['accountId' => $account] : []
             );
         } catch (AccountNotFoundException $e) {
@@ -107,15 +101,15 @@ class TransactionImportController extends AbstractController
                 'suggestionLabel' => $translator->trans('Create an account now'),
                 'suggestionPath' => 'account_new',
                 'suggestionPathParams' => [
-                    'search' => $e->getAccountSearch()
-                ]
+                    'search' => $e->getAccountSearch(),
+                ],
             ]);
         } catch (ServerException $e) {
             $transactions = [];
         }
 
         if ($request->isMethod('POST')) {
-            foreach($transactions as $transaction) {
+            foreach ($transactions as $transaction) {
                 if (!$saveOnlyNewTransactions || !$manager->getRepository(Transaction::class)->exists($transaction)) {
                     $manager->persist($transaction);
                 }
@@ -127,7 +121,7 @@ class TransactionImportController extends AbstractController
         }
 
         $existingTransactionCount = 0;
-        foreach($transactions as $transaction) {
+        foreach ($transactions as $transaction) {
             $transactionExist = $manager->getRepository(Transaction::class)->exists($transaction);
             $existingTransactionCount = $transactionExist ?
                 $existingTransactionCount + 1 :
@@ -149,25 +143,24 @@ class TransactionImportController extends AbstractController
                 'suggestionLabel' => $translator->trans('Go back to file upload'),
                 'suggestionPath' => 'transaction_upload_statement',
                 'suggestionPathParams' => [
-                    'parserName' => $parserName
-                ]
-            ]);
-        } else {
-            // Parsers extracting accounts from the statement get no account in the url
-            $targetedAccount = $account
-                ? $manager->getRepository(Account::class)->findOneById($account)
-                : $transactions[0]->getAccount()
-            ;
-            $accountBalance = round($manager->getRepository(Transaction::class)->getBalanceByAccount($targetedAccount), 2);
-
-            return $this->render('transaction/import/validate_transactions.html.twig', [
-                'transactions' => $decoratedTransactions,
-                'existingTransactionCount' => $existingTransactionCount,
-                'statement' => $statement,
-                'parserName' => $parserName,
-                'accountName' => $targetedAccount->getName(),
-                'accountBalance' => $accountBalance,
+                    'parserName' => $parserName,
+                ],
             ]);
         }
+        // Parsers extracting accounts from the statement get no account in the url
+        $targetedAccount = $account
+            ? $manager->getRepository(Account::class)->findOneById($account)
+            : $transactions[0]->getAccount()
+        ;
+        $accountBalance = round($manager->getRepository(Transaction::class)->getBalanceByAccount($targetedAccount), 2);
+
+        return $this->render('transaction/import/validate_transactions.html.twig', [
+            'transactions' => $decoratedTransactions,
+            'existingTransactionCount' => $existingTransactionCount,
+            'statement' => $statement,
+            'parserName' => $parserName,
+            'accountName' => $targetedAccount->getName(),
+            'accountBalance' => $accountBalance,
+        ]);
     }
 }

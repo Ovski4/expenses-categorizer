@@ -29,7 +29,7 @@ abstract class AbstractWebSocketMessageHandler
     {
         $connection->send(json_encode([
             'topic' => $topic,
-            'data' => $data
+            'data' => $data,
         ]));
     }
 

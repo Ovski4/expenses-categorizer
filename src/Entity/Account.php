@@ -6,8 +6,8 @@ use App\Repository\AccountRepository;
 use App\Validator\Constraints\AccountAliasesAreUniqueConstraint;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 #[UniqueEntity('name')]

@@ -42,7 +42,7 @@ class AccountControllerTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $this->client->submit($form, [
             'account[name]' => 'Account 1',
-            'account[currency]' => 'EUR'
+            'account[currency]' => 'EUR',
         ]);
 
         // Check redirection

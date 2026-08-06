@@ -28,8 +28,8 @@ class RuleIsLogicalConstraintValidator extends ConstraintValidator
         }
 
         if (
-            ($rule->getTransactionType() === TransactionType::EXPENSES && $rule->getAmount() > 0)
-            || ($rule->getTransactionType() === TransactionType::REVENUES && $rule->getAmount() < 0)
+            (TransactionType::EXPENSES === $rule->getTransactionType() && $rule->getAmount() > 0)
+            || (TransactionType::REVENUES === $rule->getTransactionType() && $rule->getAmount() < 0)
         ) {
             $this->context
                 ->buildViolation($constraint->message)

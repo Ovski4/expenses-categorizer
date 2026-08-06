@@ -15,7 +15,7 @@ class ElasticsearchSyncStatusUpdater implements EventSubscriber
     public function getSubscribedEvents(): array
     {
         return [
-            Events::onFlush
+            Events::onFlush,
         ];
     }
 
@@ -26,10 +26,9 @@ class ElasticsearchSyncStatusUpdater implements EventSubscriber
         $transactions = [];
 
         foreach ($unitOfWork->getScheduledEntityUpdates() as $entity) {
-
             // For some reason the ramsey uuid ends up in the changeset since upgrading to symfony 6. Ignore it.
             $changes = $unitOfWork->getEntityChangeSet($entity);
-            if (count($changes) === 1 && isset($changes['id'])) {
+            if (1 === count($changes) && isset($changes['id'])) {
                 continue;
             }
 
@@ -56,8 +55,8 @@ class ElasticsearchSyncStatusUpdater implements EventSubscriber
 
             if ($entity instanceof Transaction) {
                 if (!(
-                    isset($changes['toSyncInElasticsearch']) &&
-                    $changes['toSyncInElasticsearch'][1] === false
+                    isset($changes['toSyncInElasticsearch'])
+                    && false === $changes['toSyncInElasticsearch'][1]
                 )) {
                     $transactions[] = $entity;
                 }

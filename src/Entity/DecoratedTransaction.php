@@ -42,6 +42,6 @@ class DecoratedTransaction
 
     public function exists(): bool
     {
-       return $this->exists;
+        return $this->exists;
     }
 }

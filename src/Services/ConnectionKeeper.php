@@ -35,7 +35,7 @@ class ConnectionKeeper
 
     public function keepAlive(): void
     {
-        if(!$this->isAlive()) {
+        if (!$this->isAlive()) {
             $this->reconnect();
         }
     }

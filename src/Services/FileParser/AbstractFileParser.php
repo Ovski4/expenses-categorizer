@@ -8,8 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractFileParser
 {
-    const FILE_TYPE_PDF = 'pdf';
-    const FILE_TYPE_CSV = 'csv';
+    public const FILE_TYPE_PDF = 'pdf';
+    public const FILE_TYPE_CSV = 'csv';
 
     protected $transactionFactory;
 
@@ -21,7 +21,7 @@ abstract class AbstractFileParser
     {
         $this->transactionFactory = $transactionFactory;
         $this->params = $params;
-        $this->resolver = ( new OptionsResolver() )
+        $this->resolver = (new OptionsResolver())
             ->setDefaults(['accountId' => null])
             ->setAllowedTypes('accountId', ['string', 'null'])
         ;
@@ -45,7 +45,7 @@ abstract class AbstractFileParser
     abstract public function getLabel(): string;
 
     /**
-     * The type of the file parsed by this parser (csv, pdf...)
+     * The type of the file parsed by this parser (csv, pdf...).
      */
     abstract public function getFileType(): string;
 

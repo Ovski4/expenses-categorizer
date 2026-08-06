@@ -22,21 +22,21 @@ class TransactionImportControllerTest extends WebTestCase
     private const PARSER_API_RESULTS = [
         [
             'account' => self::ACCOUNT_NAME,
-            'date'    => '02/04/2025',
-            'label'   => 'OVH SAS',
-            'value'   => -34.3,
+            'date' => '02/04/2025',
+            'label' => 'OVH SAS',
+            'value' => -34.3,
         ],
         [
             'account' => self::ACCOUNT_NAME,
-            'date'    => '12/04/2025',
-            'label'   => 'CAMPUS.COACH',
-            'value'   => -15.0,
+            'date' => '12/04/2025',
+            'label' => 'CAMPUS.COACH',
+            'value' => -15.0,
         ],
         [
             'account' => self::ACCOUNT_NAME,
-            'date'    => '12/04/2025',
-            'label'   => 'CCM LOIRE DIVATTE - Date de valeur 12.04.2025',
-            'value'   => -20.0,
+            'date' => '12/04/2025',
+            'label' => 'CCM LOIRE DIVATTE - Date de valeur 12.04.2025',
+            'value' => -20.0,
         ],
     ];
 
@@ -83,7 +83,7 @@ class TransactionImportControllerTest extends WebTestCase
         // from the statement, so no account is passed in the url.
         $crawler = $this->client->request(
             'GET',
-            '/transaction/import/validate-transactions/n26/' . self::STATEMENT
+            '/transaction/import/validate-transactions/n26/'.self::STATEMENT
         );
 
         $this->assertResponseIsSuccessful();
@@ -187,7 +187,7 @@ class TransactionImportControllerTest extends WebTestCase
         // No account in the url: the n26 parser reads it from the statement
         $crawler = $this->client->request(
             'GET',
-            '/transaction/import/validate-transactions/n26/' . self::STATEMENT
+            '/transaction/import/validate-transactions/n26/'.self::STATEMENT
         );
 
         $this->assertResponseIsSuccessful();
@@ -226,7 +226,7 @@ class TransactionImportControllerTest extends WebTestCase
         $mockHttpClient->setResponseFactory(function (string $method, string $url) use ($results) {
             $this->assertSame('GET', $method);
             $this->assertSame(
-                'http://account_statement_parser/n26?statement=/var/statements/' . self::STATEMENT,
+                'http://account_statement_parser/n26?statement=/var/statements/'.self::STATEMENT,
                 $url
             );
 
@@ -245,7 +245,7 @@ class TransactionImportControllerTest extends WebTestCase
             ->createQueryBuilder('a')
             ->where('a.aliases LIKE :alias')
             ->orWhere('a.name = :name')
-            ->setParameter('alias', '%' . self::ACCOUNT_NAME . '%')
+            ->setParameter('alias', '%'.self::ACCOUNT_NAME.'%')
             ->setParameter('name', self::ACCOUNT_NAME)
             ->getQuery()
             ->getResult()

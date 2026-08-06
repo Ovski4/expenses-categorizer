@@ -3,13 +3,13 @@
 namespace App\Command;
 
 use App\Services\WebSocketMessaging;
+use Ratchet\Http\HttpServer;
+use Ratchet\Server\IoServer;
+use Ratchet\WebSocket\WsServer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Ratchet\Server\IoServer;
-use Ratchet\Http\HttpServer;
-use Ratchet\WebSocket\WsServer;
 
 #[AsCommand(name: 'app:start-web-socket-server')]
 class StartWebSocketServerCommand extends Command

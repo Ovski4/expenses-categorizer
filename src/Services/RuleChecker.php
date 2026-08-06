@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Entity\Operator;
 use App\Entity\SubCategory;
-use App\Entity\Transaction;
 use App\Entity\SubCategoryTransactionRule;
+use App\Entity\Transaction;
 use App\Exception\TransactionMatchesMultipleRulesException;
 use App\Repository\SubCategoryTransactionRuleRepository;
 
@@ -27,7 +27,7 @@ class RuleChecker
         ;
     }
 
-    public function getMatchingSubCategory(Transaction $transaction) : ?SubCategory
+    public function getMatchingSubCategory(Transaction $transaction): ?SubCategory
     {
         $matchingRules = [];
 
@@ -39,7 +39,7 @@ class RuleChecker
 
         $bestRule = $this->getBestRule($transaction, $matchingRules);
 
-        return $bestRule === null ? null : $bestRule->getSubCategory();
+        return null === $bestRule ? null : $bestRule->getSubCategory();
     }
 
     private function ruleMatchesTransaction($rule, $transaction)
@@ -47,7 +47,7 @@ class RuleChecker
         // label is not within rule "contains" property (case-insensitive check)
         $lowerCaseTransactionLabel = strtolower($transaction->getLabel());
         $lowerCaseRuleContains = strtolower($rule->getContains());
-        if (strpos($lowerCaseTransactionLabel, $lowerCaseRuleContains) === false) {
+        if (false === strpos($lowerCaseTransactionLabel, $lowerCaseRuleContains)) {
             return false;
         }
 
@@ -60,17 +60,16 @@ class RuleChecker
         $ruleAmount = $rule->getAmount();
         $transactionAmount = $transaction->getAmount();
 
-        if ($ruleAmount !== null && $ruleOperator !== null) {
-
-            if ($ruleOperator == Operator::EQUALS && $transactionAmount !== $ruleAmount) {
+        if (null !== $ruleAmount && null !== $ruleOperator) {
+            if (Operator::EQUALS == $ruleOperator && $transactionAmount !== $ruleAmount) {
                 return false;
             }
 
-            if ($ruleOperator == Operator::GREATER_THAN_OR_EQUAL && $transactionAmount < $ruleAmount) {
+            if (Operator::GREATER_THAN_OR_EQUAL == $ruleOperator && $transactionAmount < $ruleAmount) {
                 return false;
             }
 
-            if ($ruleOperator == Operator::LOWER_THAN_OR_EQUAL && $transactionAmount > $ruleAmount) {
+            if (Operator::LOWER_THAN_OR_EQUAL == $ruleOperator && $transactionAmount > $ruleAmount) {
                 return false;
             }
         }
@@ -108,9 +107,9 @@ class RuleChecker
         $highestPriority = null;
 
         foreach ($rules as $rule) {
-            if ($highestPriority === null) {
+            if (null === $highestPriority) {
                 $highestPriority = $rule->getPriority();
-            } else if ($rule->getPriority() > $highestPriority) {
+            } elseif ($rule->getPriority() > $highestPriority) {
                 $highestPriority = $rule->getPriority();
             }
         }
@@ -123,9 +122,9 @@ class RuleChecker
         $subCategory = null;
 
         foreach ($rules as $rule) {
-            if ($subCategory === null) {
+            if (null === $subCategory) {
                 $subCategory = $rule->getSubCategory();
-            } else if ($subCategory != $rule->getSubCategory()) {
+            } elseif ($subCategory != $rule->getSubCategory()) {
                 return false;
             }
         }

@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\TransactionRepository;
+use App\Validator\Constraints\TransactionSubCategoryIsLogicalConstraint;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Validator\Constraints\TransactionSubCategoryIsLogicalConstraint;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -53,20 +53,15 @@ class Transaction
     }
 
     /**
-     * Prevent a wrong subCategory to be set
+     * Prevent a wrong subCategory to be set.
      */
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function checkSubCategory()
     {
-        if ($this->subCategory !== null) {
+        if (null !== $this->subCategory) {
             if ($this->subCategory->getTransactionType() !== $this->getType()) {
-                throw new \Exception(sprintf(
-                    'Invalid sub category transaction type (%s) for transaction %s with amount %s',
-                    $this->getType(),
-                    $this->id,
-                    $this->amount
-                ));
+                throw new \Exception(sprintf('Invalid sub category transaction type (%s) for transaction %s with amount %s', $this->getType(), $this->id, $this->amount));
             }
         }
     }
@@ -84,20 +79,20 @@ class Transaction
     public function toArray(?TranslatorInterface $translator = null)
     {
         $array = [
-            'id'         => $this->id,
-            'label'      => $this->label,
-            'currency'   => $this->account->getCurrency(),
-            'account'    => $this->account->getName(),
+            'id' => $this->id,
+            'label' => $this->label,
+            'currency' => $this->account->getCurrency(),
+            'account' => $this->account->getName(),
             'created_at' => $this->createdAt->format('c'),
-            'amount'     => $this->amount,
-            'type'       => $this->getType()
+            'amount' => $this->amount,
+            'type' => $this->getType(),
         ];
 
-        if ($translator !== null) {
+        if (null !== $translator) {
             $array['type'] = $translator->trans($this->getType());
         }
 
-        if ($this->getSubCategory() != null) {
+        if (null != $this->getSubCategory()) {
             $array['sub_category'] = $this->getSubCategory()->getName();
             $array['top_category'] = $this->getSubCategory()->getTopCategory()->getName();
         }
@@ -178,7 +173,7 @@ class Transaction
 
     public function isCategorized(): ?bool
     {
-        return $this->subCategory !== null;
+        return null !== $this->subCategory;
     }
 
     public function getToSyncInElasticsearch(): ?bool

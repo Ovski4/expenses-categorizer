@@ -8,10 +8,10 @@ use App\Services\Exporter\ElasticsearchExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/transaction/export')]
@@ -23,8 +23,7 @@ class TransactionExportController extends AbstractController
         ElasticsearchExporter $exporter,
         TranslatorInterface $translator,
         EventDispatcherInterface $dispatcher,
-        EntityManagerInterface $entityManager)
-    : Response
+        EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('PATCH')) {
             try {
@@ -37,9 +36,9 @@ class TransactionExportController extends AbstractController
                         $response = $event->getResponse();
                         $transaction = $event->getTransaction();
 
-                        if ($response['result'] === 'created') {
+                        if ('created' === $response['result']) {
                             $createdTransactions[] = $transaction;
-                        } else if ($response['result'] === 'updated') {
+                        } elseif ('updated' === $response['result']) {
                             $updatedTransactions[] = $transaction;
                         }
 
@@ -54,12 +53,11 @@ class TransactionExportController extends AbstractController
                 return $this->render('transaction/export.html.twig', [
                     'total_transactions_count' => count($createdTransactions) + count($updatedTransactions),
                     'created_transactions_count' => count($createdTransactions),
-                    'updated_transactions_count' => count($updatedTransactions)
+                    'updated_transactions_count' => count($updatedTransactions),
                 ]);
-
-            } catch(NoNodesAvailableException $e) {
+            } catch (NoNodesAvailableException $e) {
                 return $this->render('transaction/export.html.twig', [
-                    'error' => $translator->trans('Elasticsearch seems to be down')
+                    'error' => $translator->trans('Elasticsearch seems to be down'),
                 ]);
             }
         }

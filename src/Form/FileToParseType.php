@@ -6,7 +6,6 @@ use App\Entity\Account;
 use App\Services\FileParser\AbstractFileParser;
 use App\Services\FileParser\AccountGuessable;
 use Doctrine\ORM\EntityRepository;
-use Exception;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -35,7 +34,7 @@ class FileToParseType extends AbstractType
 
         $builder
             ->add('statement', FileType::class, [
-                'label' => strtoupper($fileType) . ' file',
+                'label' => strtoupper($fileType).' file',
                 'attr' => [
                     'lang' => $this->locale,
                 ],

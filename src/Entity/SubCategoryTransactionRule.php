@@ -8,7 +8,6 @@ use App\Validator\Constraints\RuleIsLogicalConstraint;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SubCategoryTransactionRuleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -68,25 +67,23 @@ class SubCategoryTransactionRule
     public function checkOperatorAndAmountFields()
     {
         if (
-            ($this->amount !== null && $this->operator == null) ||
-            ($this->amount == null && $this->operator != null)
+            (null !== $this->amount && null == $this->operator)
+            || (null == $this->amount && null != $this->operator)
         ) {
-            throw new \Exception(
-                'Entity SubCategoryTransactionRule must have both operator and amount set or none'
-            );
+            throw new \Exception('Entity SubCategoryTransactionRule must have both operator and amount set or none');
         }
     }
 
     public function toArray()
     {
         $array = [
-            'id'           => $this->id,
-            'contains'     => $this->contains,
-            'operator'     => $this->operator,
-            'amount'       => $this->amount,
+            'id' => $this->id,
+            'contains' => $this->contains,
+            'operator' => $this->operator,
+            'amount' => $this->amount,
             'sub_category' => $this->subCategory->getName(),
-            'type'         => $this->getTransactionType(),
-            'priority'     => $this->getPriority()
+            'type' => $this->getTransactionType(),
+            'priority' => $this->getPriority(),
         ];
 
         return $array;
@@ -145,7 +142,7 @@ class SubCategoryTransactionRule
 
     public function setOperator(?string $operator)
     {
-        if ($operator !== null && !in_array($operator, Operator::getAll())) {
+        if (null !== $operator && !in_array($operator, Operator::getAll())) {
             throw new \Exception(sprintf('Invalid operator %s', $operator));
         }
 

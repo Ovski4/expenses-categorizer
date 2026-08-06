@@ -3,7 +3,6 @@
 namespace App\Test\Controller;
 
 use App\Entity\Tag;
-use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

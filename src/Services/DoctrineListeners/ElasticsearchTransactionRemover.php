@@ -22,7 +22,7 @@ class ElasticsearchTransactionRemover
 
         $params = [
             'index' => $this->elasticsearchIndex,
-            'id'    => $transaction->getId()
+            'id' => $transaction->getId(),
         ];
 
         try {

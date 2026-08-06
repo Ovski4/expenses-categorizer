@@ -7,10 +7,10 @@ use App\Event\TransactionCategoryChangedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Services\TransactionCategorizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 #[Route('/transaction')]
 class TransactionCategorizeController extends AbstractController
@@ -50,7 +50,7 @@ class TransactionCategorizeController extends AbstractController
                 function (TransactionMatchesMultipleRulesEvent $event) use (&$errors) {
                     $errors[] = [
                         'rules' => $event->getRules(),
-                        'transaction' => $event->getTransaction()
+                        'transaction' => $event->getTransaction(),
                     ];
                 }
             );
@@ -59,7 +59,7 @@ class TransactionCategorizeController extends AbstractController
 
             return $this->render('transaction/categorize.html.twig', [
                 'transactions' => $transactions,
-                'errors' => $errors
+                'errors' => $errors,
             ]);
         }
 

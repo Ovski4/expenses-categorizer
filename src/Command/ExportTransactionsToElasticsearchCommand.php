@@ -22,7 +22,7 @@ class ExportTransactionsToElasticsearchCommand extends Command
     public function __construct(
         ElasticsearchExporter $exporter,
         EntityManagerInterface $entityManager,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         $this->exporter = $exporter;
         $this->entityManager = $entityManager;

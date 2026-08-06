@@ -9,17 +9,16 @@ use App\Services\TransactionDiffChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
-use InvalidArgumentException;
-use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
+use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/transaction')]
@@ -30,9 +29,8 @@ class TransactionController extends AbstractController
         Request $request,
         FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
-        FilterBuilderUpdaterInterface $filterBuilderUpdater
-    ): Response
-    {
+        FilterBuilderUpdaterInterface $filterBuilderUpdater,
+    ): Response {
         $hasFilters = false;
         $filterForm = $formFactory->create(TransactionFilterType::class);
 
@@ -48,7 +46,7 @@ class TransactionController extends AbstractController
 
             try {
                 $filterBuilderUpdater->addFilterConditions($filterForm, $queryBuilder);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 // form validation will do the rest
             }
         }
@@ -76,8 +74,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if($transaction->isCategorized()) {
+            if ($transaction->isCategorized()) {
                 $transaction->setCategorizedManually(true);
             }
 
@@ -100,9 +97,8 @@ class TransactionController extends AbstractController
         Transaction $transaction,
         Session $session,
         ManagerRegistry $doctrine,
-        TransactionDiffChecker $transactionDiffChecker
-    ): Response
-    {
+        TransactionDiffChecker $transactionDiffChecker,
+    ): Response {
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
 
@@ -112,7 +108,7 @@ class TransactionController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($transactionDiffChecker->subCategoryChanged($transaction)) {
+            if ($transactionDiffChecker->subCategoryChanged($transaction)) {
                 $transaction->setCategorizedManually($transaction->isCategorized() ? true : false);
             }
 
@@ -133,14 +129,13 @@ class TransactionController extends AbstractController
         Transaction $transaction,
         TranslatorInterface $translator,
         Session $session,
-        ManagerRegistry $doctrine
-    ) : Response
-    {
+        ManagerRegistry $doctrine,
+    ): Response {
         if ($this->isCsrfTokenValid('delete'.$transaction->getId(), $request->request->get('_token'))) {
             $entityManager = $doctrine->getManager();
             try {
                 $entityManager->remove($transaction);
-            } catch(NoNodesAvailableException $e) {
+            } catch (NoNodesAvailableException $e) {
                 $session->set(
                     'error',
                     $translator->trans('error_deleting_transaction_in_elasticsearch')
@@ -148,6 +143,7 @@ class TransactionController extends AbstractController
 
                 return $this->redirect($request->headers->get('referer'));
             }
+
             $entityManager->flush();
         }
 

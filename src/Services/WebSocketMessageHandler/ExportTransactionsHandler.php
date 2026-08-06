@@ -24,7 +24,7 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler
         ElasticsearchExporter $elasticsearchExporter,
         TranslatorInterface $translator,
         EntityManagerInterface $entityManager,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         $this->elasticsearchExporter = $elasticsearchExporter;
         $this->translator = $translator;
@@ -69,13 +69,13 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler
             TransactionsExportedEvent::NAME => fn () => $this->onTransactionsExported(),
         ];
 
-        foreach( $listeners as $eventName => $listener ) {
+        foreach ($listeners as $eventName => $listener) {
             $this->dispatcher->addListener($eventName, $listener);
         }
 
         try {
             $this->elasticsearchExporter->exportAllAsync($loop, $listeners);
-        } catch(NoNodesAvailableException $e) {
+        } catch (NoNodesAvailableException $e) {
             $this->sendMessage($connection, 'error', $this->translator->trans('Elasticsearch seems to be down'));
         }
     }
@@ -85,7 +85,7 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler
         return [
             TransactionExportedEvent::NAME => 'onTransactionExported',
             TransactionsExportedEvent::NAME => 'onTransactionsExported',
-            TransactionsExportingEvent::NAME => 'onTransactionsExporting'
+            TransactionsExportingEvent::NAME => 'onTransactionsExporting',
         ];
     }
 }

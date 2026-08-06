@@ -24,9 +24,8 @@ class SubCategoryTransactionRuleController extends AbstractController
         Request $request,
         FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
-        FilterBuilderUpdaterInterface $filterBuilderUpdater
-    ): Response
-    {
+        FilterBuilderUpdaterInterface $filterBuilderUpdater,
+    ): Response {
         $hasFilters = false;
         $filterForm = $formFactory->create(SubCategoryTransactionRuleFilterType::class);
 
@@ -74,11 +73,11 @@ class SubCategoryTransactionRuleController extends AbstractController
             $entityManager->persist($subCategoryTransactionRule);
             $entityManager->flush();
 
-            if (strpos($request->request->get('referer'), 'rule') !== false) {
+            if (false !== strpos($request->request->get('referer'), 'rule')) {
                 return $this->redirectToRoute('sub_category_transaction_rule_index');
-            } else {
-                return new RedirectResponse($request->request->get('referer'));
             }
+
+            return new RedirectResponse($request->request->get('referer'));
         }
 
         return $this->render('sub_category_transaction_rule/new.html.twig', [
@@ -109,9 +108,8 @@ class SubCategoryTransactionRuleController extends AbstractController
     public function delete(
         Request $request,
         SubCategoryTransactionRule $subCategoryTransactionRule,
-        ManagerRegistry $doctrine
-    ): Response
-    {
+        ManagerRegistry $doctrine,
+    ): Response {
         if ($this->isCsrfTokenValid('delete'.$subCategoryTransactionRule->getId(), $request->request->get('_token'))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($subCategoryTransactionRule);

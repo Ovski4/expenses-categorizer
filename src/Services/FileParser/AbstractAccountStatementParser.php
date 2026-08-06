@@ -13,7 +13,7 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
     public function __construct(
         TransactionFactory $transactionFactory,
         ParameterBagInterface $params,
-        HttpClientInterface $httpClient
+        HttpClientInterface $httpClient,
     ) {
         parent::__construct($transactionFactory, $params);
         $this->httpClient = $httpClient;
@@ -36,14 +36,14 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
         $results = json_decode($response->getContent(), true);
 
         $transactions = [];
-        foreach($results as $result) {
-            if ($resolvedOptions['accountId'] !== null) {
+        foreach ($results as $result) {
+            if (null !== $resolvedOptions['accountId']) {
                 $result['accountId'] = $resolvedOptions['accountId'];
             }
 
             $transaction = $this->transactionFactory->createFromArray($result);
 
-            if ($transaction->getAmount() != 0) {
+            if (0 != $transaction->getAmount()) {
                 $transactions[] = $transaction;
             }
         }

@@ -21,10 +21,7 @@ class FileParserRegistry
     public function getFileParser($name): ?AbstractFileParser
     {
         if (!is_string($name)) {
-            throw new \Exception(sprintf(
-                'Expected argument of type "string", "%s" given',
-                is_object($name) ? get_class($name) : gettype($name)
-            ));
+            throw new \Exception(sprintf('Expected argument of type "string", "%s" given', is_object($name) ? get_class($name) : gettype($name)));
         }
 
         foreach ($this->fileParsers as $fileParser) {
@@ -41,7 +38,7 @@ class FileParserRegistry
         if ($fileType) {
             return array_filter(
                 $this->fileParsers,
-                function( AbstractFileParser $fileParser ) use ($fileType) {
+                function (AbstractFileParser $fileParser) use ($fileType) {
                     return $fileParser->getFileType() == $fileType;
                 }
             );
