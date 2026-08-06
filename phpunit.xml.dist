@@ -4,16 +4,21 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          backupGlobals="false"
          colors="true"
+         failOnNotice="true"
+         failOnWarning="true"
          bootstrap="tests/bootstrap.php"
-         convertDeprecationsToExceptions="false"
+         cacheDirectory=".phpunit.cache"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
 >
     <php>
         <ini name="display_errors" value="1" />
         <ini name="error_reporting" value="-1" />
+        <!-- both are needed: docker-compose sets a real APP_ENV=dev, which lands
+             in $_SERVER (CLI SAPI) and $_ENV. Dotenv reads $_SERVER to pick which
+             .env.test file to load; KernelTestCase reads $_ENV to pick the kernel env. -->
         <server name="APP_ENV" value="test" force="true" />
+        <env name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
-        <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
-        <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
     </php>
 
     <testsuites>
@@ -22,17 +27,17 @@
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <source ignoreSuppressionOfDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </include>
-    </coverage>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-    </listeners>
+    </source>
 
     <extensions>
-        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+        <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension">
+            <parameter name="clock-mock-namespaces" value="App" />
+            <parameter name="dns-mock-namespaces" value="App" />
+        </bootstrap>
+        <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
     </extensions>
 </phpunit>

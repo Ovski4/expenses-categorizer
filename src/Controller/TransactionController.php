@@ -14,7 +14,7 @@ use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormError;
@@ -58,7 +58,7 @@ class TransactionController extends AbstractController
         $pagerfanta->setMaxPerPage(20);
 
         if ($request->query->has('page')) {
-            $pagerfanta->setCurrentPage($request->get('page'));
+            $pagerfanta->setCurrentPage($request->query->get('page'));
         }
 
         return $this->render('transaction/index.html.twig', [

@@ -3,7 +3,7 @@ Expenses categorizer
 
 ![PHPUnit build Status](https://github.com/Ovski4/expenses-categorizer/actions/workflows/run-phpunit-and-build-coverage-report.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Ovski4/expenses-categorizer/badge.svg?branch=master)](https://coveralls.io/github/Ovski4/expenses-categorizer?branch=master)
 
-An application written in PHP (Symfony 7 framework) to import, categorize and analyze transactions.
+An application written in PHP (Symfony 8 framework) to import, categorize and analyze transactions.
 
 Core values
 -----------
@@ -32,37 +32,34 @@ docker exec -it expenses-categorizer-account_statement_parser-1 chown 1000 -R /v
 
 # optionally, create some default transaction categories
 docker compose run php php bin/console doctrine:fixtures:load --append
+
+# or import a dump
+docker compose exec -T mysql mysql -uexpenses_categorizer -pexpenses_categorizer expenses_categorizer < dump.sql
 ```
 
 Browse [http://localhost](http://localhost)
 
-### Run the app in prod
-
-To run the app in prod, prefix all above docker compose commands with `-f docker-compose-prod.yml`.
-
-Update the services environment variables in the docker-compose-prod.yml file according to your needs.
-
-Build the images
+### Build the images with XDEBUG enabled
 
 ```bash
-docker build -f docker/build/php/Dockerfile -t ovski/expenses-categorizer-php:latest .
-docker build -f docker/build/nginx/Dockerfile -t ovski/expenses-categorizer-nginx:latest .
+XDEBUG=TRUE docker compose up -d --build
 ```
 
 ### Run the tests
 
 ```bash
-docker compose run php php bin/phpunit
+docker compose run php php vendor/bin/phpunit
 ```
 
 Create new parsers
 ------------------
 
-The current implementation can import transactions from french account statements coming from the following banks:
- * Crédit Mutuel (parser service here)
- * Caisse d'épargne
- * N26
- * Boursorama
+The current implementation can import transactions from account statements coming from the following banks:
+ * Crédit Mutuel: pdf statement
+ * Caisse d'épargne: pdf statement
+ * N26: pdf statement
+ * Boursorama: pdf statement
+ * National Bank of Canada (Banque National du Canada): csv export
 
 Source code for these parsers can be found at https://github.com/Ovski4/account-statement-parsers.
 
@@ -127,4 +124,12 @@ class HelloBankAccountStatementParser extends AbstractFileParser
     }
 }
 
+```
+
+
+Upgrade
+-------
+
+```
+docker compose run php composer update "symfony/*" pagerfanta/doctrine-orm-adapter php-coveralls/php-coveralls doctrine/doctrine-fixtures-bundle dama/doctrine-test-bundle doctrine/orm babdev/pagerfanta-bundle phpstan/phpdoc-parser spiriitlabs/form-filter-bundle doctrine/doctrine-migrations-bundle doctrine/doctrine-bundle symfony/proxy-manager-bridge ramsey/uuid-doctrine cboden/ratchet phpunit/phpunit doctrine/annotations -W
 ```

@@ -7,14 +7,13 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-###> symfony/phpunit-bridge ###
-clover.xml
-.phpunit
-.phpunit.result.cache
-/phpunit.xml
-/reports/
-###< symfony/phpunit-bridge ###
-
 ###> personal ###
 /dumps/
-### personal ###
+clover.xml
+/reports/
+###< personal ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###

@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/sub/category/transaction/rule')]
 class SubCategoryTransactionRuleController extends AbstractController
@@ -74,10 +74,10 @@ class SubCategoryTransactionRuleController extends AbstractController
             $entityManager->persist($subCategoryTransactionRule);
             $entityManager->flush();
 
-            if (strpos($request->get('referer'), 'rule') !== false) {
+            if (strpos($request->request->get('referer'), 'rule') !== false) {
                 return $this->redirectToRoute('sub_category_transaction_rule_index');
             } else {
-                return new RedirectResponse($request->get('referer'));
+                return new RedirectResponse($request->request->get('referer'));
             }
         }
 
