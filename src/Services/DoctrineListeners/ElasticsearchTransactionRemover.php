@@ -10,6 +10,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ElasticsearchTransactionRemover
 {
+    private string $elasticsearchHost;
+    private string $elasticsearchIndex;
+
     public function __construct(ParameterBagInterface $params)
     {
         $this->elasticsearchHost = $params->get('app.elasticsearch_host');
