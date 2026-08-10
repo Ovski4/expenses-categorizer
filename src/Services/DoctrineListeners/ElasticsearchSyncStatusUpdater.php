@@ -6,14 +6,22 @@ use App\Entity\Account;
 use App\Entity\SubCategory;
 use App\Entity\TopCategory;
 use App\Entity\Transaction;
+use App\Repository\TransactionRepository;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 
 class ElasticsearchSyncStatusUpdater
 {
+    private TransactionRepository $transactionRepository;
+
+    public function __construct(TransactionRepository $transactionRepository)
+    {
+        $this->transactionRepository = $transactionRepository;
+    }
+
     public function onFlush(OnFlushEventArgs $args)
     {
-        $entityManager = $args->getObjectManager();
-        $unitOfWork = $entityManager->getUnitOfWork();
+        $objectManager = $args->getObjectManager();
+        $unitOfWork = $objectManager->getUnitOfWork();
         $transactions = [];
 
         foreach ($unitOfWork->getScheduledEntityUpdates() as $entity) {
@@ -24,24 +32,15 @@ class ElasticsearchSyncStatusUpdater
             }
 
             if ($entity instanceof SubCategory) {
-                $transactions = $entityManager
-                    ->getRepository(Transaction::class)
-                    ->findBy(['subCategory' => $entity->getId()])
-                ;
+                $transactions = $this->transactionRepository->findBy(['subCategory' => $entity->getId()]);
             }
 
             if ($entity instanceof Account) {
-                $transactions = $entityManager
-                    ->getRepository(Transaction::class)
-                    ->findBy(['account' => $entity->getId()])
-                ;
+                $transactions = $this->transactionRepository->findBy(['account' => $entity->getId()]);
             }
 
             if ($entity instanceof TopCategory) {
-                $transactions = $entityManager
-                    ->getRepository(Transaction::class)
-                    ->findByTopCategory($entity)
-                ;
+                $transactions = $this->transactionRepository->findByTopCategory($entity);
             }
 
             if ($entity instanceof Transaction) {
@@ -55,8 +54,8 @@ class ElasticsearchSyncStatusUpdater
 
             foreach ($transactions as $transaction) {
                 $transaction->setToSyncInElasticsearch(true);
-                $entityManager->persist($transaction);
-                $classMetadata = $entityManager->getClassMetadata(Transaction::class);
+                $objectManager->persist($transaction);
+                $classMetadata = $objectManager->getClassMetadata(Transaction::class);
 
                 if ($unitOfWork->getEntityChangeSet($entity)) {
                     $unitOfWork->recomputeSingleEntityChangeSet($classMetadata, $transaction);
