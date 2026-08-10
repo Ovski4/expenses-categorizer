@@ -4,15 +4,14 @@ namespace App\Services;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
-use Doctrine\ORM\EntityManagerInterface;
 
 class ConnectionKeeper
 {
-    private ?Connection $connection = null;
+    private Connection $connection;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(Connection $connection)
     {
-        $this->connection = $entityManager->getConnection();
+        $this->connection = $connection;
     }
 
     public function isAlive(): bool
@@ -29,8 +28,9 @@ class ConnectionKeeper
 
     public function reconnect(): void
     {
+        // Doctrine has no public connect() anymore: closing is enough, the
+        // next query opens a new connection.
         $this->connection->close();
-        $this->connection->connect();
     }
 
     public function keepAlive(): void
