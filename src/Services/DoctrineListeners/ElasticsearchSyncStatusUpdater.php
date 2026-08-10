@@ -6,22 +6,13 @@ use App\Entity\Account;
 use App\Entity\SubCategory;
 use App\Entity\TopCategory;
 use App\Entity\Transaction;
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Events;
 
-class ElasticsearchSyncStatusUpdater implements EventSubscriber
+class ElasticsearchSyncStatusUpdater
 {
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::onFlush,
-        ];
-    }
-
     public function onFlush(OnFlushEventArgs $args)
     {
-        $entityManager = $args->getEntityManager();
+        $entityManager = $args->getObjectManager();
         $unitOfWork = $entityManager->getUnitOfWork();
         $transactions = [];
 

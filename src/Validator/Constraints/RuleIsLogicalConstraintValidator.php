@@ -6,6 +6,7 @@ use App\Entity\SubCategoryTransactionRule;
 use App\Entity\TransactionType;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RuleIsLogicalConstraintValidator extends ConstraintValidator
@@ -19,6 +20,10 @@ class RuleIsLogicalConstraintValidator extends ConstraintValidator
 
     public function validate($rule, Constraint $constraint): void
     {
+        if (!$constraint instanceof RuleIsLogicalConstraint) {
+            throw new UnexpectedTypeException($constraint, RuleIsLogicalConstraint::class);
+        }
+
         if (null === $rule
             || '' === $rule
             || !$rule instanceof SubCategoryTransactionRule

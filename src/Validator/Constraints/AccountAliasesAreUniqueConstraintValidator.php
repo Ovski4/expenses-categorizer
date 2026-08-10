@@ -5,6 +5,7 @@ namespace App\Validator\Constraints;
 use App\Repository\AccountRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class AccountAliasesAreUniqueConstraintValidator extends ConstraintValidator
 {
@@ -17,6 +18,10 @@ class AccountAliasesAreUniqueConstraintValidator extends ConstraintValidator
 
     public function validate($account, Constraint $constraint): void
     {
+        if (!$constraint instanceof AccountAliasesAreUniqueConstraint) {
+            throw new UnexpectedTypeException($constraint, AccountAliasesAreUniqueConstraint::class);
+        }
+
         if (null === $account || '' === $account) {
             return;
         }

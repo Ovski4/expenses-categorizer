@@ -46,9 +46,7 @@ class AccountControllerTest extends WebTestCase
         ]);
 
         // Check redirection
-        $response = $this->client->getResponse();
-        $this->assertResponseRedirects();
-        $this->assertEquals('/account/', $response->getTargetUrl());
+        $this->assertResponseRedirects('/account/');
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('td', 'Account 1');

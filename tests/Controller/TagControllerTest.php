@@ -2,7 +2,6 @@
 
 namespace App\Test\Controller;
 
-use App\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -46,9 +45,7 @@ class TagControllerTest extends WebTestCase
         ]);
 
         // Check redirection
-        $response = $this->client->getResponse();
-        $this->assertResponseRedirects();
-        $this->assertEquals('/tag/', $response->getTargetUrl());
+        $this->assertResponseRedirects('/tag/');
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('td', 'Tag 1');

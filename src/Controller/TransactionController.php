@@ -56,7 +56,7 @@ class TransactionController extends AbstractController
         $pagerfanta->setMaxPerPage(20);
 
         if ($request->query->has('page')) {
-            $pagerfanta->setCurrentPage($request->query->get('page'));
+            $pagerfanta->setCurrentPage($request->query->getInt('page'));
         }
 
         return $this->render('transaction/index.html.twig', [

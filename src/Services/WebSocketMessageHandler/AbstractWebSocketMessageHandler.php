@@ -4,9 +4,12 @@ namespace App\Services\WebSocketMessageHandler;
 
 use Ratchet\ConnectionInterface;
 use React\EventLoop\LoopInterface;
+use SplObjectStorage;
 
 abstract class AbstractWebSocketMessageHandler
 {
+    protected SplObjectStorage $clients;
+
     public function __construct()
     {
         $this->clients = new \SplObjectStorage();

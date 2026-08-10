@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Parameter \#1 \$currentPage of method Pagerfanta\\Pagerfanta\<mixed\>\:\:setCurrentPage\(\) expects int, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Controller/TransactionController.php
-
-		-
 			message: '#^Call to an undefined method Doctrine\\ORM\\EntityRepository\<App\\Entity\\Transaction\>\:\:exists\(\)\.$#'
 			identifier: method.notFound
 			count: 2

@@ -50,7 +50,7 @@ services:
     ElasticsearchSyncStatusUpdater:
         class: App\Services\DoctrineListeners\ElasticsearchSyncStatusUpdater
         tags:
-            - { name: 'doctrine.event_subscriber' }
+            - { name: 'doctrine.event_listener', event: 'onFlush' }
 
     ElasticsearchTransactionRemover:
         class: App\Services\DoctrineListeners\ElasticsearchTransactionRemover

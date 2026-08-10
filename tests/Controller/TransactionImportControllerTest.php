@@ -117,15 +117,16 @@ class TransactionImportControllerTest extends WebTestCase
         $this->assertCount(3, $transactions);
         $this->assertSame(
             [
-                ['OVH SAS', -34.3, '02/04/2025'],
-                ['CAMPUS.COACH', -15.0, '12/04/2025'],
-                ['CCM LOIRE DIVATTE - Date de valeur 12.04.2025', -20.0, '12/04/2025'],
+                ['OVH SAS', -34.3, '02/04/2025', true],
+                ['CAMPUS.COACH', -15.0, '12/04/2025', true],
+                ['CCM LOIRE DIVATTE - Date de valeur 12.04.2025', -20.0, '12/04/2025', true],
             ],
             array_map(
                 fn (Transaction $transaction) => [
                     $transaction->getLabel(),
                     $transaction->getAmount(),
                     $transaction->getCreatedAt()->format('d/m/Y'),
+                    $transaction->getToSyncInElasticsearch(),
                 ],
                 $transactions
             )

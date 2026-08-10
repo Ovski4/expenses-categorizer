@@ -4,6 +4,7 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TransactionSubCategoryIsLogicalConstraintValidator extends ConstraintValidator
@@ -17,6 +18,10 @@ class TransactionSubCategoryIsLogicalConstraintValidator extends ConstraintValid
 
     public function validate($transaction, Constraint $constraint): void
     {
+        if (!$constraint instanceof TransactionSubCategoryIsLogicalConstraint) {
+            throw new UnexpectedTypeException($constraint, TransactionSubCategoryIsLogicalConstraint::class);
+        }
+
         if (null === $transaction || '' === $transaction) {
             return;
         }
