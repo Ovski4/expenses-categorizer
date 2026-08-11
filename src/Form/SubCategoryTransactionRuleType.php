@@ -24,6 +24,8 @@ class SubCategoryTransactionRuleType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $operatorChoices = [];
+
         foreach (Operator::getAll() as $operator) {
             $operatorChoices[$this->translator->trans($operator)] = $operator;
         }

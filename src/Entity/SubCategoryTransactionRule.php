@@ -47,7 +47,7 @@ class SubCategoryTransactionRule
     protected ?int $priority = 0;
 
     #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    protected ?\DateTime $updatedAt = null;
+    protected ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()
     {

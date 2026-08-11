@@ -26,12 +26,4 @@ class Kernel extends BaseKernel
         $container->addCompilerPass(new WebSocketMessageHandlerCompilerPass());
         $container->addCompilerPass(new FileParserCompilerPass());
     }
-
-    /**
-     * @return list<string> An array of allowed values for APP_ENV
-     */
-    private function getAllowedEnvs(): array
-    {
-        return ['prod', 'dev', 'test'];
-    }
 }

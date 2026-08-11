@@ -29,6 +29,12 @@ class ApplicationAvailabilityFunctionalTest extends WebTestCase
         yield ['/sub/category/transaction/rule/'];
         yield ['/sub/category/transaction/rule/new'];
         yield ['/transaction/'];
+        // Submitted filter forms: the only way the apply_filter closures run
+        yield ['/transaction/?item_filter[label]=OVH'];
+        yield ['/transaction/?item_filter[categorized]=y'];
+        yield ['/transaction/?item_filter[categorized]=n'];
+        yield ['/transaction/?item_filter[categorized]='];
+        yield ['/sub/category/transaction/rule/?item_filter[contains]=x'];
         yield ['/transaction/categorize'];
         yield ['/transaction/export/elasticsearch'];
         yield ['/transaction/import/boursorama/upload'];

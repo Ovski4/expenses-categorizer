@@ -3,7 +3,7 @@
 namespace App\FilterForm;
 
 use App\Entity\SubCategory;
-use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 
 trait SubCategoryFilterTypeTrait
 {
@@ -11,7 +11,7 @@ trait SubCategoryFilterTypeTrait
     {
         return [
             'class' => SubCategory::class,
-            'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+            'apply_filter' => function (ORMQuery $filterQuery, $field, $values) {
                 if (null === $values['value']) {
                     return null;
                 }

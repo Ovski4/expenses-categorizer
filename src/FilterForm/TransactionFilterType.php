@@ -5,9 +5,9 @@ namespace App\FilterForm;
 use App\Entity\Account;
 use App\Entity\Tag;
 use Doctrine\ORM\EntityRepository;
+use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Spiriit\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
-use Spiriit\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -45,7 +45,7 @@ class TransactionFilterType extends AbstractType
             )
             ->add('tag', Filters\EntityFilterType::class, [
                 'class' => Tag::class,
-                'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+                'apply_filter' => function (ORMQuery $filterQuery, $field, $values) {
                     $tag = $values['value'];
                     if (null === $tag) {
                         return null;
@@ -61,18 +61,17 @@ class TransactionFilterType extends AbstractType
             ->add('categorized', Filters\BooleanFilterType::class, [
                 'property_path' => '[subCategory]',
                 'label' => 'Categorized',
-                'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+                'apply_filter' => function (ORMQuery $filterQuery, $field, $values) {
                     $categorized = $values['value'];
-                    if (null === $categorized) {
-                        return null;
-                    }
-
                     $field = sprintf('%s.subCategory', $values['alias']);
 
                     if ('y' === $categorized) {
                         $expression = $filterQuery->getExpr()->isNotNull($field);
                     } elseif ('n' === $categorized) {
                         $expression = $filterQuery->getExpr()->isNull($field);
+                    } else {
+                        // Nothing selected: do not filter on the sub category
+                        return null;
                     }
 
                     return $filterQuery->createCondition($expression);
