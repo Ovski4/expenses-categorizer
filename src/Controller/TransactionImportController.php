@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\DecoratedTransaction;
-use App\Entity\Transaction;
 use App\Exception\AccountNotFoundException;
 use App\Form\FileToParseType;
+use App\Repository\TransactionRepository;
 use App\Services\FileParser\FileParserRegistry;
 use App\Services\StatementUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -82,11 +82,17 @@ class TransactionImportController extends AbstractController
         ?bool $saveOnlyNewTransactions,
         FileParserRegistry $registry,
         EntityManagerInterface $manager,
+        TransactionRepository $transactionRepository,
         ParameterBagInterface $params,
         TranslatorInterface $translator,
     ): Response {
+        $fileParser = $registry->getFileParser($parserName);
+
+        if (is_null($fileParser)) {
+            throw new NotFoundHttpException($translator->trans('File import for "%parserName%" not available', ['%parserName%' => $parserName]));
+        }
+
         try {
-            $fileParser = $registry->getFileParser($parserName);
             $transactions = $fileParser->parse(
                 $params->get('app.statements_dir').$statement,
                 $account ? ['accountId' => $account] : []
@@ -110,7 +116,7 @@ class TransactionImportController extends AbstractController
 
         if ($request->isMethod('POST')) {
             foreach ($transactions as $transaction) {
-                if (!$saveOnlyNewTransactions || !$manager->getRepository(Transaction::class)->exists($transaction)) {
+                if (!$saveOnlyNewTransactions || !$transactionRepository->exists($transaction)) {
                     $manager->persist($transaction);
                 }
             }
@@ -122,7 +128,7 @@ class TransactionImportController extends AbstractController
 
         $existingTransactionCount = 0;
         foreach ($transactions as $transaction) {
-            $transactionExist = $manager->getRepository(Transaction::class)->exists($transaction);
+            $transactionExist = $transactionRepository->exists($transaction);
             $existingTransactionCount = $transactionExist ?
                 $existingTransactionCount + 1 :
                 $existingTransactionCount
@@ -152,7 +158,12 @@ class TransactionImportController extends AbstractController
             ? $manager->getRepository(Account::class)->find($account)
             : $transactions[0]->getAccount()
         ;
-        $accountBalance = round($manager->getRepository(Transaction::class)->getBalanceByAccount($targetedAccount), 2);
+
+        if (is_null($targetedAccount)) {
+            throw new NotFoundHttpException($translator->trans('Account "%account%" not found', ['%account%' => $account]));
+        }
+
+        $accountBalance = round($transactionRepository->getBalanceByAccount($targetedAccount), 2);
 
         return $this->render('transaction/import/validate_transactions.html.twig', [
             'transactions' => $decoratedTransactions,

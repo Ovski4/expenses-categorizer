@@ -1,6 +1,7 @@
 Account: Compte
 Accounts: Comptes
 Account list: Liste des comptes
+Account "%account%" not found: Le compte "%account%" n'existe pas
 Account with alias or name "%search%" was not found: Le compte avec l'alias ou le nom "%search%" n'existe pas
 Actions: Actions
 Aliases: Alias
