@@ -13,7 +13,7 @@
 
         <div class="alert alert-info" role="alert">
             {{ transactions|length }} {% trans %}transactions to import{% endtrans %}
-            {% set totalAmount = transactions|reduce((sum, transaction) => sum + transaction.amount, 0) %}
+            {% set totalAmount = transactions|reduce((sum, transactionToImport) => sum + transactionToImport.transaction.amount, 0) %}
             ({% trans %}total amount is{% endtrans %} {{ totalAmount }}).
             {% trans %}New balance for account{% endtrans %}
             <strong>{{ accountName }}</strong>
@@ -67,10 +67,11 @@
                 </tr>
             </thead>
             <tbody>
-            {% for transaction in transactions %}
+            {% for transactionToImport in transactions %}
+                {% set transaction = transactionToImport.transaction %}
                 <tr
                     {% if existingTransactionCount > 0 %}
-                        {% if transaction.exists %}
+                        {% if transactionToImport.alreadyExists %}
                             class="existing-transaction"
                         {% else %}
                              class="new-transaction"

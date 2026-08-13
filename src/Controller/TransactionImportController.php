@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Dto\TransactionToImport;
 use App\Entity\Account;
-use App\Entity\DecoratedTransaction;
 use App\Exception\AccountNotFoundException;
 use App\Form\FileToParseType;
 use App\Repository\TransactionRepository;
@@ -127,16 +127,15 @@ class TransactionImportController extends AbstractController
         }
 
         $existingTransactionCount = 0;
+        $transactionsToImport = [];
         foreach ($transactions as $transaction) {
-            $transactionExist = $transactionRepository->exists($transaction);
-            $existingTransactionCount = $transactionExist ?
-                $existingTransactionCount + 1 :
-                $existingTransactionCount
-            ;
+            $alreadyExists = $transactionRepository->exists($transaction);
 
-            $decoratedTransaction = new DecoratedTransaction($transaction);
-            $decoratedTransaction->setExists($transactionExist);
-            $decoratedTransactions[] = $decoratedTransaction;
+            if ($alreadyExists) {
+                ++$existingTransactionCount;
+            }
+
+            $transactionsToImport[] = new TransactionToImport($transaction, $alreadyExists);
         }
 
         if (empty($transactions)) {
@@ -166,7 +165,7 @@ class TransactionImportController extends AbstractController
         $accountBalance = round($transactionRepository->getBalanceByAccount($targetedAccount), 2);
 
         return $this->render('transaction/import/validate_transactions.html.twig', [
-            'transactions' => $decoratedTransactions,
+            'transactions' => $transactionsToImport,
             'existingTransactionCount' => $existingTransactionCount,
             'statement' => $statement,
             'parserName' => $parserName,
