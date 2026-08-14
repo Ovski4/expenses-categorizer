@@ -9,14 +9,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TransactionSubCategoryIsLogicalConstraintValidator extends ConstraintValidator
 {
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
 
-    public function validate($transaction, Constraint $constraint): void
+    public function validate(mixed $transaction, Constraint $constraint): void
     {
         if (!$constraint instanceof TransactionSubCategoryIsLogicalConstraint) {
             throw new UnexpectedTypeException($constraint, TransactionSubCategoryIsLogicalConstraint::class);

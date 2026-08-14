@@ -13,7 +13,7 @@ class AccountNotFoundException extends \Exception
         parent::__construct('Account with alias or name "%search%" was not found');
     }
 
-    public function getAccountSearch()
+    public function getAccountSearch(): string
     {
         return $this->search;
     }

@@ -15,10 +15,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExportTransactionsHandler extends AbstractWebSocketMessageHandler
 {
-    private $elasticsearchExporter;
-    private $translator;
-    private $entityManager;
-    private $dispatcher;
+    private ElasticsearchExporter $elasticsearchExporter;
+    private TranslatorInterface $translator;
+    private EntityManagerInterface $entityManager;
+    private EventDispatcherInterface $dispatcher;
 
     public function __construct(
         ElasticsearchExporter $elasticsearchExporter,
@@ -34,7 +34,7 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler
         parent::__construct();
     }
 
-    private function onTransactionExported(TransactionExportedEvent $event)
+    private function onTransactionExported(TransactionExportedEvent $event): void
     {
         $transaction = $event->getTransaction();
         $transaction->setToSyncInElasticsearch(false);
@@ -45,7 +45,7 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler
         }
     }
 
-    private function onTransactionsExported()
+    private function onTransactionsExported(): void
     {
         $this->entityManager->flush();
 
@@ -54,14 +54,14 @@ class ExportTransactionsHandler extends AbstractWebSocketMessageHandler
         }
     }
 
-    private function onTransactionsExporting(TransactionsExportingEvent $event)
+    private function onTransactionsExporting(TransactionsExportingEvent $event): void
     {
         foreach ($this->clients as $connection) {
             $this->sendMessage($connection, 'transactions.exporting', $event->getTransactionCount());
         }
     }
 
-    public function doHandle(ConnectionInterface $connection, LoopInterface $loop)
+    public function doHandle(ConnectionInterface $connection, LoopInterface $loop): void
     {
         $listeners = [
             TransactionExportedEvent::NAME => fn (TransactionExportedEvent $event) => $this->onTransactionExported($event),

@@ -31,7 +31,7 @@ class TransactionCategorizer
         $this->connectionKeeper = $connectionKeeper;
     }
 
-    public function categorizeOne(Transaction $transaction)
+    public function categorizeOne(Transaction $transaction): void
     {
         try {
             $newSubCategory = $this->ruleChecker->getMatchingSubCategory($transaction);
@@ -63,7 +63,7 @@ class TransactionCategorizer
         }
     }
 
-    public function categorizeAllSync()
+    public function categorizeAllSync(): void
     {
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)
@@ -77,7 +77,7 @@ class TransactionCategorizer
         $this->entityManager->flush();
     }
 
-    public function categorizeInNextTick($loop, $transactions)
+    public function categorizeInNextTick($loop, $transactions): void
     {
         $loop->futureTick(function () use ($loop, $transactions) {
             if (count($transactions) > 0) {
@@ -94,7 +94,7 @@ class TransactionCategorizer
         });
     }
 
-    public function categorizeAllAsync(LoopInterface $loop)
+    public function categorizeAllAsync(LoopInterface $loop): void
     {
         $this->connectionKeeper->keepAlive();
         $this->entityManager->clear();

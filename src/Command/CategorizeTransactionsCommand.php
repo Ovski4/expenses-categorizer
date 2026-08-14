@@ -46,7 +46,7 @@ class CategorizeTransactionsCommand extends Command implements EventSubscriberIn
         ];
     }
 
-    public function onTransactionCategorized(TransactionCategorizedEvent $event)
+    public function onTransactionCategorized(TransactionCategorizedEvent $event): void
     {
         if ($this->output) {
             $this->output->writeln(sprintf(

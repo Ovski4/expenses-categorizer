@@ -23,7 +23,7 @@ class TransactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Transaction::class);
     }
 
-    public function exists(Transaction $transaction)
+    public function exists(Transaction $transaction): bool
     {
         $result = $this->createQueryBuilder('t')
             ->andWhere('t.account = :account')
@@ -41,7 +41,10 @@ class TransactionRepository extends ServiceEntityRepository
         return empty($result) ? false : true;
     }
 
-    public function findByTopCategory(TopCategory $topCategory)
+    /**
+     * @return Transaction[]
+     */
+    public function findByTopCategory(TopCategory $topCategory): array
     {
         $results = $this->createQueryBuilder('t')
             ->join('t.subCategory', 'sc')
@@ -54,7 +57,10 @@ class TransactionRepository extends ServiceEntityRepository
         return $results;
     }
 
-    public function findAllNotManuallyCategorized()
+    /**
+     * @return Transaction[]
+     */
+    public function findAllNotManuallyCategorized(): array
     {
         $results = $this->createQueryBuilder('t')
             ->where('t.categorizedManually = :categorizedManually')

@@ -18,7 +18,7 @@ class CsvExporter
         $this->translator = $translator;
     }
 
-    private function arrayToCsvString($input, $delimiter = ',', $enclosure = '"')
+    private function arrayToCsvString($input, $delimiter = ',', $enclosure = '"'): string
     {
         $fp = fopen('php://temp', 'r+');
         fputcsv($fp, $input, $delimiter, $enclosure);
@@ -29,7 +29,7 @@ class CsvExporter
         return rtrim($data, "\n");
     }
 
-    public function export()
+    public function export(): string
     {
         $transactions = $this->entityManager
             ->getRepository(Transaction::class)

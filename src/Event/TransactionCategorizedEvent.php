@@ -16,7 +16,7 @@ class TransactionCategorizedEvent extends Event
         $this->transaction = $transaction;
     }
 
-    public function getTransaction()
+    public function getTransaction(): Transaction
     {
         return $this->transaction;
     }

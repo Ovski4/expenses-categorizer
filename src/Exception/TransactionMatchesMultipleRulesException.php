@@ -2,6 +2,7 @@
 
 namespace App\Exception;
 
+use App\Entity\SubCategoryTransactionRule;
 use App\Entity\Transaction;
 
 class TransactionMatchesMultipleRulesException extends \Exception
@@ -18,12 +19,15 @@ class TransactionMatchesMultipleRulesException extends \Exception
         parent::__construct('Multiple rules are matching the transaction');
     }
 
-    public function getTransaction()
+    public function getTransaction(): Transaction
     {
         return $this->transaction;
     }
 
-    public function getRules()
+    /**
+     * @return SubCategoryTransactionRule[]
+     */
+    public function getRules(): array
     {
         return $this->rules;
     }

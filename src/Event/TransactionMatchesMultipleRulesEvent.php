@@ -2,6 +2,7 @@
 
 namespace App\Event;
 
+use App\Entity\SubCategoryTransactionRule;
 use App\Entity\Transaction;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -18,12 +19,15 @@ class TransactionMatchesMultipleRulesEvent extends Event
         $this->transaction = $transaction;
     }
 
-    public function getRules()
+    /**
+     * @return SubCategoryTransactionRule[]
+     */
+    public function getRules(): array
     {
         return $this->rules;
     }
 
-    public function getTransaction()
+    public function getTransaction(): Transaction
     {
         return $this->transaction;
     }

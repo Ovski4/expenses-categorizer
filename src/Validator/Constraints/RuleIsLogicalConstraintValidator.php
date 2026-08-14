@@ -11,21 +11,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RuleIsLogicalConstraintValidator extends ConstraintValidator
 {
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
 
-    public function validate($rule, Constraint $constraint): void
+    public function validate(mixed $rule, Constraint $constraint): void
     {
         if (!$constraint instanceof RuleIsLogicalConstraint) {
             throw new UnexpectedTypeException($constraint, RuleIsLogicalConstraint::class);
         }
 
         if (null === $rule
-            || '' === $rule
             || !$rule instanceof SubCategoryTransactionRule
             || null === $rule->getAmount()
         ) {

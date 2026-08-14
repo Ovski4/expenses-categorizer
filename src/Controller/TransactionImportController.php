@@ -23,7 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class TransactionImportController extends AbstractController
 {
     #[Route('/', name: 'transaction_import_index')]
-    public function index(FileParserRegistry $registry)
+    public function index(FileParserRegistry $registry): Response
     {
         return $this->render('transaction/import/index.html.twig', [
             'parsers' => $registry->getFileParsers(),
@@ -37,7 +37,7 @@ class TransactionImportController extends AbstractController
         FileParserRegistry $registry,
         TranslatorInterface $translator,
         string $parserName,
-    ) {
+    ): Response {
         $parser = $registry->getFileParser($parserName);
 
         if (is_null($parser)) {

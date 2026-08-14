@@ -35,7 +35,7 @@ class ElasticsearchExporter
         $this->connectionKeeper = $connectionKeeper;
     }
 
-    public function exportOne($transaction)
+    public function exportOne($transaction): void
     {
         $body = $transaction->toArray();
         unset($body['id']);
@@ -58,7 +58,7 @@ class ElasticsearchExporter
         );
     }
 
-    public function exportAllSync()
+    public function exportAllSync(): void
     {
         $this->client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
         $this->createIndexIfNotExists();
@@ -83,7 +83,7 @@ class ElasticsearchExporter
         );
     }
 
-    public function exportInNextTick($loop, $transactions, array $listeners)
+    public function exportInNextTick($loop, $transactions, array $listeners): void
     {
         $loop->futureTick(function () use ($loop, $transactions, $listeners) {
             if (count($transactions) > 0) {
@@ -103,7 +103,7 @@ class ElasticsearchExporter
         });
     }
 
-    public function exportAllAsync(LoopInterface $loop, array $listeners)
+    public function exportAllAsync(LoopInterface $loop, array $listeners): void
     {
         $this->client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
         $this->createIndexIfNotExists();
@@ -124,7 +124,7 @@ class ElasticsearchExporter
         $this->exportInNextTick($loop, $transactions, $listeners);
     }
 
-    private function createIndexIfNotExists()
+    private function createIndexIfNotExists(): void
     {
         $indexParams['index'] = $this->elasticsearchIndex;
         if ($this->client->indices()->exists($indexParams)) {

@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class TransactionSubCategoryIsLogicalConstraint extends Constraint
 {
-    public $message = 'transaction_sub_category.is_logical';
+    public string $message = 'transaction_sub_category.is_logical';
 
     public function getTargets(): string
     {

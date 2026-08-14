@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class RuleIsLogicalConstraint extends Constraint
 {
-    public $message = 'rule_sub_category.is_logical';
+    public string $message = 'rule_sub_category.is_logical';
 
     public function getTargets(): string
     {

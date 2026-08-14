@@ -19,7 +19,7 @@ class ElasticsearchTransactionRemover
         $this->elasticsearchIndex = $params->get('app.elasticsearch_index');
     }
 
-    public function remove(Transaction $transaction, LifecycleEventArgs $event)
+    public function remove(Transaction $transaction, LifecycleEventArgs $event): void
     {
         $client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
 

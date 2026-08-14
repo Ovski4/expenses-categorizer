@@ -57,7 +57,7 @@ class Transaction
      */
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function checkSubCategory()
+    public function checkSubCategory(): void
     {
         if (null !== $this->subCategory) {
             if ($this->subCategory->getTransactionType() !== $this->getType()) {
@@ -76,7 +76,10 @@ class Transaction
         );
     }
 
-    public function toArray(?TranslatorInterface $translator = null)
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(?TranslatorInterface $translator = null): array
     {
         $array = [
             'id' => $this->id,

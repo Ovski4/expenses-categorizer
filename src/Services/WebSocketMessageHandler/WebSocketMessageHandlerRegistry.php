@@ -4,21 +4,24 @@ namespace App\Services\WebSocketMessageHandler;
 
 class WebSocketMessageHandlerRegistry
 {
-    private $handlers;
+    /**
+     * @var AbstractWebSocketMessageHandler[] $handlers
+     */
+    private array $handlers;
 
     public function __construct()
     {
         $this->handlers = [];
     }
 
-    public function setHandler($trigger, AbstractWebSocketMessageHandler $handler)
+    public function setHandler(string $trigger, AbstractWebSocketMessageHandler $handler): self
     {
         $this->handlers[$trigger] = $handler;
 
         return $this;
     }
 
-    public function getHandler($trigger)
+    public function getHandler(string $trigger): AbstractWebSocketMessageHandler
     {
         if (!is_string($trigger)) {
             throw new \Exception(sprintf('Expected argument of type "string", "%s" given', is_object($trigger) ? get_class($trigger) : gettype($trigger)));
@@ -31,7 +34,10 @@ class WebSocketMessageHandlerRegistry
         return $this->handlers[$trigger];
     }
 
-    public function getHandlers()
+    /**
+     * @return AbstractWebSocketMessageHandler[]
+     */
+    public function getHandlers(): array
     {
         return $this->handlers;
     }

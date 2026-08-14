@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler implements EventSubscriberInterface
 {
-    private $transactionCategorizer;
+    private TransactionCategorizer $transactionCategorizer;
 
     public function __construct(TransactionCategorizer $transactionCategorizer)
     {
@@ -22,7 +22,7 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
         parent::__construct();
     }
 
-    public function doHandle(ConnectionInterface $connection, LoopInterface $loop)
+    public function doHandle(ConnectionInterface $connection, LoopInterface $loop): void
     {
         $this->transactionCategorizer->categorizeAllAsync($loop);
     }
@@ -37,14 +37,14 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
         ];
     }
 
-    public function onTransactionCategorized(TransactionCategorizedEvent $event)
+    public function onTransactionCategorized(TransactionCategorizedEvent $event): void
     {
         foreach ($this->clients as $connection) {
             $this->sendMessage($connection, 'single_transaction.categorized', $event->getTransaction()->toArray());
         }
     }
 
-    public function onTransactionCategoryChanged(TransactionCategoryChangedEvent $event)
+    public function onTransactionCategoryChanged(TransactionCategoryChangedEvent $event): void
     {
         foreach ($this->clients as $connection) {
             $this->sendMessage(
@@ -58,14 +58,14 @@ class CategorizeTransactionsHandler extends AbstractWebSocketMessageHandler impl
         }
     }
 
-    public function onTransactionsCategorized()
+    public function onTransactionsCategorized(): void
     {
         foreach ($this->clients as $connection) {
             $this->sendMessage($connection, 'transactions.categorized');
         }
     }
 
-    public function onTransactionMatchesMultipleRules(TransactionMatchesMultipleRulesEvent $event)
+    public function onTransactionMatchesMultipleRules(TransactionMatchesMultipleRulesEvent $event): void
     {
         foreach ($this->clients as $connection) {
             $this->sendMessage(

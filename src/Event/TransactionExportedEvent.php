@@ -9,9 +9,9 @@ class TransactionExportedEvent extends Event
 {
     public const NAME = 'transaction.exported';
 
-    private $response;
+    private array $response;
 
-    private $transaction;
+    private Transaction $transaction;
 
     public function __construct(Transaction $transaction, array $response)
     {
@@ -19,12 +19,15 @@ class TransactionExportedEvent extends Event
         $this->response = $response;
     }
 
-    public function getResponse()
+    /**
+     * @return array<string, mixed>
+     */
+    public function getResponse(): array
     {
         return $this->response;
     }
 
-    public function getTransaction()
+    public function getTransaction(): Transaction
     {
         return $this->transaction;
     }

@@ -20,12 +20,12 @@ class TransactionCategoryChangedEvent extends Event
         $this->oldSubCategory = $oldSubCategory;
     }
 
-    public function getTransaction()
+    public function getTransaction(): Transaction
     {
         return $this->transaction;
     }
 
-    public function getOldSubCategory()
+    public function getOldSubCategory(): SubCategory
     {
         return $this->oldSubCategory;
     }

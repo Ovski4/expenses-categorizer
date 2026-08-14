@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class RuleIsCompleteConstraintValidator extends ConstraintValidator
 {
-    public function validate($rule, Constraint $constraint): void
+    public function validate(mixed $rule, Constraint $constraint): void
     {
         if (!$constraint instanceof RuleIsCompleteConstraint) {
             throw new UnexpectedTypeException($constraint, RuleIsCompleteConstraint::class);

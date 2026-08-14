@@ -57,14 +57,14 @@ class SubCategoryTransactionRule
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function setUpdatedAtToNow()
+    public function setUpdatedAtToNow(): void
     {
         $this->setUpdatedAt(new \DateTime('now'));
     }
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function checkOperatorAndAmountFields()
+    public function checkOperatorAndAmountFields(): void
     {
         if (
             (null !== $this->amount && null == $this->operator)
@@ -74,7 +74,10 @@ class SubCategoryTransactionRule
         }
     }
 
-    public function toArray()
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
     {
         $array = [
             'id' => $this->id,
@@ -140,7 +143,7 @@ class SubCategoryTransactionRule
         return $this->operator;
     }
 
-    public function setOperator(?string $operator)
+    public function setOperator(?string $operator): self
     {
         if (null !== $operator && !in_array($operator, Operator::getAll())) {
             throw new \Exception(sprintf('Invalid operator %s', $operator));

@@ -48,7 +48,7 @@ class SubCategory
         return $this->id;
     }
 
-    public function getTransactionType()
+    public function getTransactionType(): ?string
     {
         return $this->getTopCategory()->getTransactionType();
     }

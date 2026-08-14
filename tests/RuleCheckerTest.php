@@ -9,13 +9,14 @@ use App\Entity\Transaction;
 use App\Entity\TransactionType;
 use App\Repository\SubCategoryTransactionRuleRepository;
 use App\Services\RuleChecker;
+use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\TestCase;
 
 class RuleCheckerTest extends TestCase
 {
-    private $ruleRepository;
+    private SubCategoryTransactionRuleRepository $ruleRepository;
 
-    private function createTopCategory()
+    private function createTopCategory(): TopCategory
     {
         $topCategory = new TopCategory();
         $topCategory
@@ -26,7 +27,7 @@ class RuleCheckerTest extends TestCase
         return $topCategory;
     }
 
-    private function createSubCategory($name = 'Test sub category expense 1')
+    private function createSubCategory(string $name = 'Test sub category expense 1'): SubCategory
     {
         $subCategory = new SubCategory();
         $subCategory
@@ -37,7 +38,7 @@ class RuleCheckerTest extends TestCase
         return $subCategory;
     }
 
-    private function createTransaction($label, $amount)
+    private function createTransaction(string $label, float $amount): Transaction
     {
         $transaction = new Transaction();
         $transaction
@@ -50,7 +51,10 @@ class RuleCheckerTest extends TestCase
         return $transaction;
     }
 
-    private function mockSubCategoryTransactionRuleRepository($rules)
+    /**
+     * @param SubCategoryTransactionRule[] $rules
+     */
+    private function mockSubCategoryTransactionRuleRepository(array $rules): void
     {
         $this->ruleRepository = $this->createMock(SubCategoryTransactionRuleRepository::class);
         $this->ruleRepository->expects($this->any())
@@ -59,7 +63,7 @@ class RuleCheckerTest extends TestCase
         ;
     }
 
-    public function testRuleIsChecked()
+    public function testRuleIsChecked(): void
     {
         $rule = new SubCategoryTransactionRule();
         $rule
@@ -76,7 +80,7 @@ class RuleCheckerTest extends TestCase
         $this->assertNull($ruleChecker->getMatchingSubCategory($transaction2));
     }
 
-    public function testRuleWithAmountIsNotChecked()
+    public function testRuleWithAmountIsNotChecked(): void
     {
         $rule = new SubCategoryTransactionRule();
         $rule
@@ -93,7 +97,7 @@ class RuleCheckerTest extends TestCase
         $this->assertNull($ruleChecker->getMatchingSubCategory($transaction1), $this->createSubCategory());
     }
 
-    public function testRuleWithAmountIsChecked()
+    public function testRuleWithAmountIsChecked(): void
     {
         $rule = new SubCategoryTransactionRule();
         $rule
@@ -113,7 +117,7 @@ class RuleCheckerTest extends TestCase
     /**
      * Multiple matches with different categories.
      */
-    public function testExceptionIsThrown()
+    public function testExceptionIsThrown(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Multiple rules are matching the transaction');
@@ -137,7 +141,7 @@ class RuleCheckerTest extends TestCase
     /**
      * Multiple matches but for the same category.
      */
-    public function testExceptionIsNotThrown()
+    public function testExceptionIsNotThrown(): void
     {
         $rule1 = new SubCategoryTransactionRule();
         $rule1
@@ -157,7 +161,7 @@ class RuleCheckerTest extends TestCase
         $this->assertEquals($ruleChecker->getMatchingSubCategory($transaction), $this->createSubCategory());
     }
 
-    public function testPriorityMatters()
+    public function testPriorityMatters(): void
     {
         $rule1 = new SubCategoryTransactionRule();
         $rule1

@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class RuleIsCompleteConstraint extends Constraint
 {
-    public $message = 'rule.is_complete';
+    public string $message = 'rule.is_complete';
 
     public function getTargets(): string
     {

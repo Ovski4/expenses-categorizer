@@ -92,7 +92,7 @@ class TopCategory
         return $this->transactionType;
     }
 
-    public function setTransactionType(string $transactionType)
+    public function setTransactionType(string $transactionType): self
     {
         if (!in_array($transactionType, TransactionType::getAll())) {
             throw new \Exception(sprintf('Invalid transaction type %s', $transactionType));

@@ -48,7 +48,7 @@ class ExportModulImmoDataCommand extends Command
         return self::SUCCESS;
     }
 
-    private function createRecord($data, $keyword)
+    private function createRecord($data, $keyword): void
     {
         $params = [
             'index' => 'modulimmo',
@@ -67,7 +67,7 @@ class ExportModulImmoDataCommand extends Command
         }
     }
 
-    private function createIndexIfNotExists()
+    private function createIndexIfNotExists(): void
     {
         $indexParams['index'] = 'modulimmo';
         if ($this->client->indices()->exists($indexParams)) {

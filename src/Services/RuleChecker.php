@@ -21,7 +21,7 @@ class RuleChecker
         $this->setRules();
     }
 
-    public function setRules()
+    public function setRules(): void
     {
         $this->rules = $this->repository->findAll()
         ;
@@ -42,7 +42,7 @@ class RuleChecker
         return null === $bestRule ? null : $bestRule->getSubCategory();
     }
 
-    private function ruleMatchesTransaction($rule, $transaction)
+    private function ruleMatchesTransaction($rule, $transaction): bool
     {
         // label is not within rule "contains" property (case-insensitive check)
         $lowerCaseTransactionLabel = strtolower($transaction->getLabel());
@@ -88,7 +88,10 @@ class RuleChecker
         return $rules[0] ?? null;
     }
 
-    private function filterRulesWithHighestPriorities(array $rules)
+    /**
+     * @return SubCategoryTransactionRule[]
+     */
+    private function filterRulesWithHighestPriorities(array $rules): array
     {
         $filteredRules = [];
         $highestPriority = $this->getHighestPriorityValue($rules);
@@ -102,7 +105,7 @@ class RuleChecker
         return $filteredRules;
     }
 
-    private function getHighestPriorityValue(array $rules)
+    private function getHighestPriorityValue(array $rules): ?int
     {
         $highestPriority = null;
 
@@ -117,7 +120,7 @@ class RuleChecker
         return $highestPriority;
     }
 
-    private function allRulesHaveTheSameSubCategory(array $rules)
+    private function allRulesHaveTheSameSubCategory(array $rules): bool
     {
         $subCategory = null;
 

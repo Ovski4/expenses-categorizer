@@ -15,7 +15,7 @@ class TransactionsExportingEvent extends Event
         $this->transactionCount = $transactionCount;
     }
 
-    public function getTransactionCount()
+    public function getTransactionCount(): int
     {
         return $this->transactionCount;
     }

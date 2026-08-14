@@ -9,14 +9,14 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class AccountAliasesAreUniqueConstraintValidator extends ConstraintValidator
 {
-    private $accountRepository;
+    private AccountRepository $accountRepository;
 
     public function __construct(AccountRepository $accountRepository)
     {
         $this->accountRepository = $accountRepository;
     }
 
-    public function validate($account, Constraint $constraint): void
+    public function validate(mixed $account, Constraint $constraint): void
     {
         if (!$constraint instanceof AccountAliasesAreUniqueConstraint) {
             throw new UnexpectedTypeException($constraint, AccountAliasesAreUniqueConstraint::class);

@@ -18,7 +18,7 @@ class ElasticsearchSyncStatusUpdater
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function onFlush(OnFlushEventArgs $args)
+    public function onFlush(OnFlushEventArgs $args): void
     {
         $objectManager = $args->getObjectManager();
         $unitOfWork = $objectManager->getUnitOfWork();

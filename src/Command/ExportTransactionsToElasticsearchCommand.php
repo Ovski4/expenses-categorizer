@@ -39,7 +39,7 @@ class ExportTransactionsToElasticsearchCommand extends Command
         ;
     }
 
-    private function onTransactionExported(TransactionExportedEvent $event, OutputInterface $output)
+    private function onTransactionExported(TransactionExportedEvent $event, OutputInterface $output): void
     {
         $transaction = $event->getTransaction();
         $transaction->setToSyncInElasticsearch(false);
@@ -49,7 +49,7 @@ class ExportTransactionsToElasticsearchCommand extends Command
         $output->writeln(sprintf('Transaction <info>%s</info> exported', $transaction->getId()));
     }
 
-    private function onTransactionsExported(OutputInterface $output)
+    private function onTransactionsExported(OutputInterface $output): void
     {
         $this->entityManager->flush();
 
