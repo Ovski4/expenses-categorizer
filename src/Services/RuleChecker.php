@@ -11,9 +11,12 @@ use App\Repository\SubCategoryTransactionRuleRepository;
 
 class RuleChecker
 {
-    private $repository;
+    private SubCategoryTransactionRuleRepository $repository;
 
-    private $rules;
+    /**
+     * @var SubCategoryTransactionRule[] $rules
+     */
+    private array $rules;
 
     public function __construct(SubCategoryTransactionRuleRepository $repository)
     {
@@ -42,7 +45,7 @@ class RuleChecker
         return null === $bestRule ? null : $bestRule->getSubCategory();
     }
 
-    private function ruleMatchesTransaction($rule, $transaction): bool
+    private function ruleMatchesTransaction(SubCategoryTransactionRule $rule, Transaction $transaction): bool
     {
         // label is not within rule "contains" property (case-insensitive check)
         $lowerCaseTransactionLabel = strtolower($transaction->getLabel());

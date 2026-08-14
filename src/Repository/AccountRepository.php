@@ -22,9 +22,9 @@ class AccountRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Account Returns an Account object
+     * @throws AccountNotFoundException
      */
-    public function findByAliasOrName($search)
+    public function findByAliasOrName(string $search): Account
     {
         try {
             return $this->createQueryBuilder('a')
@@ -39,10 +39,7 @@ class AccountRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @return Account Returns an Account object or null
-     */
-    public function findWithAliasExceptAccount($alias, $skipAccountId)
+    public function findWithAliasExceptAccount(string $alias, ?int $skipAccountId): ?Account
     {
         $queryBuilder = $this->createQueryBuilder('a');
 
