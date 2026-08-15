@@ -8,9 +8,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CsvExporter
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
@@ -18,7 +18,10 @@ class CsvExporter
         $this->translator = $translator;
     }
 
-    private function arrayToCsvString($input, $delimiter = ',', $enclosure = '"'): string
+    /**
+     * @param array<string, mixed> $input
+     */
+    private function arrayToCsvString(array $input, string $delimiter = ',', string $enclosure = '"'): string
     {
         $fp = fopen('php://temp', 'r+');
         fputcsv($fp, $input, $delimiter, $enclosure);

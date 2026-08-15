@@ -11,11 +11,11 @@ abstract class AbstractFileParser
     public const FILE_TYPE_PDF = 'pdf';
     public const FILE_TYPE_CSV = 'csv';
 
-    protected $transactionFactory;
+    protected TransactionFactory $transactionFactory;
 
-    protected $params;
+    protected ParameterBagInterface $params;
 
-    protected $resolver;
+    protected OptionsResolver $resolver;
 
     public function __construct(TransactionFactory $transactionFactory, ParameterBagInterface $params)
     {

@@ -35,7 +35,7 @@ class ElasticsearchExporter
         $this->connectionKeeper = $connectionKeeper;
     }
 
-    public function exportOne($transaction): void
+    public function exportOne(Transaction $transaction): void
     {
         $body = $transaction->toArray();
         unset($body['id']);
@@ -83,7 +83,11 @@ class ElasticsearchExporter
         );
     }
 
-    public function exportInNextTick($loop, $transactions, array $listeners): void
+    /**
+     * @param Transaction[] $transactions
+     * @param array<string, \Closure> $listeners
+     */
+    public function exportInNextTick(LoopInterface $loop, array $transactions, array $listeners): void
     {
         $loop->futureTick(function () use ($loop, $transactions, $listeners) {
             if (count($transactions) > 0) {
@@ -103,6 +107,9 @@ class ElasticsearchExporter
         });
     }
 
+    /**
+     * @param array<string, \Closure> $listeners
+     */
     public function exportAllAsync(LoopInterface $loop, array $listeners): void
     {
         $this->client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
