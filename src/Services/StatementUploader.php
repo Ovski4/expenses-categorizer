@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class StatementUploader
 {
-    private $params;
+    private ParameterBagInterface $params;
 
     public function __construct(ParameterBagInterface $params)
     {

@@ -14,10 +14,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TransactionCategorizer
 {
-    private $ruleChecker;
-    private $entityManager;
-    private $dispatcher;
-    private $connectionKeeper;
+    private RuleChecker $ruleChecker;
+    private EntityManagerInterface $entityManager;
+    private EventDispatcherInterface $dispatcher;
+    private ConnectionKeeper $connectionKeeper;
 
     public function __construct(
         RuleChecker $ruleChecker,
@@ -77,7 +77,10 @@ class TransactionCategorizer
         $this->entityManager->flush();
     }
 
-    public function categorizeInNextTick($loop, $transactions): void
+    /**
+     * @param Transaction[] $transactions
+     */
+    public function categorizeInNextTick(LoopInterface $loop, array $transactions): void
     {
         $loop->futureTick(function () use ($loop, $transactions) {
             if (count($transactions) > 0) {

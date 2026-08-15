@@ -7,7 +7,7 @@ use App\Repository\AccountRepository;
 
 class TransactionFactory
 {
-    private $accountRepository;
+    private AccountRepository $accountRepository;
 
     public function __construct(AccountRepository $accountRepository)
     {

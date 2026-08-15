@@ -19,6 +19,9 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
         $this->httpClient = $httpClient;
     }
 
+    /**
+     * @param array{accountId?: string} $options
+     */
     public function parse(string $filepath, array $options): array
     {
         $resolvedOptions = $this->resolver->resolve($options);

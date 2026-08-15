@@ -9,7 +9,6 @@ use App\Entity\Transaction;
 use App\Entity\TransactionType;
 use App\Repository\SubCategoryTransactionRuleRepository;
 use App\Services\RuleChecker;
-use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\TestCase;
 
 class RuleCheckerTest extends TestCase

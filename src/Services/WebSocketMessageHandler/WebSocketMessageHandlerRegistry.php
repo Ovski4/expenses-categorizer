@@ -5,7 +5,7 @@ namespace App\Services\WebSocketMessageHandler;
 class WebSocketMessageHandlerRegistry
 {
     /**
-     * @var AbstractWebSocketMessageHandler[] $handlers
+     * @var AbstractWebSocketMessageHandler[]
      */
     private array $handlers;
 

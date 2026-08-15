@@ -14,7 +14,7 @@ class RuleChecker
     private SubCategoryTransactionRuleRepository $repository;
 
     /**
-     * @var SubCategoryTransactionRule[] $rules
+     * @var SubCategoryTransactionRule[]
      */
     private array $rules;
 
@@ -80,6 +80,9 @@ class RuleChecker
         return true;
     }
 
+    /**
+     * @param SubCategoryTransactionRule[] $rules
+     */
     private function getBestRule(Transaction $transaction, array $rules): ?SubCategoryTransactionRule
     {
         $rules = $this->filterRulesWithHighestPriorities($rules);
@@ -108,6 +111,9 @@ class RuleChecker
         return $filteredRules;
     }
 
+    /**
+     * @param SubCategoryTransactionRule[] $rules
+     */
     private function getHighestPriorityValue(array $rules): ?int
     {
         $highestPriority = null;
@@ -123,6 +129,9 @@ class RuleChecker
         return $highestPriority;
     }
 
+    /**
+     * @param SubCategoryTransactionRule[] $rules
+     */
     private function allRulesHaveTheSameSubCategory(array $rules): bool
     {
         $subCategory = null;
