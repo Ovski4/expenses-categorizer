@@ -7,10 +7,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * @extends ServiceEntityRepository<SubCategoryTransactionRule>
+ *
  * @method SubCategoryTransactionRule|null find($id, $lockMode = null, $lockVersion = null)
- * @method SubCategoryTransactionRule|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SubCategoryTransactionRule|null findOneBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null)
  * @method SubCategoryTransactionRule[]    findAll()
- * @method SubCategoryTransactionRule[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SubCategoryTransactionRule[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
 class SubCategoryTransactionRuleRepository extends ServiceEntityRepository
 {

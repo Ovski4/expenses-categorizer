@@ -7,10 +7,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * @extends ServiceEntityRepository<SubCategory>
+ *
  * @method SubCategory|null find($id, $lockMode = null, $lockVersion = null)
- * @method SubCategory|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SubCategory|null findOneBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null)
  * @method SubCategory[]    findAll()
- * @method SubCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SubCategory[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
 class SubCategoryRepository extends ServiceEntityRepository
 {
@@ -22,7 +24,7 @@ class SubCategoryRepository extends ServiceEntityRepository
     /**
      * @return SubCategory[] Returns an array of SubCategory objects
      */
-    public function findByTransactionType($value)
+    public function findByTransactionType(string $value)
     {
         return $this->createQueryBuilder('s')
             ->innerJoin('s.topCategory', 't', 'WITH', 't.transactionType = ?1')
@@ -36,7 +38,7 @@ class SubCategoryRepository extends ServiceEntityRepository
     /**
      * @return SubCategory[] Returns an array of SubCategory objects
      */
-    public function findByNameAndTransactionType($name, $type)
+    public function findByNameAndTransactionType(string $name, string $type)
     {
         return $this->createQueryBuilder('s')
             ->innerJoin('s.topCategory', 't', 'WITH', 't.transactionType = ?1')
