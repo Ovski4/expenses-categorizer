@@ -28,10 +28,10 @@ class Transaction
     protected ?float $amount = null;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 1])]
-    protected $toSyncInElasticsearch;
+    protected bool $toSyncInElasticsearch;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
-    protected $categorizedManually = false;
+    protected bool $categorizedManually = false;
 
     #[ORM\Column(type: 'datetime')]
     protected ?\DateTime $createdAt = null;
@@ -41,8 +41,11 @@ class Transaction
 
     #[ORM\ManyToOne(targetEntity: SubCategory::class, inversedBy: 'transactions')]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
-    protected $subCategory;
+    protected ?SubCategory $subCategory = null;
 
+    /**
+     * @var Collection<int, Tag>
+     */
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'transactions')]
     protected Collection $tags;
 

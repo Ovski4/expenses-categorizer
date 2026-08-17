@@ -7,10 +7,16 @@ use App\Entity\Transaction;
 
 class TransactionMatchesMultipleRulesException extends \Exception
 {
-    private $transaction;
+    private Transaction $transaction;
 
-    private $rules;
+    /**
+     * @var array<int, SubCategoryTransactionRule>
+     */
+    private array $rules;
 
+    /**
+     * @param array<int, SubCategoryTransactionRule> $rules
+     */
     public function __construct(Transaction $transaction, array $rules)
     {
         $this->transaction = $transaction;
