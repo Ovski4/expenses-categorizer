@@ -27,9 +27,15 @@ class SubCategory
     #[ORM\JoinColumn(nullable: false)]
     protected ?TopCategory $topCategory = null;
 
+    /**
+     * @var Collection<int, Transaction>
+     */
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'subCategory')]
     protected $transactions;
 
+    /**
+     * @var Collection<int, SubCategoryTransactionRule>
+     */
     #[ORM\OneToMany(targetEntity: SubCategoryTransactionRule::class, mappedBy: 'subCategory')]
     protected $subCategoryTransactionRules;
 
@@ -78,7 +84,7 @@ class SubCategory
     }
 
     /**
-     * @return Collection|Transaction[]
+     * @return Collection<int, Transaction>
      */
     public function getTransactions(): Collection
     {
@@ -109,7 +115,7 @@ class SubCategory
     }
 
     /**
-     * @return Collection|SubCategoryTransactionRule[]
+     * @return Collection<int, SubCategoryTransactionRule>
      */
     public function getSubCategoryTransactionRules(): Collection
     {

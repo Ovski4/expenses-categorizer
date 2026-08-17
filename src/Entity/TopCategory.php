@@ -18,11 +18,14 @@ class TopCategory
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    protected $id;
+    protected ?string $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     protected ?string $name = null;
 
+    /**
+     * @var Collection<int, SubCategory>
+     */
     #[ORM\OneToMany(targetEntity: SubCategory::class, mappedBy: 'topCategory')]
     protected $subCategories;
 
@@ -57,7 +60,7 @@ class TopCategory
     }
 
     /**
-     * @return Collection|SubCategory[]
+     * @return Collection<int, SubCategory>
      */
     public function getSubCategories(): Collection
     {

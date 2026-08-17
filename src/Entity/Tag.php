@@ -20,6 +20,9 @@ class Tag
     #[ORM\Column(length: 255)]
     protected ?string $name = null;
 
+    /**
+     * @var Collection<int, Transaction>
+     */
     #[ORM\ManyToMany(targetEntity: Transaction::class, inversedBy: 'tags')]
     protected Collection $transactions;
 
