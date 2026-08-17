@@ -23,9 +23,9 @@ class FileParserRegistry
 
     /**
      * @param mixed $name accepts a non-string value on purpose: it is validated
-     *                     (and rejected) at runtime below rather than by the
-     *                     type system, since callers may pass unvalidated
-     *                     route/request input here
+     *                    (and rejected) at runtime below rather than by the
+     *                    type system, since callers may pass unvalidated
+     *                    route/request input here
      */
     public function getFileParser($name): ?AbstractFileParser
     {
