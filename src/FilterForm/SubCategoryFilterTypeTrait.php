@@ -7,6 +7,9 @@ use Spiriit\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 
 trait SubCategoryFilterTypeTrait
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function getSubCategoryFilterTypeOptions(): array
     {
         return [

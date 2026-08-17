@@ -9,10 +9,12 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * @extends ServiceEntityRepository<Account>
+ *
  * @method Account|null find($id, $lockMode = null, $lockVersion = null)
- * @method Account|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Account|null findOneBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null)
  * @method Account[]    findAll()
- * @method Account[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Account[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
 class AccountRepository extends ServiceEntityRepository
 {
