@@ -10,7 +10,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TopCategoryFixtures extends Fixture
 {
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator)
     {

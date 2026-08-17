@@ -10,9 +10,9 @@ class TransactionCategoryChangedEvent extends Event
 {
     public const NAME = 'transaction.category_changed';
 
-    private $oldSubCategory;
+    private SubCategory $oldSubCategory;
 
-    private $transaction;
+    private Transaction $transaction;
 
     public function __construct(Transaction $transaction, SubCategory $oldSubCategory)
     {

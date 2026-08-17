@@ -8,7 +8,7 @@ class TransactionsExportingEvent extends Event
 {
     public const NAME = 'transactions.exporting';
 
-    protected $transactionCount;
+    protected int $transactionCount;
 
     public function __construct(int $transactionCount)
     {
