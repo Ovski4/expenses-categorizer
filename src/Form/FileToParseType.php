@@ -16,10 +16,13 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @extends AbstractType<array<string, mixed>>
+ */
 class FileToParseType extends AbstractType
 {
-    private $translator;
-    private $locale;
+    private TranslatorInterface $translator;
+    private string $locale;
 
     public function __construct(TranslatorInterface $translator, RequestStack $requestStack)
     {
