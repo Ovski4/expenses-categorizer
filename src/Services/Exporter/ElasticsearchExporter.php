@@ -84,7 +84,7 @@ class ElasticsearchExporter
     }
 
     /**
-     * @param Transaction[] $transactions
+     * @param Transaction[]           $transactions
      * @param array<string, \Closure> $listeners
      */
     public function exportInNextTick(LoopInterface $loop, array $transactions, array $listeners): void
