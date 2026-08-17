@@ -220,6 +220,8 @@ class TransactionImportControllerTest extends WebTestCase
     /**
      * Make the account statement parser api return the given results,
      * instead of actually calling it over http.
+     *
+     * @param array<int, array<string, mixed>> $results
      */
     private function mockParserApiResults(array $results): void
     {

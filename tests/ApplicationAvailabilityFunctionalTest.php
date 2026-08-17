@@ -17,7 +17,10 @@ class ApplicationAvailabilityFunctionalTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function urlProvider()
+    /**
+     * @return iterable<int, array{0: string}>
+     */
+    public function urlProvider(): iterable
     {
         yield ['/transaction/new'];
         yield ['/transaction/?page=1&only_show_uncategorized=true'];
