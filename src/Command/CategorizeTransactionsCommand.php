@@ -13,8 +13,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 #[AsCommand(name: 'app:categorize-transactions')]
 class CategorizeTransactionsCommand extends Command implements EventSubscriberInterface
 {
-    private $transactionCategorizer;
-    private $output;
+    private TransactionCategorizer $transactionCategorizer;
+    private ?OutputInterface $output = null;
 
     public function __construct(TransactionCategorizer $transactionCategorizer)
     {

@@ -48,7 +48,10 @@ class ExportModulImmoDataCommand extends Command
         return self::SUCCESS;
     }
 
-    private function createRecord($data, $keyword): void
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function createRecord(array $data, string $keyword): void
     {
         $params = [
             'index' => 'modulimmo',

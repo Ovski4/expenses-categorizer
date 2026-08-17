@@ -8,6 +8,9 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 class RequestParameterValueResolver implements ValueResolverInterface
 {
+    /**
+     * @return iterable<int, bool|string>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $argumentName = $argument->getName();
