@@ -8,6 +8,7 @@ use App\Event\TransactionsExportedEvent;
 use App\Event\TransactionsExportingEvent;
 use App\Services\ConnectionKeeper;
 use Doctrine\ORM\EntityManagerInterface;
+use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -17,10 +18,14 @@ class ElasticsearchExporter
 {
     private string $elasticsearchHost;
     private string $elasticsearchIndex;
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
+
+    /**
+     * @var Client
+     */
     private $client;
-    private $dispatcher;
-    private $connectionKeeper;
+    private EventDispatcherInterface $dispatcher;
+    private ConnectionKeeper $connectionKeeper;
 
     public function __construct(
         EventDispatcherInterface $dispatcher,

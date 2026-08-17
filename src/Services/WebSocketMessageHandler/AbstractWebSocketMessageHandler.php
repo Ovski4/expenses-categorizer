@@ -7,6 +7,9 @@ use React\EventLoop\LoopInterface;
 
 abstract class AbstractWebSocketMessageHandler
 {
+    /**
+     * @var \SplObjectStorage<ConnectionInterface, mixed>
+     */
     protected \SplObjectStorage $clients;
 
     public function __construct()
@@ -27,7 +30,10 @@ abstract class AbstractWebSocketMessageHandler
         $this->doHandle($connection, $loop);
     }
 
-    protected function sendMessage(ConnectionInterface $connection, string $topic, ?array $data = null): void
+    /**
+     * @param array<string, mixed>|int|string|null $data
+     */
+    protected function sendMessage(ConnectionInterface $connection, string $topic, array|int|string|null $data = null): void
     {
         $connection->send(json_encode([
             'topic' => $topic,
