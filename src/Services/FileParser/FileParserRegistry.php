@@ -4,6 +4,9 @@ namespace App\Services\FileParser;
 
 class FileParserRegistry
 {
+    /**
+     * @var array<int, AbstractFileParser>
+     */
     private $fileParsers;
 
     public function __construct()
@@ -18,6 +21,12 @@ class FileParserRegistry
         return $this;
     }
 
+    /**
+     * @param mixed $name accepts a non-string value on purpose: it is validated
+     *                     (and rejected) at runtime below rather than by the
+     *                     type system, since callers may pass unvalidated
+     *                     route/request input here
+     */
     public function getFileParser($name): ?AbstractFileParser
     {
         if (!is_string($name)) {
@@ -33,6 +42,9 @@ class FileParserRegistry
         return null;
     }
 
+    /**
+     * @return array<int, AbstractFileParser>
+     */
     public function getFileParsers(?string $fileType = null): array
     {
         if ($fileType) {

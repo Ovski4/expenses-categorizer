@@ -6,6 +6,9 @@ use App\Services\FileParser\AbstractFileParser;
 
 trait CsvFileParserTrait
 {
+    /**
+     * @return array<int, string>
+     */
     public function getAllowedMimeTypes(): array
     {
         return [
