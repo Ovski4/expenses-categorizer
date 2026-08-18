@@ -8,6 +8,9 @@ abstract class Operator
     public const GREATER_THAN_OR_EQUAL = 'greater than or equal';
     public const LOWER_THAN_OR_EQUAL = 'lower than or equal';
 
+    /**
+     * @return array<int, string>
+     */
     public static function getAll(): array
     {
         return [

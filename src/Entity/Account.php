@@ -23,6 +23,9 @@ class Account
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     protected ?string $name = null;
 
+    /**
+     * @var array<int, string>
+     */
     #[ORM\Column(type: 'simple_array', nullable: true)]
     #[Assert\Unique(message: 'There are duplicated aliases')]
     protected array $aliases = [];
@@ -52,11 +55,17 @@ class Account
         return $this;
     }
 
+    /**
+     * @return array<int, string>|null
+     */
     public function getAliases(): ?array
     {
         return $this->aliases;
     }
 
+    /**
+     * @param array<int, string>|null $aliases
+     */
     public function setAliases(?array $aliases): self
     {
         $this->aliases = $aliases;
