@@ -3,7 +3,7 @@
 namespace App\Services\DoctrineListeners;
 
 use App\Entity\Transaction;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
 use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -19,7 +19,7 @@ class ElasticsearchTransactionRemover
         $this->elasticsearchIndex = $params->get('app.elasticsearch_index');
     }
 
-    public function remove(Transaction $transaction, LifecycleEventArgs $event): void
+    public function remove(Transaction $transaction, PreRemoveEventArgs $event): void
     {
         $client = ClientBuilder::create()->setHosts([$this->elasticsearchHost])->build();
 
