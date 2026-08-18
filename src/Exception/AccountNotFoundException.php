@@ -4,7 +4,7 @@ namespace App\Exception;
 
 class AccountNotFoundException extends \Exception
 {
-    private $search;
+    private string $search;
 
     public function __construct(string $search)
     {
