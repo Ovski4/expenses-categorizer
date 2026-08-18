@@ -73,11 +73,13 @@ class SubCategoryTransactionRuleController extends AbstractController
             $entityManager->persist($subCategoryTransactionRule);
             $entityManager->flush();
 
-            if (false !== strpos($request->request->get('referer'), 'rule')) {
+            $referer = $request->request->getString('referer');
+
+            if (str_contains($referer, 'rule')) {
                 return $this->redirectToRoute('sub_category_transaction_rule_index');
             }
 
-            return new RedirectResponse($request->request->get('referer'));
+            return new RedirectResponse($referer);
         }
 
         return $this->render('sub_category_transaction_rule/new.html.twig', [
@@ -110,7 +112,7 @@ class SubCategoryTransactionRuleController extends AbstractController
         SubCategoryTransactionRule $subCategoryTransactionRule,
         ManagerRegistry $doctrine,
     ): Response {
-        if ($this->isCsrfTokenValid('delete'.$subCategoryTransactionRule->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$subCategoryTransactionRule->getId(), $request->request->getString('_token'))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($subCategoryTransactionRule);
             $entityManager->flush();

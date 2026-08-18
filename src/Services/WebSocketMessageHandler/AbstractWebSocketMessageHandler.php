@@ -38,7 +38,7 @@ abstract class AbstractWebSocketMessageHandler
         $connection->send(json_encode([
             'topic' => $topic,
             'data' => $data,
-        ]));
+        ], JSON_THROW_ON_ERROR));
     }
 
     abstract protected function doHandle(ConnectionInterface $connection, LoopInterface $loop): void;

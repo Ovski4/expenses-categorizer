@@ -24,10 +24,19 @@ class CsvExporter
     private function arrayToCsvString(array $input, string $delimiter = ',', string $enclosure = '"'): string
     {
         $fp = fopen('php://temp', 'r+');
+
+        if (false === $fp) {
+            throw new \RuntimeException('Unable to open a temporary stream to build the CSV content.');
+        }
+
         fputcsv($fp, $input, $delimiter, $enclosure);
         rewind($fp);
         $data = fread($fp, 1048576);
         fclose($fp);
+
+        if (false === $data) {
+            throw new \RuntimeException('Unable to read the CSV content back from the temporary stream.');
+        }
 
         return rtrim($data, "\n");
     }

@@ -67,7 +67,7 @@ class TagControllerTest extends WebTestCase
         // Check we have the right Tag
         $buttonCrawlerNode = $crawler->selectButton('Save');
         $form = $buttonCrawlerNode->form();
-        $tagName = $form->get('tag[name]')->getValue();
+        $tagName = $form->getValues()['tag[name]'];
         $this->assertEquals('Tag 1', $tagName);
 
         // Edit the Tag
@@ -99,7 +99,7 @@ class TagControllerTest extends WebTestCase
         // Check we have the right Tag
         $buttonCrawlerNode = $crawler->selectButton('Save');
         $form = $buttonCrawlerNode->form();
-        $tagName = $form->get('tag[name]')->getValue();
+        $tagName = $form->getValues()['tag[name]'];
         $this->assertEquals('Tag edited', $tagName);
 
         // Delete the Tag

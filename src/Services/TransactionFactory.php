@@ -26,11 +26,15 @@ class TransactionFactory
             : $this->accountRepository->findByAliasOrName($array['account'])
         ;
 
+        $createdAt = \DateTime::createFromFormat('d/m/Y', $array['date']);
+
+        if (false === $createdAt) {
+            throw new \InvalidArgumentException(sprintf('The transaction date "%s" does not match the expected d/m/Y format.', $array['date']));
+        }
+
         $transaction
             ->setAmount($array['value'])
-            ->setCreatedAt(
-                \DateTime::createFromFormat('d/m/Y', $array['date'])->setTime(0, 0, 0)
-            )
+            ->setCreatedAt($createdAt->setTime(0, 0, 0))
             ->setLabel($array['label'])
             ->setAccount($account)
         ;

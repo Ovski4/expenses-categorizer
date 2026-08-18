@@ -131,7 +131,7 @@ class TransactionController extends AbstractController
         Session $session,
         ManagerRegistry $doctrine,
     ): Response {
-        if ($this->isCsrfTokenValid('delete'.$transaction->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$transaction->getId(), $request->request->getString('_token'))) {
             $entityManager = $doctrine->getManager();
             try {
                 $entityManager->remove($transaction);

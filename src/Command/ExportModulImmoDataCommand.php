@@ -35,7 +35,15 @@ class ExportModulImmoDataCommand extends Command
         $this->createIndexIfNotExists();
         $output->writeln('The <info>modulimmo</info> index has been created');
 
-        $string = file_get_contents(sprintf('%s/tableau_ammortissement.json', dirname(__FILE__)));
+        $path = sprintf('%s/tableau_ammortissement.json', dirname(__FILE__));
+        $string = file_get_contents($path);
+
+        if (false === $string) {
+            $output->writeln(sprintf('<error>Unable to read %s</error>', $path));
+
+            return self::FAILURE;
+        }
+
         $records = json_decode($string, true);
 
         foreach ($records as $record) {

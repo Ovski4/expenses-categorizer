@@ -233,7 +233,7 @@ class TransactionImportControllerTest extends WebTestCase
                 $url
             );
 
-            return new MockResponse(json_encode($results));
+            return new MockResponse(json_encode($results, JSON_THROW_ON_ERROR));
         });
     }
 
@@ -281,10 +281,13 @@ class TransactionImportControllerTest extends WebTestCase
 
     private function createTransaction(string $label, float $amount, string $date): Transaction
     {
+        $createdAt = \DateTime::createFromFormat('d/m/Y', $date);
+        $this->assertNotFalse($createdAt, sprintf('The test date "%s" is not in the d/m/Y format.', $date));
+
         $transaction = (new Transaction())
             ->setLabel($label)
             ->setAmount($amount)
-            ->setCreatedAt(\DateTime::createFromFormat('d/m/Y', $date)->setTime(0, 0, 0))
+            ->setCreatedAt($createdAt->setTime(0, 0, 0))
             ->setAccount($this->account)
         ;
 

@@ -73,7 +73,7 @@ class SubCategoryController extends AbstractController
         TranslatorInterface $translator,
         ManagerRegistry $doctrine,
     ): Response {
-        if ($this->isCsrfTokenValid('delete'.$subCategory->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$subCategory->getId(), $request->request->getString('_token'))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($subCategory);
 

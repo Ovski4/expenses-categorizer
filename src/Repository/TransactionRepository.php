@@ -76,24 +76,28 @@ class TransactionRepository extends ServiceEntityRepository
 
     public function getBalanceByAccount(Account $account): float
     {
-        return $this->createQueryBuilder('t')
+        $sum = $this->createQueryBuilder('t')
             ->where('t.account = :account')
             ->setParameter('account', $account)
             ->select('SUM(t.amount) as amount_sum')
             ->getQuery()
-            ->getSingleScalarResult() ?? 0
+            ->getSingleScalarResult()
         ;
+
+        return (float) ($sum ?? 0);
     }
 
     public function getBalanceByTag(Tag $tag): float
     {
         $queryBUilder = $this->createQueryBuilder('t');
 
-        return $queryBUilder->innerJoin('t.tags', 'tags', Join::WITH, $queryBUilder->expr()->eq('tags.id', ':tag'))
+        $sum = $queryBUilder->innerJoin('t.tags', 'tags', Join::WITH, $queryBUilder->expr()->eq('tags.id', ':tag'))
             ->setParameter('tag', $tag->getId())
             ->select('SUM(t.amount) as amount_sum')
             ->getQuery()
-            ->getSingleScalarResult() ?? 0
+            ->getSingleScalarResult()
         ;
+
+        return (float) ($sum ?? 0);
     }
 }

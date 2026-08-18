@@ -92,7 +92,7 @@ class AccountController extends AbstractController
         TranslatorInterface $translator,
         ManagerRegistry $doctrine,
     ): Response {
-        if ($this->isCsrfTokenValid('delete'.$account->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$account->getId(), $request->request->getString('_token'))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($account);
 

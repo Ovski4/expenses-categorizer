@@ -68,7 +68,7 @@ class AccountControllerTest extends WebTestCase
         // Check we have the right account
         $buttonCrawlerNode = $crawler->selectButton('Save');
         $form = $buttonCrawlerNode->form();
-        $accountName = $form->get('account[name]')->getValue();
+        $accountName = $form->getValues()['account[name]'];
         $this->assertEquals('Account 1', $accountName);
 
         // Edit the account
@@ -100,7 +100,7 @@ class AccountControllerTest extends WebTestCase
         // Check we have the right account
         $buttonCrawlerNode = $crawler->selectButton('Save');
         $form = $buttonCrawlerNode->form();
-        $accountName = $form->get('account[name]')->getValue();
+        $accountName = $form->getValues()['account[name]'];
         $this->assertEquals('Account edited', $accountName);
 
         // Delete the account
