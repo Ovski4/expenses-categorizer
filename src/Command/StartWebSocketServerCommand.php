@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'app:start-web-socket-server')]
 class StartWebSocketServerCommand extends Command
 {
-    private $webSocketMessaging;
+    private WebSocketMessaging $webSocketMessaging;
 
     public function __construct(WebSocketMessaging $webSocketMessaging)
     {

@@ -9,7 +9,7 @@ class TransactionCategorizedEvent extends Event
 {
     public const NAME = 'transaction.categorized';
 
-    protected $transaction;
+    protected Transaction $transaction;
 
     public function __construct(Transaction $transaction)
     {
