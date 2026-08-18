@@ -14,6 +14,9 @@ class TransactionFactory
         $this->accountRepository = $accountRepository;
     }
 
+    /**
+     * @param array<string, mixed> $array
+     */
     public function createFromArray($array): Transaction
     {
         $transaction = new Transaction();

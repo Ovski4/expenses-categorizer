@@ -95,6 +95,8 @@ class RuleChecker
     }
 
     /**
+     * @param SubCategoryTransactionRule[] $rules
+     *
      * @return SubCategoryTransactionRule[]
      */
     private function filterRulesWithHighestPriorities(array $rules): array

@@ -8,6 +8,7 @@ use App\Event\TransactionCategoryChangedEvent;
 use App\Event\TransactionMatchesMultipleRulesEvent;
 use App\Event\TransactionsCategorizedEvent;
 use App\Exception\TransactionMatchesMultipleRulesException;
+use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -16,17 +17,20 @@ class TransactionCategorizer
 {
     private RuleChecker $ruleChecker;
     private EntityManagerInterface $entityManager;
+    private TransactionRepository $transactionRepository;
     private EventDispatcherInterface $dispatcher;
     private ConnectionKeeper $connectionKeeper;
 
     public function __construct(
         RuleChecker $ruleChecker,
         EntityManagerInterface $entityManager,
+        TransactionRepository $transactionRepository,
         EventDispatcherInterface $dispatcher,
         ConnectionKeeper $connectionKeeper,
     ) {
         $this->ruleChecker = $ruleChecker;
         $this->entityManager = $entityManager;
+        $this->transactionRepository = $transactionRepository;
         $this->dispatcher = $dispatcher;
         $this->connectionKeeper = $connectionKeeper;
     }
@@ -65,10 +69,7 @@ class TransactionCategorizer
 
     public function categorizeAllSync(): void
     {
-        $transactions = $this->entityManager
-            ->getRepository(Transaction::class)
-            ->findAllNotManuallyCategorized()
-        ;
+        $transactions = $this->transactionRepository->findAllNotManuallyCategorized();
 
         foreach ($transactions as $transaction) {
             $this->categorizeOne($transaction);
@@ -103,10 +104,7 @@ class TransactionCategorizer
         $this->entityManager->clear();
         $this->ruleChecker->setRules();
 
-        $transactions = $this->entityManager
-            ->getRepository(Transaction::class)
-            ->findAllNotManuallyCategorized()
-        ;
+        $transactions = $this->transactionRepository->findAllNotManuallyCategorized();
 
         $this->categorizeInNextTick($loop, $transactions);
     }
