@@ -2,6 +2,7 @@
 
 namespace App\Services\FileParser;
 
+use App\Entity\Transaction;
 use App\Services\TransactionFactory;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -21,6 +22,8 @@ abstract class AbstractAccountStatementParser extends AbstractFileParser
 
     /**
      * @param array{accountId?: string} $options
+     *
+     * @return array<int, Transaction>
      */
     public function parse(string $filepath, array $options): array
     {

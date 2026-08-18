@@ -2,6 +2,7 @@
 
 namespace App\Services\FileParser;
 
+use App\Entity\Transaction;
 use App\Services\TransactionFactory;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,6 +30,8 @@ abstract class AbstractFileParser
 
     /**
      * The file mime-types allowed for this parser.
+     *
+     * @return array<int, string>
      */
     abstract public function getAllowedMimeTypes(): array;
 
@@ -57,6 +60,10 @@ abstract class AbstractFileParser
 
     /**
      * Use this method to add the parser logic.
+     *
+     * @param array{accountId?: string} $options
+     *
+     * @return array<int, Transaction>
      */
     abstract public function parse(string $filePath, array $options): array;
 }
