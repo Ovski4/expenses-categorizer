@@ -10,9 +10,16 @@ class TransactionMatchesMultipleRulesEvent extends Event
 {
     public const NAME = 'transaction.matches_multiple_rules';
 
-    protected $transaction;
-    protected $rules;
+    protected Transaction $transaction;
 
+    /**
+     * @var array<int, SubCategoryTransactionRule>
+     */
+    protected array $rules;
+
+    /**
+     * @param array<int, SubCategoryTransactionRule> $rules
+     */
     public function __construct(Transaction $transaction, array $rules)
     {
         $this->rules = $rules;

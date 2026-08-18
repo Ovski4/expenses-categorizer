@@ -9,10 +9,16 @@ class TransactionExportedEvent extends Event
 {
     public const NAME = 'transaction.exported';
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $response;
 
     private Transaction $transaction;
 
+    /**
+     * @param array<string, mixed> $response
+     */
     public function __construct(Transaction $transaction, array $response)
     {
         $this->transaction = $transaction;
