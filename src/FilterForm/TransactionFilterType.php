@@ -13,11 +13,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @extends AbstractType<array<string, mixed>>
+ */
 class TransactionFilterType extends AbstractType
 {
     use SubCategoryFilterTypeTrait;
 
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator)
     {
