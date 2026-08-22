@@ -45,6 +45,9 @@ const createMarker = (className, text) => {
     marker.className = className;
     // textContent, never innerHTML: labels and category names are external input.
     marker.textContent = text;
+    // The marker is truncated to keep the column width stable, so the full
+    // message has to stay reachable on hover.
+    marker.title = text;
 
     return marker;
 };
