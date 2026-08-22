@@ -257,3 +257,26 @@ form#filter-form.large-filter-form .col-form-label {
     color: #3b3968;
     font-weight: bold;
 }
+
+/* Inline sub category assignment on the transaction list */
+
+tr.uncategorized-transaction > td:first-child {
+    border-left: 3px solid #ffc107;
+}
+
+#main .sub-category-cell form.inline-sub-category {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+#main .sub-category-cell select {
+    max-width: 18rem;
+    width: auto;
+    display: inline-block;
+}
+
+.sub-category-marker {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
