@@ -15,9 +15,12 @@ Scope
 -----
 
 **In scope**: the Sub category cell of rows where `transaction.subCategory is null`.
+Assignment is **one-way**: once set from the list, the cell becomes an ordinary categorized
+cell and further changes go through the edit page.
 
 **Out of scope for this branch** (deliberately, see [Follow-ups](#follow-ups)):
 
+* undoing an assignment from the list, and clearing a category back to none,
 * editing the sub category of an already-categorized row (click-to-edit),
 * bulk selection / "apply to selected",
 * the "create a rule from this" prompt after a save,
@@ -37,18 +40,40 @@ The Sub category cell of an uncategorized row moves through three states.
  ──────────────────────────────────────────────────────────────────────────────────────────
  ▎Ovh sas - date de valeur…  -34.30   02/04/2025  N26      [Select a category ▾]    ✎  ⚌     (1) idle
  ▎Campus.coach - date de v…  -15.00   12/04/2025  N26      [Groceries         ▾] ⋯  ✎  ⚌     (2) saving
-  Ccm loire divatte - date…  -20.00   12/04/2025  N26      Groceries  ✓ saved · undo ✎  ⚌     (3) saved
+  Ccm loire divatte - date…  -20.00   12/04/2025  N26      Groceries       ✓ saved  ✎  ⚌     (3) saved
+  Biocoop montreuil          -42.10   14/04/2025  N26      Groceries                ✎  ⚌     (4) settled
 ```
 
 1. **Idle** — a `<select>` scoped to the transaction's own type (see 1.2), plus a submit
    button that JavaScript hides on init (see 3.1).
 2. **Saving** — the select is disabled, a spinner/ellipsis appears next to it. The row does
    not move.
-3. **Saved** — the select is replaced by the category name, followed by a transient
-   `✓ saved` marker and a persistent `undo` link. The amber row marker is removed.
+3. **Saved** — the select is **removed from the DOM** and replaced by the category name.
+   A transient `✓ saved` marker fades out after ~2s and removes itself. The amber row
+   marker is removed.
+4. **Settled** — once the marker is gone, the cell is indistinguishable from a row that was
+   already categorized when the page was rendered. The assignment is final on this page;
+   correcting it goes through the existing edit page (the pencil icon), as it does for every
+   other categorized row.
+
+There is no undo. The transition is one-way, which is what keeps the endpoint set-only
+([§2.2](#22-request-contract)) and the state model to four boxes instead of a graph.
 
 An **error** state replaces the marker with `⚠ <message>` in `text-danger` and re-enables
 the select so the user can retry. Nothing is lost.
+
+### 1.1.1 The saved markup must match the server's
+
+`SubCategory::__toString()` returns the name, and the categorized branch of
+`templates/transaction/index.html.twig` renders `{{ transaction.subCategory }}` — so the
+name returned in the JSON response is exactly what a page reload would print. The script
+must produce the *same* markup the server produces for a categorized row, so that reloading
+the page after a pass shows no visual change at all.
+
+Concretely: the current template emits an empty `<em></em>` for categorized rows (the
+`uncategorized` label lives inside a conditional inside the `<em>`). Restructure that branch
+so a categorized cell is just the name, and have the script emit the same. Otherwise the
+"looks like the other rows" requirement holds only until the next reload.
 
 ### 1.2 The picker
 
@@ -84,7 +109,7 @@ border in `public/styles/main.css`. `templates/transaction/import/validate_trans
 already sets `.existing-transaction` / `.new-transaction` row classes, so this follows an
 existing convention.
 
-The class is removed client-side on a successful save, and restored on undo.
+The class is removed client-side on a successful save.
 
 ### 1.5 No reflow
 
@@ -124,7 +149,12 @@ The path segment `sub-category` cannot collide with `transaction_delete` (`/{id}
 | Parameter | Required | Meaning |
 |---|---|---|
 | `_token` | yes | CSRF token, id `set-sub-category<transactionId>` |
-| `subCategory` | yes | Sub category UUID, or empty string to clear (undo) |
+| `subCategory` | yes | Sub category UUID. Must be non-empty and must resolve. |
+
+**The endpoint is set-only.** A missing, empty, or unresolvable `subCategory` is a `422`,
+never a clear. Nothing on this path can set a transaction's sub category back to `null` —
+that remains the edit page's job. This keeps the write surface to a single verb and means no
+request to this route can ever destroy a categorization.
 
 No Symfony Form type is used. A form would bind by field name and invites accidental
 widening later; here exactly one property may change and the controller reads exactly one
@@ -133,16 +163,25 @@ parameter. See [§8.3](#83-mass-assignment).
 ### 2.3 New service: `App\Services\TransactionSubCategoryAssigner`
 
 ```php
-public function assign(Transaction $transaction, ?SubCategory $subCategory): void
+public function assign(Transaction $transaction, SubCategory $subCategory): void
 ```
+
+Note the **non-nullable** `$subCategory`: the set-only rule is expressed in the type
+signature, so no future caller can clear a category through this service by passing `null`.
 
 Responsibilities:
 
 1. set the sub category on the transaction,
 2. if `TransactionDiffChecker::subCategoryChanged()` reports a change, set
-   `categorizedManually` to `$transaction->isCategorized()`,
+   `categorizedManually` to `true`,
 3. **validate** the entity (see 2.4) and throw a typed exception on violation,
 4. flush.
+
+Step 2 is always true for the rows this branch touches — they are uncategorized, so
+`null → SubCategory` is by definition a change. The diff-checker guard is kept anyway
+because it costs one line and is the behaviour the follow-up click-to-edit needs: re-picking
+the category a *rule* already assigned should not silently pin the transaction against
+future rule runs.
 
 **Why a service rather than inline controller code.** The `categorizedManually` rule is
 already duplicated between `TransactionController::new()` and `TransactionController::edit()`
@@ -174,11 +213,13 @@ run on this path.
 
 | Status | Body | Case |
 |---|---|---|
-| `200` | `{"id": "...", "subCategory": {"id": "...", "name": "Groceries"}, "categorized": true}` | assigned |
-| `200` | `{"id": "...", "subCategory": null, "categorized": false}` | cleared (undo) |
+| `200` | `{"id": "...", "subCategory": {"id": "...", "name": "Groceries"}}` | assigned |
 | `403` | `{"error": "<translated>"}` | invalid CSRF token |
 | `404` | — | unknown transaction id (handled by the argument resolver) |
-| `422` | `{"error": "<translated violation message>"}` | unknown sub category id, or type mismatch |
+| `422` | `{"error": "<translated violation message>"}` | missing/empty `subCategory`, unknown sub category id, or type mismatch |
+
+`name` is what the script prints into the cell, and it is the same string
+`{{ transaction.subCategory }}` renders server-side ([§1.1.1](#111-the-saved-markup-must-match-the-servers)).
 
 Otherwise (the no-JavaScript fallback, which posts a normal form) → redirect back to
 `transaction_index`, preserving the current query string so filters and page number
@@ -263,13 +304,26 @@ Behaviour:
 
 1. On `init()`, for each `form.inline-sub-category`: hide the submit button, attach a
    `change` listener on the select.
-2. On `change` with a non-empty value: disable the select, show the saving marker, `fetch()`
-   the form's `action` with `method: 'POST'`, `body: new FormData(form)` (the `_method`
-   override carries the PATCH), and `Accept: application/json`.
-3. On `200`: swap the cell to the saved state, drop `.uncategorized-transaction` from the
-   `<tr>`, and keep the previous markup in a closure so undo can restore it.
-4. On `undo`: re-issue the same request with an empty `subCategory`, then restore the select.
-5. On a non-2xx or a network failure: re-enable the select, show the error marker.
+2. On `change` to the empty placeholder: do nothing (no request — the endpoint would reject
+   it anyway).
+3. On `change` to a real value: disable the select, show the saving marker, `fetch()` the
+   form's `action` with `method: 'POST'`, `body: new FormData(form)` (the `_method` override
+   carries the PATCH), and `Accept: application/json`.
+4. On `200`: **replace the whole `<form>`** with a text node holding the returned name, drop
+   `.uncategorized-transaction` from the `<tr>`, and show the transient `✓ saved` marker
+   which removes itself after ~2s. The cell then matches a server-rendered categorized row
+   exactly ([§1.1.1](#111-the-saved-markup-must-match-the-servers)).
+5. On a non-2xx or a network failure: re-enable the select, show the error marker. The form
+   is left intact so a retry is one keystroke away.
+
+Because step 4 destroys the form, the row cannot be submitted twice, and there is no state to
+restore — which is the simplification that dropping undo buys.
+
+**Focus.** Removing the form removes the focused element, which would drop focus to
+`<body>` and break the Tab chain described in [§1.3](#13-keyboard-flow). Before replacing the
+form, move focus to the next remaining `.inline-sub-category select` in the table, so a
+keyboard pass continues uninterrupted. This is the one piece of the script with real
+behaviour in it and is worth writing carefully.
 
 **Every insertion of server data into the DOM uses `textContent`, never `innerHTML`.**
 See [§8.4](#84-xss).
@@ -299,8 +353,8 @@ New keys in `translations/messages.en.yml` and `translations/messages.fr.yml`:
 |---|---|
 | `Select a category` | Select a category |
 | `saved` | saved |
-| `undo` | undo |
 | `Could not save the sub category` | Could not save the sub category |
+| `A sub category is required` | A sub category is required |
 | `Invalid security token, please reload the page` | Invalid security token, please reload the page |
 
 Strings used by the JS module are passed through `data-` attributes on the table (rendered
@@ -326,21 +380,25 @@ both uncategorized.
 | # | Test | Asserts |
 |---|---|---|
 | 1 | The list renders a select for an uncategorized row | `select[name="subCategory"]` exists in that row; the `<tr>` carries `.uncategorized-transaction` |
-| 2 | The list renders **no** select for a categorized row | selector absent; plain text present |
+| 2 | The list renders **no** select for a categorized row | selector absent; the name present as plain text |
 | 3 | Options are scoped by type | the negative row offers only the `Expenses` sub categories; the positive row only the `Revenues` one |
 | 4 | Options are grouped | `optgroup[label="<top category name>"]` present |
-| 5 | **Submitting the form assigns the sub category** | redirect to `transaction_index`; reloading shows the name; `categorizedManually` is `true` in DB |
-| 6 | Submitting an empty value clears it | sub category `null`, `categorizedManually` `false` |
+| 5 | **Submitting the form assigns the sub category** | redirect to `transaction_index`; `categorizedManually` is `true` in DB |
+| 6 | **After assignment the row renders as a categorized row** | reload: that `<tr>` has no `select`, no `.uncategorized-transaction`, and its cell text equals the sub category name — i.e. identical to the row asserted in test 2 |
 | 7 | Filters and page survive the fallback redirect | submit from `/transaction/?item_filter[...]=...&page=2`, assert the redirect target keeps the query string |
 | 8 | JSON request returns the JSON contract | `Accept: application/json` → 200 and the documented body |
 | 9 | A missing/incorrect CSRF token is rejected | 403, DB unchanged |
 | 10 | A cross-type sub category is rejected | 422 with the translated violation, DB unchanged, **no 500** |
 | 11 | An unknown sub category id is rejected | 422, DB unchanged |
-| 12 | An unknown transaction id | 404 |
+| 12 | An **empty** `subCategory` is rejected | 422, the transaction is still uncategorized — the endpoint cannot clear |
+| 13 | An unknown transaction id | 404 |
 
 Test 5 is the important one: because of the progressive-enhancement design, browser-kit can
-drive the *real* user path end to end even though it runs no JavaScript. Test 10 guards the
-`PreUpdate` throw described in [§2.4](#24-validation--and-why-it-is-mandatory).
+drive the *real* user path end to end even though it runs no JavaScript. Test 6 is the
+regression guard for "renders like the other rows" — it compares against the same assertions
+test 2 makes about an always-categorized row, so the two cannot drift apart. Test 10 guards
+the `PreUpdate` throw described in [§2.4](#24-validation--and-why-it-is-mandatory), and test
+12 pins the set-only rule from [§2.2](#22-request-contract).
 
 ### 5.2 Unit tests
 
@@ -351,12 +409,14 @@ matching the mock-based style of `tests/RuleCheckerTest.php`.
 | # | Case | Expected |
 |---|---|---|
 | 1 | assign a sub category to an uncategorized transaction | sub category set, `categorizedManually === true`, one `flush()` |
-| 2 | assign `null` (undo) | sub category `null`, `categorizedManually === false` |
-| 3 | assign the sub category it already has | no change reported by the diff checker, `categorizedManually` untouched |
-| 4 | validator returns a violation | typed exception thrown, **`flush()` never called** |
+| 2 | assign the sub category it already has | no change reported by the diff checker, `categorizedManually` untouched |
+| 3 | validator returns a violation | typed exception thrown, **`flush()` never called** |
 
-Case 4 is the one that matters: it pins the ordering "validate, then flush", which is the
+Case 3 is the one that matters: it pins the ordering "validate, then flush", which is the
 whole defence against the 500 in [§2.4](#24-validation--and-why-it-is-mandatory).
+
+There is no "clear" case to test — `assign()` takes a non-nullable `SubCategory`, so PHPStan
+rejects the call at level 7 rather than a test catching it at runtime.
 
 ### 5.3 JavaScript tests
 
@@ -522,7 +582,9 @@ Backend
 Frontend
 
 - [ ] `templates/transaction/index.html.twig` — per-row form, row class, module import
-- [ ] `public/js/inline_sub_category.js` — new ES module
+- [ ] `templates/transaction/index.html.twig` — restructure the categorized branch so the cell
+      is just the name, no empty `<em>` ([§1.1.1](#111-the-saved-markup-must-match-the-servers))
+- [ ] `public/js/inline_sub_category.js` — new ES module, incl. focus handoff on row settle
 - [ ] `public/styles/main.css` — `.uncategorized-transaction`, saved/error markers, cell sizing
 
 Translations
@@ -531,8 +593,8 @@ Translations
 
 Tests
 
-- [ ] `tests/Controller/TransactionSubCategoryTest.php` — 12 functional cases
-- [ ] `tests/Services/TransactionSubCategoryAssignerTest.php` — 4 unit cases
+- [ ] `tests/Controller/TransactionSubCategoryTest.php` — 13 functional cases
+- [ ] `tests/Services/TransactionSubCategoryAssignerTest.php` — 3 unit cases
 - [ ] `composer lint` green, PHPStan baseline not extended
 
 ---
@@ -542,8 +604,11 @@ Follow-ups
 
 Not in this branch, in rough priority order:
 
-1. Click-to-edit for already-categorized rows, reusing this endpoint (it already accepts a
-   clear, and the assigner already handles the categorized → categorized transition).
+1. Click-to-edit for already-categorized rows. It can reuse this endpoint as-is for
+   *changing* a category — the assigner already handles the categorized → categorized
+   transition correctly. Clearing a category back to none would need a separate route, or a
+   deliberate widening of this one; do not widen it casually, since set-only is what makes
+   this endpoint incapable of destroying data ([§2.2](#22-request-contract)).
 2. Migrate `TransactionController::new()` and `::edit()` onto
    `TransactionSubCategoryAssigner` to remove the `categorizedManually` duplication.
 3. The "create a rule from this" link in the saved-state receipt — the moment right after
