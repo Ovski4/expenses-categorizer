@@ -37,9 +37,6 @@ class SubCategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * Sub categories of a transaction type, grouped by top category name, ready to be
-     * rendered as optgroups. The top category is fetched in the same query.
-     *
      * @return array<string, SubCategory[]>
      */
     public function findByTransactionTypeGroupedByTopCategory(string $value): array
