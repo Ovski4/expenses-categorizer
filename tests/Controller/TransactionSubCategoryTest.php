@@ -14,8 +14,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Assigning a sub category from the transaction list.
- *
- * See docs/plans/inline-sub-category-assignment.md
  */
 class TransactionSubCategoryTest extends WebTestCase
 {

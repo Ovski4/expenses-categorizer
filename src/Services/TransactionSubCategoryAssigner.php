@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * Assigns a sub category to a transaction.
  *
  * The sub category is not nullable on purpose: this service can only set a
- * category, never clear one. See docs/plans/inline-sub-category-assignment.md.
+ * category, never clear one.
  */
 class TransactionSubCategoryAssigner
 {

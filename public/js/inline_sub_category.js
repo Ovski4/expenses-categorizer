@@ -5,8 +5,6 @@
  * form. This module hides its submit button and turns a change on the select
  * into a fetch, so a whole page of transactions can be categorized without a
  * reload. If this module fails to load or throws, the forms keep working.
- *
- * See docs/plans/inline-sub-category-assignment.md
  */
 
 const SAVED_MARKER_DURATION = 2000;

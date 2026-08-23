@@ -149,7 +149,7 @@ class TransactionController extends AbstractController
      * Assigns a sub category to a transaction from the transaction list.
      *
      * Set-only: an empty or unknown sub category is rejected, never treated as a
-     * request to clear the category. See docs/plans/inline-sub-category-assignment.md.
+     * request to clear the category.
      */
     #[Route('/{id}/sub-category', name: 'transaction_set_sub_category', methods: ['PATCH'])]
     public function setSubCategory(
