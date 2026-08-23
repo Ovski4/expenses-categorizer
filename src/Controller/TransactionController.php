@@ -40,8 +40,6 @@ class TransactionController extends AbstractController
         $hasFilters = false;
         $filterForm = $formFactory->create(TransactionFilterType::class);
 
-        // account and subCategory are selected along with the transaction to avoid
-        // hydrating one proxy per row when the template renders them.
         $queryBuilder = $entityManager->createQueryBuilder()
             ->select('transaction', 'account', 'subCategory')
             ->from(Transaction::class, 'transaction')
@@ -69,15 +67,9 @@ class TransactionController extends AbstractController
             $pagerfanta->setCurrentPage($request->query->getInt('page'));
         }
 
-        // Fetched once per page, not once per uncategorized row. Fetched before the
-        // filter form view is built on purpose: these queries also select the top
-        // categories, so the filter form's group_by finds them in the identity map
-        // instead of lazy loading one per top category.
         $subCategories = [
-            TransactionTypeEnum::EXPENSES => $subCategoryRepository
-                ->findByTransactionTypeGroupedByTopCategory(TransactionTypeEnum::EXPENSES),
-            TransactionTypeEnum::REVENUES => $subCategoryRepository
-                ->findByTransactionTypeGroupedByTopCategory(TransactionTypeEnum::REVENUES),
+            TransactionTypeEnum::EXPENSES => $subCategoryRepository->findByTransactionTypeGroupedByTopCategory(TransactionTypeEnum::EXPENSES),
+            TransactionTypeEnum::REVENUES => $subCategoryRepository->findByTransactionTypeGroupedByTopCategory(TransactionTypeEnum::REVENUES),
         ];
 
         return $this->render('transaction/index.html.twig', [
