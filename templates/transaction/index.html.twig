@@ -59,31 +59,7 @@
                 <td>{{ transaction.amount }}</td>
                 <td>{{ transaction.createdAt|date('d/m/Y') }}</td>
                 <td>{{ transaction.account }}</td>
-                <td class="sub-category-cell">
-                    {%- if transaction.subCategory is null -%}
-                        <form
-                            method="post"
-                            action="{{ path('transaction_set_sub_category', {'id': transaction.id}) }}"
-                            class="inline-sub-category"
-                        >
-                            <input type="hidden" name="_method" value="PATCH">
-                            <input type="hidden" name="_token" value="{{ csrf_token('set-sub-category' ~ transaction.id) }}">
-                            <select name="subCategory" class="custom-select custom-select-sm">
-                                <option value="">{% trans %}Select a category{% endtrans %}</option>
-                                {% for topCategoryName, subCategories in sub_categories[transaction.type] %}
-                                    <optgroup label="{{ topCategoryName }}">
-                                        {% for subCategory in subCategories %}
-                                            <option value="{{ subCategory.id }}">{{ subCategory.name }}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                {% endfor %}
-                            </select>
-                            <button class="btn btn-sm btn-primary">{% trans %}Save{% endtrans %}</button>
-                        </form>
-                    {%- else -%}
-                        {{- transaction.subCategory -}}
-                    {%- endif -%}
-                </td>
+                {{ include('transaction/_sub_category_cell.html.twig', {'transaction': transaction}) }}
                 <td>
                     <a href="{{ path('transaction_edit', {'id': transaction.id}) }}"><i class="fas fa-edit"></i></a>
                     <a href="{{ path('sub_category_transaction_rule_new', {'transaction': transaction.id }) }}"><i class="fas fa-sliders-h"></i></a>
