@@ -9,6 +9,10 @@
 {% block body %}
     <h1>{% trans %}Transaction list{% endtrans %}</h1>
 
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endfor %}
+
     <div class="pagerfanta">
         {{ pagerfanta(pager, 'custom_view') }}
         <p>{{ pager.getNbResults }} transactions</p>
@@ -32,32 +36,30 @@
         {% trans %}Create a new transaction{% endtrans %}
     </a>
 
-    <table class="table">
+    <table
+        class="table"
+        id="transaction-list"
+        data-saved-label="{% trans %}saved{% endtrans %}"
+        data-error-label="{% trans %}Could not save the sub category{% endtrans %}"
+    >
         <thead class="thead-dark">
             <tr>
                 <th>{% trans %}Label{% endtrans %}</th>
                 <th>{% trans %}Amount{% endtrans %}</th>
                 <th>{% trans %}Created at{% endtrans %}</th>
                 <th>{% trans %}Account{% endtrans %}</th>
-                <th>{% trans %}Sub category{% endtrans %}</th>
+                <th class="sub-category-column">{% trans %}Sub category{% endtrans %}</th>
                 <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
         {% for transaction in pager.currentPageResults %}
-            <tr>
+            <tr{% if transaction.subCategory is null %} class="uncategorized-transaction"{% endif %}>
                 <td>{{ transaction.label | capitalize }}</td>
                 <td>{{ transaction.amount }}</td>
                 <td>{{ transaction.createdAt|date('d/m/Y') }}</td>
                 <td>{{ transaction.account }}</td>
-                <td>
-                    {{ transaction.subCategory }}
-                    <em>
-                        {% if transaction.subCategory is null %}
-                            {% trans %}uncategorized{% endtrans %}
-                        {% endif %}
-                    </em>
-                </td>
+                {{ include('transaction/_sub_category_cell.html.twig', {'transaction': transaction}) }}
                 <td>
                     <a href="{{ path('transaction_edit', {'id': transaction.id}) }}"><i class="fas fa-edit"></i></a>
                     <a href="{{ path('sub_category_transaction_rule_new', {'transaction': transaction.id }) }}"><i class="fas fa-sliders-h"></i></a>
@@ -75,4 +77,12 @@
         {{ pagerfanta(pager, 'custom_view') }}
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module">
+        import lib from '/js/inline_sub_category.js';
+        lib.init();
+    </script>
 {% endblock %}

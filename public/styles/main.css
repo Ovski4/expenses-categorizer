@@ -257,3 +257,53 @@ form#filter-form.large-filter-form .col-form-label {
     color: #3b3968;
     font-weight: bold;
 }
+
+/* Inline sub category assignment on the transaction list */
+
+tr.uncategorized-transaction > td:first-child {
+    border-left: 3px solid #ffc107;
+}
+
+/* The column keeps a constant width whatever the cell currently holds: a
+   select, a plain category name, or a save marker. Without this, settling a
+   row narrows the column and drags every other column sideways. */
+#transaction-list th.sub-category-column,
+#transaction-list td.sub-category-cell {
+    width: 24rem;
+}
+
+/* Every row is as tall as a row holding a select, so settling one down to
+   plain text does not make it shrink. The cell is border-box, so the figure
+   adds up the select, the cell padding (.75rem top and bottom) and the
+   collapsed row border. */
+#main td.sub-category-cell {
+    position: relative;
+    height: calc(1.8125rem + 2px + 1.5rem + 1px);
+}
+
+#main .sub-category-cell form.inline-sub-category {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+/* Fixed width on purpose: an auto width select grows to fit the selected
+   option and would resize the column on every pick. */
+#main .sub-category-cell select {
+    width: 13rem;
+    max-width: 13rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Truncated rather than wrapped: a long error message must not widen the
+   column or push the row taller. The full text stays in the title attribute. */
+.sub-category-marker {
+    display: inline-block;
+    margin-left: 0.5rem;
+    max-width: 8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 0.875rem;
+}

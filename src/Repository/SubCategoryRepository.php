@@ -27,12 +27,29 @@ class SubCategoryRepository extends ServiceEntityRepository
     public function findByTransactionType(string $value)
     {
         return $this->createQueryBuilder('s')
+            ->addSelect('t')
             ->innerJoin('s.topCategory', 't', 'WITH', 't.transactionType = ?1')
             ->orderBy('s.name', 'ASC')
             ->setParameter(1, $value)
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    /**
+     * @return array<string, SubCategory[]>
+     */
+    public function findByTransactionTypeGroupedByTopCategory(string $value): array
+    {
+        $grouped = [];
+
+        foreach ($this->findByTransactionType($value) as $subCategory) {
+            $grouped[$subCategory->getTopCategory()->getName()][] = $subCategory;
+        }
+
+        ksort($grouped);
+
+        return $grouped;
     }
 
     /**
