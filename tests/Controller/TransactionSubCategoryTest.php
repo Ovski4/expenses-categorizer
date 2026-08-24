@@ -79,18 +79,22 @@ class TransactionSubCategoryTest extends WebTestCase
         return $transaction;
     }
 
-    private function rowOf(Crawler $crawler, string $label): Crawler
+    /**
+     * The one transaction row whose label cell contains $label, as a Crawler so
+     * callers can keep filtering inside it.
+     */
+    private function getRow(Crawler $crawler, string $label): Crawler
     {
-        $row = $crawler->filter('#transaction-list tbody tr')->reduce(
-            fn (Crawler $tr) => str_contains($tr->filter('td')->first()->text(), $label)
+        $matches = $crawler->filter('#transaction-list tbody tr')->reduce(
+            fn (Crawler $row) => str_contains($row->filter('td')->first()->text(), $label)
         );
 
-        $this->assertCount(1, $row, sprintf('Expected exactly one row for "%s"', $label));
+        $this->assertCount(1, $matches, sprintf('Expected exactly one row for "%s"', $label));
 
-        return $row;
+        return $matches->first();
     }
 
-    private function url(Transaction $transaction): string
+    private function getUrl(Transaction $transaction): string
     {
         return sprintf('/transaction/%s/sub-category', $transaction->getId());
     }
@@ -102,18 +106,18 @@ class TransactionSubCategoryTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            $this->url($transaction),
+            $this->getUrl($transaction),
             array_merge(['_method' => 'PATCH'], $parameters),
             [],
             $json ? ['HTTP_ACCEPT' => 'application/json'] : []
         );
     }
 
-    private function token(Transaction $transaction): string
+    private function getToken(Transaction $transaction): string
     {
         $crawler = $this->client->request('GET', '/transaction/');
 
-        return $this->rowOf($crawler, (string) $transaction->getLabel())
+        return $this->getRow($crawler, (string) $transaction->getLabel())
             ->filter('input[name="_token"]')
             ->attr('value');
     }
@@ -130,7 +134,7 @@ class TransactionSubCategoryTest extends WebTestCase
         $crawler = $this->client->request('GET', '/transaction/');
         $this->assertResponseIsSuccessful();
 
-        $row = $this->rowOf($crawler, 'Biocoop');
+        $row = $this->getRow($crawler, 'Biocoop');
         $this->assertCount(1, $row->filter('form.inline-sub-category select[name="subCategory"]'));
         $this->assertStringContainsString('uncategorized-transaction', (string) $row->attr('class'));
     }
@@ -139,7 +143,7 @@ class TransactionSubCategoryTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/transaction/');
 
-        $row = $this->rowOf($crawler, 'Already done');
+        $row = $this->getRow($crawler, 'Already done');
         $this->assertCount(0, $row->filter('select[name="subCategory"]'));
         $this->assertSame('Rent', $row->filter('td.sub-category-cell')->text());
         $this->assertStringNotContainsString('uncategorized-transaction', (string) $row->attr('class'));
@@ -149,14 +153,14 @@ class TransactionSubCategoryTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/transaction/');
 
-        $expenseOptions = $this->rowOf($crawler, 'Biocoop')->filter('option')->each(
+        $expenseOptions = $this->getRow($crawler, 'Biocoop')->filter('option')->each(
             fn (Crawler $option) => $option->text()
         );
         $this->assertContains('Groceries', $expenseOptions);
         $this->assertContains('Rent', $expenseOptions);
         $this->assertNotContains('Salary', $expenseOptions);
 
-        $revenueOptions = $this->rowOf($crawler, 'Payslip')->filter('option')->each(
+        $revenueOptions = $this->getRow($crawler, 'Payslip')->filter('option')->each(
             fn (Crawler $option) => $option->text()
         );
         $this->assertContains('Salary', $revenueOptions);
@@ -169,14 +173,14 @@ class TransactionSubCategoryTest extends WebTestCase
 
         $this->assertCount(
             1,
-            $this->rowOf($crawler, 'Biocoop')->filter('optgroup[label="Everyday"]')
+            $this->getRow($crawler, 'Biocoop')->filter('optgroup[label="Everyday"]')
         );
     }
 
     public function testSubmittingTheFormAssignsTheSubCategory(): void
     {
         $this->patch($this->expense, [
-            '_token' => $this->token($this->expense),
+            '_token' => $this->getToken($this->expense),
             'subCategory' => (string) $this->groceries->getId(),
         ]);
 
@@ -190,12 +194,12 @@ class TransactionSubCategoryTest extends WebTestCase
     public function testAssignedRowThenRendersLikeACategorizedRow(): void
     {
         $this->patch($this->expense, [
-            '_token' => $this->token($this->expense),
+            '_token' => $this->getToken($this->expense),
             'subCategory' => (string) $this->groceries->getId(),
         ]);
 
         $crawler = $this->client->request('GET', '/transaction/');
-        $row = $this->rowOf($crawler, 'Biocoop');
+        $row = $this->getRow($crawler, 'Biocoop');
 
         // Exactly what testCategorizedRowRendersPlainTextAndNoSelect asserts about a
         // row that was already categorized when the page was rendered.
@@ -206,13 +210,13 @@ class TransactionSubCategoryTest extends WebTestCase
 
     public function testFallbackRedirectKeepsFiltersAndPage(): void
     {
-        $token = $this->token($this->expense);
+        $token = $this->getToken($this->expense);
         $listUrl = '/transaction/?item_filter%5Blabel%5D=Biocoop&page=1';
 
         $this->client->request('GET', $listUrl);
         $this->client->request(
             'POST',
-            $this->url($this->expense),
+            $this->getUrl($this->expense),
             [
                 '_method' => 'PATCH',
                 '_token' => $token,
@@ -228,7 +232,7 @@ class TransactionSubCategoryTest extends WebTestCase
     public function testJsonRequestReturnsTheSubCategory(): void
     {
         $this->patch($this->expense, [
-            '_token' => $this->token($this->expense),
+            '_token' => $this->getToken($this->expense),
             'subCategory' => (string) $this->groceries->getId(),
         ], true);
 
@@ -260,7 +264,7 @@ class TransactionSubCategoryTest extends WebTestCase
     {
         // Salary is a Revenues category, the transaction is an expense.
         $this->patch($this->expense, [
-            '_token' => $this->token($this->expense),
+            '_token' => $this->getToken($this->expense),
             'subCategory' => (string) $this->salary->getId(),
         ], true);
 
@@ -275,7 +279,7 @@ class TransactionSubCategoryTest extends WebTestCase
     public function testAnUnknownSubCategoryIsRejected(): void
     {
         $this->patch($this->expense, [
-            '_token' => $this->token($this->expense),
+            '_token' => $this->getToken($this->expense),
             'subCategory' => '3d7c2a1e-0000-4000-8000-000000000000',
         ], true);
 
@@ -287,7 +291,7 @@ class TransactionSubCategoryTest extends WebTestCase
     {
         // The token is read while the row still renders a form, then reused: it is
         // tied to the transaction id, not to the transaction being uncategorized.
-        $token = $this->token($this->expense);
+        $token = $this->getToken($this->expense);
 
         $this->patch($this->expense, [
             '_token' => $token,
