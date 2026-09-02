@@ -55,10 +55,11 @@ Create new parsers
 ------------------
 
 The current implementation can import transactions from account statements coming from the following banks:
- * Crédit Mutuel: pdf statement
- * Caisse d'épargne: pdf statement
- * N26: pdf statement
  * Boursorama: pdf statement
+ * Caisse d'épargne: pdf statement
+ * Crédit Mutuel: pdf statement
+ * Fortuneo: pdf statement
+ * N26: pdf statement
  * National Bank of Canada (Banque National du Canada): csv export
 
 Source code for these parsers can be found at https://github.com/Ovski4/account-statement-parsers.
@@ -148,10 +149,3 @@ docker compose run --rm --no-deps -e RUN_MIGRATIONS=false php composer fix:style
 Individual checks are available as `composer lint:style`, `lint:stan`, `lint:yaml`,
 `lint:twig` and `lint:container`. The same checks run on every push through the
 `run-linters` workflow. VS Code users get these as tasks (`Tasks: Run Task`).
-
-Upgrade
--------
-
-```
-docker compose run php composer update "symfony/*" pagerfanta/doctrine-orm-adapter php-coveralls/php-coveralls doctrine/doctrine-fixtures-bundle dama/doctrine-test-bundle doctrine/orm babdev/pagerfanta-bundle phpstan/phpdoc-parser spiriitlabs/form-filter-bundle doctrine/doctrine-migrations-bundle doctrine/doctrine-bundle symfony/proxy-manager-bridge ramsey/uuid-doctrine cboden/ratchet phpunit/phpunit doctrine/annotations -W
-```

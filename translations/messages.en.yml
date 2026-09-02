@@ -16,3 +16,22 @@ saved: saved
 Could not save the sub category: Could not save the sub category
 A sub category is required: A sub category is required
 Invalid security token, please reload the page: Invalid security token, please reload the page
+Import transactions: Import transactions
+Transactions: Transactions
+Import from a file: Import from a file
+Export to elasticsearch: Export to elasticsearch
+Csv export: Csv export
+Categorize from rules: Categorize from rules
+Sub categories rules: Sub categories rules
+Categories: Categories
+Tags: Tags
+Accounts: Accounts
+Import: Import
+from a: from a
+Boursorama account statement: Boursorama account statement
+Caisse d'épargne account statement: Caisse d'épargne account statement
+Crédit Mutuel account statement: Crédit Mutuel account statement
+Fortuneo account statement: Fortuneo account statement
+N26 account statement: N26 account statement
+NBC chequing or savings account csv file: NBC chequing or savings account csv file
+NBC credit account csv file: NBC credit account csv file

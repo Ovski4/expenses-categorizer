@@ -239,6 +239,10 @@ form#filter-form.large-filter-form .col-form-label {
     width: 170px;
 }
 
+.parser-card .card-img-top.fortuneo {
+    height: 70px;
+}
+
 .parser-card .card-img-top.credit-mutuel {
     height: 100px;
     width: 250px;
