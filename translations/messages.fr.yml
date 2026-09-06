@@ -13,7 +13,7 @@ Are you sure you want to save all transactions, even with duplicated records?: �
 Balance: Balance
 Bank: Banque
 Back to the category list: Revenir à la liste des catégories
-Boursorama account statement:  relevé de compte Boursorama
+Boursorama account statement: relevé de compte Boursorama
 Categorized: Catégorisé
 Category list: Liste des Catégories
 Categorizing: Catégorisation en cours
@@ -34,6 +34,7 @@ Created at: Créé le
 CSV file: Fichier CSV
 Caisse d'épargne account statement: relevé de compte de la Caisse d'Épargne
 Crédit Mutuel account statement: relevé de compte du Crédit Mutuel
+Fortuneo account statement: relevé de compte Fortuneo
 N26 account statement: relevé de compte N26
 NBC chequing or savings account csv file: fichier CSV NBC du compte chèque ou savings
 NBC credit account csv file: fichier CSV NBC du compte crédit
